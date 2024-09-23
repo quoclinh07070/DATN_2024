@@ -1,38 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { HomeComponent } from './client/home/home.component';
-import { ProductComponent } from './client/product/product.component';
-import { ProductDetailsComponent } from './client/product-details/product-details.component';
-import { CheckoutComponent } from './client/checkout/checkout.component';
-import { CartComponent } from './client/cart/cart.component';
-import { ContactUsComponent } from './client/contact-us/contact-us.component';
-import { BlogComponent } from './client/blog/blog.component';
-import { BlogSingleComponent } from './client/blog-single/blog-single.component';
-import { LoginComponent } from './client/login/login.component';
-import { PagenotfoundComponent } from './client/pagenotfound/pagenotfound.component';
+import { AdminRoutingModule } from './admin/admin-routing.module';
+import { ClientRoutingModule } from './client/client-routing.module';
+import { PagenotfoundComponent } from './client/pagenotfound/pagenotfound.component'; // Đảm bảo import đúng
 
 export const routes: Routes = [
-  {path:'', component: HomeComponent},
-  {path:'product', component: ProductComponent},
-  {path:'product-details', component: ProductDetailsComponent},
-  {path:'checkout', component: CheckoutComponent},
-  {path:'cart', component: CartComponent},
-  {path:'contact', component: ContactUsComponent},
-  {path:'blog', component: BlogComponent},
-  {path:'blog-detail', component: BlogSingleComponent},
-  {path:'login', component: LoginComponent},
-  {path:'**', component: PagenotfoundComponent},
+  // Route cho admin
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   
+  // Route cho client
+  { path: '', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },
+
+  // Route cho trang không tìm thấy
+  { path: '**', component: PagenotfoundComponent }
 ];
 
 @NgModule({
-  declarations: [],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forRoot(routes),
+    AdminRoutingModule,
+    ClientRoutingModule
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { 
-
-}
+export class AppRoutingModule {}
