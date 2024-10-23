@@ -1,0 +1,45 @@
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <!--  Main wrapper -->
+  <div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-12 mt-2">
+            <a class="btn btn-primary mb-3" [routerLink]="'add/'">Thêm voucher</a>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">DANH MỤC VOUCHER</h5>
+              <div class="table-responsive">
+                <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-bottom">
+                      <th scope="col">ID</th>
+                      <th scope="col">Giá</th>
+                      <th scope="col">Phần trăm giảm</th>
+                      <th scope="col">Trạng thái</th>
+                      <th scope="col">Chức năng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Lặp qua danh sách voucher -->
+                    <tr *ngFor="let voucher of vouchers">
+                      <th scope="row">{{voucher.id}}</th>
+                      <td>{{voucher.price}}</td>
+                      <td>{{voucher.discount_percent}}%</td>
+                      <td>{{voucher.status}}</td>
+                      <td>
+                        <a class="btn btn-primary btn-sm" [routerLink]="'/edit/' + voucher.id">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteVoucher(voucher.id)">Xóa</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

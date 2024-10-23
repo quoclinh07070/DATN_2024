@@ -1,0 +1,52 @@
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <!--  Main wrapper -->
+  <div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-lg-12">
+        <div class="col-lg-12 mt-2">
+          <a class="btn btn-primary mb-3 "[routerLink]="'add/'">Thêm sản phẩm</a>
+        </div>
+        <div class="card"> 
+          <div class="card-body">
+            <h5 class="card-title">DANH MỤC BÀI VIẾT</h5>
+            <div class="table-responsive">
+              <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-bottom">
+                      <th scope="col">ID</th>
+                      <th scope="col">Tên danh mục</th>
+                      <th scope="col">Hình ảnh</th>
+                      <th scope="col">Chức vụ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Nội thất phòng ngủ</td>
+                      <td><img src="path_to_image" alt="Hình ảnh" class="img-thumbnail" style="width: 50px;"></td>
+                      <td>
+                        <a class="btn btn-primary btn-sm"[routerLink]="'edit/'">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm">Xóa</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Nội thất phòng khách</td>
+                      <td><img src="path_to_image" alt="Hình ảnh" class="img-thumbnail" style="width: 50px;"></td>
+                      <td>
+                        <a class="btn btn-primary btn-sm"[routerLink]="'edit/'">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm">Xóa</button>
+                      </td>
+                    </tr>
+
+                    <!-- Các dòng khác -->
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

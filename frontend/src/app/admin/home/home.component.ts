@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] // Add this line
 })
 export class HomeComponent {
-
+  // Your component logic
 }

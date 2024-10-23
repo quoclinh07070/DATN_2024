@@ -1,236 +1,181 @@
-<section id="cart_items">
-    <div class="container">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li class="active">Check out</li>
-            </ol>
-        </div><!--/breadcrums-->
-
-        <div class="step-one">
-            <h2 class="heading">Step1</h2>
-        </div>
-        <div class="checkout-options">
-            <h3>New User</h3>
-            <p>Checkout options</p>
-            <ul class="nav">
-                <li>
-                    <label><input type="checkbox"> Register Account</label>
-                </li>
-                <li>
-                    <label><input type="checkbox"> Guest Checkout</label>
-                </li>
-                <li>
-                    <a href=""><i class="fa fa-times"></i>Cancel</a>
-                </li>
+<!--Page Title-->
+<section class="page-title" style="background-image:url(/assets/client/images/background/10.jpg);">
+    <div class="auto-container">
+        <div class="inner-container clearfix">
+            <div class="title-box">
+                <h1>Check Out</h1>
+                <span class="title">The Interior speak for themselves</span>
+            </div>
+            <ul class="bread-crumb clearfix">
+                <li><a href="index-2.html">Home</a></li>
+                <li>Check Out</li>
             </ul>
-        </div><!--/checkout-options-->
-
-        <div class="register-req">
-            <p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
-        </div><!--/register-req-->
-
-        <div class="shopper-informations">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="shopper-info">
-                        <p>Shopper Information</p>
-                        <form>
-                            <input type="text" placeholder="Display Name">
-                            <input type="text" placeholder="User Name">
-                            <input type="password" placeholder="Password">
-                            <input type="password" placeholder="Confirm password">
-                        </form>
-                        <a class="btn btn-primary" href="">Get Quotes</a>
-                        <a class="btn btn-primary" href="">Continue</a>
-                    </div>
-                </div>
-                <div class="col-sm-5 clearfix">
-                    <div class="bill-to">
-                        <p>Bill To</p>
-                        <div class="form-one">
-                            <form>
-                                <input type="text" placeholder="Company Name">
-                                <input type="text" placeholder="Email*">
-                                <input type="text" placeholder="Title">
-                                <input type="text" placeholder="First Name *">
-                                <input type="text" placeholder="Middle Name">
-                                <input type="text" placeholder="Last Name *">
-                                <input type="text" placeholder="Address 1 *">
-                                <input type="text" placeholder="Address 2">
-                            </form>
-                        </div>
-                        <div class="form-two">
-                            <form>
-                                <input type="text" placeholder="Zip / Postal Code *">
-                                <select>
-                                    <option>-- Country --</option>
-                                    <option>United States</option>
-                                    <option>Bangladesh</option>
-                                    <option>UK</option>
-                                    <option>India</option>
-                                    <option>Pakistan</option>
-                                    <option>Ucrane</option>
-                                    <option>Canada</option>
-                                    <option>Dubai</option>
-                                </select>
-                                <select>
-                                    <option>-- State / Province / Region --</option>
-                                    <option>United States</option>
-                                    <option>Bangladesh</option>
-                                    <option>UK</option>
-                                    <option>India</option>
-                                    <option>Pakistan</option>
-                                    <option>Ucrane</option>
-                                    <option>Canada</option>
-                                    <option>Dubai</option>
-                                </select>
-                                <input type="password" placeholder="Confirm password">
-                                <input type="text" placeholder="Phone *">
-                                <input type="text" placeholder="Mobile Phone">
-                                <input type="text" placeholder="Fax">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="order-message">
-                        <p>Shipping Order</p>
-                        <textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-                        <label><input type="checkbox"> Shipping to bill address</label>
-                    </div>	
-                </div>					
-            </div>
         </div>
-        <div class="review-payment">
-            <h2>Review & Payment</h2>
-        </div>
-
-        <div class="table-responsive cart_info">
-            <table class="table table-condensed">
-                <thead>
-                    <tr class="cart_menu">
-                        <td class="image">Item</td>
-                        <td class="description"></td>
-                        <td class="price">Price</td>
-                        <td class="quantity">Quantity</td>
-                        <td class="total">Total</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="/assets/client/images/cart/one.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="/assets/client/images/cart/two.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="/assets/client/images/cart/three.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">&nbsp;</td>
-                        <td colspan="2">
-                            <table class="table table-condensed total-result">
-                                <tr>
-                                    <td>Cart Sub Total</td>
-                                    <td>$59</td>
-                                </tr>
-                                <tr>
-                                    <td>Exo Tax</td>
-                                    <td>$2</td>
-                                </tr>
-                                <tr class="shipping-cost">
-                                    <td>Shipping Cost</td>
-                                    <td>Free</td>										
-                                </tr>
-                                <tr>
-                                    <td>Total</td>
-                                    <td><span>$61</span></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="payment-options">
-                <span>
-                    <label><input type="checkbox"> Direct Bank Transfer</label>
-                </span>
-                <span>
-                    <label><input type="checkbox"> Check Payment</label>
-                </span>
-                <span>
-                    <label><input type="checkbox"> Paypal</label>
-                </span>
-            </div>
     </div>
-</section> <!--/#cart_items-->
+</section>
+<!--End Page Title-->
+
+<!--CheckOut Page-->
+<div class="checkout-page">
+    <div class="auto-container">
+
+        <!--Checkout Details-->
+        <div class="checkout-form">
+            <form method="post" action="#">
+                <div class="row clearfix">
+                    <!--Column-->
+                    <div class="column col-lg-6 col-md-12">
+                        <div class="sec-title">
+                            <h3>Chi tiết thanh toán</h3>
+                        </div>
+
+                        <div class="row clearfix">
+
+                            <!--Form Group-->
+                            <div class="form-group col-md-6 col-sm-12">
+                                <div class="field-label">Họ <sup>*</sup></div>
+                                <input type="text" name="field-name" value="" placeholder="">
+                            </div>
+
+                            <!--Form Group-->
+                            <div class="form-group col-md-6 col-sm-12">
+                                <div class="field-label">Tên </div>
+                                <input type="text" name="field-name" value="" placeholder="">
+                            </div>
+
+                            <!--Form Group-->
+                            <div class="form-group col-md-6 col-sm-12">
+                                <div class="field-label">Email</div>
+                                <input type="text" name="field-name" value="" placeholder="">
+                            </div>
+
+                            <!--Form Group-->
+                            <div class="form-group col-md-6 col-sm-12">
+                                <div class="field-label">Số điện thoại</div>
+                                <input type="text" name="field-name" value="" placeholder="">
+                            </div>
+
+
+                            <!--Form Group-->
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Địa chỉ</div>
+                                <input type="text" name="field-name" value="" placeholder="Street address">
+                            </div>
+
+                            <div class="form-group col-md-12 col-sm-12">
+                                <input type="text" name="field-name" value=""
+                                    placeholder="Apartment,suite,unit etc. (optional)">
+                            </div>
+
+                            <!--Form Group-->
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Tỉnh/Thành phố</div>
+                                <input type="text" name="field-name" value="" placeholder="">
+                            </div>
+
+                            <!--Form Group-->
+                            <!--Form Group-->
+                            <div class="form-group col-sm-12">
+                                <div class="field-label">Postcode/ ZIP</div>
+                                <input type="text" name="field-name" value="" placeholder="">
+                            </div>
+                            <!--Form Group-->
+                            <div class="form-group col-md-12 col-sm-12 ">
+                                <div class="field-label">Ghi chú</div>
+                                <textarea class=""
+                                    placeholder="Notes about your order,e.g. special notes for delivery."></textarea>
+                            </div>
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                <input type="checkbox" name="shipping-option" id="account-option"> &ensp; <label
+                                    for="account-option">Create An Account?</label>
+                                <div class="text">Tạo tài khoản bằng cách nhập thông tin bên dưới. Nếu bạn là khách hàng
+                                    thường xuyên, vui lòng đăng nhập ở đầu trang.</div>
+                            </div>
+
+                            <div class="form-group col-md-12 col-sm-12 mb-4">
+                                <div class="field-label"><span>Account Password</span></div>
+                                <input type="password" name="field-name" value="" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Order Box-->
+                    <div class="column col-lg-6 col-md-12 col-sm-12">
+                        <div class="order-box">
+                            <div class="column col-md-12"></div>
+                            <div class="sec-title">
+                                <h2>Đơn hàng</h2>
+                            </div>
+                            <div class="title-box clearfix">
+                                <div class="col">SẢN PHẨM</div>
+                                <div class="col">TỔNG</div>
+                            </div>
+                            <ul>
+                                <li class="clearfix"><strong>Patient Ninja 1</strong><span>$35.00</span></li>
+                                <li class="clearfix">TỔNG<span>$35.00</span></li>
+                                <li class="clearfix">VẬN CHUYỂN<span class="free">Miễn phí vận chuyển</span></li>
+                                <li class="clearfix">TỔNG CỘNG<span>$35.00</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End Order Box-->
+
+                    <!--Payment Box-->
+                    <div class="payment-box">
+                        <div class="upper-box">
+                            <!--Payment Options-->
+                            <div class="payment-options">
+                                <ul>
+                                    <li>
+                                        <div class="radio-option">
+                                            <input type="radio" name="payment-group" id="payment-2" checked>
+                                            <label for="payment-2"><strong>Thanh toán qua ngân hàng</strong><span
+                                                    class="small-text">Make your payment directly into our bank
+                                                    account.
+                                                    Please use your Order ID as the payment reference. Your order
+                                                    won’t
+                                                    be shipped until the funds have cleared in our
+                                                    account.</span></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="radio-option">
+                                            <input type="radio" name="payment-group" id="payment-1">
+                                            <label for="payment-1"><strong>Kiểm tra thanh toán</strong><span
+                                                    class="small-text">Make your payment directly into our bank
+                                                    account.
+                                                    Please use your Order ID as the payment reference. Your order
+                                                    won’t
+                                                    be shipped until the funds have cleared in our
+                                                    account.</span></label>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="radio-option">
+                                            <input type="radio" name="payment-group" id="payment-3">
+                                            <label for="payment-3"><strong>Thanh toán khi nhận hàng</strong><span
+                                                    class="small-text">Make your payment directly into our bank
+                                                    account.
+                                                    Please use your Order ID as the payment reference. Your order
+                                                    won’t
+                                                    be shipped until the funds have cleared in our
+                                                    account.</span></label>
+                                        </div>
+                                    </li>
+                                    <!-- <li>
+                                        <div class="radio-option">
+                                            <input type="radio" name="payment-group" id="payment-4">
+                                            <label for="payment-4"><strong>PayPal</strong><span class="image"><img
+                                                        src="/assets/client/images/resource/paypal.jpg" alt="" /></span></label>
+                                            <a href="#" class="what-paypall">PayPal của bạn là?</a>
+                                        </div>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="lower-box text-right">
+                            <a routerLink="/" class="theme-btn btn-style-one">Place Order</a>
+                        </div>
+                    </div>
+                    <!--End Payment Box-->

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AdminModule } from './admin/admin.module'; // Đường dẫn tương ứng
 import { ClientModule } from './client/client.module'; // Đường dẫn tương ứng
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ClientModule } from './client/client.module'; // Đường dẫn tươn
     RouterModule,
     AdminModule, // Thêm vào đây
     ClientModule, // Thêm vào đây
+    FormsModule  // Thêm vào đây
   ],
   providers: [],
   bootstrap: [AppComponent]

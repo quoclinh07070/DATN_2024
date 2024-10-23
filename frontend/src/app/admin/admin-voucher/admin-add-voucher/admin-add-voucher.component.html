@@ -1,0 +1,68 @@
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed">
+  <!-- Main wrapper -->
+  <div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-12 mt-2">
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">THÊM VOUCHER</h5>
+              <div class="table-responsive">
+                <form [formGroup]="voucherForm" (ngSubmit)="onSubmit()">
+                    <input type="hidden" formControlName="voucherID" value="">
+                  
+                    <!-- Mã voucher -->
+                    <div class="mb-3">
+                      <label for="voucherCode" class="form-label">Mã voucher</label>
+                      <input type="text" class="form-control" id="voucherCode" formControlName="voucherCode">
+                      <div *ngIf="voucherForm.get('voucherCode')?.invalid && 
+                                  (voucherForm.get('voucherCode')?.dirty || 
+                                  voucherForm.get('voucherCode')?.touched)" class="text-danger">
+                        Mã voucher là bắt buộc.
+                      </div>
+                    </div>
+                  
+                    <!-- Giá trị voucher -->
+                    <div class="mb-3">
+                      <label for="voucherValue" class="form-label">Giá trị voucher</label>
+                      <input type="number" class="form-control" id="voucherValue" formControlName="voucherValue">
+                      <div *ngIf="voucherForm.get('voucherValue')?.invalid && 
+                                  (voucherForm.get('voucherValue')?.dirty || 
+                                  voucherForm.get('voucherValue')?.touched)" class="text-danger">
+                        Giá trị voucher là bắt buộc và phải lớn hơn 0.
+                      </div>
+                    </div>
+                  
+                    <!-- Ngày hết hạn -->
+                    <div class="mb-3">
+                      <label for="expiryDate" class="form-label">Ngày hết hạn</label>
+                      <input type="date" class="form-control" id="expiryDate" formControlName="expiryDate">
+                      <div *ngIf="voucherForm.get('expiryDate')?.invalid && 
+                                  (voucherForm.get('expiryDate')?.dirty || 
+                                  voucherForm.get('expiryDate')?.touched)" class="text-danger">
+                        Ngày hết hạn là bắt buộc.
+                      </div>
+                    </div>
+                  
+                    <!-- Trạng thái -->
+                    <div class="mb-3">
+                      <label for="status" class="form-label">Trạng thái</label>
+                      <select class="form-select" id="status" formControlName="status">
+                        <option value="active">Kích hoạt</option>
+                        <option value="inactive">Vô hiệu hóa</option>
+                      </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">Lưu</button>
+                  </form>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
