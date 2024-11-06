@@ -2,12 +2,9 @@ const db = require('../config/db');
 const Post = require('../models/post');
 
 // Lấy tất cả bài viết
-exports.getAllPosts = (req, res) => {
-    const sql = 'SELECT * FROM posts';
-    db.query(sql, (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: 'Lỗi khi lấy bài viết', error: err });
-        }
+exports.getAllPosts = async (req, res) => {
+    try {
+        const [results] = await db.query('SELECT * FROM posts');
         res.json({
             message: 'Lấy bài viết thành công',
             posts: results.map(post => new Post(
@@ -17,20 +14,20 @@ exports.getAllPosts = (req, res) => {
                 post.post_category_id,
                 post.status,
                 post.created_at,
-                post.updated_at
+                post.updated_at,
+                post.image_url
             ))
         });
-    });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy bài viết', error: err });
+    }
 };
 
 // Lấy bài viết theo ID
-exports.getPostById = (req, res) => {
+exports.getPostById = async (req, res) => {
     const { id } = req.params;
-    const sql = 'SELECT * FROM posts WHERE id = ?';
-    db.query(sql, [id], (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: 'Lỗi khi lấy bài viết', error: err });
-        }
+    try {
+        const [results] = await db.query('SELECT * FROM posts WHERE id = ?', [id]);
         if (results.length === 0) {
             return res.status(404).json({ message: 'Không tìm thấy bài viết' });
         }
@@ -44,20 +41,24 @@ exports.getPostById = (req, res) => {
                 post.post_category_id,
                 post.status,
                 post.created_at,
-                post.updated_at
+                post.updated_at,
+                post.image_url
             )
         });
-    });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy bài viết', error: err });
+    }
 };
 
-// Tạo bài viết
-exports.createPost = (req, res) => {
+// Tạo bài viết mới
+exports.createPost = async (req, res) => {
     const { title, content, post_category_id, status } = req.body;
-    const sql = 'INSERT INTO posts (title, content, post_category_id, status) VALUES (?, ?, ?, ?)';
-    db.query(sql, [title, content, post_category_id, status], (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: 'Lỗi khi tạo bài viết', error: err });
-        }
+    const image_url = req.file.filename; // Lấy đường dẫn hình ảnh
+    try {
+        const [results] = await db.query(
+            'INSERT INTO posts (title, content, post_category_id, status, image_url) VALUES (?, ?, ?, ?, ?)',
+            [title, content, post_category_id, status, image_url]
+        );
         res.status(201).json({
             message: 'Tạo bài viết thành công',
             post: new Post(
@@ -67,21 +68,34 @@ exports.createPost = (req, res) => {
                 post_category_id,
                 status,
                 new Date(),
-                new Date()
+                new Date(),
+                image_url
             )
         });
-    });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi tạo bài viết', error: err });
+    }
 };
 
 // Cập nhật bài viết
-exports.updatePost = (req, res) => {
+exports.updatePost = async (req, res) => {
     const { id } = req.params;
     const { title, content, post_category_id, status } = req.body;
-    const sql = 'UPDATE posts SET title = ?, content = ?, post_category_id = ?, status = ? WHERE id = ?';
-    db.query(sql, [title, content, post_category_id, status, id], (err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Lỗi khi cập nhật bài viết', error: err });
+    const image_url = req.file ? req.file.filename : null;
+
+    try {
+        const [selectResults] = await db.query('SELECT image_url FROM posts WHERE id = ?', [id]);
+        if (selectResults.length === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy bài viết' });
         }
+
+        const currentImage = selectResults[0].image_url;
+        const updatedImage = image_url || currentImage;
+
+        await db.query(
+            'UPDATE posts SET title = ?, content = ?, post_category_id = ?, status = ?, image_url = ? WHERE id = ?',
+            [title, content, post_category_id, status, updatedImage, id]
+        );
         res.json({
             message: 'Cập nhật bài viết thành công',
             post: new Post(
@@ -90,21 +104,23 @@ exports.updatePost = (req, res) => {
                 content,
                 post_category_id,
                 status,
-                null, // Giữ nguyên ngày tạo khi cập nhật
-                new Date()
+                null, // Ngày tạo giữ nguyên khi cập nhật
+                new Date(),
+                updatedImage
             )
         });
-    });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi cập nhật bài viết', error: err });
+    }
 };
 
 // Xóa bài viết
-exports.deletePost = (req, res) => {
+exports.deletePost = async (req, res) => {
     const { id } = req.params;
-    const sql = 'DELETE FROM posts WHERE id = ?';
-    db.query(sql, [id], (err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Lỗi khi xóa bài viết', error: err });
-        }
+    try {
+        await db.query('DELETE FROM posts WHERE id = ?', [id]);
         res.status(200).json({ message: 'Xóa bài viết thành công' });
-    });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi xóa bài viết', error: err });
+    }
 };

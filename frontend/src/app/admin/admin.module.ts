@@ -7,11 +7,10 @@ import { AdminFooterComponent } from './admin-footer/admin-footer.component';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component'; // Import component
 
-// import { AdminProductComponent } from './admin-product/admin-product.component';
-import { AdminProductCategoryComponent } from './admin-product-category/admin-product-category.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '../app.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -23,13 +22,15 @@ import { AppComponent } from '../app.component';
     AdminLayoutComponent,
     AdminHeaderComponent, // Import component ở đây
     AdminFooterComponent, // Import component ở đây
-    FormsModule  // FormsModule cần được import ở đây
+    FormsModule,  // FormsModule cần được import ở đây
   ],
   declarations: [
-    AdminProductCategoryComponent,
     // Khai báo các component khác không phải standalone ở đây
   ],
   exports: [],
-  providers: [AppComponent],
+  providers: [
+    AppComponent,
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
 export class AdminModule { }

@@ -1243,8 +1243,9 @@ img{
 .main-header .cart-btn a{
 	position: relative;
 	display: inline-block;
-	font-size: 15px;
+	font-size: 20px;
 	line-height: 35px;
+	color: #ffffff;
 }
 
 .main-header .cart-btn .count{
@@ -1274,8 +1275,9 @@ img{
 .main-header .user-btn a{
 	position: relative;
 	display: inline-block;
-	font-size: 19px;
+	font-size: 20px;
 	line-height: 35px;
+	color: #ffffff;
 }
 
 .main-header .user-btn .count{
@@ -13232,22 +13234,9 @@ header-style-seven .nav-toggler:hover{
 
 
 .custom-margin {
-	margin-left: 20px; /* Điều chỉnh khoảng cách theo nhu cầu */
-	margin-right: 0px;	
+	margin-left: 15px; /* Điều chỉnh khoảng cách theo nhu cầu */
   }
 
-.dropdown-menu .dropdown-item i {
-    font-size: 1.2rem; /* Kích thước biểu tượng */
-}
-
-.dropdown-menu .dropdown-item p {
-    margin-left: 10px; /* Khoảng cách giữa icon và đoạn văn */
-    font-size: 1rem; /* Kích thước của văn bản */
-}
-
-.dropdown-menu .dropdown-item {
-    align-items: center; /* Căn chỉnh biểu tượng và văn bản theo chiều dọc */
-}
 
 
 

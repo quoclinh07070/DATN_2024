@@ -1,47 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { VoucherService } from '../../../services/voucher.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-edit-voucher',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './admin-edit-voucher.component.html',
-  styleUrls: ['./admin-edit-voucher.component.css'] // Sửa từ styleUrl thành styleUrls
+  styleUrls: ['./admin-edit-voucher.component.css']
 })
 export class AdminEditVoucherComponent implements OnInit {
-  voucherForm!: FormGroup;
+  voucher: any = {
+    price: 0,
+    discount_percent: 0,
+    status: 'active'
+  };
+  voucherId: number | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private voucherService: VoucherService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Giả sử bạn đã có thông tin voucher để sửa, bạn sẽ lấy thông tin này từ backend hoặc dịch vụ
-    const voucherData = {
-      voucherID: '1',
-      voucherCode: 'VOUCHER123',
-      voucherValue: 50,
-      expiryDate: '2024-12-31',
-      status: 'active'
-    };
-
-    this.voucherForm = this.fb.group({
-      voucherID: [voucherData.voucherID],
-      voucherCode: [voucherData.voucherCode, Validators.required],
-      voucherValue: [voucherData.voucherValue, [Validators.required, Validators.min(1)]],
-      expiryDate: [voucherData.expiryDate, Validators.required],
-      status: [voucherData.status],
-    });
+    this.voucherId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.voucherId) {
+      this.getVoucher(this.voucherId);
+    }
   }
 
-  onSubmit() {
-    if (this.voucherForm.invalid) {
-      console.log('Form is invalid');
-      return;
-    }
+  getVoucher(id: number): void {
+    this.voucherService.getVoucherById(id).subscribe(
+      (response: any) => {
+        this.voucher = response.voucher;
+      },
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu voucher:', error);
+      }
+    );
+  }
 
-    // Xử lý dữ liệu sửa đổi voucher
-    console.log(this.voucherForm.value);
-    // Gọi API để cập nhật voucher trong backend
+  editVoucher(): void {
+    if (this.voucherId) {
+      this.voucherService.updateVoucher(this.voucherId, this.voucher).subscribe(
+        (response) => {
+          alert('Voucher đã được cập nhật!');
+          console.log('Voucher đã được cập nhật:', response);
+          this.router.navigate(['/admin/voucher']); // Chuyển hướng về danh sách voucher
+        },
+        (error) => {
+          alert('Lỗi khi cập nhật voucher!');
+          console.error('Lỗi khi cập nhật voucher:', error);
+        }
+      );
+    }
   }
 }

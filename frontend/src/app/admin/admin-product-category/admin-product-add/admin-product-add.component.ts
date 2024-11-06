@@ -1,63 +1,69 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { Component, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CategoryService } from '../../../services/category.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-admin-product-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],  // Thêm CommonModule và ReactiveFormsModule vào imports
-  templateUrl: './admin-product-add.component.html',
-  styleUrls: ['./admin-product-add.component.css']  // Chú ý sửa đúng tên styleUrl thành styleUrls
+  imports: [FormsModule, CommonModule],
+  selector: 'app-admin-product-add',
+  templateUrl: './admin-product-add.component.html'
 })
 export class AdminProductAddComponent {
-  categoryForm: FormGroup;
-  selectedFile: File | null = null;
-  imageError: string = '';
+  @ViewChild('form') form!: NgForm;
+  fileError = false;
 
-  constructor(private fb: FormBuilder) {
-    this.categoryForm = this.fb.group({
-      categoryID: [''], // ID ẩn
-      categoryName: ['', Validators.required], // Tên danh mục là bắt buộc
-      status: ['active', Validators.required], // Trạng thái mặc định là 'active'
-      image: [null] // Trường để thêm file hình ảnh
-    });
-  }
+  category: any = {
+    category_name: '',
+    description: '',
+    images: null,
+    parent_categoryID: '',
+    status: 'inactive',
+    created_at: '',
+    updated_at: ''
+  };
 
-  // Hàm xử lý khi người dùng chọn file ảnh
+  constructor(private categoryService: CategoryService, private router: Router) {}
+
   onFileChange(event: any) {
     const file = event.target.files[0];
-    if (file) {
-      if (file.size > 2000000) { // Kiểm tra kích thước file, giới hạn 2MB
-        this.imageError = 'Kích thước hình ảnh vượt quá 2MB.';
-        this.selectedFile = null;
-      } else {
-        this.imageError = '';
-        this.selectedFile = file;
-        this.categoryForm.patchValue({
-          image: file
-        });
-      }
-    }
-  }
-
-  // Hàm xử lý khi submit form
-  onSubmit() {
-    if (this.categoryForm.valid) {
-      const formData = new FormData();
-      formData.append('categoryID', this.categoryForm.get('categoryID')?.value);
-      formData.append('categoryName', this.categoryForm.get('categoryName')?.value);
-      formData.append('status', this.categoryForm.get('status')?.value);
-      if (this.selectedFile) {
-        formData.append('image', this.selectedFile);
-      }
-
-      // Thực hiện hành động gửi dữ liệu (gọi API)
-      console.log('Dữ liệu form:', formData);
+    const validImageTypes = ['image/jpeg', 'image/png'];
+    
+    if (file && validImageTypes.includes(file.type)) {
+      this.category.images = file;
+      this.fileError = false;
     } else {
-      console.log('Form không hợp lệ:', this.categoryForm.errors);
+      this.fileError = true;
+      this.category.images = null;
     }
   }
 
+  addCategory(): void {
+    if (this.form.invalid) {
+      this.form.form.markAllAsTouched();
+      return;
+    }
 
-  
+    const formData = new FormData();
+    formData.append('category_name', this.category.category_name);
+    formData.append('description', this.category.description);
+    if (this.category.images) {
+      formData.append('images', this.category.images);
+    }
+    formData.append('parent_categoryID', this.category.parent_categoryID);
+    formData.append('status', this.category.status);
+    formData.append('created_at', new Date().toISOString());
+    formData.append('updated_at', new Date().toISOString());
+
+    this.categoryService.createCategory(formData).subscribe(
+      (response) => {
+        alert('Danh mục đã được thêm!');
+        this.router.navigate(['/admin/productCategory']);
+      },
+      (error) => {
+        alert('Lỗi khi thêm danh mục!');
+      }
+    );
+  }
 }

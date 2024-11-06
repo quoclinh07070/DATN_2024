@@ -1,1 +1,43 @@
-<p>admin-edit-post works!</p>
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-12 mt-2">
+          </div>
+          <div class="card"> 
+            <div class="card-body">
+              <h5 class="card-title">DANH MỤC BÀI VIẾT</h5>
+              <div class="table-responsive">
+                <form (ngSubmit)="updatePostCategory()" enctype="multipart/form-data">
+  
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Tên danh mục</label>
+                    <input type="text" class="form-control" id="name" [(ngModel)]="postcategory.name" name="name" required>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="parentCategoryID" class="form-label">ID danh mục cha</label>
+                    <input type="number" class="form-control" id="parentCategoryID" [(ngModel)]="postcategory.parentCategoryID" name="parentCategoryID">
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="image_url" class="form-label">Hình ảnh</label>
+                    <input type="file" class="form-control" id="image_url" (change)="onFileChange($event)">
+                    <!-- Hiển thị hình ảnh hiện tại nếu có -->
+                    <!-- <div *ngIf="postCategory.image_url" class="mt-2">
+                      <p>Hình ảnh hiện tại:</p>
+                      <img [src]="postCategory.image_url" alt="Current Image" width="150">
+                    </div> -->
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary w-100">Cập Nhật Danh Mục</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,4 +1,3 @@
-// client.module.ts:
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -20,6 +19,4 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
     provideHttpClient(withInterceptorsFromDi())  // Cấu hình HttpClient theo cách mới
   ]
 })
-export class ClientModule { 
-  
-}
+export class ClientModule { }

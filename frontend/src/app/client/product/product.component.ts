@@ -1,4 +1,3 @@
-// product.component.ts:
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';  // Import service
 import { RouterLink } from '@angular/router';
@@ -26,7 +25,7 @@ export class ProductComponent implements OnInit {
       (response: any) => {
         this.products = response.products;  // Gán dữ liệu vào mảng products
       },
-      (error: any) => {
+      (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
       }
     );

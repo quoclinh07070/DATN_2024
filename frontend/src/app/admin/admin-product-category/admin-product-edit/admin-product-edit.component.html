@@ -1,52 +1,57 @@
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-  data-sidebar-position="fixed" data-header-position="fixed">
-  <!--  Main wrapper -->
-  <div class="body-wrapper">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="col-lg-12 mt-2">
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">SỬA DANH MỤC SẢN PHẨM</h5>
-              <div class="table-responsive">
-                <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-                  <!-- ID ẩn để sử dụng khi sửa -->
-                  <input type="hidden" formControlName="categoryID" value="">
-
-                  <!-- Tên danh mục -->
-                  <div class="mb-3">
-                    <label for="categoryName" class="form-label">Tên danh mục</label>
-                    <input type="text" class="form-control" id="categoryName" formControlName="categoryName">
-                    <div *ngIf="categoryForm.get('categoryName')?.invalid && 
-                                (categoryForm.get('categoryName')?.dirty || 
-                                categoryForm.get('categoryName')?.touched)" class="text-danger">
-                      Tên danh mục là bắt buộc.
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12 mt-2">
                     </div>
-                  </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Danh Mục Bài Viết</h5>
+                            <div class="table-responsive">
+                                <form (ngSubmit)="updateCategory()" enctype="multipart/form-data">
 
-                  <!-- Thêm hình ảnh -->
-                  <div class="mb-3">
-                    <label for="image" class="form-label">Thêm hình ảnh</label>
-                    <input type="file" class="form-control" id="image" (change)="onFileChange($event)">
-                    <div *ngIf="imageError" class="text-danger">{{ imageError }}</div>
-                  </div>
+                                    <div class="mb-3">
+                                        <label for="category_name" class="form-label">Tên danh mục</label>
+                                        <input type="text" class="form-control" id="category_name" [(ngModel)]="category.category_name" name="category_name" required>
+                                    </div>
 
-                  <!-- Trạng thái -->
-                  <div class="mb-3">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select class="form-select" id="status" formControlName="status">
-                      <option value="active">Kích hoạt</option>
-                      <option value="inactive">Vô hiệu hóa</option>
-                    </select>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">Lưu</button>
-                </form>
-              </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Mô tả</label>
+                                        <textarea class="form-control" id="description" [(ngModel)]="category.description" name="description" required></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="images" class="form-label">Hình ảnh</label>
+                                        <input type="file" class="form-control" id="images" (change)="onFileChange($event)">
+                                        <!-- Hiển thị hình ảnh hiện tại nếu có -->
+                                        <!-- <div *ngIf="category.images" class="mt-2">
+                                            <p>Hình ảnh hiện tại:</p>
+                                            <img [src]="category.images" alt="Current Image" width="150">
+                                        </div> -->
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="parent_categoryID" class="form-label">Danh mục cha</label>
+                                        <input type="text" class="form-control" id="parent_categoryID" [(ngModel)]="category.parent_categoryID" name="parent_categoryID">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Trạng thái</label>
+                                        <select class="form-select" id="status" [(ngModel)]="category.status" name="status">
+                                            <option value="active">Kích hoạt</option>
+                                            <option value="inactive">Vô hiệu hóa</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">Cập Nhật Danh Mục</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

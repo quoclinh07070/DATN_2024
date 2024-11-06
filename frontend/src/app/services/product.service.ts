@@ -1,3 +1,4 @@
+// product.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
   // import { Observable } from 'rxjs';
@@ -8,6 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class ProductService {
   private baseUrl = environment.apiUrl + "/products";
+  private imageUrl = environment.imageUrl; 
 
   constructor(private http: HttpClient) {}
 
@@ -22,12 +24,12 @@ export class ProductService {
   }
 
   // Thêm sản phẩm mới
-  createProduct(product: any){
+  createProduct(product: FormData) {
     return this.http.post(this.baseUrl, product);
   }
 
   // Cập nhật sản phẩm
-  updateProduct(id: number, product: any){
+  updateProduct(id: number, product: FormData) {
     return this.http.put(`${this.baseUrl}/${id}`, product);
   }
 
@@ -35,4 +37,10 @@ export class ProductService {
   deleteProduct(id: number){
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  // Thêm phương thức để lấy URL hình ảnh
+  getImageUrl(imageName: string): string {
+    return `${this.imageUrl}/${imageName}`;
+  }
+  
 }

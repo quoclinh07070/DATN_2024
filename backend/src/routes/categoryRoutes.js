@@ -1,20 +1,33 @@
-// const express = require('express');
-// const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require('../controllers/categoryController');
-// const router = express.Router();
+const express = require('express');
+const router = express.Router();
+const categoryController = require('../controllers/categoryController');
+const multer = require('multer');
 
-// // Lấy danh sách sản phẩm
-// router.get('/products', productController.getAllProducts);
+// Cấu hình multer để lưu trữ hình ảnh
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Đường dẫn lưu hình ảnh
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname); // Đặt tên file là tên gốc
+  }
+});
 
-// // Lấy sản phẩm theo ID
-// router.get('/products/:id', productController.getProductById);
+const upload = multer({ storage: storage });
 
-// // Thêm sản phẩm mới
-// router.post('/products', productController.createProduct);
+// Lấy danh sách danh mục
+router.get('/category', categoryController.getAllCategories);
 
-// // Cập nhật sản phẩm
-// router.put('/products/:id', productController.updateProduct);
+// Lấy danh mục theo ID
+router.get('/category/:id', categoryController.getCategoryById);
 
-// // Xóa sản phẩm
-// router.delete('/products/:id', productController.deleteProduct);
+// Thêm danh mục mới
+router.post('/category', upload.single('images'), categoryController.createCategory);
 
-// module.exports = router;
+// Cập nhật danh mục
+router.put('/category/:id', upload.single('images'), categoryController.updateCategory);
+
+// Xóa danh mục
+router.delete('/category/:id', categoryController.deleteCategory);
+
+module.exports = router;

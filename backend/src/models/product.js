@@ -1,4 +1,4 @@
-// models/product.js
+// product.js
 class Product {
     constructor(id, name, price, image, description, discount, quantity, status, categories_id, created_at, updated_at) {
         this.id = id;

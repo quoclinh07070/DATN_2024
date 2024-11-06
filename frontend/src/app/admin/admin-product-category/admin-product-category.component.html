@@ -1,42 +1,47 @@
-
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-  <!--  Main wrapper -->
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
-          <div class="col-lg-12 mt-2">
-          <a class="btn btn-primary mb-3 "[routerLink]="'add/'">Thêm sản phẩm</a>
-
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <h3 class="mb-0">DANH MỤC SẢN PHẨM</h3>
+            <a class="btn btn-success" routerLink="add">Thêm sản phẩm</a>
           </div>
-          <div class="card">
+          <div class="card mt-3">
             <div class="card-body">
-              <h5 class="card-title">DANH MỤC SẢN PHẨM</h5>
               <div class="table-responsive">
-                <table class="table text-nowrap align-middle mb-0">
-                  <thead>
-                    <tr class="border-bottom">
-                      <th scope="col">ID</th>
-                      <th scope="col">Tên danh mục</th>
-                      <th scope="col">Hình ảnh</th>
-                      <th scope="col">Chức năng</th>
+                <table class="table table-hover text-nowrap">
+                  <thead class="table-primary">
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên danh mục</th>
+                      <th>Hình ảnh</th>
+                      <th>Mô tả</th>
+                      <th>ID Danh mục cha</th>
+                      <th>Trạng thái</th>
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let category of categories">
+                    <tr *ngFor="let category of categories" [ngClass]="{'table-light': category.status === 'active', 'table-danger': category.status !== 'active'}">
                       <th scope="row">{{category.id}}</th>
-                      <td>{{category.name}}</td>
+                      <td>{{category.category_name}}</td>
                       <td>
-                        <img [src]="category.image" alt="Hình ảnh" class="img-thumbnail" style="width: 50px;">
+                        <img [src]="getImageUrl(category.images)" alt="{{category.category_name}}" class="img-fluid" style="max-width: 60px;">
+                      </td>
+                      <td class="text-truncate" style="max-width: 120px;">{{category.description}}</td>
+                      <td>{{category.parent_categoryID}}</td>
+                      <td>
+                        <span class="badge" [ngClass]="{'bg-success': category.status === 'active', 'bg-danger': category.status !== 'active'}">{{ category.status }}</span>
                       </td>
                       <td>
-                        <a class="btn btn-primary btn-sm"[routerLink]="'edit/'">Sửa</a>
-
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{category.id}}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteCategory(category.id)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+                
               </div>
             </div>
           </div>

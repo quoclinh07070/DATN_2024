@@ -61,7 +61,7 @@
       <div class="main-box clearfix">
         <div class="logo-box">
           <div class="logo">
-            <a routerLink="index-2.html"><img src="/assets/client/images/logo-2.png" alt="" title="" /></a>
+            <a routerLink="/"><img src="/assets/client/images/logo-2.png" alt="" title="" /></a>
           </div>
         </div>
         <div class="nav-outer clearfix">
@@ -121,6 +121,29 @@
           <!-- Main Menu End-->
           <!-- Outer Box-->
           <div class="outer-box">
+            <!-- Cart Btn -->
+            <div class="cart-btn">
+              <a routerLink="/cart" title="">
+                <i class="fa fa-shopping-basket"></i>
+                <span class="count">2</span>
+              </a>
+            </div>
+
+            <div class="user-btn custom-margin">
+              <a routerLink="/user" title="">
+                <i class="bi bi-person-circle"></i>
+                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
+              </a>
+            </div>
+
+            <div class="user-btn custom-margin">
+              <a routerLink="/wishlist" title="">
+                <i class="fa fa-heart"></i>
+                <span class="count">3</span>
+                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
+              </a>
+            </div>
+            
             <!--Search Box-->
             <div class="search-box-outer">
               <div class="dropdown">
@@ -144,51 +167,8 @@
                 </ul>
               </div>
             </div>
-            <!-- Cart Btn -->
-            <div class="search-box-outer">
-              <div class="cart-btn">
-                <button class="search-box-btn dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <a routerLink="/cart" title="">
-                    <i class="fa fa-shopping-basket"></i>
-                  </a>
-                </button>
-              </div>
-            </div>
-            <!-- user -->
-            <div class="user-btn custom-margin">
-              <div class="search-box-outer">
-                <div class="dropdown">
-                  <button class="search-box-btn dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <a>
-                      <i class="bi bi-person-circle"></i>
-                      <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
-                    </a>
-                  </button>
-                  <ul class="dropdown-menu search-panel" aria-labelledby="dropdownMenu3">
-                    <li class="panel-outer">
-                      <div class="form-container">
-                        <div class="">
-                          <a class="d-flex dropdown-item align-items-center">
-                            <i class="bi bi-person me-3"></i> <!-- Tạo khoảng cách bên phải icon -->
-                            <p class="mb-0">My Profile</p>
-                          </a>
-                          <a class="d-flex dropdown-item align-items-center">
-                            <i class="bi bi-envelope me-3"></i> <!-- Tạo khoảng cách bên phải icon -->
-                            <p class="mb-0">My Account</p>
-                          </a>
-                          <a routerLink="login" class="d-flex dropdown-item align-items-center">
-                            <i class="bi bi-person me-3"></i> <!-- Tạo khoảng cách bên phải icon -->
-                            <p class="mb-0">Login</p>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+
+
 
           </div>
         </div>
@@ -241,14 +221,14 @@
               </li>
 
               <li class="dropdown">
-                <a routerLink="/services">Dịch Vụ</a>
-              </li>
+              <a routerLink="/services">Dịch Vụ</a>
+              </li>             
               <li class="dropdown">
                 <a routerLink="/blog">Tin Tức</a>
               </li>
               <li>
                 <a routerLink="/contact">Liên Hệ</a>
-              </li>
+              </li>             
             </ul>
           </div>
         </nav>

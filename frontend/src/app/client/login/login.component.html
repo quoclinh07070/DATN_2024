@@ -1,36 +1,57 @@
-<section class="login-section">
-  <div class="auto-container">
-    <div class="row clearfix">
-      <div class="container d-flex align-items-center justify-content-center vh-100">
-        <div class="column col-lg-6">
-          <h2 class="text-center">Login</h2>
+<div class="page-wrapper">
+  <!-- Preloader -->
+
+
+  <!--Login Section-->
+  <section class="login-section mt-4">
+    <div class="auto-container">
+      <div class="row clearfix">
+        <div class="column col-lg-12 col-md-12 col-sm-12">
+          <h2>Login</h2>
+
+          <!-- Login Form -->
           <div class="login-form">
-            <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+            <!--Login Form-->
+            <form method="post" action="#">
               <div class="form-group">
-                <label for="username" class="mb-1">Tên Tài Khoản</label>
-                <input type="text" class="form-control" id="username" formControlName="username" placeholder="Vui lòng nhập tên tài khoản" required>
-                <div *ngIf="username?.invalid && username?.touched" class="text-danger">
-                  <small *ngIf="username?.errors?.['required']">Tên đăng nhập là bắt buộc.</small>
-                </div>
+                <label>Username or Email Address</label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Name or Email "
+                  required
+                />
               </div>
 
               <div class="form-group">
-                <label for="password" class="mb-1">Mật khẩu</label>
-                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Vui lòng nhập mật khẩu" required>
-                <div *ngIf="password?.invalid && password?.touched" class="text-danger">
-                  <small *ngIf="password?.errors?.['required']">Mật khẩu là bắt buộc.</small>
-                  <small *ngIf="password?.errors?.['minlength']">Mật khẩu phải dài ít nhất 6 ký tự.</small>
-                </div>
+                <label>Enter Your Password</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Password"
+                  required
+                />
               </div>
 
               <div class="clearfix">
-                <div class="form-check pull-left">
-                  <input type="checkbox" class="form-check-input" name="shipping-option" id="account-option-1">
-                  <label class="form-check-label" for="account-option-1">Remember me</label>
+                <div class="pull-left">
+                  <div class="form-group check-box">
+                    <input
+                      type="checkbox"
+                      name="shipping-option"
+                      id="account-option-1"
+                    />&nbsp; <label for="account-option-1">Remember me</label>
+                  </div>
                 </div>
                 <div class="pull-right">
                   <div class="form-group no-margin">
-                    <button class="theme-btn btn-style-one" type="submit">LOGIN</button>
+                    <button
+                      class="theme-btn btn-style-one"
+                      type="submit"
+                      name="submit-form"
+                    >
+                      LOGIN
+                    </button>
                   </div>
                 </div>
               </div>
@@ -39,8 +60,10 @@
               </div>
             </form>
           </div>
+          <!--End Login Form -->
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  <!--End Login Section-->
+</div>

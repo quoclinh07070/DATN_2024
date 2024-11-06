@@ -1,18 +1,54 @@
 
+
+
+
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-  <!--  Main wrapper -->
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
-          <div class="col-lg-12 mt-2">
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <h3 class="mb-0">Đơn Hàng</h3>
           </div>
-          <div class="card">
+          <div class="card mt-3">
             <div class="card-body">
-              <h5 class="card-title">DANH MỤC SẢN PHẨM</h5>
               <div class="table-responsive">
-                <table class="table text-nowrap align-middle mb-0">
-                 
+                <table class="table table-hover text-nowrap">
+                  <thead class="table-primary">
+                    <tr class="border-bottom">
+                      <th scope="col">ID</th>
+                      <th scope="col">ID Người dùng</th>
+                      <th scope="col">Tổng tiền</th>
+                      <th scope="col">Phương thức thanh toán</th>
+                      <th scope="col">Trạng thái</th>
+                      <th scope="col">Số tiền thanh toán</th>
+                      <th scope="col">Địa chỉ</th>
+                      <th scope="col">Số điện thoại</th>
+                      <th scope="col">ID Voucher</th>
+                      <!-- <th scope="col">Ngày tạo</th> -->
+                      <!-- <th scope="col">Ngày sửa</th> -->
+                      <th scope="col">Thao tác</th>
+                    </tr> 
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of orders">
+                      <th scope="row">{{ order.id }}</th>
+                      <td>{{ order.user_id }}</td>
+                      <td>{{ order.total_amount | currency:'VND' }}</td>
+                      <td>{{ order.payment_method }}</td>
+                      <td class="{{ order.status === 'shipped' ? 'badge text-bg-primary' : order.status === 'delivered' ? 'badge text-bg-success' : 'badge text-bg-danger' }}">{{ order.status }}</td>
+                      <td>{{ order.payment_amount | currency:'VND' }}</td>
+                      <td class="d-inline-block text-truncate" style="max-width: 150px;">{{ order.address }}</td>
+                      <td>{{ order.phone_number }}</td>
+                      <td>{{ order.voucher_id }}</td>
+                      <!-- <td>{{ order.created_at | date:'short' }}</td> -->
+                      <!-- <td>{{ order.updated_at | date:'short' }}</td> -->
+                      <td>
+                        <!-- <a class="btn btn-primary btn-sm" routerLink="edit/{{order.id}}">Sửa</a> -->
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteOrder(order.id)">Xóa</button>
+                      </td>                      
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -22,3 +58,4 @@
     </div>
   </div>
 </div>
+
