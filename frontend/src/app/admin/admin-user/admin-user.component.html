@@ -1,0 +1,53 @@
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <!--  Main wrapper -->
+  <div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-12 mt-2">
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">DANH MỤC SẢN PHẨM</h5>
+              <div class="table-responsive">
+                <table class="table table-hover text-nowrap">
+                  <thead class="table-primary">
+                    <tr>
+                      <th>ID</th>
+                      <th>Họ và Tên</th>
+                      <th>Số điện thoại</th>
+                      <th>Vai trò</th>
+                      <th>Email</th>
+                      <th>Trạng thái</th>
+                      <!-- <th>Ngày tạo</th>
+                      <th>Ngày sửa</th> -->
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of users" [ngClass]="{'table-light': user.status === 'active', 'table-danger': user.status !== 'active'}">
+                      <th scope="row">{{user.id}}</th>
+                      <td>{{user.fullname}}</td>
+                      <td>{{user.phone_number}}</td>
+                      <td>{{user.role}}</td>
+                      <td>{{user.email}}</td>
+                      <td>
+                        <span class="badge" [ngClass]="{'bg-success': user.status === 'active', 'bg-danger': user.status !== 'active'}">{{ user.status }}</span>
+                      </td>
+                      <!-- <td>{{user.created_at | date:'short' }}</td>
+                      <td>{{user.updated_at | date:'short' }}</td> -->
+                      <td>
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{user.id}}">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteUser(user.id)">Xóa</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

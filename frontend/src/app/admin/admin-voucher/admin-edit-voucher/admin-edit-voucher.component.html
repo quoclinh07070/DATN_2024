@@ -1,0 +1,43 @@
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed">
+  <!-- Main wrapper -->
+  <div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-12 mt-2">
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">THÊM VOUCHER</h5>
+              <div class="table-responsive">
+                <form (ngSubmit)="editVoucher()">
+
+                  <div class="mb-3">
+                    <label for="price" class="form-label">Giá</label>
+                    <input type="number" class="form-control" id="price" [(ngModel)]="voucher.price" name="price" required>
+                  </div>
+                
+                  <div class="mb-3">
+                    <label for="discount_percent" class="form-label">Giảm giá (%)</label>
+                    <input type="number" class="form-control" id="discount_percent" [(ngModel)]="voucher.discount_percent" name="discount_percent">
+                  </div>
+                
+                  <div class="mb-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="status" [(ngModel)]="voucher.status" name="status" required>
+                      <option value="active">Kích hoạt</option>
+                      <option value="inactive">Vô hiệu hóa</option>
+                    </select>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary w-100">Cập nhật Voucher</button>
+                </form>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
