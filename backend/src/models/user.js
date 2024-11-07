@@ -62,4 +62,20 @@ module.exports = class User {
         });
     }
 
+    static async findUserByUserName(name) {
+        const query = `SELECT *
+                       FROM users
+                       WHERE fullname = ?`;
+
+        return new Promise((resolve, reject) => {
+            db.execute(query, [name], (err, rows) => {
+                if (err) {
+                    reject(new Error('Error finding user: ' + err.message));
+                    return;
+                }
+                resolve(rows.length > 0 ? rows[0] : null); // Trả về thông tin người dùng nếu tìm thấy, nếu không thì null
+            });
+        });
+    }
+
 };

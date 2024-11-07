@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule để sử dụng *ngFor và *ngIf
-import { VoucherService } from '../../services/voucher.service';
 
 @Component({
   selector: 'app-admin-voucher',
@@ -11,40 +10,23 @@ import { VoucherService } from '../../services/voucher.service';
   styleUrls: ['./admin-voucher.component.css']
 })
 export class AdminVoucherComponent implements OnInit {
-  vouchers: any[] = [];  // Khai báo mảng để lưu trữ voucher
+  // Tạo dữ liệu voucher tĩnh (giả lập)
+  vouchers = [
+    { id: 1, price: 100.00, discount_percent: 10, status: 'active' },
+    { id: 2, price: 200.00, discount_percent: 15, status: 'inactive' },
+    { id: 3, price: 300.00, discount_percent: 20, status: 'active' }
+  ];
 
-  constructor(private voucherService: VoucherService) {}
-  
+  constructor() { }
+
   ngOnInit(): void {
-    this.getAllVouchers();  // Gọi hàm khi component được khởi tạo
+    // Không cần gọi API, chỉ dùng dữ liệu tĩnh
   }
-  
-  getAllVouchers(): void {
-    this.voucherService.getAllVouchers().subscribe(
-      (response: any) => {
-        this.vouchers = response.vouchers;  // Gán dữ liệu vào mảng vouchers
-      },
-      (error) => {
-        console.error('Lỗi khi lấy dữ liệu voucher:', error);
-      }
-    );
-  }
-  
+
+  // Hàm xóa voucher (chỉ xóa trên client, không tương tác với backend)
   deleteVoucher(id: number): void {
     if (confirm('Bạn có chắc chắn muốn xóa voucher này?')) {
-      this.voucherService.deleteVoucher(id).subscribe(
-        () => {
-          // Cập nhật danh sách voucher sau khi xóa
-          this.vouchers = this.vouchers.filter(voucher => voucher.id !== id);
-          alert('Voucher đã được xóa thành công!');
-          console.log('Voucher đã được xóa thành công!');
-        },
-        (error) => {
-          alert('Lỗi khi xóa voucher!');
-          console.error('Lỗi khi xóa voucher:', error);
-        }
-      );
+      this.vouchers = this.vouchers.filter(v => v.id !== id);
     }
   }
-  
 }

@@ -10,44 +10,7 @@
               <div class="card-body">
                 <h5 class="card-title">DANH MỤC SẢN PHẨM</h5>
                 <div class="table-responsive">
-                  <form (ngSubmit)="updatePost()" enctype="multipart/form-data">
-
-                    <div class="mb-3">
-                      <label for="title" class="form-label">Tiêu đề</label>
-                      <input type="text" class="form-control" id="title" [(ngModel)]="post.title" name="title" required>
-                    </div>
-                  
-                    <div class="mb-3">
-                      <label for="content" class="form-label">Nội dung</label>
-                      <textarea class="form-control" id="content" [(ngModel)]="post.content" name="content" required></textarea>
-                    </div>
-                  
-                    <div class="mb-3">
-                      <label for="image_url" class="form-label">Hình ảnh</label>
-                      <input type="file" class="form-control" id="image_url" (change)="onFileChange($event)">
-                      <!-- Hiển thị hình ảnh hiện tại nếu có -->
-                      <!-- <div *ngIf="post.image_url" class="mt-2">
-                        <p>Hình ảnh hiện tại:</p>
-                        <img [src]="post.image_url" alt="Current Image" width="150">
-                      </div> -->
-                    </div>
-                  
-                    <div class="mb-3">
-                      <label for="post_category_id" class="form-label">Loại bài viết</label>
-                      <input type="text" class="form-control" id="post_category_id" [(ngModel)]="post.post_category_id" name="post_category_id" required>
-                    </div>
-                  
-                    <div class="mb-3">
-                      <label for="status" class="form-label">Trạng thái</label>
-                      <select class="form-select" id="status" [(ngModel)]="post.status" name="status">
-                        <option value="published">Xuất bản</option>
-                        <option value="draft">Nháp</option>
-                      </select>
-                    </div>
-                  
-                    <button type="submit" class="btn btn-primary w-100">Cập Nhật Bài Viết</button>
-                  </form>
-                  
+                 
                 </div>
               </div>
             </div>

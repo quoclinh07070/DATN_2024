@@ -61,7 +61,7 @@
       <div class="main-box clearfix">
         <div class="logo-box">
           <div class="logo">
-            <a routerLink="/"><img src="/assets/client/images/logo-2.png" alt="" title="" /></a>
+            <a routerLink="index-2.html"><img src="/assets/client/images/logo-2.png" alt="" title="" /></a>
           </div>
         </div>
         <div class="nav-outer clearfix">
@@ -128,22 +128,12 @@
                 <span class="count">2</span>
               </a>
             </div>
-
-            <div class="user-btn custom-margin">
+            <div class="user-btn custom-margin blockUser">
               <a routerLink="/user" title="">
                 <i class="bi bi-person-circle"></i>
-                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
+                <span class="username">{{userName}}</span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
               </a>
             </div>
-
-            <div class="user-btn custom-margin">
-              <a routerLink="/wishlist" title="">
-                <i class="fa fa-heart"></i>
-                <span class="count">3</span>
-                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
-              </a>
-            </div>
-            
             <!--Search Box-->
             <div class="search-box-outer">
               <div class="dropdown">
@@ -239,3 +229,14 @@
   <!-- End Sticky Menu -->
 </header>
 <!--End Main Header -->
+<style>
+  .blockUser {
+    display : flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .username {
+    margin-left: 2px;
+    font-size: 13px;
+  }
+</style>

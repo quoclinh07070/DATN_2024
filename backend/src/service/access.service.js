@@ -82,11 +82,19 @@ class AccessService {
 
     static signUp = async ({name, email, password}) => {
         // console.log("signUp:: name %s :: email %s :: password %s", name, email, password)
-        const holderShop = await User.findUserByEmail(email);
+        let holderShop = await User.findUserByEmail(email);
         console.log('holderShop::', holderShop)
+        if (holderShop) {
+
+            throw new BadRequestError('Error Shop already registered!')
+        }
+
+        holderShop = await User.findUserByUserName(name);
+
         if (holderShop) {
             throw new BadRequestError('Error Shop already registered!')
         }
+
         const passwordHash = await bcrypt.hash(password, 10)
 
         // Lưu người dùng mới
@@ -94,7 +102,7 @@ class AccessService {
             FullName: name,
             Email: email,
             Password: passwordHash,
-            PhoneNumber: "0346135365",
+            PhoneNumber: "",
             Role: "user", // Có thể để mặc định là 'user'
             Status: "active" // Có thể để mặc định là 'active'
         });
@@ -121,14 +129,12 @@ class AccessService {
             console.log(`Created Tokens Success::`, tokens)
             return {
                 code: 201,
-                metadata: {
-                    shop: {
-                        "user_id": newShop,
-                        "name": name,
-                        "email": email
-                    },
-                    tokens
-                }
+                user: {
+                    "user_id": newShop,
+                    "name": name,
+                    "email": email
+                },
+                tokens
             }
         }
 

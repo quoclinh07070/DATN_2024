@@ -22,43 +22,38 @@
         <div class="row clearfix">
             <!--Sidebar Side-->
             <div class="sidebar-side col-xl-3 col-lg-4 col-md-12">
-                <aside class="sidebar">
-                    <!--Blog Category Widget-->
-                    <div class="sidebar-widget sidebar-blog-category">
-                        <div class="sidebar-title">
-                            <h3>Loại sản phẩm</h3>
-                            <div class="separater"></div>
-                        </div>
-                        <ul class="cat-list">
-                            <li class="clearfix"><a href="#">Chemical <span>15</span></a></li>
-                            <li class="clearfix"><a href="#">Energy <span>23</span></a></li>
-                            <li class="clearfix active"><a href="#">Industry <span>49</span></a></li>
-                            <li class="clearfix"><a href="#">Manufacturing <span>32</span></a></li>
-                            <li class="clearfix"><a href="#">Materials <span>44</span></a></li>
-                            <li class="clearfix"><a href="#">Uncategorized <span>05</span></a></li>
-                        </ul>
+              <aside class="sidebar">
+                <!-- Blog Category Widget -->
+                <div class="sidebar-widget sidebar-blog-category">
+                    <div class="sidebar-title">
+                        <h3>Loại sản phẩm</h3>
+                        <div class="separater"></div>
                     </div>
-                    
-                    <!-- Price Filters -->
+                    <ul class="cat-list">
+                        <li *ngFor="let category of categories" class="clearfix">
+                          <button type="button" (click)="onCategorySelect(category.id)">
+                            {{ category.name }}
+                        </button>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Price Filters -->
+                <form [formGroup]="priceForm" (ngSubmit)="loadProducts()" class="filter-form">
                     <div class="sidebar-widget price-filters rangeslider-widget">
                         <div class="sidebar-title">
                             <h3>Lọc theo giá</h3>
                             <div class="separater"></div>
                         </div>
-                        <div class="range-slider-one clearfix">
-                            <div class="price-range-slider"></div>
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <a href="#" class="theme-btn btn-style-one">Lọc</a>
-                                </div>
-                                <div class="pull-right">
-                                    <div class="title">Giá:</div>
-                                    <div class="input"><input type="text" class="property-amount" name="field-name" readonly></div>
-                                </div>
-                            </div>
+                        <div class="price-range-filter__inputs box-filter-price">
+                            <input type="text" min="0" pattern="[0-9]*" maxlength="13" formControlName="minPrice" class="price-range-filter__input filter__input_to" placeholder="₫ TỪ">
+                            <span class="price-range-filter__range-line"></span>
+                            <input type="text" min="0" pattern="[0-9]*" maxlength="13" formControlName="maxPrice" class="price-range-filter__input filter__input_from" placeholder="₫ ĐẾN">
                         </div>
+                        <button type="submit" class="thêm-btn btn-style-one btnFilter">Lọc</button>
                     </div>
-                </aside>
+                </form>
+            </aside>
+            
             </div>
             <!--Content Side-->
             <div class="content-side col-xl-9 col-lg-8 col-md-12">
@@ -71,7 +66,8 @@
                     <div *ngFor="let product of products" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <div class="inner-box">
                         <div class="image">
-                          <img [src]="product.image" alt="{{product.name}}" />
+                          <!-- <img [src]="product.image" alt="{{product.name}}" /> -->
+                          <img src="assets/client/images/resource/products/1.jpg" alt="" />
                           <div class="overlay-box">
                             <ul class="cart-option">
                               <li><a href=""><span class="bi bi-search"></span></a></li>
@@ -99,3 +95,37 @@
     </div>
 </div>
 <!--End Sidebar Page Container-->
+<style>
+  .box-filter-price{ 
+    display : flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .price-range-filter__input {
+    background: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #c2c2c2;
+    border-radius: 1px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    height: 32px;
+    line-height: 1.42857143;
+    padding: 0 9px;
+    vertical-align: baseline;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .price-range-filter__range-line {
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 1px;
+    background: #bdbdbd;
+    margin: 0 .625rem;
+  }
+  .btnFilter {
+    width : 100%;
+    margin-top: 10px;
+  }
+</style>

@@ -17,9 +17,7 @@ import { ServicesComponent } from './services/services.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RegisterComponent } from './register/register.component';
-import { WishlistComponent } from './wishlist/wishlist.component';
-// import { WishlistComponent } from './wishlist/wishlist.component';
-
+import { UserComponent } from './user/user.component';
 
 const clientRoutes: Routes = [
     { path: '', component: ClientLayoutComponent, children: [
@@ -37,7 +35,7 @@ const clientRoutes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'wishlist', component: WishlistComponent },
+      { path: 'user', component: UserComponent },
       { path: '**', component: PagenotfoundComponent },
     ]},
   ];

@@ -1,69 +1,213 @@
 <div class="page-wrapper">
-  <!-- Preloader -->
-
-
   <!--Login Section-->
   <section class="login-section mt-4">
+
+<!-- Popup Success/Error Alert -->
+<div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
+  <div class="popup-content">
+    <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
+      <span>{{ isSuccess ? '&#10003;' : '&#10007;' }}</span>
+    </div>
+    <p class="message">{{ popupMessage }}</p>
+    <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
+  </div>
+</div>
+
     <div class="auto-container">
       <div class="row clearfix">
         <div class="column col-lg-12 col-md-12 col-sm-12">
-          <h2>Login</h2>
+          <h2 class="text-center">Đăng Nhập</h2>
 
           <!-- Login Form -->
           <div class="login-form">
-            <!--Login Form-->
-            <form method="post" action="#">
+            <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
               <div class="form-group">
-                <label>Username or Email Address</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Name or Email "
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Enter Your Password</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Password"
-                  required
-                />
-              </div>
-
-              <div class="clearfix">
-                <div class="pull-left">
-                  <div class="form-group check-box">
-                    <input
-                      type="checkbox"
-                      name="shipping-option"
-                      id="account-option-1"
-                    />&nbsp; <label for="account-option-1">Remember me</label>
-                  </div>
-                </div>
-                <div class="pull-right">
-                  <div class="form-group no-margin">
-                    <button
-                      class="theme-btn btn-style-one"
-                      type="submit"
-                      name="submit-form"
-                    >
-                      LOGIN
-                    </button>
-                  </div>
-                </div>
+                <label for="username">Email:</label>
+                <input type="email" id="username" formControlName="username" required class="form-control">
+                <small *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error-message">
+                  Email là bắt buộc và phải hợp lệ.
+                </small>
               </div>
               <div class="form-group">
-                <a href="#" class="psw">Lost your password?</a>
+                <label for="password">Mật Khẩu:</label>
+                <input type="password" id="password" formControlName="password" required class="form-control">
+                <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+                  Mật khẩu là bắt buộc.
+                </small>
               </div>
+              <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Đăng Nhập</button>
+              <button type="button" class="btn btn-secondary btnSignup" (click)="showSignupPopup()">Đăng Ký</button>
             </form>
           </div>
-          <!--End Login Form -->
+          <!-- End Login Form -->
         </div>
       </div>
     </div>
   </section>
-  <!--End Login Section-->
+
+  <!-- Popup Đăng Ký -->
+  <div class="signup-popup" *ngIf="isSignupVisible">
+    <div class="popup-content">
+      <h2>Đăng Ký</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+        <div class="form-group">
+          <label for="signup-name">Tên:</label>
+          <input type="text" id="signup-name" formControlName="name" required class="form-control">
+          <small *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="error-message">
+            Tên là bắt buộc.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email:</label>
+          <input type="email" id="signup-email" formControlName="email" required class="form-control">
+          <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="error-message">
+            Email là bắt buộc và phải hợp lệ.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Mật Khẩu:</label>
+          <input type="password" id="signup-password" formControlName="password" required class="form-control">
+          <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="error-message">
+            Mật khẩu là bắt buộc.
+          </small>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
+        <button type="button" class="btn btn-secondary" (click)="closeSignupPopup()">Đóng</button>
+      </form>
+    </div>
+  </div>
+  <!-- End Login Section -->
 </div>
+
+<style>
+  .login-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .signup-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+}
+.btn-secondary{
+  margin-left: 10px;
+}
+/* Popup Success Alert */
+.popup-success-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+.popup-success-alert .popup-content {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.icon-success {
+  font-size: 3em;
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+.icon-success span {
+  font-weight: bold;
+}
+
+.message {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.btn-close {
+  background: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.btn-close:hover {
+  background: #218838;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade Out Animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+
+</script>

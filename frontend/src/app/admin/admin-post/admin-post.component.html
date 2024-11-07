@@ -1,47 +1,48 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <!--  Main wrapper -->
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12">
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <h3 class="mb-0">BÀI VIẾT</h3>
-            <a class="btn btn-success" routerLink="add">Thêm Bài Viết</a>
-          </div>
-          <div class="card mt-3">
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
-                  <thead class="table-primary">
-                    <tr>
-                      <th>ID</th>
-                      <th>Tiêu đề</th>
-                      <th>Hình ảnh</th>
-                      <th>Nội dung</th>
-                      <th>ID Loại bài viết</th>
-                      <th>Trạng thái</th>
-                      <th>Thao tác</th>
+      <div class="col-lg-12">
+        <div class="col-lg-12 mt-2">
+          <a class="btn btn-primary mb-3 "[routerLink]="'add/'">Thêm sản phẩm</a>
+        </div>
+        <div class="card"> 
+          <div class="card-body">
+            <h5 class="card-title">DANH MỤC BÀI VIẾT</h5>
+            <div class="table-responsive">
+              <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-bottom">
+                      <th scope="col">ID</th>
+                      <th scope="col">Tên danh mục</th>
+                      <th scope="col">Hình ảnh</th>
+                      <th scope="col">Chức vụ</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let post of posts" [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
-                      <th scope="row">{{post.id}}</th>
-                      <td>{{post.title}}</td>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Nội thất phòng ngủ</td>
+                      <td><img src="path_to_image" alt="Hình ảnh" class="img-thumbnail" style="width: 50px;"></td>
                       <td>
-                        <img [src]="getImageUrl(post.image_url)" alt="{{post.title}}" class="img-fluid" style="max-width: 60px;">
-                      </td>
-                      <td class="text-truncate" style="max-width: 120px;">{{post.content}}</td>
-                      <td>{{post.post_category_id}}</td>
-                      <td>
-                        <span class="badge" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}">{{ post.status }}</span>
-                      </td>
-                      <td>
-                        <a class="btn btn-info btn-sm" routerLink="edit/{{post.id}}">Sửa</a>
-                        <button type="button" class="btn btn-danger btn-sm" (click)="deletePost(post.id)">Xóa</button>
+                        <a class="btn btn-primary btn-sm"[routerLink]="'edit/'">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm">Xóa</button>
                       </td>
                     </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Nội thất phòng khách</td>
+                      <td><img src="path_to_image" alt="Hình ảnh" class="img-thumbnail" style="width: 50px;"></td>
+                      <td>
+                        <a class="btn btn-primary btn-sm"[routerLink]="'edit/'">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm">Xóa</button>
+                      </td>
+                    </tr>
+
+                    <!-- Các dòng khác -->
                   </tbody>
-                </table>
-              </div>
+              </table>
             </div>
           </div>
         </div>
@@ -49,4 +50,3 @@
     </div>
   </div>
 </div>
-
