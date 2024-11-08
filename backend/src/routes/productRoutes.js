@@ -1,4 +1,3 @@
-// productRoutes.js
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
@@ -22,6 +21,9 @@ router.get('/products', productController.getAllProducts);
 
 // Lấy sản phẩm theo ID
 router.get('/products/:id', productController.getProductById);
+
+// Tìm kiếm sản phẩm
+router.get('/products/search/:value', productController.searchProduct);
 
 // Thêm sản phẩm mới
 router.post('/products', upload.single('image'), productController.createProduct);

@@ -1,126 +1,80 @@
-<!--Page Title-->
-<section class="page-title" style="background-image:url(/assets/client/images/background/10.jpg);">
-    <div class="auto-container">
-        <div class="inner-container clearfix">
-            <div class="title-box">
-                <h1>Giỏ Hàng</h1>
-                <span class="title">The Interior speak for themselves</span>
-            </div>
-            <ul class="bread-crumb clearfix">
-                <li><a href="/">Trang Chủ</a></li>
-                <li>Giỏ Hàng</li>
-            </ul>
-        </div>
-    </div>
-</section>
-<!--End Page Title-->
-
 <!--Cart Section-->
 <section class="cart-section">
     <div class="auto-container">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/"><span>Trang chủ</span></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span>Giỏ hàng</span>
+                </li>
+            </ol>
+          </div>
         <!--Cart Outer-->
         <div class="cart-outer">
+            <h3 class="text-center fw-bold text-dark mb-3">Giỏ hàng của bạn</h3>
             <div class="table-outer">
                 <table class="cart-table">
                     <thead class="cart-header">
                         <tr>
-                            <th>Hình Ảnh</th>
-                            <th class="prod-column">Sản Phẩm</th>
-                            <th class="price">Giá</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
                             <th>Số Lượng</th>
-                            <th>Tổng Cộng</th>
-                            <th>&nbsp;</th>
+                            <th>Tổng tiền</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="prod-column">
-                                <div class="column-box">
-                                    <figure class="prod-thumb"><a href="#"><img
-                                                src="/assets/client/images/resource/products/12.jpg" alt=""></a>
-                                    </figure>
-                                </div>
-                            </td>
                             <td>
                                 <h4 class="prod-title">Patient Ninja</h4>
                             </td>
-                            <td class="sub-total">$35.00</td>
-                            <td class="qty">
-                                <div class="item-quantity"><input class="quantity-spinner" type="text" value="2"
-                                        name="quantity"></div>
-                            </td>
-                            <td class="total">$35.00</td>
-                            <td><a href="#" class="remove-btn"><span class="fa fa-remove"></span></a></td>
+                            <td>$35.00</td>
+                            <td>
+                                <div class="input-group input-group-sm">
+                                  <!-- Nút giảm số lượng (dùng btn-sm để làm nút nhỏ hơn) -->
+                                  <button class="btn btn-outline-secondary btn-sm" type="button" id="decreaseBtn">-</button>
+                              
+                                  <!-- Input số lượng (dùng form-control-sm để làm input nhỏ hơn) -->
+                                  <input type="number" class="form-control form-control-sm text-center" value="1" name="quantity" id="quantityInput" min="1" style="width: 50px;">
+                              
+                                  <!-- Nút tăng số lượng -->
+                                  <button class="btn btn-outline-secondary btn-sm" type="button" id="increaseBtn">+</button>
+                                </div>
+                              </td>                                                           
+                            <td>$35.00</td>
+                            <td><a class="remove-btn"><span class="bi bi-trash"></span></a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="cart-options clearfix">
-                <div class="pull-left">
-                    <div class="apply-coupon clearfix">
-                        <div class="form-group clearfix">
-                            <input type="text" name="coupon-code" value="" placeholder="Mã giảm giá">
-                        </div>
-                        <div class="form-group clearfix">
-                            <button type="button" class="theme-btn coupon-btn">Áp dụng</button>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="pull-right">
-                    <button type="button" class="theme-btn cart-btn">Cập nhật giỏ hàng</button>
+                    <button type="button" class="btn btn-info">Xóa sạch giỏ</button>
                 </div>
             </div>
         </div>
 
-        <div class="row justify-content-between">
-            <div class="column pull-left col-lg-5 col-md-6 col-sm-12">
-                <div class="shipping-block">
-                    <div class="inner-box">
-                        <h3>Free Shipping</h3>
-                        <h4>Calculate Shipping</h4>
-
-                        <!-- Shipping Form -->
-                        <div class="shipping-form">
-                            <!--Shipping Form-->
-                            <form method="post" action="#">
-                                <div class="row clearfix">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input type="text" name="text" placeholder="Pakistan" required>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input type="text" name="text" placeholder="Postcode / ZIP" required>
-                                    </div>
-                                    <div class="form-group col-md-12 col-sm-12">
-                                        <input type="text" name="text" placeholder="State / County" required>
-                                    </div>
-                                    <div class="form-group col-md-12 col-sm-12">
-                                        <button class="theme-btn totals-btn" type="submit" name="submit-form">Update
-                                            Totals</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="column pull-right col-lg-6 col-md-6 col-sm-12">
+        <div class="clearfix">
+            <div class="pull-right col-4">
                 <!--Totals Table-->
                 <ul class="totals-table">
-                    <li>
-                        <h3>Tổng Giỏ Hàng</h3>
+                    <li class="bg-white">
+                        <h3 class="text-center">Thông tin đơn hàng</h3>
                     </li>
-                    <li class="clearfix total"><span class="col">Số tiền đã mua</span><span
-                            class="col price">$35.00</span></li>
-                    <li class="clearfix total"><span class="col">Tổng cộng</span><span class="col price">$35.00</span>
+                    <li class="clearfix total"><span class="col">Tổng tiền:</span><span class="col price">$35.00</span>
                     </li>
                     <li class="text-right">
-                        <a routerLink="/checkout" class="theme-btn proceed-btn">Tiến hành thanh toán</a>
+                        <a routerLink="/checkout" class="btn btn-danger w-100">Thanh toán</a>
                     </li>
-
                 </ul>
+                <div class="text-center">
+                    <a routerLink="/product">
+                        <h5 class="mb-0"><i class="bi bi-arrow-return-left me-2"></i>Tiếp tục mua hàng</h5>
+                    </a>                      
+                </div>
             </div>
         </div>
     </div>

@@ -79,20 +79,8 @@
                 <li class="current dropdown">
                   <a routerLink="/">Trang chủ</a>
                 </li>
-                <li class="dropdown">
+                <li>
                   <a routerLink="/product">Sản Phẩm</a>
-                  <ul>
-                    <li class="dropdown"><a routerLink="/product-details">Phòng Ngủ</a>
-                      <ul>
-                        <li><a routerLink="index-2.html">Bàn</a></li>
-                        <li><a routerLink="index-3.html">Giường</a></li>
-
-                      </ul>
-                    </li>
-                    <li><a routerLink="/product-details">Phòng Khách</a></li>
-                    <li><a routerLink="/product-details">Phòng Làm việc</a></li>
-
-                  </ul>
                 </li>
                 <li class="dropdown">
                   <a routerLink="/about">Giới Thiệu</a>
@@ -104,11 +92,6 @@
                   <ul>
                   </ul>
                 </li>
-                <!-- <li class="dropdown">
-                  <a routerLink="/projects">Dự ÁN</a>
-                  <ul>
-                  </ul>
-                </li> -->
                 <li class="dropdown">
                   <a routerLink="/blog">Tin Tức</a>
                   <ul>
@@ -154,19 +137,21 @@
                 <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
                   <li class="panel-outer">
                     <div class="form-container">
-                      <form method="post" action="#">
+                      <form (submit)="onSearchSubmit($event)">
                         <div class="form-group">
-                          <input type="search" name="field-name" value="" placeholder="Search Here" required />
+                          <input type="search" name="field-name" [(ngModel)]="searchValue" placeholder="Search Here" required />
                           <button type="submit" class="search-btn">
                             <span class="fa fa-search"></span>
                           </button>
                         </div>
+                      </form>
                       </form>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
+            
 
 
 

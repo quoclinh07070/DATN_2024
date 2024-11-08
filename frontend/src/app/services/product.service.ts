@@ -1,7 +1,6 @@
 // product.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-  // import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -14,12 +13,12 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   // Lấy danh sách sản phẩm
-  getAllProducts(){
+  getAllProducts() {
     return this.http.get(this.baseUrl);
   }
 
   // Lấy sản phẩm theo ID
-  getProductById(id: number){
+  getProductById(id: number) {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
@@ -34,7 +33,7 @@ export class ProductService {
   }
 
   // Xóa sản phẩm
-  deleteProduct(id: number){
+  deleteProduct(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
@@ -42,5 +41,10 @@ export class ProductService {
   getImageUrl(imageName: string): string {
     return `${this.imageUrl}/${imageName}`;
   }
-  
+
+  // Tìm kiếm sản phẩm
+  searchProducts(value: string) {
+    // Cập nhật đường dẫn API để sử dụng path params thay vì query string
+    return this.http.get(`${this.baseUrl}/search/${value}`);
+  }
 }

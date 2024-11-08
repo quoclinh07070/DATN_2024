@@ -1,25 +1,16 @@
- <!--Page Title-->
- <section class="page-title" style="background-image:url(assets/client/images/background/10.jpg);">
-    <div class="auto-container">
-        <div class="inner-container clearfix">
-            <div class="title-box">
-                <h1>Sản phẩm</h1>
-                <span class="title">Chất lượng làm nên uy tín</span>
-            </div>
-            <ul class="bread-crumb clearfix">
-                <li><a href="">Trang chủ</a></li>
-                <li>Sản phẩm</li>
-            </ul>
-        </div>
-    </div>
-</section>
-<!--End Page Title-->
-<!-- <div class="element">
-</div> -->
-<!--Sidebar Page Container-->
-<div class="sidebar-page-container" >
+<div class="sidebar-page-container mt-5">
     <div class="auto-container">
         <div class="row clearfix">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/"><span>Trang chủ</span></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a routerLink="/product"><span>Sản phẩm</span></a>
+                </li>
+            </ol>
+          </div>
             <!--Sidebar Side-->
             <div class="sidebar-side col-xl-3 col-lg-4 col-md-12">
                 <aside class="sidebar">
@@ -29,13 +20,8 @@
                             <h3>Loại sản phẩm</h3>
                             <div class="separater"></div>
                         </div>
-                        <ul class="cat-list">
-                            <li class="clearfix"><a href="#">Chemical <span>15</span></a></li>
-                            <li class="clearfix"><a href="#">Energy <span>23</span></a></li>
-                            <li class="clearfix active"><a href="#">Industry <span>49</span></a></li>
-                            <li class="clearfix"><a href="#">Manufacturing <span>32</span></a></li>
-                            <li class="clearfix"><a href="#">Materials <span>44</span></a></li>
-                            <li class="clearfix"><a href="#">Uncategorized <span>05</span></a></li>
+                        <ul *ngFor="let category of categories" class="cat-list">
+                            <li class="clearfix"><a href="#">{{category.category_name}}</a></li>
                         </ul>
                     </div>
                     
@@ -71,7 +57,7 @@
                     <div *ngFor="let product of products" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <div class="inner-box">
                         <div class="image">
-                          <img [src]="product.image" alt="{{product.name}}" />
+                          <img [src]="getImageUrl(product.image)" alt="{{product.name}}" class="img-fluid">
                           <div class="overlay-box">
                             <ul class="cart-option">
                               <li><a href=""><span class="bi bi-search"></span></a></li>
@@ -79,9 +65,9 @@
                           </div>
                         </div>
                         <div class="lower-content">
-                          <h3><a [routerLink]="['/product-details', product.id]">{{product.name}}</a></h3>
+                          <h3><a [routerLink]="['/product-detail', product.id]">{{product.name}}</a></h3>
                           <div class="price">
-                            <span class="discount">{{product.discount}}</span>{{product.price}}
+                            {{ product.price | currency: 'VND' }}
                           </div>
                           <div class="clearfix">
                             <div class="pull-left">

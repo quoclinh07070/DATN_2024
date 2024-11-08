@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-// import { CategoriesService } from '../../services/categories.service';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category.service';
 

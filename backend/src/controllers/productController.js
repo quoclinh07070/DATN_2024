@@ -136,3 +136,48 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi xóa sản phẩm', error: err });
     }
 };
+
+exports.searchProduct = async (req, res) => {
+    try {
+        const { value } = req.params;  // Lấy giá trị tìm kiếm từ route parameter
+
+        // Kiểm tra nếu không có giá trị tìm kiếm
+        if (!value) {
+            return res.status(400).json({ message: 'Cần cung cấp giá trị tìm kiếm' });
+        }
+
+        // Xây dựng câu lệnh SQL với JOIN
+        const sql = `
+            SELECT p.* 
+            FROM products p
+            LEFT JOIN category c ON p.categories_id = c.id
+            WHERE p.name LIKE ? OR c.category_name LIKE ?
+        `;
+        
+        const [results] = await db.query(sql, [`%${value}%`, `%${value}%`]);
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy sản phẩm nào' });
+        }
+
+        res.json({
+            message: 'Tìm kiếm sản phẩm thành công',
+            products: results.map(product => new Product(
+                product.id,
+                product.name,
+                product.price,
+                product.image,
+                product.description,
+                product.discount,
+                product.quantity,
+                product.status,
+                product.categories_id,
+                product.created_at,
+                product.updated_at
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi tìm kiếm sản phẩm', error: err });
+    }
+};
+

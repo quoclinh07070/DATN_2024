@@ -1,0 +1,52 @@
+<div class="sidebar-page-container">
+    <div class="auto-container">
+      <div class="row clearfix">
+        <div class="content-side col-xl-12 col-lg-8 col-md-12 p-5">
+          <h3 class="text-center fw-bold text-dark mb-3">
+            Kết quả tìm kiếm cho "{{ searchValue }}" <span *ngIf="products.length > 0">({{ products.length }} sản phẩm)</span>
+          </h3>
+  
+          <!-- Thông báo lỗi nếu có -->
+          <div *ngIf="errorMessage" class="alert alert-danger text-center">
+            {{ errorMessage }}
+          </div>
+  
+          <div class="our-shop">
+            <div class="row clearfix">
+              <div
+                *ngFor="let product of products"
+                class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12"
+              >
+                <div class="inner-box">
+                  <div class="image">
+                    <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" />
+                    <div class="overlay-box">
+                      <ul class="cart-option">
+                        <li>
+                          <a href=""><span class="bi bi-search"></span></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="lower-content">
+                    <h3>
+                      <a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a>
+                    </h3>
+                    <div class="price">
+                      {{ product.price | currency : "VND" }}
+                    </div>
+                    <div class="clearfix">
+                      <div class="pull-left">
+                        <a class="add-cart" href=""><span class="fa fa-cart-plus"></span>Thêm vào giỏ hàng</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
