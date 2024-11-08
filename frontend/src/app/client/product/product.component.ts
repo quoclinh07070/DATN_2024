@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service';  // Import service
-import { CategoryService } from '../../services/category.service';  // Import service
+import { ProductService } from '../../services/product.service';
+import { CategoryService } from '../../services/category.service';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service'; // Import CartService
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,44 +10,52 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
-  products: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm
-  categories: any[] = [];  // Khai báo mảng để lưu trữ danh mục
+  products: any[] = [];
+  categories: any[] = [];
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private cartService: CartService // Inject CartService
   ) {}
 
   ngOnInit(): void {
-    this.getAllProducts();  // Gọi hàm khi component được khởi tạo
-    this.getAllCategories();  // Gọi hàm khi component được khởi tạo
+    this.getAllProducts();
+    this.getAllCategories();
   }
 
   getAllProducts(): void {
     this.productService.getAllProducts().subscribe(
       (response: any) => {
-        this.products = response.products;  // Gán dữ liệu vào mảng products
+        this.products = response.products;
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
       }
     );
   }
+
   getAllCategories(): void {
     this.categoryService.getAllCategories().subscribe(
       (response: any) => {
-        this.categories = response.categories;  // Gán dữ liệu vào mảng categories
+        this.categories = response.categories;
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu danh mục:', error);
       }
     );
   }
-  getImageUrl(imageName: string): string {
-    return this.productService.getImageUrl(imageName); // Gọi phương thức từ service
+
+  // Thêm sản phẩm vào giỏ
+  addToCart(product: any) {
+    this.cartService.addToCart(product); // Gọi CartService để thêm sản phẩm vào giỏ
+    alert('Sản phẩm đã được thêm vào giỏ hàng!');
   }
 
+  getImageUrl(imageName: string): string {
+    return this.productService.getImageUrl(imageName);
+  }
 }

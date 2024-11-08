@@ -108,7 +108,9 @@
             <div class="cart-btn">
               <a routerLink="/cart" title="">
                 <i class="fa fa-shopping-basket"></i>
-                <span class="count">2</span>
+                <div *ngIf="cartItems.length !== 0">
+                  <span class="count bg-danger">{{cartItems.length}}</span>
+                </div>
               </a>
             </div>
 
@@ -122,8 +124,6 @@
             <div class="user-btn custom-margin">
               <a routerLink="/wishlist" title="">
                 <i class="fa fa-heart"></i>
-                <span class="count">3</span>
-                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
               </a>
             </div>
             
@@ -139,7 +139,7 @@
                     <div class="form-container">
                       <form (submit)="onSearchSubmit($event)">
                         <div class="form-group">
-                          <input type="search" name="field-name" [(ngModel)]="searchValue" placeholder="Search Here" required />
+                          <input type="search" name="field-name" [(ngModel)]="searchValue" placeholder="Tìm kiếm sản phẩm..." required />
                           <button type="submit" class="search-btn">
                             <span class="fa fa-search"></span>
                           </button>
