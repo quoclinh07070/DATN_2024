@@ -3,6 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';  // Thêm import này để sử dụng currency pipe
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service'; // Import CartService
 
 @Component({
   selector: 'app-product-details',
@@ -28,6 +29,7 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
+    private cartService: CartService // Inject CartService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,12 @@ export class ProductDetailsComponent implements OnInit {
   }
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
+  }
+
+  // Thêm sản phẩm vào giỏ
+  addToCart(product: any) {
+    this.cartService.addToCart(product); // Gọi CartService để thêm sản phẩm vào giỏ
+    alert('Sản phẩm đã được thêm vào giỏ hàng!');
   }
   
 }
