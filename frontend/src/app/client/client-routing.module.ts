@@ -17,6 +17,7 @@ import { ServicesComponent } from './services/services.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RegisterComponent } from './register/register.component';
+import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 // import { WishlistComponent } from './wishlist/wishlist.component';
@@ -38,6 +39,7 @@ const clientRoutes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'user', component: UserComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
       { path: '**', component: PagenotfoundComponent },
