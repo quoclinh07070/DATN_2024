@@ -94,7 +94,7 @@ class AccessService {
             FullName: name,
             Email: email,
             Password: passwordHash,
-            PhoneNumber: "0346135365",
+            PhoneNumber: "0913634651",
             Role: "user", // Có thể để mặc định là 'user'
             Status: "active" // Có thể để mặc định là 'active'
         });

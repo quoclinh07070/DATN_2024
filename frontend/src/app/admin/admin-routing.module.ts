@@ -21,6 +21,7 @@ import { AdminAddProductComponent } from './admin-product/admin-add-product/admi
 import { AdminEditProductComponent } from './admin-product/admin-edit-product/admin-edit-product.component';
 //user
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminEditUserComponent } from './admin-user/admin-edit-user/admin-edit-user.component';
 //order
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminOrderEditComponent } from './admin-order/admin-order-edit/admin-order-edit.component';
@@ -58,6 +59,7 @@ const adminRoutes: Routes = [
     { path: 'product/edit/:id', component: AdminEditProductComponent },
 
     { path: 'user', component: AdminUserComponent },
+    { path: 'user/edit/:id', component: AdminEditUserComponent },
 
     { path: 'login', component: AdminLoginComponent },
     { path: 'register', component: AdminRegisterComponent },

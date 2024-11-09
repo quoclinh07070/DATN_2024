@@ -56,7 +56,7 @@ export class LoginComponent {
         if (response.metadata.tokens && response.metadata.tokens.accessToken) {
           localStorage.setItem('token', response.metadata.tokens.accessToken);
           this.showPopup('Đăng nhập thành công!', true);
-          this.router.navigate(['/user']);
+          setTimeout(() => {this.router.navigate(['/user']);}, 3000);
         } else {
           this.showPopup('Không nhận được token từ server.', false);
         }
