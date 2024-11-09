@@ -4,7 +4,6 @@ import { ClientLayoutComponent } from './client-layout/client-layout.component';
 
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { AboutComponent } from './about/about.component';
 import { ProductComponent } from './product/product.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { CheckoutComponent } from './checkout/checkout.component';
