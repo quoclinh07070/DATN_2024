@@ -10,7 +10,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { CartComponent } from './cart/cart.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { BlogComponent } from './blog/blog.component';
-import { BlogSingleComponent } from './blog-single/blog-single.component';
+// import { BlogSingleComponent } from './blog/blog-single/blog-single.component';
 import { LoginComponent } from './login/login.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { ServicesComponent } from './services/services.component';
@@ -18,6 +18,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RegisterComponent } from './register/register.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { BlogDetailComponent } from './blog/blog-detail/blog-detail.component';
 // import { WishlistComponent } from './wishlist/wishlist.component';
 
 
@@ -33,7 +34,7 @@ const clientRoutes: Routes = [
       { path: 'cart', component: CartComponent },
       { path: 'contact', component: ContactUsComponent },
       { path: 'blog', component: BlogComponent },
-      { path: 'blog-detail', component: BlogSingleComponent },
+      { path: 'blog/blog-detail', component: BlogDetailComponent },
       { path: 'login', component: LoginComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },

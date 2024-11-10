@@ -1,33 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-edit-product',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './admin-edit-product.component.html',
   styleUrls: ['./admin-edit-product.component.css']
 })
+
 export class AdminEditProductComponent implements OnInit {
-  product: any = {
-    name: '',
-    price: 0,
-    image: null,
-    description: '',
-    discount: 0,
-    quantity: 0,
-    status: 'active',
-    categories_id: ''
-  };
+  productForm: FormGroup;
   productId: number | null = null;
 
   constructor(
+    private fb: FormBuilder,
     private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    // Khởi tạo form với các điều kiện xác thực
+    this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(0)]],
+      image: [null],
+      description: ['', Validators.required],
+      discount: [0, [Validators.min(0), Validators.max(100)]],
+      quantity: [0, [Validators.required, Validators.min(1)]],
+      status: ['active', Validators.required],
+      categories_id: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
@@ -39,10 +45,11 @@ export class AdminEditProductComponent implements OnInit {
   getProduct(id: number): void {
     this.productService.getProductById(id).subscribe(
       (response: any) => {
-        this.product = response.product;
+        this.productForm.patchValue(response.product);
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
+        alert('Không thể tải dữ liệu sản phẩm.');
       }
     );
   }
@@ -50,22 +57,24 @@ export class AdminEditProductComponent implements OnInit {
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.product.image = file;
+      this.productForm.patchValue({ image: file });
     }
   }
 
   updateProduct(): void {
-    const formData = new FormData();
-    formData.append('name', this.product.name);
-    formData.append('price', this.product.price.toString());
-    if (this.product.image) {
-      formData.append('image', this.product.image);
+    if (this.productForm.invalid) {
+      alert('Vui lòng kiểm tra lại thông tin sản phẩm!');
+      return;
     }
-    formData.append('description', this.product.description);
-    formData.append('discount', this.product.discount.toString());
-    formData.append('quantity', this.product.quantity.toString());
-    formData.append('status', this.product.status);
-    formData.append('categories_id', this.product.categories_id);
+
+    const formData = new FormData();
+    Object.keys(this.productForm.controls).forEach(key => {
+      if (key === 'image' && this.productForm.get('image')?.value) {
+        formData.append(key, this.productForm.get('image')?.value);
+      } else {
+        formData.append(key, this.productForm.get(key)?.value);
+      }
+    });
 
     if (this.productId) {
       this.productService.updateProduct(this.productId, formData).subscribe(
@@ -74,7 +83,12 @@ export class AdminEditProductComponent implements OnInit {
           this.router.navigate(['/admin/product']);
         },
         (error) => {
-          alert('Lỗi khi cập nhật sản phẩm!');
+          console.error('Lỗi khi cập nhật sản phẩm:', error);
+          if (error.status === 400) {
+            alert('Lỗi: Dữ liệu không hợp lệ!');
+          } else {
+            alert('Có lỗi xảy ra, vui lòng thử lại.');
+          }
         }
       );
     }

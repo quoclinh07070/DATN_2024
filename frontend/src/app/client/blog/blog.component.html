@@ -19,165 +19,31 @@
 <section class="blog-section">
     <div class="auto-container">
         <div class="row">
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
+            <div *ngFor="let post of posts" class="news-block-two col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-4.jpg" alt=""></figure>
-                        <div class="overlay-box"><a routerLink="blog"><i class="fa fa-link"></i></a></div>
+                  <div class="image-box">
+                    <figure class="image_url">
+                      <!-- <img [src]="post.image_url" alt="{{post.title}}" /> -->
+                      <img [src]="getImageUrl(post.image_url)" class="img-fluid" >
+                    </figure>
+                    <div class="overlay-box">
+                      <a [routerLink]="['/blog', post.id]">
+                        <i class="fa fa-link"></i>
+                      </a>
                     </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a routerLink="blog-detail">In Good Taste: Mark Finlay Architects & Interiors.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
+                  </div>
+                  <div class="caption-box">
+                    <div class="inner">
+                      <h3><a [routerLink]="['/blog-detail', post.id]">{{post.title}}</a></h3>
+                      <ul class="info">
+                        <li>{{ post.created_at | date: 'dd MMMM yyyy' }}</li>
+                        <li><a href="/blog-detail-2.html">Admin</a></li>
+                        <li><a routerLink="blog-detail/">Xem Chi Tiết</a></li>
+                      </ul>
                     </div>
+                  </div>
                 </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-5.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a routerLink="blog-single">The Lexury Apartment of sepcial interiors.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-6.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a href="blog-detail.html">6 Easy Ways to Create a Backyard Paradise.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-7.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a href="blog-detail.html">The Business metting room interior in the rank.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-12.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a href="blog-detail.html">In Good Taste: Mark Finlay Architects & Interiors.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-13.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a href="blog-detail.html">The Lexury Apartment of sepcial interiors.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-14.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a href="blog-detail.html">6 Easy Ways to Create a Backyard Paradise.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block-two col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-box">
-                    <div class="image-box">
-                        <figure class="image"><img src="assets/client/images/resource/news-15.jpg" alt=""></figure>
-                        <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a></div>
-                    </div>
-                    <div class="caption-box">
-                        <div class="inner">
-                            <h3><a href="blog-detail.html">The Business metting room interior in the rank.</a></h3>
-                            <ul class="info">
-                                <li>06 June 2018,</li>
-                                <li><a href="blog-detail-2.html">John Smith</a></li>
-                                <li><a href="blog-detail-2.html">3 Commets</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              </div>
         </div>
 
         <!--Post Share Options-->
