@@ -121,14 +121,12 @@ class AccessService {
             console.log(`Created Tokens Success::`, tokens)
             return {
                 code: 201,
-                metadata: {
-                    shop: {
-                        "user_id": newShop,
-                        "name": name,
-                        "email": email
-                    },
-                    tokens
-                }
+                user: {
+                    "user_id": newShop,
+                    "name": name,
+                    "email": email
+                },
+                tokens
             }
         }
 
