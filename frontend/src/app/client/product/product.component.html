@@ -27,6 +27,8 @@
                         </button>
                         </li>
                     </ul>
+                    <button type="button" (click)="resetFilters()" class="btn-style-one btnFilter">Làm mới</button>
+
                   </div>
                   
                   <!-- Price Filters -->
@@ -43,6 +45,7 @@
                           <input type="text" min="0" pattern="[0-9]*" maxlength="13" formControlName="maxPrice" class="price-range-filter__input filter__input_from" placeholder="₫ ĐẾN">
                       </div>
                       <button type="submit" class="thêm-btn btn-style-one btnFilter">Lọc</button>
+                      <button type="button" (click)="resetFilters()" class="btn-style-one btnFilter">Làm mới</button>
                   </div>
               </form>
               </aside>

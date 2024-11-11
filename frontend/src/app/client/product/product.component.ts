@@ -87,4 +87,11 @@ export class ProductComponent implements OnInit {
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
   }
+
+  //Reset bộ lọc
+  resetFilters(): void {
+    this.priceForm.reset();  // Reset các giá trị trong form về mặc định
+    this.getAllProducts();   // Tải lại danh sách sản phẩm
+  }
+  
 }
