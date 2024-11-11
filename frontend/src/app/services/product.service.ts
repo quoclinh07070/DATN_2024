@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
+  private getProductUrl = environment.apiUrl + "/products";
   private baseUrl = environment.apiUrl + "/products-filter";
   private imageUrl = environment.imageUrl; 
 
@@ -15,7 +16,7 @@ export class ProductService {
 
   // Lấy danh sách sản phẩm
   getProducts(){
-    return this.http.get(this.baseUrl);
+    return this.http.get(this.getProductUrl);
   }
 
   // Lấy danh sách sản phẩm, thêm categoryId vào tham số để lọc theo danh mục
