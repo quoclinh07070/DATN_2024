@@ -42,6 +42,21 @@ class AccessController {
         }).send((res))
 
     }
+    
+    Admin = async (req, res) => {
+        try {
+            res.json({
+                message: 'Accept access',
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: 'An error occurred',
+                status: 500
+            });
+        }
+    };
+    
 }
 
 module.exports = new AccessController()

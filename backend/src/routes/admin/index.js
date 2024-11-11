@@ -6,10 +6,10 @@ const asyncHandler = require("../../helpers/asyncHandler");
 const {authentication,authorization} = require("../../auth/auth.Utils");
 const router = express.Router()
 
-const productController = require('../../controllers/productController');
+const authController = require('../../controllers/authController');
 
 
-router.post('/admin',authorization('[admin]'), asyncHandler(productController.Admin))
+router.post('/admin',authorization('[admin]'), asyncHandler(authController.Admin))
 
 
 
