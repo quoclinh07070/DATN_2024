@@ -26,6 +26,46 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+exports.getProductsByCategoryAndPriceRange = async (req, res) => {
+    const categoryId = req.query.categoryId || null;
+    const minPrice = req.query.minPrice || null;
+    const maxPrice = req.query.maxPrice || null;
+
+    const query = `
+        SELECT p.id,
+               p.name,
+               p.price,
+               p.image,
+               p.description,
+               p.discount,
+               p.quantity,
+               c.id AS category_id,
+               c.category_name,
+               c.description
+        FROM products p
+                 INNER JOIN category c ON p.categories_id = c.id
+        WHERE (c.id = ? OR ? IS NULL)
+          AND c.status = 'active'
+          AND p.status = 'active'
+          AND ((? IS NULL AND ? IS NULL) OR (p.price BETWEEN ? AND ?))
+    `;
+
+    try {
+        const [results] = await db.query(query, [categoryId, categoryId, minPrice, maxPrice, minPrice, maxPrice]);
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        
+        res.json({
+            message: 'Product by id successfully',
+            product: results
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving product', error: err });
+    }
+};
+
 exports.getProductById = async (req, res) => {
     try {
         const { id } = req.params;
