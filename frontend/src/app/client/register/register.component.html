@@ -1,0 +1,179 @@
+<!-- <div class="page-wrapper"> -->
+
+  <!-- Popup Success/Error Alert -->
+  <div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
+    <div class="popup-content">
+      <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
+        <span>{{ isSuccess ? '&#10003;' : '&#10007;' }}</span>
+      </div>
+      <p class="message">{{ popupMessage }}</p>
+      <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
+    </div>
+  </div>
+      <!--Login Section-->
+      <section class="login-section mt-4">
+        <div class="auto-container">
+          <div class="row clearfix">
+    
+            <div class="column col-lg-12 col-md-12 col-sm-12">
+              <h2>Đăng Ký</h2>
+    
+              <!-- Register Form -->
+              <div class="login-form register-form">
+                <!--Login Form-->
+                <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+                  <div class="form-group">
+                    <label for="signup-name">Tên:</label>
+                    <input type="text" id="signup-name" formControlName="name" required class="form-control">
+                    <small *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="error-message">
+                      Tên là bắt buộc.
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <label for="signup-email">Email:</label>
+                    <input type="email" id="signup-email" formControlName="email" required class="form-control">
+                    <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="error-message">
+                      Email là bắt buộc và phải hợp lệ.
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <label for="signup-password">Mật Khẩu:</label>
+                    <input type="password" id="signup-password" formControlName="password" required class="form-control">
+                    <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="error-message">
+                      Mật khẩu là bắt buộc.
+                    </small>
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
+                </form>
+              </div>
+              <!--End Register Form -->
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--End Login Section-->
+    <!-- </div> -->
+  
+    <style>
+    
+      .form-group {
+        margin-bottom: 15px;
+      }
+    
+      .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+    
+      .error-message {
+        color: red;
+        font-size: 0.875em;
+        margin-top: 5px;
+      }
+    
+      .btn {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .signup-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .popup-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+    }
+    .btn-secondary{
+      margin-left: 10px;
+    }
+    /* Popup Success Alert */
+    .popup-success-alert {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 1;
+      animation: fadeIn 0.5s forwards;
+    }
+    
+    .popup-success-alert .popup-content {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 300px;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .icon-success {
+      font-size: 3em;
+      color: #28a745;
+      margin-bottom: 15px;
+    }
+    
+    .icon-success span {
+      font-weight: bold;
+    }
+    
+    .message {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    .btn-close {
+      background: #28a745;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    
+    .btn-close:hover {
+      background: #218838;
+    }
+    
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    /* Fade Out Animation */
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    </style>
+    

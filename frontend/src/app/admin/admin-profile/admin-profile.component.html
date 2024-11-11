@@ -1,0 +1,49 @@
+<div class="container py-5">
+    <div *ngIf="user" class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <h2 class="text-center mb-4">Thông tin tài khoản</h2>
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th scope="row"><i class="fas fa-envelope"></i> Email:</th>
+                    <td>{{ user.email }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><i class="fas fa-user"></i> Họ và tên:</th>
+                    <td>{{ user.fullname }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><i class="fas fa-user-shield"></i> Chức vụ:</th>
+                    <td>{{ user.role }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><i class="fas fa-id-card"></i> Số điện thoại:</th>
+                    <td>{{ user.phone_number }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><i class="fas fa-info-circle"></i> Trạng thái:</th>
+                    <td>{{ user.status }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><i class="fas fa-image"></i> Avatar:</th>
+                    <td>
+                      <img *ngIf="user.avatar" [src]="'http://localhost:3000/uploads/' + user.avatar" alt="Avatar"
+                        class="img-fluid img-thumbnail" style="max-width: 100px;">
+                      <input type="file" (change)="onFileSelected($event)" class="form-control mt-2">
+                      <button type="button" class="btn btn-primary mt-2" (click)="submitAvatarUpdate()">Cập nhật Avatar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+    
+              <button type="button" class="btn btn-success mt-3" (click)="submitProfileUpdate()">Cập nhật thông tin người dùng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

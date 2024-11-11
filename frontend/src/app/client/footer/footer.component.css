@@ -1,0 +1,6 @@
+.img-custom {
+    width: 130px;
+    height: 130px;
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+  }
+  

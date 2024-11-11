@@ -1,0 +1,225 @@
+<!-- Stylesheets -->
+<link href="/assets/client/css/bootstrap.css" rel="stylesheet" />
+<link href="/assets/client/css/style.css" rel="stylesheet" />
+<link href="/assets/client/css/responsive.css" rel="stylesheet" />
+<!--Color Switcher Mockup-->
+<link href="/assets/client/css/color-switcher-design.css" rel="stylesheet" />
+<!--Color Themes-->
+<link id="theme-color-file" href="/assets/client/css/color-themes/default-theme.css" rel="stylesheet" />
+<link rel="shortcut icon" href="/assets/client/images/favicon.png" type="image/x-icon" />
+<link rel="icon" href="/assets/client/images/favicon.png" type="image/x-icon" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<!-- Main Header-->
+<header class="main-header header-style-two">
+  <!--Header Top-->
+  <div class="header-top">
+    <div class="auto-container">
+      <div class="inner-container clearfix">
+        <div class="top-left">
+          <ul class="contact-list clearfix">
+            <li>
+              <i class="fa fa-volume-control-phone"></i> 256 Interior the good,
+              New York
+            </li>
+            <li><i class="fa fa-envelope"></i><a href="#">Supportyou</a></li>
+          </ul>
+        </div>
+        <div class="top-right">
+          <ul class="social-icon-four clearfix">
+            <li>
+              <a routerLink="#"><i class="fa fa-whatsapp"></i></a>
+            </li>
+            <li>
+              <a routerLink="#"><i class="fa fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a routerLink="#"><i class="fa fa-instagram"></i></a>
+            </li>
+            <li>
+              <a routerLink="#"><i class="fa fa-twitter"></i></a>
+            </li>
+            <li>
+              <a routerLink="#"><i class="fa fa-google-plus"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Header Top -->
+  <!-- Header Black (chính) -->
+  <div class="header-lower">
+    <div class="auto-container">
+      <div class="main-box clearfix">
+        <div class="logo-box">
+          <div class="logo">
+            <a routerLink="/"><img src="/assets/client/images/logo-2.png" alt="" title="" /></a>
+          </div>
+        </div>
+        <div class="nav-outer clearfix">
+          <!-- Main Menu -->
+          <nav class="main-menu navbar-expand-md">
+            <div class="navbar-header">
+              <!-- Toggle Button -->
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon flaticon-menu-button"></span>
+              </button>
+            </div>
+            <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
+              <ul class="navigation clearfix">
+                <li class="current dropdown">
+                  <a routerLink="/">Trang chủ</a>
+                </li>
+                <li>
+                  <a routerLink="/product">Sản Phẩm</a>
+                </li>
+                <li class="dropdown">
+                  <a routerLink="/about">Giới Thiệu</a>
+                  <ul>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a routerLink="/services">Dịch Vụ</a>
+                  <ul>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a routerLink="/blog">Tin Tức</a>
+                  <ul>
+                  </ul>
+                </li>
+                <li><a routerLink="/contact">Liên Hệ</a></li>
+              </ul>
+            </div>
+          </nav>
+          <!-- Main Menu End-->
+          <!-- Outer Box-->
+          <div class="outer-box">
+            <!-- Cart Btn -->
+            <div class="cart-btn">
+              <a routerLink="/cart" title="">
+                <i class="fa fa-shopping-basket"></i>
+                <div *ngIf="cartItems.length !== 0">
+                  <span class="count bg-danger">{{cartItems.length}}</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="user-btn custom-margin">
+              <a routerLink="/user" title="">
+                <i class="bi bi-person-circle"></i>
+                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
+              </a>
+            </div>
+
+            <div class="user-btn custom-margin">
+              <a routerLink="/wishlist" title="">
+                <i class="fa fa-heart"></i>
+              </a>
+            </div>
+            
+            <!--Search Box-->
+            <div class="search-box-outer">
+              <div class="dropdown">
+                <button class="search-box-btn dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <span class="fa fa-search"></span>
+                </button>
+                <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
+                  <li class="panel-outer">
+                    <div class="form-container">
+                      <form (submit)="onSearchSubmit($event)">
+                        <div class="form-group">
+                          <input type="search" name="field-name" [(ngModel)]="searchValue" placeholder="Tìm kiếm sản phẩm..." required />
+                          <button type="submit" class="search-btn">
+                            <span class="fa fa-search"></span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Header  -->
+  <div class="sticky-header">
+    <div class="auto-container clearfix">
+      <!--Logo-->
+      <div class="logo pull-left">
+        <a routerLink="index-2.html" title=""><img src="/assets/client/images/logo-small.png" alt="" title="" /></a>
+      </div>
+      <!--Right Col-->
+      <div class="pull-right">
+        <!-- Main Menu -->
+        <nav class="main-menu">
+          <div class="navbar-collapse show collapse clearfix">
+            <ul class="navigation clearfix">
+              <li class="current dropdown">
+                <a routerLink="/">Trang Chủ</a>
+                <ul>
+                  <li class="dropdown"><a routerLink="/product-details">Phòng Ngủ</a>
+                    <ul>
+                      <li><a routerLink="index-2.html">Bàn</a></li>
+                      <li><a routerLink="index-3.html">Giường</a></li>
+                    </ul>
+                  </li>
+                  <li><a routerLink="/product-details">Phòng Khách</a></li>
+                  <li><a routerLink="/product-details">Phòng Làm việc</a></li>
+
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a routerLink="/product">Sản Phẩm</a>
+                <ul>
+                  <li class="dropdown"><a routerLink="/product">Phòng Ngủ</a>
+                    <ul>
+                      <li><a routerLink="/product">Bàn</a></li>
+                      <li><a routerLink="/product">Giường</a></li>
+                    </ul>
+                  </li>
+                  <li><a routerLink="/product">Phòng Khách</a></li>
+                  <li><a routerLink="/product">Phòng Làm việc</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a routerLink="/about">Giới Thiệu</a>
+              </li>
+
+              <li class="dropdown">
+              <a routerLink="/services">Dịch Vụ</a>
+              </li>             
+              <li class="dropdown">
+                <a routerLink="/blog">Tin Tức</a>
+              </li>
+              <li>
+                <a routerLink="/contact">Liên Hệ</a>
+              </li>             
+            </ul>
+          </div>
+        </nav>
+        <!-- Main Menu End-->
+      </div>
+    </div>
+  </div>
+  <!-- End Sticky Menu -->
+</header>
+<!--End Main Header -->
