@@ -36,7 +36,15 @@
                 </small>
               </div>
               <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Đăng Nhập</button>
-              <button type="button" class="btn btn-secondary btnSignup" (click)="showSignupPopup()">Đăng Ký</button>
+              <div class="text-center mt-3 link-group">
+                <span>Bạn chưa có tài khoản? </span>
+                <a routerLink="/register">Đăng ký</a>
+              </div>
+              <div class="text-center mt-2 link-group">
+                <span>Bạn quên mật khẩu? </span>
+                <a href="javascript:void(0)">Khôi phục mật khẩu</a>
+              </div>
+              
             </form>
           </div>
           <!-- End Login Form -->
@@ -44,9 +52,8 @@
       </div>
     </div>
   </section>
-
   <!-- Popup Đăng Ký -->
-  <div class="signup-popup" *ngIf="isSignupVisible">
+  <!-- <div class="signup-popup" *ngIf="isSignupVisible">
     <div class="popup-content">
       <h2>Đăng Ký</h2>
       <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
@@ -71,143 +78,12 @@
             Mật khẩu là bắt buộc.
           </small>
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
-        <button type="button" class="btn btn-secondary" (click)="closeSignupPopup()">Đóng</button>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
+          <button type="button" class="btn btn-secondary" (click)="closeSignupPopup()">Đóng</button>
+        </div>
       </form>
     </div>
-  </div>
+  </div> -->
   <!-- End Login Section -->
 </div>
-
-<style>
-  .login-form {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-  }
-
-  .error-message {
-    color: red;
-    font-size: 0.875em;
-    margin-top: 5px;
-  }
-
-  .btn {
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .signup-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-}
-.btn-secondary{
-  margin-left: 10px;
-}
-/* Popup Success Alert */
-.popup-success-alert {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  opacity: 0;
-  animation: fadeIn 0.5s forwards;
-}
-
-.popup-success-alert .popup-content {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 300px;
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.icon-success {
-  font-size: 3em;
-  color: #28a745;
-  margin-bottom: 15px;
-}
-
-.icon-success span {
-  font-weight: bold;
-}
-
-.message {
-  font-size: 1.1em;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.btn-close {
-  background: #28a745;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.btn-close:hover {
-  background: #218838;
-}
-
-/* Fade In Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Fade Out Animation */
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-</style>
-
-<script>
-
-</script>

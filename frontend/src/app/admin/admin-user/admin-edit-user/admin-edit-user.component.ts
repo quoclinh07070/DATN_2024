@@ -51,21 +51,25 @@ export class AdminEditUserComponent implements OnInit {
 
   updateUser(): void {
     const formData = new FormData();
+  
+    // Thêm role và status vào FormData
     formData.append('role', this.user.Role);
     formData.append('status', this.user.Status);
-        
+  
     if (this.userId) {
-        this.userService.updateUser(this.userId, formData).subscribe(
-            (response) => {
-                alert('Thông tin người dùng đã được cập nhật!');
-                this.router.navigate(['/admin/user']);
-            },
-            (error) => {
-                alert('Lỗi khi cập nhật thông tin người dùng!');
-            }
-        );
+      this.userService.updateUser(this.userId, formData).subscribe(
+        (response) => {
+          alert('Thông tin người dùng đã được cập nhật!');
+          this.router.navigate(['/admin/user']);  // Quay lại trang danh sách người dùng
+        },
+        (error) => {
+          alert('Lỗi khi cập nhật thông tin người dùng!');
+          console.error('Lỗi khi cập nhật người dùng:', error);
+        }
+      );
     }
-}
+  }
+  
 
 
 }

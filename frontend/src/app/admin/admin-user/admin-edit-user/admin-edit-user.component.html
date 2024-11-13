@@ -8,10 +8,6 @@
                             <h5 class="card-title">SỬA THÔNG TIN NGƯỜI DÙNG</h5>
                             <div class="table-responsive">
                                 <form (ngSubmit)="updateUser()" enctype="multipart/form-data">
-                                    <div class="mb-3">
-                                        <label for="id" class="form-label">ID</label>
-                                        <input type="number" class="form-control" id="id" [(ngModel)]="user.UserID" name="id" disabled>
-                                    </div>
 
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Tên người dùng</label>
@@ -36,18 +32,18 @@
                                     <div class="mb-3">
                                         <label for="role" class="form-label">Vai trò</label>
                                         <select class="form-select" id="role" [(ngModel)]="user.Role" name="role">
-                                            <option value="user">Người dùng</option>
-                                            <option value="admin">Quản trị viên</option>
+                                          <option value="user">Người dùng</option>
+                                          <option value="admin">Quản trị viên</option>
                                         </select>
-                                    </div>
-
-                                    <div class="mb-3">
+                                      </div>
+                                      
+                                      <div class="mb-3">
                                         <label for="status" class="form-label">Trạng thái</label>
                                         <select class="form-select" id="status" [(ngModel)]="user.Status" name="status">
-                                            <option value="active">Kích hoạt</option>
-                                            <option value="inactive">Vô hiệu hóa</option>
+                                          <option value="active">Kích hoạt</option>
+                                          <option value="inactive">Vô hiệu hóa</option>
                                         </select>
-                                    </div>
+                                      </div>
 
                                     <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
                                 </form>

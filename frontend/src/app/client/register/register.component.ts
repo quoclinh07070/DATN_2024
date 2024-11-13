@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
 
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common'; // Thêm CommonModule
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [    CommonModule,
+  imports: [    CommonModule, RouterLink,
     ReactiveFormsModule,],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -40,7 +40,7 @@ export class RegisterComponent {
     this.popupMessage = message;
     this.isSuccess = isSuccess;
     this.isPopupVisible = true;
-    setTimeout(() => this.closePopup(), 3000);
+    setTimeout(() => this.closePopup(), 2000);
   }
 
   closePopup() {
@@ -62,7 +62,7 @@ export class RegisterComponent {
 
             this.showPopup('Đăng ký thành công', true);
             // Delay điều hướng sang trang login sau khi popup hiển thị đủ lâu
-            setTimeout(() => {this.router.navigate(['/user']);}, 3000);
+            setTimeout(() => {this.router.navigate(['/user']);}, 2000);
           } else {
             this.signupErrorMessage = 'Đăng ký không thành công. Vui lòng thử lại.';
           }

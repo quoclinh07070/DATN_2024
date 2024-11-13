@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
 
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common'; // Thêm CommonModule
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterLink
   ],
 })
 export class LoginComponent {
@@ -56,7 +57,7 @@ export class LoginComponent {
         if (response.metadata.tokens && response.metadata.tokens.accessToken) {
           localStorage.setItem('token', response.metadata.tokens.accessToken);
           this.showPopup('Đăng nhập thành công!', true);
-          setTimeout(() => {this.router.navigate(['/user']);}, 3000);
+          setTimeout(() => {this.router.navigate(['/user']);}, 2000);
         } else {
           this.showPopup('Không nhận được token từ server.', false);
         }
@@ -81,8 +82,9 @@ export class LoginComponent {
     this.popupMessage = message;
     this.isSuccess = isSuccess;
     this.isPopupVisible = true;
-    setTimeout(() => this.closePopup(), 3000);
+    setTimeout(() => this.closePopup(), 4000);
   }
+  
 
   closePopup() {
     this.isPopupVisible = false;

@@ -34,7 +34,7 @@ export class AdminProductComponent implements OnInit {
     this.loading = true;
     const { minPrice, maxPrice, categoryId} = this.priceForm.value;
 
-    this.productService.getAllProducts(minPrice, maxPrice, categoryId).subscribe(
+    this.productService.getAllProducts().subscribe(
       (response: any) => {
         this.products = response.products;  // Gán dữ liệu vào mảng products
       },

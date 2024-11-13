@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
   imports: [RouterLink, CommonModule],
   selector: 'app-user',
   templateUrl: './user.component.html',
+  styleUrl: './user.component.css'
 })
 export class UserComponent {
   userName: string | null;
@@ -36,7 +37,7 @@ export class UserComponent {
         this.showPopup('Đăng xuất thành công!', true);
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 3000);
+        }, 2000);
       },
       (error) => {
         console.error('Lỗi khi đăng xuất:', error);
@@ -48,7 +49,7 @@ export class UserComponent {
     this.popupMessage = message;
     this.isSuccess = isSuccess;
     this.isPopupVisible = true;
-    setTimeout(() => this.closePopup(), 3000);
+    setTimeout(() => this.closePopup(), 2000);
   }
 
   closePopup() {
@@ -63,4 +64,6 @@ export class UserComponent {
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
+  
 }
+
