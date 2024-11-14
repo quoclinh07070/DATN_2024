@@ -34,6 +34,7 @@ import { AdminEditComponent } from './admin-post/admin-edit/admin-edit.component
 import { AdminVoucherComponent } from './admin-voucher/admin-voucher.component';
 import { AdminAddVoucherComponent } from './admin-voucher/admin-add-voucher/admin-add-voucher.component';
 import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/admin-edit-voucher.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 
 //wishlistitems
@@ -71,11 +72,15 @@ const adminRoutes: Routes = [
     { path: 'order', component: AdminOrderComponent },//////
     { path: 'order/edit/:id', component: AdminOrderEditComponent },////////
 
+
+
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 
 
     // Thêm các route admin khác ở đây
   ]},
+  { path: 'access-denied', component: AccessDeniedComponent },
+
 ];
 
 @NgModule({
