@@ -45,6 +45,11 @@
                       {{ product.price | currency : "VND" }}
                     </h4>
                     <p class="text-muted">{{ product.description }}</p>
+                    <div class="other-options mt-4">
+                      <button (click)="addToCart(product)" type="button" class="btn btn-danger btn-lg w-50">
+                       Thêm vào giỏ
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
