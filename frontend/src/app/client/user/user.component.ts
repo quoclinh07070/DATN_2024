@@ -44,6 +44,14 @@ export class UserComponent {
       }
     );
   }
+  onLogoutConfirm() {
+    // Hiển thị hộp thoại xác nhận
+    const userConfirmed = confirm('Bạn có chắc chắn muốn đăng xuất không?');
+    if (userConfirmed) {
+      this.onLogout(); // Gọi hàm đăng xuất nếu người dùng xác nhận
+    }
+  }
+  
 
   showPopup(message: string, isSuccess: boolean) {
     this.popupMessage = message;

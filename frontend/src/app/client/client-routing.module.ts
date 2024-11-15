@@ -44,6 +44,7 @@ const clientRoutes: Routes = [
       { path: 'search', component: SearchResultComponent },
       { path: '**', component: PagenotfoundComponent },
     ]},
+    
   ];
 
   @NgModule({

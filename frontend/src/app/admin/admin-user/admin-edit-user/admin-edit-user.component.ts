@@ -39,8 +39,7 @@ export class AdminEditUserComponent implements OnInit {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     );
-}
-
+  }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -50,14 +49,15 @@ export class AdminEditUserComponent implements OnInit {
   }
 
   updateUser(): void {
-    const formData = new FormData();
-  
-    // Thêm role và status vào FormData
-    formData.append('role', this.user.Role);
-    formData.append('status', this.user.Status);
+    // Tạo đối tượng dữ liệu JSON chứa các thông tin cần thiết
+    const updateData = {
+      role: this.user.Role,
+      status: this.user.Status,
+    };
   
     if (this.userId) {
-      this.userService.updateUser(this.userId, formData).subscribe(
+      // Gọi service để gửi dữ liệu
+      this.userService.updateUser(this.userId, updateData).subscribe(
         (response) => {
           alert('Thông tin người dùng đã được cập nhật!');
           this.router.navigate(['/admin/user']);  // Quay lại trang danh sách người dùng
@@ -70,6 +70,4 @@ export class AdminEditUserComponent implements OnInit {
     }
   }
   
-
-
 }

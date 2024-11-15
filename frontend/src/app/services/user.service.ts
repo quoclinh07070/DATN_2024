@@ -1,6 +1,6 @@
-// user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs'; // Đảm bảo đã import Observable
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -28,13 +28,18 @@ export class UserService {
   }
 
   // Cập nhật người dùng
-  updateUser(id: number, user: FormData) {
-    return this.http.put(`${this.baseUrl}/${id}`, user);
-  }
+  updateUser(id: number, updateData: any) {
+    return this.http.put(`${this.baseUrl}/${id}`, updateData);
+  }  
 
   // Xóa người dùng
   deleteUser(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
+  // Gửi email thông báo
+  sendEmail(email: string, fullName: string): Observable<any> {
+    return this.http.post('http://localhost:3000/send-email', { email, fullName });
   }
 
   // Phương thức để lấy URL hình ảnh (nếu cần dùng cho avatar hoặc hình đại diện của user)

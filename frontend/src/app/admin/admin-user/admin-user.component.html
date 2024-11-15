@@ -1,5 +1,5 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-  <!--  Main wrapper -->
+  <!-- Main wrapper -->
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
@@ -23,27 +23,25 @@
                       <th>Thao tác</th>
                     </tr>
                   </thead>
-                    <tbody>
-                      <tr *ngFor="let user of users" [ngClass]="{'table-light': user.Status === 'active', 'table-danger': user.Status !== 'active'}">
-                        <th scope="row">{{user.UserID}}</th>
-                        <td>{{user.FullName}}</td>
-                        <td>
-                          <img [src]="getImageUrl(user.image)" alt="{{user.FullName}}" class="img-fluid" style="max-width: 60px;">
-                        </td>                      
-                        <td>{{user.PhoneNumber}}</td>
-                        <td>{{user.Email}}</td>
-                        <td>{{user.Role}}</td>
-                        <td>
-                          <span class="badge" [ngClass]="{'bg-success': user.Status === 'active', 'bg-danger': user.Status !== 'active'}">{{ user.Status }}</span>
-                        </td>
-                        <!-- <td>{{product.created_at | date:'short' }}</td>
-                        <td>{{product.updated_at | date:'short' }}</td> -->
-                        <td>
-                          <a class="btn btn-info btn-sm" routerLink="edit/{{user.UserID}}">Sửa</a>
-                          <button type="button" class="btn btn-danger btn-sm" (click)="deleteUser(user.UserID)">Xóa</button>
-                        </td>
-                      </tr>
-                    </tbody>
+                  <tbody>
+                    <tr *ngFor="let user of users" [ngClass]="{'table-light': user.Status === 'active', 'table-danger': user.Status !== 'active'}">
+                      <th scope="row">{{user.UserID}}</th>
+                      <td>{{user.FullName}}</td>
+                      <td>
+                        <img [src]="getImageUrl(user.image)" alt="{{user.FullName}}" class="img-fluid" style="max-width: 60px;">
+                      </td>                       
+                      <td>{{user.PhoneNumber}}</td>
+                      <td>{{user.Email}}</td>
+                      <td>{{user.Role}}</td>
+                      <td>
+                        <span class="badge" [ngClass]="{'bg-success': user.Status === 'active', 'bg-danger': user.Status !== 'active'}">{{ user.Status }}</span>
+                      </td>
+                      <td>
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{user.UserID}}">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteUser(user.UserID, user.Email, user.FullName)">Xóa</button>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
