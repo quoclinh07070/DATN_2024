@@ -13,6 +13,7 @@
   </div>
 </div>
 
+<div *ngIf="!isLoggedIn" class="not-logged-in">
     <div class="auto-container">
       <div class="row clearfix">
         <div class="column col-lg-12 col-md-12 col-sm-12">
@@ -51,6 +52,12 @@
         </div>
       </div>
     </div>
+</div>
+<div *ngIf="isLoggedIn">
+  <p class="login-message">
+    Bạn đã đăng nhập, vui quay lại trang chủ hoặc trang khác để sử dụng!
+  </p>
+</div>
   </section>
   <!-- Popup Đăng Ký -->
   <!-- <div class="signup-popup" *ngIf="isSignupVisible">

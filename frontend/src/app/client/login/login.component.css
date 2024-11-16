@@ -47,13 +47,6 @@
     z-index: 1000;
   }
   
-  .popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-  }
-  
   /* Nút secondary */
   .btn-secondary {
     margin-left: 10px;

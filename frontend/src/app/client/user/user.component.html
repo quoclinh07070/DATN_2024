@@ -33,40 +33,79 @@
   </div>
 
   <div *ngIf="isLoggedIn">
-    <div class="tabs">
-      <button class="tab-link active" onclick="openTab(event, 'infoTab')">
-        Thông Tin
-      </button>
-      <button class="tab-link" onclick="openTab(event, 'orderTab')">
-        Đơn Hàng
-      </button>
-      <button class="tab-link" onclick="openTab(event, 'settingsTab')">
-        Cài Đặt
-      </button>
-    </div>
-
-    <div id="infoTab" class="tab-content active">
-      <div class="user-details">
-        <p>
-          <strong>Tên người dùng:</strong>
-          <span id="userName">{{ userName }}</span>
-        </p>
-        <p>
-          <strong>Email:</strong> <span id="userEmail">{{ userEmail }}</span>
-        </p>
+    <div class="container-xl px-4 mt-4">
+      <!-- Account page navigation-->
+      <nav class="nav nav-borders">
+          <a class="nav-link active ms-0" href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Hồ sơ</a>
+          <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-billing-page" target="__blank">Đơn hàng</a>
+          <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" target="__blank">Thông báo</a>
+          <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"  target="__blank">Cài đặt</a>
+      </nav>
+      <hr class="mt-0 mb-4">
+      <div class="row">
+          <div class="col-xl-4">
+              <!-- Profile picture card-->
+              <div class="card mb-4 mb-xl-0">
+                  <div class="card-header">Ảnh đại diện</div>
+                  <div class="card-body text-center">
+                      <!-- Profile picture image-->
+                      <img class="img-account-profile rounded-circle mb-2" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User image">
+                      <!-- Profile picture help block-->
+                      <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                      <!-- Profile picture upload button-->
+                      <button class="btn btn-primary" type="button">Tải ảnh của bạn lên</button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-8">
+              <!-- Account details card-->
+              <div class="card mb-4">
+                  <div class="card-header">Thông tin tài khoản</div>
+                  <div class="card-body">
+                      <form>
+                          <!-- Form Group (username)-->
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputUsername">Tên người dùng ( sẽ được hiển thị trên website và được thấy bởi người dùng khác )</label>
+                              <input class="form-control" id="inputUsername" type="text" placeholder="{{userName}}">
+                          </div>
+                          <!-- Form Group (email address)-->
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputEmailAddress">Email ( bạn sẽ không thay đổi được email )</label>
+                              <input class="form-control" id="inputEmailAddress" type="email" placeholder="{{userEmail}}">
+                          </div>
+                          <!-- Form Group (address)-->
+                          <div class="mb-3">
+                            <label class="small mb-1" for="inputAddress">Địa chỉ</label>
+                            <input class="form-control" id="inputAddress" type="text" placeholder="Nhập địa chỉ của bạn">
+                        </div>
+                          <!-- Form Row-->
+                          <div class="row gx-3 mb-3">
+                              <!-- Form Group (phone number)-->
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                                  <input class="form-control" id="inputPhone" type="tel" placeholder="Nhập số điện thoại của bạn">
+                              </div>
+                              <!-- Form Group (birthday)-->
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputBirthday">Ngày sinh</label>
+                                  <input class="form-control" id="inputBirthday" type="date" name="birthday" placeholder="Nhập ngày sinh của bạn">
+                              </div>
+                          </div>
+                          <!-- Save changes button-->
+                          <button class="btn btn-primary" type="button">LƯU THAY ĐỔI</button>
+                      </form>
+                      <button class="logout-btn" (click)="onLogoutConfirm()">Đăng Xuất</button>
+                  </div>
+              </div>
+          </div>
       </div>
-      <button class="logout-btn" (click)="onLogoutConfirm()">Đăng Xuất</button>
     </div>
   </div>
 
-  <div id="orderTab" class="tab-content">
-    <p>Chưa có đơn hàng nào.</p>
-  </div>
 
-  <div id="settingsTab" class="tab-content">
-    <p>Cài đặt tài khoản sẽ xuất hiện ở đây.</p>
-  </div>
 </div>
+
+
 
 <script>
   function openTab(evt, tabName) {

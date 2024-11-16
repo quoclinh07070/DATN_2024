@@ -37,7 +37,7 @@ export class UserComponent {
         this.showPopup('Đăng xuất thành công!', true);
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 2000);
+        }, 3000);
       },
       (error) => {
         console.error('Lỗi khi đăng xuất:', error);

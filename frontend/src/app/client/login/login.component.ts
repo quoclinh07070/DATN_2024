@@ -24,6 +24,9 @@ export class LoginComponent {
   signupErrorMessage: string = '';
   isSignupVisible: boolean = false;
   successMessage: string = '';
+  userName: string | null;
+  userEmail: string | null;
+  isLoggedIn: boolean = false;
 
   isPopupVisible: boolean = false;
   popupMessage: string = '';
@@ -42,6 +45,16 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+
+    // Kiểm tra đăng nhập
+    this.isLoggedIn = this.authService.isAuthenticated();
+    if (this.isLoggedIn) {
+      this.userName = localStorage.getItem('userName');
+      this.userEmail = localStorage.getItem('userEmail');
+    } else {
+      this.userName = null;
+      this.userEmail = null;
+    }
   }
 
   handleSubmit() {
