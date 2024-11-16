@@ -34,7 +34,7 @@ const clientRoutes: Routes = [
       { path: 'cart', component: CartComponent },
       { path: 'contact', component: ContactUsComponent },
       { path: 'blog', component: BlogComponent },
-      { path: 'blog/blog-detail', component: BlogDetailComponent },
+      { path: 'blog/blog-detail/:id', component: BlogDetailComponent },
       { path: 'login', component: LoginComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },

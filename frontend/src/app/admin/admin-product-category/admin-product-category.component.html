@@ -25,7 +25,7 @@
                   <tbody>
                     <tr *ngFor="let category of categories" [ngClass]="{'table-light': category.status === 'active', 'table-danger': category.status !== 'active'}">
                       <th scope="row">{{category.id}}</th>
-                      <td>{{category.category_name}}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{category.category_name}}</td>
                       <td>
                         <img [src]="getImageUrl(category.images)" alt="{{category.category_name}}" class="img-fluid" style="max-width: 60px;">
                       </td>

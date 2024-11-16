@@ -23,9 +23,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let post of posts" [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
+                    <tr *ngFor="let post of filteredPosts" [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
                       <th scope="row">{{post.id}}</th>
-                      <td>{{post.title}}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{post.title}}</td>
                       <td>
                         <img [src]="getImageUrl(post.image_url)" alt="{{post.title}}" class="img-fluid" style="max-width: 60px;">
                       </td>

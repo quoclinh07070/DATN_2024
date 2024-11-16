@@ -25,7 +25,7 @@
                   <tbody>
                     <tr *ngFor="let postcategory of postcategories">
                       <th scope="row">{{postcategory.id}}</th>
-                      <td>{{postcategory.name}}</td>
+                      <td class="text-truncate" style="max-width: 50px;">{{postcategory.name}}</td>
                       <td>{{postcategory.parentCategoryID || 'N/A'}}</td>
                       <td>
                         <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{postcategory.name}}" class="img-fluid" style="max-width: 60px;">

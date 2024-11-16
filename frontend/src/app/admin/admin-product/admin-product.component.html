@@ -30,7 +30,7 @@
                   <tbody>
                     <tr *ngFor="let product of products" [ngClass]="{'table-light': product.status === 'active', 'table-danger': product.status !== 'active'}">
                       <th scope="row">{{product.id}}</th>
-                      <td>{{product.name}}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{product.name}}</td>
                       <td>
                         <img [src]="getImageUrl(product.image)" alt="{{product.name}}" class="img-fluid" style="max-width: 60px;">
                       </td>                      
