@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const KeyTokenService = require("../service/keyToken.service")
 const {createTokenPair} = require("../auth/auth.Utils");
-
+const nodemailer = require('nodemailer');
 class AccessService {
 
     static logout = async (keyStore) => {
@@ -146,36 +146,44 @@ class AccessService {
     }
 
     static forgotPassword = async (email) => {
-        // Tìm người dùng theo email
+        // 1. Tìm người dùng theo email
         const user = await User.findUserByEmail(email);
         if (!user) {
             throw new BadRequestError('Email không tồn tại!');
         }
-    
-        // Tạo token ngẫu nhiên và thời gian hết hạn
+
+        // 2. Tạo token ngẫu nhiên và thời gian hết hạn
         const token = crypto.randomBytes(32).toString('hex');
         const expireTime = new Date();
         expireTime.setHours(expireTime.getHours() + 1); // Token hết hạn sau 1 giờ
-    
-        // Lưu token vào database
-        await User.updateResetToken(user.id, token, expireTime); // Giả sử User có phương thức updateResetToken để cập nhật token
-    
-        // Gửi email với token quên mật khẩu (sử dụng nodemailer hoặc thư viện khác)
+
+        // 3. Lưu token vào bảng key_token bằng KeytokenModel
+        const isUpdated = await KeyTokenService.updateKeyToken(user.id, token, expireTime.toISOString());
+        if (!isUpdated) {
+            throw new Error('Không thể cập nhật reset token.');
+        }
+
+        // 4. Gửi email với token quên mật khẩu
         const resetLink = `http://your-frontend-url/reset-password?token=${token}&email=${email}`;
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'your-email@gmail.com',
-                pass: 'your-email-password'
+                user: 'your-email@gmail.com', // Thay bằng email của bạn
+                pass: 'your-email-password' // Thay bằng mật khẩu email
             }
         });
-    
+
         await transporter.sendMail({
             to: email,
             subject: 'Yêu cầu đặt lại mật khẩu',
-            html: `<p>Bạn đã yêu cầu đặt lại mật khẩu. Nhấn vào liên kết bên dưới để đặt lại mật khẩu:</p><p><a href="${resetLink}">${resetLink}</a></p>`
+            html: `
+                <p>Bạn đã yêu cầu đặt lại mật khẩu.</p>
+                <p>Nhấn vào liên kết bên dưới để đặt lại mật khẩu:</p>
+                <p><a href="${resetLink}">${resetLink}</a></p>
+            `
         });
-    
+
+        // 5. Trả về thông báo thành công
         return { message: 'Đã gửi email quên mật khẩu' };
     };
     

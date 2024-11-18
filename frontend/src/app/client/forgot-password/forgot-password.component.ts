@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
-  userName: string | null;
   userEmail: string | null;
   isLoggedIn: boolean = false;
 
@@ -23,10 +22,8 @@ export class ForgotPasswordComponent {
   constructor(private authService: AuthService, private router: Router) {
     this.isLoggedIn = this.authService.isAuthenticated();
     if (this.isLoggedIn) {
-      this.userName = localStorage.getItem('userName');
       this.userEmail = localStorage.getItem('userEmail');
     } else {
-      this.userName = null;
       this.userEmail = null;
     }
   }

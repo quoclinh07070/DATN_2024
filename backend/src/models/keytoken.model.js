@@ -73,16 +73,16 @@ class KeytokenModel {
     }
 
     // Phương thức cập nhật refreshToken và refreshTokensUsed
-    static async updateKeyToken(userId, newRefreshToken, refreshTokenUsed) {
-        console.log("userId::%s, newRefreshToken::%s, refreshTokenUsed::%s ", userId, newRefreshToken, refreshTokenUsed);
+    static async updateKeyToken(userId, resetToken, expireTime) {
         const query = `
-            UPDATE key_token
-            SET refresh_token = ?,
+            INSERT INTO key_token (user_id, refresh_token, refresh_tokens_used)
+            VALUES (?, ?, JSON_ARRAY(?))
+            ON DUPLICATE KEY UPDATE
+                refresh_token = ?,
                 refresh_tokens_used = JSON_ARRAY_APPEND(refresh_tokens_used, '$', ?)
-            WHERE user_id = ?
         `;
-        const [result] = await db.execute(query, [newRefreshToken, refreshTokenUsed, userId]);
-        return result;
+        const [result] = await db.execute(query, [userId, resetToken, expireTime, resetToken, expireTime]);
+        return result.affectedRows > 0; // Trả về true nếu cập nhật thành công
     }
 }
 
