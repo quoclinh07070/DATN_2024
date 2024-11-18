@@ -1,3 +1,4 @@
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientLayoutComponent } from './client-layout/client-layout.component';
@@ -42,6 +43,7 @@ const clientRoutes: Routes = [
       { path: 'user', component: UserComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: '**', component: PagenotfoundComponent },
     ]},
     
