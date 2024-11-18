@@ -4,11 +4,11 @@
         <div class="inner-container clearfix">
             <div class="title-box">
                 <h1>Tin Tức & Bài Viết</h1>
-                <span class="title">The Interior speak for themselves</span>
+                <span class="title">Tận hưởng không gian sống đẳng cấp với nội thất tinh tế.</span>
             </div>
             <ul class="bread-crumb clearfix">
                 <li><a routerLink="">Trang Chủ</a> </li>
-                <li>Blogs</li>
+                <li>Bài Viết</li>
             </ul>
         </div>
     </div>
@@ -26,9 +26,9 @@
                   <figure class="image_url">
                     <img [src]="getImageUrl(post.image_url)" class="img-fluid" alt="{{ post.title }}">
                   </figure>
-                  <div class="overlay-box">
+                  <div >
                     <a [routerLink]="['/blog', post.id]">
-                      <i class="fa fa-link"></i>
+                      <!-- <i class="fa fa-link"></i> -->
                     </a>
                   </div>
                 </div>
@@ -36,24 +36,23 @@
                   <div class="inner">
                     <h3><a [routerLink]="['blog-detail', post.id]">{{ post.title }}</a></h3>
                     <ul class="info">
-                      <li>{{ post.created_at | date: 'dd MMMM yyyy' }}</li>
+                      <li> Ngày {{ post.created_at | date: 'dd MMMM yyyy' }}</li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
         </div>
 
         <!--Post Share Options-->
         <div class="styled-pagination">
             <ul class="clearfix">
-                <li class="prev-post"><a href="#"><span class="fa fa-long-arrow-left"></span> Prev</a></li>
-                <li><a href="#">1</a></li>
-                <li class="active"><a href="#">2</a></li>
+                <li class="prev-post"><a href="#"><span class="fa fa-long-arrow-left"></span>Trước</a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
-                <li class="next-post"><a href="#"> Next <span class="fa fa-long-arrow-right"></span> </a></li>
+                <li class="next-post"><a href="#">Sau<span class="fa fa-long-arrow-right"></span> </a></li>
             </ul>
         </div>
     </div>

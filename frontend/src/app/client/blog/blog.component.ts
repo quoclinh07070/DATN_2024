@@ -1,38 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  providers: [PostService],
+  providers: [
+    PostService,
+    { provide: LOCALE_ID, useValue: 'vi' }  // Cấu trúc đúng của LOCALE_ID
+  ],
   templateUrl: './blog.component.html',
-  styleUrl: './blog.component.css'
+  styleUrls: ['./blog.component.css']
 })
-export class BlogComponent {
-  posts: any[] = [];  // Khai báo mảng để lưu trữ bài viết
 
-  constructor(private postService: PostService) {}
+export class BlogComponent implements OnInit {
+  posts: any[] = [];
+
+  constructor(private postService: PostService) {
+    registerLocaleData(localeVi, 'vi');  // Đăng ký locale tiếng Việt
+  }
 
   ngOnInit(): void {
-    this.getAllPosts();  // Gọi hàm khi component được khởi tạo
+    this.getAllPosts();
   }
 
   getImageUrl(imageName: string): string {
-    return this.postService.getImageUrl(imageName); // Gọi phương thức từ service
+    return this.postService.getImageUrl(imageName);
   }
   
   getAllPosts(): void {
     this.postService.getAllPosts().subscribe(
       (response: any) => {
-        this.posts = response.posts;  // Gán dữ liệu vào mảng posts
+        this.posts = response.posts;
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu bài viết:', error);
       }
     );
   }
-
 }

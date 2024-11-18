@@ -10,7 +10,7 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr class="border-bottom">
                       <th scope="col">ID</th>
@@ -27,7 +27,7 @@
                       <th scope="row">{{voucher.id}}</th>
                       <td>{{voucher.price}}</td>
                       <td>{{voucher.discount_percent}}</td>
-                      <td class="{{ voucher.status === 'active' ? 'badge text-bg-success' : 'badge text-bg-danger' }}">{{ voucher.status }}</td>
+                      <td class="{{ voucher.status === 'active' ? 'badge text-bg-success' : 'badge text-bg-danger' }}" style="margin: 25px; padding: 5px; width: 130px; font-size: 0.9rem;"> {{ voucher.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}</td>
                       <td>{{voucher.created_at | date:'short' }}</td>
                       <td>{{voucher.updated_at | date:'short' }}</td>
                       <td>

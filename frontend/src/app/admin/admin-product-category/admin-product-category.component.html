@@ -10,14 +10,14 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
                       <th>Tên danh mục</th>
                       <th>Hình ảnh</th>
-                      <th>Mô tả</th>
-                      <th>ID Danh mục cha</th>
+                      <!-- <th>Mô tả</th> -->
+                      <!-- <th>ID Danh mục cha</th> -->
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
                     </tr>
@@ -29,10 +29,12 @@
                       <td>
                         <img [src]="getImageUrl(category.images)" alt="{{category.category_name}}" class="img-fluid" style="max-width: 60px;">
                       </td>
-                      <td class="text-truncate" style="max-width: 120px;">{{category.description}}</td>
-                      <td>{{category.parent_categoryID}}</td>
+                      <!-- <td class="text-truncate" style="max-width: 120px;">{{category.description}}</td> -->
+                      <!-- <td>{{category.parent_categoryID}}</td> -->
                       <td>
-                        <span class="badge" [ngClass]="{'bg-success': category.status === 'active', 'bg-danger': category.status !== 'active'}">{{ category.status }}</span>
+                        <span class="badge" [ngClass]="{'bg-success': category.status === 'active', 'bg-danger': category.status !== 'active'}">
+                          {{ category.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
+                        </span>
                       </td>
                       <td>
                         <a class="btn btn-info btn-sm" routerLink="edit/{{category.id}}">Sửa</a>

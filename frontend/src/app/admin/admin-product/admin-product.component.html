@@ -10,18 +10,18 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
                       <th>Tên sản phẩm</th>
-                      <th>Hình ảnh</th>
+                      <!-- <th>Hình ảnh</th> -->
                       <th>Giá</th>
-                      <th>Mô tả</th>
-                      <th>Giảm giá(%)</th>
+                      <!-- <th>Mô tả</th> -->
+                      <!-- <th>Giảm giá(%)</th> -->
                       <th>Số lượng</th>
                       <th>Trạng thái</th>
-                      <th>ID Loại SP</th>
+                      <!-- <th>ID Loại SP</th> -->
                       <!-- <th>Ngày tạo</th>
                       <th>Ngày sửa</th> -->
                       <th>Thao tác</th>
@@ -31,17 +31,19 @@
                     <tr *ngFor="let product of products" [ngClass]="{'table-light': product.status === 'active', 'table-danger': product.status !== 'active'}">
                       <th scope="row">{{product.id}}</th>
                       <td class="text-truncate" style="max-width: 120px;">{{product.name}}</td>
-                      <td>
+                      <!-- <td>
                         <img [src]="getImageUrl(product.image)" alt="{{product.name}}" class="img-fluid" style="max-width: 60px;">
-                      </td>                      
-                      <td>{{product.price | currency}}</td>
-                      <td class="text-truncate" style="max-width: 120px;">{{product.description}}</td>
+                      </td>                       -->
+                      <!-- <td>{{product.price | currency}}</td> -->
+                      <!-- <td class="text-truncate" style="max-width: 120px;">{{product.description}}</td> -->
                       <td>{{product.discount}}</td>
                       <td>{{product.quantity}}</td>
                       <td>
-                        <span class="badge" [ngClass]="{'bg-success': product.status === 'active', 'bg-danger': product.status !== 'active'}">{{ product.status }}</span>
+                        <span class="badge" [ngClass]="{'bg-success': product.status === 'active', 'bg-danger': product.status !== 'active'}">
+                          {{ product.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
+                        </span>
                       </td>
-                      <td>{{product.categories_id}}</td>
+                      <!-- <td>{{product.categories_id}}</td> -->
                       <!-- <td>{{product.created_at | date:'short' }}</td>
                       <td>{{product.updated_at | date:'short' }}</td> -->
                       <td>

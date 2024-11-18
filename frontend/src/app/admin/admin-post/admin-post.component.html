@@ -10,14 +10,14 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
                       <th>Tiêu đề</th>
                       <th>Hình ảnh</th>
                       <th>Nội dung</th>
-                      <th>ID Loại bài viết</th>
+                      <!-- <th>ID Loại bài viết</th> -->
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
                     </tr>
@@ -30,9 +30,9 @@
                         <img [src]="getImageUrl(post.image_url)" alt="{{post.title}}" class="img-fluid" style="max-width: 60px;">
                       </td>
                       <td class="text-truncate" style="max-width: 120px;">{{post.content}}</td>
-                      <td>{{post.post_category_id}}</td>
+                      <!-- <td>{{post.post_category_id}}</td>/ -->
                       <td>
-                        <span class="badge" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}">{{ post.status }}</span>
+                        <span class="badge" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}"> {{ post.status === 'published' ? 'Xuất bản' : 'Nháp' }}</span>
                       </td>
                       <td>
                         <a class="btn btn-info btn-sm" routerLink="edit/{{post.id}}">Sửa</a>

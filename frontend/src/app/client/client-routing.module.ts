@@ -45,6 +45,6 @@ const clientRoutes: Routes = [
 
   @NgModule({
     imports: [RouterModule.forChild(clientRoutes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
   })
   export class ClientRoutingModule {}
