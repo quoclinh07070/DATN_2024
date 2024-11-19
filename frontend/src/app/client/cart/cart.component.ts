@@ -48,17 +48,23 @@ export class CartComponent implements OnInit {
 
   // Tính tổng tiền
   getTotal() {
+    // console.log(this.cartService.getTotal());
     return this.cartService.getTotal();
   }
 
   // Xóa tất cả sản phẩm trong giỏ
   clearCart() {
-    this.cartService.clearCart();
-    this.loadCart(); // Cập nhật giỏ hàng sau khi xóa tất cả sản phẩm
+    const confirmation = window.confirm("Bạn có chắc chắn muốn xóa sạch giỏ hàng?");
+    if (confirmation) {
+      this.cartService.clearCart();
+      this.loadCart(); // Cập nhật giỏ hàng sau khi xóa tất cả sản phẩm
+    }
   }
+  
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
   }
+  
   // Xử lý khi số lượng thay đổi
   validateQuantity(item: any) {
     if (item.quantity < 1) {

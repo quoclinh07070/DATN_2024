@@ -34,7 +34,7 @@
                       <td>
                         <img [src]="getImageUrl(product.image)" alt="{{product.name}}" class="img-fluid" style="max-width: 60px;">
                       </td>                      
-                      <td>{{product.price | currency}}</td>
+                      <td>{{ product.price | currency: 'VND' }}</td>
                       <td class="text-truncate" style="max-width: 120px;">{{product.description}}</td>
                       <td>{{product.discount}}</td>
                       <td>{{product.quantity}}</td>

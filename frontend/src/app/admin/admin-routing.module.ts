@@ -21,6 +21,7 @@ import { AdminAddProductComponent } from './admin-product/admin-add-product/admi
 import { AdminEditProductComponent } from './admin-product/admin-edit-product/admin-edit-product.component';
 //user
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminEditUserComponent } from './admin-user/admin-edit-user/admin-edit-user.component';
 //order
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminOrderEditComponent } from './admin-order/admin-order-edit/admin-order-edit.component';
@@ -33,6 +34,7 @@ import { AdminEditComponent } from './admin-post/admin-edit/admin-edit.component
 import { AdminVoucherComponent } from './admin-voucher/admin-voucher.component';
 import { AdminAddVoucherComponent } from './admin-voucher/admin-add-voucher/admin-add-voucher.component';
 import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/admin-edit-voucher.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 
 //wishlistitems
@@ -58,6 +60,7 @@ const adminRoutes: Routes = [
     { path: 'product/edit/:id', component: AdminEditProductComponent },
 
     { path: 'user', component: AdminUserComponent },
+    { path: 'user/edit/:id', component: AdminEditUserComponent },
 
     { path: 'login', component: AdminLoginComponent },
     { path: 'register', component: AdminRegisterComponent },
@@ -69,11 +72,15 @@ const adminRoutes: Routes = [
     { path: 'order', component: AdminOrderComponent },//////
     { path: 'order/edit/:id', component: AdminOrderEditComponent },////////
 
+
+
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 
 
     // Thêm các route admin khác ở đây
   ]},
+  { path: 'access-denied', component: AccessDeniedComponent },
+
 ];
 
 @NgModule({

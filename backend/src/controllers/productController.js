@@ -26,6 +26,7 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+
 exports.getProductById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -178,6 +179,20 @@ exports.searchProduct = async (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ message: 'Lỗi khi tìm kiếm sản phẩm', error: err });
+    }
+};
+
+exports.Admin = async (req, res) => {
+    try {
+        res.json({
+            message: 'Accept access',
+            status: 200
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'An error occurred',
+            status: 500
+        });
     }
 };
 

@@ -34,4 +34,5 @@ router.put('/products/:id', upload.single('image'), productController.updateProd
 // Xóa sản phẩm
 router.delete('/products/:id', productController.deleteProduct);
 
+
 module.exports = router;

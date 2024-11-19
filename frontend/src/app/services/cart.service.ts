@@ -45,15 +45,28 @@ export class CartService {
 
   // Thêm sản phẩm vào giỏ hàng
   addToCart(product: any) {
+    // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
     const existingItem = this.cartItems.find(item => item.id === product.id);
-    
+  
     if (existingItem) {
-      existingItem.quantity++;
+      // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng lên 1
+      if (existingItem.quantity < product.quantity) {
+        existingItem.quantity++;
+      } else {
+        alert('Sản phẩm trong giỏ đã đạt số lượng tối đa!');
+        return; // Không thể thêm nữa nếu số lượng giỏ hàng đã vượt quá tồn kho
+      }
     } else {
+      // Nếu sản phẩm chưa có trong giỏ, thêm sản phẩm vào giỏ với số lượng 1
       this.cartItems.push({...product, quantity: 1});
     }
+  
+    // Lưu giỏ hàng vào localStorage hoặc backend nếu cần
     this.saveCartToLocalStorage();
   }
+  
+
+  
 
   // Xóa sản phẩm khỏi giỏ hàng
   removeFromCart(productId: number) {
@@ -93,3 +106,4 @@ export class CartService {
     }
   }
 }
+

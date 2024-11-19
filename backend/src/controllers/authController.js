@@ -42,6 +42,43 @@ class AccessController {
         }).send((res))
 
     }
+    
+    // Phương thức xử lý yêu cầu quên mật khẩu
+    async forgotPassword(req, res, next) {
+        try {
+            const { email } = req.body;
+            const response = await AccessService.forgotPassword(email);
+            res.status(200).json(response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // // Phương thức xử lý yêu cầu đặt lại mật khẩu
+    // async resetPassword(req, res, next) {
+    //     try {
+    //         const { email, token, newPassword } = req.body;
+    //         const response = await AccessService.resetPassword(email, token, newPassword);
+    //         res.status(200).json(response);
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
+
+    Admin = async (req, res) => {
+        try {
+            res.json({
+                message: 'Accept access',
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: 'An error occurred',
+                status: 500
+            });
+        }
+    };
+    
 }
 
 module.exports = new AccessController()
