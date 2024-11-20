@@ -146,45 +146,29 @@ class AccessService {
     }
 
     static forgotPassword = async (email) => {
-        // 1. Tìm người dùng theo email
         const user = await User.findUserByEmail(email);
-        if (!user) {
-            throw new BadRequestError('Email không tồn tại!');
-        }
+        if (!user) throw new BadRequestError('Email không tồn tại!');
+    
+        const payload = { email, id: user.id }; // Payload chứa thông tin người dùng
+        const privateKey = 'your-secret-key'; // Thay bằng privateKey thực sự
+        const token = jwt.sign(payload, privateKey, { expiresIn: '1h' });
+        console.log('Generated reset token:', token);
 
-        // 2. Tạo token ngẫu nhiên và thời gian hết hạn
-        const token = crypto.randomBytes(32).toString('hex');
-        const expireTime = new Date();
-        expireTime.setHours(expireTime.getHours() + 1); // Token hết hạn sau 1 giờ
-
-        // 3. Lưu token vào bảng key_token bằng KeytokenModel
-        const isUpdated = await KeyTokenService.updateKeyToken(user.id, token, expireTime.toISOString());
-        if (!isUpdated) {
-            throw new Error('Không thể cập nhật reset token.');
-        }
-
-        // 4. Gửi email với token quên mật khẩu
         const resetLink = `http://your-frontend-url/reset-password?token=${token}&email=${email}`;
+    
+        // Gửi email
         const transporter = nodemailer.createTransport({
             service: 'gmail',
-            auth: {
-                user: 'your-email@gmail.com', // Thay bằng email của bạn
-                pass: 'your-email-password' // Thay bằng mật khẩu email
-            }
+            auth: { user: 'your-email@gmail.com', pass: 'your-email-password' },
         });
-
+    
         await transporter.sendMail({
             to: email,
-            subject: 'Yêu cầu đặt lại mật khẩu',
-            html: `
-                <p>Bạn đã yêu cầu đặt lại mật khẩu.</p>
-                <p>Nhấn vào liên kết bên dưới để đặt lại mật khẩu:</p>
-                <p><a href="${resetLink}">${resetLink}</a></p>
-            `
+            subject: 'Đặt lại mật khẩu',
+            html: `<p>Nhấn vào liên kết để đặt lại mật khẩu: <a href="${resetLink}">${resetLink}</a></p>`,
         });
-
-        // 5. Trả về thông báo thành công
-        return { message: 'Đã gửi email quên mật khẩu' };
+    
+        return { message: 'Email đặt lại mật khẩu đã được gửi!' };
     };
     
     

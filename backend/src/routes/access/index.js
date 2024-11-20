@@ -12,6 +12,6 @@ router.post('/login', asyncHandler(accessController.login))
 router.use(authentication)
 router.post('/logout',asyncHandler(accessController.logout))
 router.post('/handler-refresh-token', asyncHandler(accessController.handlerRefreshToken))
-router.post('/forgot-password',accessController.forgotPassword)
+router.post('/forgot-password',asyncHandler(accessController.forgotPassword))
 
 module.exports = router;
