@@ -61,6 +61,7 @@ const orderRoutes = require('./src/routes/orderRoutes');
 const productRoutes = require('./src/routes/productRoutes');
 const categoryRoutes = require('./src/routes/categoryRoutes');
 const postcategoryRoutes = require('./src/routes/postcategoryRoutes');
+const commentpostRoutes = require('./src/routes/commentpostRoutes');
 // const userRoutes = require('./src/routes/userRoutes');
 
 const db = require('./src/config/db'); // Nhập db từ config
@@ -85,6 +86,7 @@ app.use('/api', voucherRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', postcategoryRoutes);
+app.use('/api', commentpostRoutes);
 // app.use('/api', userRoutes);
 
 
