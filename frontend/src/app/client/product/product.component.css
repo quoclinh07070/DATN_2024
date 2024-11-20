@@ -1,4 +1,13 @@
 .element {
     margin: 40px;
   }
+  .shop-item h3 {
+    display: -webkit-box;        /* Sử dụng flexbox để tạo hộp cho text */
+    -webkit-line-clamp: 2;       /* Số dòng hiển thị tối đa */
+    -webkit-box-orient: vertical; /* Xoay box theo chiều dọc */
+    overflow: hidden;            /* Ẩn phần vượt ra ngoài */
+    text-overflow: ellipsis;     /* Thêm dấu "..." khi nội dung quá dài */
+    height: 50px;                /* Chiều cao cố định */
+    line-height: 25px;           /* Căn chỉnh dòng */
+  }
   

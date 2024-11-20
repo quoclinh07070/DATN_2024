@@ -75,12 +75,12 @@
           
           <!-- Dropdown Sắp xếp -->
           <div class="sort-container">
-            <select class="form-control">
+            <select class="form-control" (change)="sortProducts($event)">
               <option value="default">⇅ Sắp xếp theo</option>
               <option value="name_asc">Tên: A-Z</option>
               <option value="name_desc">Tên: Z-A</option>
-              <option value="price_asc">Giá: thấp đến cao</option>
-              <option value="price_desc">Giá: cao đến thấp</option>
+              <option value="price_asc">Giá: Thấp đến Cao</option>
+              <option value="price_desc">Giá: Cao đến Thấp</option>
             </select>
           </div>
         </div>
@@ -94,10 +94,40 @@
         <div class="our-shop">
           <div class="row clearfix">
             <div *ngFor="let product of filteredProducts" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="inner-box">
+              <!-- <div class="inner-box">
                 <div class="image">
                   <div hidden>{{product.quantity}}</div>
-                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" />
+                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
+                  <div class="overlay-box">
+                    <ul class="cart-option">
+                      <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
+                      <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="lower-content ">
+                  <h3>
+                    <a [routerLink]="['/product-detail', product.id]">  
+                      {{ (product.name.length > 60 ? (product.name | slice:0:60) + '...' : product.name) }}
+                    </a>
+                  </h3>
+                  <div class="price">{{ product.price | number:'1.0-0' }} ₫</div>
+                  <div class="clearfix">
+                    <div class="pull-left">
+                      <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="inner-box">
+                <div class="image position-relative">
+                  <!-- Phần giảm giá nếu có -->
+                  <div *ngIf="product.discount > 0">
+                    <span class="position-absolute top-0 start-0 m-2 bg-danger text-white p-1">
+                      -{{ product.discount }}%
+                    </span>
+                  </div>
+                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
                   <div class="overlay-box">
                     <ul class="cart-option">
                       <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
@@ -106,16 +136,37 @@
                   </div>
                 </div>
                 <div class="lower-content">
-                  <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
-                  <div class="price">{{ product.price | number:'1.0-0' }} ₫</div>
+                  <h3>
+                    <a [routerLink]="['/product-detail', product.id]">  
+                      {{ (product.name.length > 60 ? (product.name | slice:0:60) + '...' : product.name) }}
+                    </a>
+                  </h3>
+                  <div class="price">
+                    <ng-container *ngIf="product.discount > 0; else noDiscount">
+                      <span class="discount-price" class="text-danger me-2">
+                        {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                      </span>
+                      <span class="old-price text-dark text-decoration-line-through">
+                        {{ product.price | number:'1.0-0' }} ₫
+                      </span>
+                    </ng-container>
+                    <ng-template #noDiscount>
+                      <span class="current-price text-danger">
+                        {{ product.price | number:'1.0-0' }} ₫
+                      </span>
+                    </ng-template>
+                  </div>
                   <div class="clearfix">
                     <div class="pull-left">
-                      <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
+                      <a class="add-cart" (click)="addToCart(product)">
+                        <span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
         

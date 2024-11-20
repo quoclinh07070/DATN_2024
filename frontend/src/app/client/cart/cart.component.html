@@ -1,5 +1,4 @@
-<!-- Cart Section -->
-<section class="cart-section mt-3">
+<section class="cart-section">
     <div class="auto-container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <ol class="breadcrumb">
@@ -17,10 +16,10 @@
 
             <!-- Kiểm tra giỏ hàng có trống không -->
             <div *ngIf="cartItems.length === 0;" class="empty-cart">
-                <h4 class="text-center text-info mb-3">Giỏ hàng của bạn đang trống!</h4>
+                <h4 class="text-center mb-3">Giỏ hàng của bạn đang trống!</h4>
                 <div class="text-center">
                     <a routerLink="/product">
-                        <h5 class="mb-0"><i class="bi bi-arrow-return-left me-2"></i>Tiếp tục mua hàng</h5>
+                        <h5 class="mb-5 text-info"><i class="bi bi-arrow-return-left me-2"></i>Tiếp tục mua hàng</h5>
                     </a>                      
                 </div>
             </div>
@@ -39,25 +38,57 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let item of cartItems">
-                            <td>
+                            <tr *ngFor="let item of cartItems">
+                              <td>
                                 <img [src]="getImageUrl(item.image)" alt="{{item.name}}" class="img-fluid" style="max-width: 100px;">
-                            </td>
-                            <td><h4 class="prod-title">{{ item.name }}</h4></td>
-                            <td><h4 class="prod-title">{{ item.price | number:'1.0-0' }} ₫</h4></td>
-                            <td>
-                            <div class="input-group input-group-sm d-flex justify-content-center">
-                                <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQuantity(item)">-</button>
-                                <h4 class="prod-title"><input type="number" class="form-control form-control-sm text-center" [(ngModel)]="item.quantity" (input)="validateQuantity(item)"  min="1" style="width: 50px" /></h4>
-                                <button class="btn btn-outline-secondary btn-sm" (click)="increaseQuantity(item)">+</button>
-                            </div>
-                            </td>
-                            <td><h4 class="prod-title">{{ item.price * item.quantity | number:'1.0-0' }} ₫</h4></td>
-                            <td>
+                              </td>
+                              <td>
+                                <h4 class="prod-title">{{ (item.name.length > 30 ? (item.name | slice:0:30) + '...' : item.name) }}</h4>
+                              </td>
+                              <td>
+                                <h4 class="prod-title">
+                                  <ng-container *ngIf="item.discount > 0; else noDiscount">
+                                    <span class="discount-price text-danger me-2">
+                                      {{ (item.price - (item.price * (item.discount / 100))) | number:'1.0-0' }} ₫
+                                    </span>
+                                    <span class="old-price text-dark" style="text-decoration: line-through;">
+                                      {{ item.price | number:'1.0-0' }} ₫
+                                    </span>
+                                  </ng-container>
+                                  <ng-template #noDiscount>
+                                    <span class="current-price text-danger">
+                                      {{ item.price | number:'1.0-0' }} ₫
+                                    </span>
+                                  </ng-template>
+                                </h4>
+                              </td>
+                              <!-- quantity -->
+                              <td>
+                                <div class="qty clearfix">
+                                    <button type="button" class="qtyminus qty-btn" (click)="decreaseQuantity(item)">-</button>
+                                    <input type="number" size="4" class="tc line-item-qty item-quantity" [(ngModel)]="item.quantity" (input)="validateQuantity(item)" min="1">
+                                    <button type="button" class="qtyplus qty-btn" (click)="increaseQuantity(item)">+</button>
+                                </div>
+                              </td>
+
+                              <td>
+                                <h4 class="prod-title">
+                                  <ng-container *ngIf="item.discount > 0; else noDiscountTotal">
+                                    <!-- Hiển thị tổng tiền sau khi giảm giá -->
+                                    {{ (item.price - (item.price * (item.discount / 100))) * item.quantity | number:'1.0-0' }} ₫
+                                  </ng-container>
+                                  <ng-template #noDiscountTotal>
+                                    <!-- Hiển thị tổng tiền nếu không có giảm giá -->
+                                    {{ item.price * item.quantity | number:'1.0-0' }} ₫
+                                  </ng-template>
+                                </h4>
+                              </td>
+                              <td>
                                 <button (click)="removeFromCart(item.id)" type="button" class="btn btn-outline-danger"><i class="bi bi-trash3-fill"></i>Xóa</button>
-                            </td>
-                        </tr>
-                        </tbody>
+                              </td>
+                            </tr>
+                          </tbody>
+                          
                     </table>
                     </div>
         

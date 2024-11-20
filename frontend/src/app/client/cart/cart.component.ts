@@ -47,11 +47,19 @@ export class CartComponent implements OnInit {
   }
 
   // Tính tổng tiền
+  // getTotal() {
+  //   // console.log(this.cartService.getTotal());
+  //   return this.cartService.getTotal();
+  // }
   getTotal() {
-    // console.log(this.cartService.getTotal());
-    return this.cartService.getTotal();
+    return this.cartItems.reduce((total, item) => {
+      const priceWithDiscount = item.discount > 0 ? 
+                                item.price - (item.price * (item.discount / 100)) : 
+                                item.price;
+      return total + (priceWithDiscount * item.quantity);  // Cộng tổng tiền với discount
+    }, 0);
   }
-
+  
   // Xóa tất cả sản phẩm trong giỏ
   clearCart() {
     const confirmation = window.confirm("Bạn có chắc chắn muốn xóa sạch giỏ hàng?");

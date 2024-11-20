@@ -11500,20 +11500,6 @@ header-style-seven .nav-toggler:hover{
 	padding:30px 25px 30px;
 }
 
-.cart-table tbody tr .qty{
-	width:200px;
-}
-
-.cart-table tbody tr .qty .item-quantity{
-	max-width: 100px;
-	margin: 0 auto;
-}
-
-
-.cart-table tbody tr .qty .quantity-spinner{
-	background:#ffffff;	
-}
-
 .cart-table tbody tr .prod-column .column-box{
 	position:relative;
 	min-height:110px;
@@ -11607,7 +11593,7 @@ header-style-seven .nav-toggler:hover{
 	font-size:16px;
 	color:#222222;
 	font-weight:400;
-	font-family: 'Arimo', sans-serif;
+	font-family: 'Roboto',;
 }
 
 .cart-table tbody tr td .quantity-spinner{
@@ -11754,7 +11740,7 @@ header-style-seven .nav-toggler:hover{
 	font-size:16px;
 	font-weight:700;
 	text-transform:capitalize;
-	font-family: 'Arimo', sans-serif;
+	font-family: 'Roboto';
 }
 
 .cart-section .totals-table li .col:last-child{
@@ -11762,8 +11748,9 @@ header-style-seven .nav-toggler:hover{
 }
 
 .cart-section .totals-table .total .price{
-	color:#ff8a00;
-	font-weight:400;
+	color: #ef683a!important;
+    font-weight: bold;
+	font-size: 24px;
 }
 
 .cart-section .totals-table .proceed-btn{
