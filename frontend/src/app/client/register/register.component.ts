@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
+import { UserService } from '../../services/user.service'; // Import UserService
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
 
-
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [    CommonModule, RouterLink,
-    ReactiveFormsModule,],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
   signupForm: FormGroup;
 
   errorMessage: string = '';
-
   signupErrorMessage: string = '';
   successMessage: string = '';
 
@@ -25,16 +27,19 @@ export class RegisterComponent {
   popupMessage: string = '';
   isSuccess: boolean = true;
 
-  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
-
+  constructor(
+    private authService: AuthService,
+    private userService: UserService, // Inject UserService
+    private router: Router,
+    private fb: FormBuilder
+  ) {
     // Khởi tạo form đăng ký
     this.signupForm = this.fb.group({
-      name: ['', [Validators.required]], // Thêm trường name
+      name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
-
 
   showPopup(message: string, isSuccess: boolean) {
     this.popupMessage = message;
@@ -60,9 +65,21 @@ export class RegisterComponent {
             localStorage.setItem('userName', response.metadata.user.name);
             localStorage.setItem('userEmail', response.metadata.user.email);
 
+            // Gửi email chúc mừng
+            this.userService.sendWelcomeEmail(email, name).subscribe(
+              () => {
+                console.log('Email chúc mừng đã được gửi thành công');
+              },
+              (error) => {
+                console.error('Lỗi gửi email chúc mừng:', error);
+              }
+            );
+
             this.showPopup('Đăng ký thành công', true);
-            // Delay điều hướng sang trang login sau khi popup hiển thị đủ lâu
-            setTimeout(() => {this.router.navigate(['/user']);}, 2000);
+            // Điều hướng sau khi đăng ký thành công
+            setTimeout(() => {
+              this.router.navigate(['/user']);
+            }, 2000);
           } else {
             this.signupErrorMessage = 'Đăng ký không thành công. Vui lòng thử lại.';
           }

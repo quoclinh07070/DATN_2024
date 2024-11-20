@@ -1,60 +1,54 @@
-<!-- <div class="page-wrapper"> -->
+<!-- Popup Success/Error Alert -->
+<div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
+  <div class="popup-content">
+    <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
+      <span [innerHTML]="isSuccess ? '&#10003;' : '&#10007;'"></span>
+    </div>
+    <p class="message">{{ popupMessage }}</p>
+    <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
+  </div>
+</div>
 
-  <!-- Popup Success/Error Alert -->
-  <div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
-    <div class="popup-content">
-      <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
-        <span>{{ isSuccess ? '&#10003;' : '&#10007;' }}</span>
+<!-- Register Section -->
+<section class="login-section mt-4">
+  <div class="auto-container">
+    <div class="row clearfix">
+      <div class="column col-lg-12 col-md-12 col-sm-12">
+        <h2 class="text-center">Đăng Ký</h2>
+        <div class="login-form register-form">
+          <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+            <div class="form-group">
+              <label for="signup-name">Tên:</label>
+              <input type="text" id="signup-name" formControlName="name" required class="form-control">
+              <small *ngIf="signupForm.get('name')?.errors?.['required'] && signupForm.get('name')?.touched" class="error-message">
+                Tên là bắt buộc.
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="signup-email">Email:</label>
+              <input type="email" id="signup-email" formControlName="email" required class="form-control">
+              <small *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched" class="error-message">
+                Email là bắt buộc.
+              </small>
+              <small *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched" class="error-message">
+                Email không hợp lệ.
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Mật Khẩu:</label>
+              <input type="password" id="signup-password" formControlName="password" required class="form-control">
+              <small *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="error-message">
+                Mật khẩu là bắt buộc.
+              </small>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
+            <div class="text-center mt-3 link-group">
+              <span>Đã có tài khoản? </span>
+              <a routerLink="/login">Đăng nhập</a>
+            </div>
+          </form>
+        </div>
       </div>
-      <p class="message">{{ popupMessage }}</p>
-      <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
     </div>
   </div>
-      <!--Login Section-->
-      <section class="login-section mt-4">
-        <div class="auto-container">
-          <div class="row clearfix">
-    
-            <div class="column col-lg-12 col-md-12 col-sm-12">
-              <h2 class="text-center"> Đăng Ký</h2>
-              <!-- Register Form -->
-              <div class="login-form register-form">
-                <!--Login Form-->
-                <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
-                  <div class="form-group">
-                    <label for="signup-name">Tên:</label>
-                    <input type="text" id="signup-name" formControlName="name" required class="form-control">
-                    <small *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="error-message">
-                      Tên là bắt buộc.
-                    </small>
-                  </div>
-                  <div class="form-group">
-                    <label for="signup-email">Email:</label>
-                    <input type="email" id="signup-email" formControlName="email" required class="form-control">
-                    <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="error-message">
-                      Email là bắt buộc và phải hợp lệ.
-                    </small>
-                  </div>
-                  <div class="form-group">
-                    <label for="signup-password">Mật Khẩu:</label>
-                    <input type="password" id="signup-password" formControlName="password" required class="form-control">
-                    <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="error-message">
-                      Mật khẩu là bắt buộc.
-                    </small>
-                  </div>
-                  <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
-                  <div class="text-center mt-3 link-group">
-                    <span>Đã có tài khoản? </span>
-                    <a routerLink="/login">Đăng nhập</a>
-                  </div>
-                </form>
-              </div>
-              <!--End Register Form -->
-            </div>
-          </div>
-        </div>
-      </section>
-      <!--End Login Section-->
-    <!-- </div> -->
-
-    
+</section>

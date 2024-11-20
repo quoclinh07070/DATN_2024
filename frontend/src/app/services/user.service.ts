@@ -39,7 +39,13 @@ export class UserService {
 
   // Gửi email thông báo
   sendEmail(email: string, fullName: string): Observable<any> {
-    return this.http.post('http://localhost:3000/send-email', { email, fullName });
+    const emailApiUrl = `${environment.apiUrl}/send-email`; // Sử dụng biến môi trường
+    return this.http.post(emailApiUrl, { email, fullName });
+  }
+
+  sendWelcomeEmail(email: string, name: string): Observable<any> {
+    const welcomeEmailApiUrl = `${environment.apiUrl}/send-welcome-email`; // API endpoint cho email chúc mừng
+    return this.http.post(welcomeEmailApiUrl, { email, name });
   }
 
   // Phương thức để lấy URL hình ảnh (nếu cần dùng cho avatar hoặc hình đại diện của user)
