@@ -12,6 +12,7 @@ const categoryRoutes = require('./src/routes/categoryRoutes');
 const postcategoryRoutes = require('./src/routes/postcategoryRoutes');
 const reviewRoutes = require('./src/routes/review');
 const userRoutes = require('./src/routes/userRoutes');
+const emailRoutes = require('./src/routes/emailRoutes');
 
 const db = require('./src/config/db'); // Nhập db từ config
 
@@ -28,43 +29,6 @@ app.use(cors());
 // Middleware để phục vụ tệp tĩnh
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Cấu hình transporter cho nodemailer
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com', // Thay thế bằng máy chủ của Gmail
-  port: 587,
-  secure: false, // true nếu sử dụng cổng 465
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-
-// Route để gửi email thông báo xóa tài khoản
-// Endpoint để gửi email thông báo
-app.post('/send-email', (req, res) => {
-  const { email, fullName } = req.body;
-
-  const mailOptions = {
-    from: process.env.EMAIL_USER, // Người gửi
-    to: email,                   // Người nhận
-    subject: 'Thông báo tài khoản bị xóa',
-    text: `Xin chào ${fullName},\n\nTài khoản của bạn đã bị xóa khỏi hệ thống. Nếu bạn nghĩ đây là một nhầm lẫn, vui lòng liên hệ với quản trị viên.\n\nTrân trọng,\nQuản trị hệ thống.`,
-  };
-
-  // Gửi email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Lỗi khi gửi email:', error);
-      return res.status(500).send('Lỗi khi gửi email');
-    }
-    console.log('Email đã được gửi:', info.response);
-    res.status(200).send('Email đã được gửi thành công');
-  });
-});
-
-
-
 // Routes
 app.use('/api', productRoutes);
 app.use('/api', postRoutes);
@@ -74,6 +38,7 @@ app.use('/api', categoryRoutes);
 app.use('/api', postcategoryRoutes);
 app.use('/api', reviewRoutes);
 app.use('/api', userRoutes);
+app.use('/api', emailRoutes);
 app.use('/api', require("./src/routes/index"));
 
 // Start the server
