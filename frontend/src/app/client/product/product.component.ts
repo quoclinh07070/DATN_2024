@@ -22,6 +22,7 @@ export class ProductComponent implements OnInit {
   maxPrice: number = 0;  // Biến giá tối đa khi lọc
   selectedCategory: number | null = null;  // Biến lưu trữ id của danh mục được chọn
   selectedCategoryName: string = '';  // Biến lưu tên danh mục đã chọn
+  quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
 
   constructor(
     private productService: ProductService, 
@@ -60,32 +61,20 @@ export class ProductComponent implements OnInit {
   }
 
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any) {
-    // Kiểm tra xem sản phẩm đã có trong giỏ chưa
-    const existingItem = this.cartService.getCartItems().find(item => item.id === product.id);
+  addToCart(product: any, quantity: number) {
+    if (product.quantity > 0) {
+      const success = this.cartService.addToCart(product, quantity);  // Gọi service để thêm sản phẩm vào giỏ
   
-    if (existingItem) {
-      // Nếu sản phẩm đã có trong giỏ, kiểm tra số lượng hiện tại và tồn kho
-      if (existingItem.quantity < product.quantity) {
-        // Nếu số lượng trong giỏ nhỏ hơn tồn kho, tăng số lượng lên
-        existingItem.quantity++;
+      if (success) {
         alert('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
-        // Nếu số lượng trong giỏ đã bằng hoặc vượt quá số lượng tồn kho
-        alert('Số lượng sản phẩm vượt quá số lượng tồn kho!');
-        return; // Dừng lại không thêm vào giỏ
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     } else {
-      // Nếu sản phẩm chưa có trong giỏ, thêm mới vào giỏ
-      if (product.quantity > 0) {
-        this.cartService.addToCart(product);
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
-      } else {
-        // Nếu sản phẩm không còn hàng, thông báo lỗi
-        alert('Sản phẩm đã hết hàng!');
-      }
+      alert('Sản phẩm đã hết hàng!');
     }
   }
+  
 
   // Hàm sắp xếp sản phẩm
 sortProducts(event: Event): void {

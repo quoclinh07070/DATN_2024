@@ -43,7 +43,11 @@
                                 <img [src]="getImageUrl(item.image)" alt="{{item.name}}" class="img-fluid" style="max-width: 100px;">
                               </td>
                               <td>
-                                <h4 class="prod-title">{{ (item.name.length > 30 ? (item.name | slice:0:30) + '...' : item.name) }}</h4>
+                                <h4 class="prod-title">
+                                  <a class="link-dark fw-bold" [routerLink]="['/product-detail', item.id]">
+                                  {{ (item.name.length > 30 ? (item.name | slice:0:30) + '...' : item.name) }}
+                                  </a>
+                                </h4>
                               </td>
                               <td>
                                 <h4 class="prod-title">
@@ -104,7 +108,7 @@
                         <li class="bg-white">
                             <h3 class="text-center">Thông tin đơn hàng</h3>
                         </li>
-                        <li class="clearfix total"><span class="col">Tổng tiền:</span><span class="col price">{{ getTotal() | number:'1.0-0' }} ₫</span></li>
+                        <li class="clearfix total"><span class="col">Tổng tiền:</span><span class="price">{{ getTotal() | number:'1.0-0' }} ₫</span></li>
                         <li class="text-right">
                             <a routerLink="/checkout" class="btn btn-info w-100">Thanh toán</a>
                         </li>

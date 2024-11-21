@@ -46,6 +46,7 @@ export class ProductDetailsComponent implements OnInit {
   userName: string | null = null;
   userEmail: string | null = null;
   isLoggedIn: boolean = false;
+  quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
 
   constructor(
     private productService: ProductService,
@@ -94,32 +95,43 @@ export class ProductDetailsComponent implements OnInit {
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
   }
+  
+  // Hàm giảm số lượng
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  // Hàm tăng số lượng
+  increaseQuantity(): void {
+    if (this.quantity < this.product.quantity) {
+      this.quantity++;
+    }
+  }
 
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any) {
-    // Kiểm tra xem sản phẩm đã có trong giỏ chưa
-    const existingItem = this.cartService.getCartItems().find(item => item.id === product.id);
-  
-    if (existingItem) {
-      // Nếu sản phẩm đã có trong giỏ, kiểm tra số lượng hiện tại và tồn kho
-      if (existingItem.quantity < product.quantity) {
-        // Nếu số lượng trong giỏ nhỏ hơn tồn kho, tăng số lượng lên
-        existingItem.quantity++;
+  addToCart(product: any, quantity: number): void {
+    if (product.quantity > 0 && quantity <= product.quantity) {
+      const success = this.cartService.addToCart(product, quantity);  // Cập nhật số lượng khi thêm vào giỏ hàng
+
+      if (success) {
         alert('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
-        // Nếu số lượng trong giỏ đã bằng hoặc vượt quá số lượng tồn kho
-        alert('Số lượng sản phẩm vượt quá số lượng tồn kho!');
-        return; // Dừng lại không thêm vào giỏ
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     } else {
-      // Nếu sản phẩm chưa có trong giỏ, thêm mới vào giỏ
-      if (product.quantity > 0) {
-        this.cartService.addToCart(product);
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
-      } else {
-        // Nếu sản phẩm không còn hàng, thông báo lỗi
-        alert('Sản phẩm đã hết hàng!');
-      }
+      alert('Số lượng vượt quá tồn kho!');
+    }
+  }
+
+  // Validate số lượng sản phẩm
+  validateQuantity(): void {
+    if (this.quantity < 1) {
+      this.quantity = 1;  // Đảm bảo số lượng không nhỏ hơn 1
+    } else if (this.quantity > this.product.quantity) {
+      this.quantity = this.product.quantity;  // Điều chỉnh lại số lượng nếu vượt quá kho
+      alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
     }
   }
 

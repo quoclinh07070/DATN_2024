@@ -34,8 +34,17 @@ export class CartComponent implements OnInit {
 
   // Tăng số lượng sản phẩm
   increaseQuantity(item: any) {
-    item.quantity++;
-    this.cartService.updateQuantity(item.id, item.quantity); // Cập nhật số lượng trong giỏ hàng
+    this.productService.getProductById(item.id).subscribe((response: any) => {
+      const product = response.product;  // Lấy sản phẩm từ response
+  
+      // Kiểm tra số lượng sản phẩm trong giỏ hàng và trong kho
+      if (item.quantity < product.quantity) {
+        item.quantity++;
+        this.cartService.updateQuantity(item.id, item.quantity);
+      } else {
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+      }
+    });
   }
 
   // Giảm số lượng sản phẩm
@@ -43,14 +52,27 @@ export class CartComponent implements OnInit {
     if (item.quantity > 1) {
       item.quantity--;
       this.cartService.updateQuantity(item.id, item.quantity); // Cập nhật số lượng trong giỏ hàng
-    }
+    } 
+    // else {
+    //   alert('Số lượng không thể nhỏ hơn 1');
+    // }
   }
 
-  // Tính tổng tiền
-  // getTotal() {
-  //   // console.log(this.cartService.getTotal());
-  //   return this.cartService.getTotal();
-  // }
+  // Kiểm tra số lượng sản phẩm
+  validateQuantity(item: any) {
+    this.productService.getProductById(item.id).subscribe((response: any) => {
+      const product = response.product;  // Lấy sản phẩm từ response
+  
+      if (item.quantity < 1) {
+        item.quantity = 1;  // Đảm bảo số lượng không nhỏ hơn 1
+      } else if (item.quantity > product.quantity) {
+        item.quantity = product.quantity;  // Điều chỉnh lại số lượng nếu vượt quá kho
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+      }
+      this.cartService.updateQuantity(item.id, item.quantity);
+    });
+  }
+
   getTotal() {
     return this.cartItems.reduce((total, item) => {
       const priceWithDiscount = item.discount > 0 ? 
@@ -73,10 +95,4 @@ export class CartComponent implements OnInit {
     return this.productService.getImageUrl(imageName);
   }
   
-  // Xử lý khi số lượng thay đổi
-  validateQuantity(item: any) {
-    if (item.quantity < 1) {
-      item.quantity = 1; // Nếu số lượng nhỏ hơn 1, đặt lại là 1
-    }
-  }
 }

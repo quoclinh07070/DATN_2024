@@ -20,20 +20,14 @@
                     <div class="overlay-box">
                       <ul class="cart-option">
                         <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                        <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
+                        <li><a (click)="addToCart(product, quantity)"><span class="bi bi-cart-plus"></span></a></li>
                       </ul>
                     </div>
                   </div>
                   <div class="lower-content">
                     <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
                     <div class="price">{{ product.price | currency: 'VND' }}</div>
-                    <div class="clearfix">
-                      <div class="pull-left">
-                        <!-- Thêm sản phẩm vào giỏ -->
-                        <!-- <a class="add-cart" routerLink="/cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a> -->
-                        <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               </div>

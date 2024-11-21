@@ -35,11 +35,6 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  // Thêm sản phẩm vào giỏ
-  addToCart(product: any) {
-    this.cartService.addToCart(product); // Gọi CartService để thêm sản phẩm vào giỏ
-    alert('Sản phẩm đã được thêm vào giỏ hàng!');
-  }
 
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);

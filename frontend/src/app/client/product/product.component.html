@@ -94,44 +94,29 @@
         <div class="our-shop">
           <div class="row clearfix">
             <div *ngFor="let product of filteredProducts" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <!-- <div class="inner-box">
-                <div class="image">
-                  <div hidden>{{product.quantity}}</div>
-                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
-                  <div class="overlay-box">
-                    <ul class="cart-option">
-                      <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                      <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="lower-content ">
-                  <h3>
-                    <a [routerLink]="['/product-detail', product.id]">  
-                      {{ (product.name.length > 60 ? (product.name | slice:0:60) + '...' : product.name) }}
-                    </a>
-                  </h3>
-                  <div class="price">{{ product.price | number:'1.0-0' }} ₫</div>
-                  <div class="clearfix">
-                    <div class="pull-left">
-                      <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
               <div class="inner-box">
                 <div class="image position-relative">
+                  
                   <!-- Phần giảm giá nếu có -->
                   <div *ngIf="product.discount > 0">
                     <span class="position-absolute top-0 start-0 m-2 bg-danger text-white p-1">
                       -{{ product.discount }}%
                     </span>
                   </div>
+
+                  <!-- Phần hết hàng nếu có -->
+                  <div *ngIf="product.quantity <= 0">
+                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white p-1">
+                      Hết hàng
+                    </span>
+                  </div>
+
+                  
                   <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
                   <div class="overlay-box">
                     <ul class="cart-option">
                       <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                      <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
+                      <li><a (click)="addToCart(product,quantity)"><span class="bi bi-cart-plus"></span></a></li>
                     </ul>
                   </div>
                 </div>
@@ -156,13 +141,11 @@
                       </span>
                     </ng-template>
                   </div>
-                  <div class="clearfix">
+                  <!-- <div class="clearfix">
                     <div class="pull-left">
-                      <a class="add-cart" (click)="addToCart(product)">
-                        <span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng
-                      </a>
+                      Sẵn có {{ product.quantity}} sản phẩm
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
