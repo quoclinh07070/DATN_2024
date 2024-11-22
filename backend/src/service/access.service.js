@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const KeyTokenService = require("../service/keyToken.service")
 const {createTokenPair} = require("../auth/auth.Utils");
-const nodemailer = require('nodemailer');
 class AccessService {
 
     static logout = async (keyStore) => {
@@ -144,50 +143,6 @@ class AccessService {
         //     }
         // }
     }
-
-    static forgotPassword = async (email) => {
-        const user = await User.findUserByEmail(email);
-        if (!user) throw new BadRequestError('Email không tồn tại!');
-    
-        const payload = { email, id: user.id }; // Payload chứa thông tin người dùng
-        const privateKey = 'your-secret-key'; // Thay bằng privateKey thực sự
-        const token = jwt.sign(payload, privateKey, { expiresIn: '1h' });
-        console.log('Generated reset token:', token);
-
-        const resetLink = `http://your-frontend-url/reset-password?token=${token}&email=${email}`;
-    
-        // Gửi email
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: { user: 'your-email@gmail.com', pass: 'your-email-password' },
-        });
-    
-        await transporter.sendMail({
-            to: email,
-            subject: 'Đặt lại mật khẩu',
-            html: `<p>Nhấn vào liên kết để đặt lại mật khẩu: <a href="${resetLink}">${resetLink}</a></p>`,
-        });
-    
-        return { message: 'Email đặt lại mật khẩu đã được gửi!' };
-    };
-    
-    
-    // static resetPassword = async (email, token, newPassword) => {
-    //     // Kiểm tra token và email
-    //     const user = await User.findUserByEmail(email);
-    //     if (!user || user.reset_token !== token || new Date() > user.reset_token_expiry) {
-    //         throw new BadRequestError('Token không hợp lệ hoặc đã hết hạn');
-    //     }
-    
-    //     // Mã hóa mật khẩu mới
-    //     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    
-    //     // Cập nhật mật khẩu và xoá token
-    //     await User.updatePasswordAndClearToken(user.id, hashedPassword); // Giả sử User có phương thức updatePasswordAndClearToken để cập nhật mật khẩu
-    
-    //     return { message: 'Đặt lại mật khẩu thành công' };
-    // };
-    
 
 }
 

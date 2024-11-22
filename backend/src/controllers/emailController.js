@@ -44,5 +44,28 @@ const sendWelcomeEmail = (req, res) => {
   });
 };
 
-
-module.exports = { sendEmail, sendWelcomeEmail};
+    // Hàm gửi email quên mật khẩu
+    const sendForgotPassEmail = async ({ email, name, resetLink }) => {
+      console.log('Email:', email); // Thêm log để kiểm tra
+      console.log('Reset Link:', resetLink);
+      const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: 'Yêu cầu đặt lại mật khẩu!',
+          html: `<p>Xin chào ${name},</p>
+                 <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nếu bạn đã yêu cầu điều này, vui lòng nhấn vào liên kết dưới đây để đặt lại mật khẩu: <a href="${resetLink}">${resetLink}</a></p>
+                 <p>Nếu bạn không yêu cầu, vui lòng bỏ qua email này. Mật khẩu của bạn sẽ không bị thay đổi.</p>
+                 <p>Trân trọng,<br>[Tên công ty của bạn]</p>`,
+      };
+  
+      try {
+          const info = await transporter.sendMail(mailOptions);
+          console.log('Email đã được gửi:', info.response);
+          return { success: true };
+      } catch (error) {
+          console.error('Lỗi khi gửi email:', error);
+          throw new Error('Lỗi khi gửi email');
+      }
+  };
+   
+module.exports = { sendEmail, sendWelcomeEmail, sendForgotPassEmail};

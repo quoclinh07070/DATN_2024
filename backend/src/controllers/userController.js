@@ -1,6 +1,8 @@
 // userController.js
 const db = require('../config/db');
 const User = require('../models/user');
+const crypto = require("crypto");
+const { sendForgotPassEmail } = require("./emailController");
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -116,3 +118,92 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi xóa người dùng', error: err });
     }
 };
+
+exports.forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: "Email là bắt buộc!" });
+    }
+
+    try {
+        // Kiểm tra email có tồn tại không
+        const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+        const user = rows[0]; // Lấy hàng đầu tiên từ mảng `rows`
+
+        if (!user) {
+            return res.status(404).json({ message: "Email không tồn tại!" });
+        }
+
+        console.log('User email:', user.email);
+        console.log('User name:', user.fullname);
+
+        // Tạo token và thời gian hết hạn
+        const resetToken = crypto.randomBytes(32).toString("hex");
+        const resetExpires = new Date(Date.now() + 3600 * 1000); // Token hết hạn sau 1 giờ
+
+        // Lưu token vào cơ sở dữ liệu
+        await db.query("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?", [
+            resetToken,
+            resetExpires,
+            user.id,
+        ]);
+
+        // Tạo link reset
+        const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
+        console.log('CLIENT_URL:', process.env.CLIENT_URL);
+        console.log('Reset Link:', resetLink);
+
+        // Gửi email
+        await sendForgotPassEmail({
+            email: user.email,
+            name: user.fullname,
+            resetLink,
+        });
+
+        res.status(200).json({ message: "Email đặt lại mật khẩu đã được gửi." });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Đã xảy ra lỗi, vui lòng thử lại!" });
+    }
+};
+
+
+exports.resetPassword = async (req, res) => {
+    const { token, newPassword } = req.body;
+
+    try {
+        // Tìm user theo token và kiểm tra thời hạn
+        const [rows] = await db.query("SELECT * FROM users WHERE reset_token = ? AND reset_expires > ?", [
+            token,
+            new Date(),
+        ]);
+        const user = rows[0]; // Lấy hàng đầu tiên từ kết quả truy vấn
+
+        if (!user) {
+            return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn!" });
+        }
+
+        // Hash mật khẩu mới (sử dụng bcrypt hoặc thư viện hash khác)
+        const bcrypt = require("bcryptjs");
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Cập nhật mật khẩu và xóa token
+        const [updateResult] = await db.query(
+            "UPDATE users SET password = ?, reset_token = NULL, reset_expires = NULL WHERE id = ?",
+            [hashedPassword, user.id]
+        );
+
+        // Kiểm tra xem mật khẩu có được cập nhật không
+        if (updateResult.affectedRows === 0) {
+            return res.status(500).json({ message: "Không thể cập nhật mật khẩu. Vui lòng thử lại!" });
+        }
+
+        res.status(200).json({ message: "Mật khẩu đã được đặt lại thành công!" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Đã xảy ra lỗi, vui lòng thử lại!" });
+    }
+};
+
+

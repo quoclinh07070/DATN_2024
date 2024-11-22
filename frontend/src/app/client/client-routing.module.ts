@@ -1,7 +1,7 @@
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientLayoutComponent } from './client-layout/client-layout.component';
+
 
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
@@ -21,7 +21,10 @@ import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { SearchResultComponent } from './search-result/search-result.component';
-// import { WishlistComponent } from './wishlist/wishlist.component';
+
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 
 
 const clientRoutes: Routes = [
@@ -44,7 +47,9 @@ const clientRoutes: Routes = [
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
       { path: '**', component: PagenotfoundComponent },
+
     ]},
     
   ];

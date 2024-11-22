@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { forgotPassword, resetPassword } = require("../controllers/userController");
 const multer = require('multer');
 // const  {authentication, authorization}= require("../auth/auth.Utils");
 
@@ -31,5 +32,11 @@ router.put('/users/:id', userController.updateUser);
 
 // Xóa
 router.delete('/users/:id', userController.deleteUser);
+
+// Quên mật khẩu
+router.post("/forgot-password", forgotPassword);
+
+// Đặt lại mật khẩu
+router.post("/reset-password", resetPassword);
 
 module.exports = router;
