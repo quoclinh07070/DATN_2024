@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service'; // Import UserService
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
 
 @Component({
@@ -38,9 +38,17 @@ export class RegisterComponent {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-    });
+      confirmPassword: ['', [Validators.required]],
+    },
+    { validators: this.passwordMatchValidator } // Custom validator
+  );
   }
 
+  passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
   showPopup(message: string, isSuccess: boolean) {
     this.popupMessage = message;
     this.isSuccess = isSuccess;

@@ -41,6 +41,16 @@
                 Mật khẩu là bắt buộc.
               </small>
             </div>
+            <div class="form-group">
+              <label for="signup-confirm-password">Xác Nhận Mật Khẩu:</label>
+              <input type="password" id="signup-confirm-password" formControlName="confirmPassword" required class="form-control">
+              <small *ngIf="signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.get('confirmPassword')?.touched" class="error-message">
+                Xác nhận mật khẩu là bắt buộc.
+              </small>
+              <small *ngIf="signupForm.errors?.['passwordMismatch'] && signupForm.get('confirmPassword')?.touched" class="error-message">
+                Mật khẩu và xác nhận mật khẩu không khớp.
+              </small>
+            </div>
             <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
             <div class="text-center mt-3 link-group">
               <span>Đã có tài khoản? </span>
