@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostService } from '../../../services/post.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink,],
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.css']
 })
@@ -31,12 +31,16 @@ export class BlogDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getAllPosts();
     this.postId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.postId) {
       this.getPost(this.postId);
     }
   }
-
+  
+  getImageUrl(imageName: string): string {
+    return this.postService.getImageUrl(imageName);
+  }
   getPost(id: number): void {
     this.postService.getPostById(id).subscribe(
       (response: any) => {
@@ -49,7 +53,28 @@ export class BlogDetailComponent implements OnInit {
     );
   }
 
-  getImageUrl(imageName: string): string {
-    return this.postService.getImageUrl(imageName);
+  posts: any[] = [];
+
+  // constructor(private postService: PostService) {
+  //   registerLocaleData(localeVi, 'vi');  // Đăng ký locale tiếng Việt
+  // }
+
+  // ngOnInit(): void {
+  //   this.getAllPosts();
+  // }
+
+  // getImageUrl(imageName: string): string {
+  //   return this.postService.getImageUrl(imageName);
+  // }
+  
+  getAllPosts(): void {
+    this.postService.getAllPosts().subscribe(
+      (response: any) => {
+        this.posts = response.posts;
+      },
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu bài viết:', error);
+      }
+    );
   }
 }
