@@ -13,6 +13,7 @@ const postcategoryRoutes = require('./src/routes/postcategoryRoutes');
 const reviewRoutes = require('./src/routes/review');
 const userRoutes = require('./src/routes/userRoutes');
 const emailRoutes = require('./src/routes/emailRoutes');
+const checkoutRoutes = require('./src/routes/checkoutRoutes');
 
 const db = require('./src/config/db'); // Nhập db từ config
 
@@ -76,6 +77,7 @@ app.use('/api', postcategoryRoutes);
 app.use('/api', reviewRoutes);
 app.use('/api', userRoutes);
 app.use('/api', emailRoutes);
+app.use('/api', checkoutRoutes);
 app.use('/api', require("./src/routes/index"));
 
 // Start the server

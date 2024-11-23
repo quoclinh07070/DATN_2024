@@ -21,7 +21,7 @@
 
         <!--Checkout Details-->
         <div class="checkout-form">
-            <form method="post" action="#">
+            <form>
                 <div class="row clearfix">
                     <!--Column-->
                     <div class="column col-lg-6 col-md-12">
@@ -32,69 +32,61 @@
                         <div class="row clearfix">
 
                             <!--Form Group-->
-                            <div class="form-group col-md-6 col-sm-12">
-                                <div class="field-label">Họ <sup>*</sup></div>
-                                <input type="text" name="field-name" value="" placeholder="">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Họ Tên <sup>*</sup></div>
+                                <input type="text" [(ngModel)]="fullName" name="fullName" placeholder="Họ Tên">
                             </div>
-
-                            <!--Form Group-->
-                            <div class="form-group col-md-6 col-sm-12">
-                                <div class="field-label">Tên </div>
-                                <input type="text" name="field-name" value="" placeholder="">
-                            </div>
-
-                            <!--Form Group-->
-                            <div class="form-group col-md-6 col-sm-12">
-                                <div class="field-label">Email</div>
-                                <input type="text" name="field-name" value="" placeholder="">
-                            </div>
-
-                            <!--Form Group-->
-                            <div class="form-group col-md-6 col-sm-12">
-                                <div class="field-label">Số điện thoại</div>
-                                <input type="text" name="field-name" value="" placeholder="">
-                            </div>
-
 
                             <!--Form Group-->
                             <div class="form-group col-md-12 col-sm-12">
-                                <div class="field-label">Địa chỉ</div>
-                                <input type="text" name="field-name" value="" placeholder="Street address">
-                            </div>
-
-                            <div class="form-group col-md-12 col-sm-12">
-                                <input type="text" name="field-name" value=""
-                                    placeholder="Apartment,suite,unit etc. (optional)">
+                                <div class="field-label">Email <sup>*</sup></div>
+                                <input type="email" [(ngModel)]="email" name="email" placeholder="Email">
                             </div>
 
                             <!--Form Group-->
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Số điện thoại <sup>*</sup></div>
+                                <input type="text" [(ngModel)]="phone" name="phone" placeholder="Số điện thoại">
+                            </div>
+
+                            <!--Form Group-->
+                            <!-- Dropdown Tỉnh/Thành phố -->
                             <div class="form-group col-md-12 col-sm-12">
                                 <div class="field-label">Tỉnh/Thành phố</div>
-                                <input type="text" name="field-name" value="" placeholder="">
+                                <select id="province" [(ngModel)]="selectedProvince" name="province" (change)="onProvinceChange()">
+                                    <option value="">Chọn Tỉnh/Thành phố</option>
+                                    <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Dropdown Quận/Huyện -->
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Quận/Huyện</div>
+                                <select id="district" [(ngModel)]="selectedDistrict" name="district" (change)="onDistrictChange()">
+                                    <option value="">Chọn Quận/Huyện</option>
+                                    <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Dropdown Phường/Xã -->
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Phường/Xã</div>
+                                <select id="ward" [(ngModel)]="selectedWard" name="ward">
+                                    <option value="">Chọn Phường/Xã</option>
+                                    <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+                                </select>
                             </div>
 
                             <!--Form Group-->
-                            <!--Form Group-->
-                            <div class="form-group col-sm-12">
-                                <div class="field-label">Postcode/ ZIP</div>
-                                <input type="text" name="field-name" value="" placeholder="">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <div class="field-label">Địa chỉ chi tiết <sup>*</sup></div>
+                                <input type="text" [(ngModel)]="address" name="address" placeholder="Tên đường, số nhà">
                             </div>
+
                             <!--Form Group-->
-                            <div class="form-group col-md-12 col-sm-12 ">
+                            <div class="form-group col-md-12 col-sm-12">
                                 <div class="field-label">Ghi chú</div>
-                                <textarea class=""
-                                    placeholder="Notes about your order,e.g. special notes for delivery."></textarea>
-                            </div>
-                            <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                                <input type="checkbox" name="shipping-option" id="account-option"> &ensp; <label
-                                    for="account-option">Create An Account?</label>
-                                <div class="text">Tạo tài khoản bằng cách nhập thông tin bên dưới. Nếu bạn là khách hàng
-                                    thường xuyên, vui lòng đăng nhập ở đầu trang.</div>
-                            </div>
-
-                            <div class="form-group col-md-12 col-sm-12 mb-4">
-                                <div class="field-label"><span>Account Password</span></div>
-                                <input type="password" name="field-name" value="" placeholder="Password">
+                                <textarea [(ngModel)]="note" name="note" placeholder="Ghi chú cho đơn hàng của bạn, bỏ trống nếu không cần."></textarea>
                             </div>
                         </div>
                     </div>
@@ -102,7 +94,6 @@
                     <!--Order Box-->
                     <div class="column col-lg-6 col-md-12 col-sm-12">
                         <div class="order-box">
-                            <div class="column col-md-12"></div>
                             <div class="sec-title">
                                 <h2>Đơn hàng</h2>
                             </div>
@@ -118,7 +109,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!--End Order Box-->
 
                     <!--Payment Box-->
                     <div class="payment-box">
@@ -128,54 +118,26 @@
                                 <ul>
                                     <li>
                                         <div class="radio-option">
-                                            <input type="radio" name="payment-group" id="payment-2" checked>
-                                            <label for="payment-2"><strong>Thanh toán qua ngân hàng</strong><span
-                                                    class="small-text">Make your payment directly into our bank
-                                                    account.
-                                                    Please use your Order ID as the payment reference. Your order
-                                                    won’t
-                                                    be shipped until the funds have cleared in our
-                                                    account.</span></label>
+                                            <input type="radio" name="payment-group" id="payment-bank" [(ngModel)]="selectedPaymentMethod" value="bank">
+                                            <label for="payment-bank"><strong>Thanh toán qua ngân hàng</strong></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="radio-option">
-                                            <input type="radio" name="payment-group" id="payment-1">
-                                            <label for="payment-1"><strong>Kiểm tra thanh toán</strong><span
-                                                    class="small-text">Make your payment directly into our bank
-                                                    account.
-                                                    Please use your Order ID as the payment reference. Your order
-                                                    won’t
-                                                    be shipped until the funds have cleared in our
-                                                    account.</span></label>
+                                            <input type="radio" name="payment-group" id="payment-cod" [(ngModel)]="selectedPaymentMethod" value="cod">
+                                            <label for="payment-cod"><strong>Thanh toán khi nhận hàng</strong></label>
                                         </div>
                                     </li>
-
-                                    <li>
-                                        <div class="radio-option">
-                                            <input type="radio" name="payment-group" id="payment-3">
-                                            <label for="payment-3"><strong>Thanh toán khi nhận hàng</strong><span
-                                                    class="small-text">Make your payment directly into our bank
-                                                    account.
-                                                    Please use your Order ID as the payment reference. Your order
-                                                    won’t
-                                                    be shipped until the funds have cleared in our
-                                                    account.</span></label>
-                                        </div>
-                                    </li>
-                                    <!-- <li>
-                                        <div class="radio-option">
-                                            <input type="radio" name="payment-group" id="payment-4">
-                                            <label for="payment-4"><strong>PayPal</strong><span class="image"><img
-                                                        src="/assets/client/images/resource/paypal.jpg" alt="" /></span></label>
-                                            <a href="#" class="what-paypall">PayPal của bạn là?</a>
-                                        </div>
-                                    </li> -->
                                 </ul>
                             </div>
                         </div>
                         <div class="lower-box text-right">
-                            <a routerLink="/" class="theme-btn btn-style-one">Place Order</a>
+                            <!-- <button (click)="placeOrder()" class="theme-btn btn-style-one">Place Order</button> -->
                         </div>
                     </div>
                     <!--End Payment Box-->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
