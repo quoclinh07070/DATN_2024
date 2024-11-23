@@ -20,6 +20,7 @@ import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { PaymentAlertComponent } from './payment-alert/payment-alert.component';
 // import { WishlistComponent } from './wishlist/wishlist.component';
 
 
@@ -42,6 +43,7 @@ const clientRoutes: Routes = [
       { path: 'user', component: UserComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
+      { path: 'payment-alert', component: PaymentAlertComponent },
       { path: '**', component: PagenotfoundComponent },
     ]},
     

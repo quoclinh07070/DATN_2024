@@ -21,18 +21,6 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllProducts();
-  }
-
-  getAllProducts(): void {
-    this.productService.getAllProducts().subscribe(
-      (response: any) => {
-        this.products = response.products;
-      },
-      (error) => {
-        console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
-      }
-    );
   }
 
 

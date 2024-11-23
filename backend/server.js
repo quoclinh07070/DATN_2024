@@ -12,8 +12,11 @@ const categoryRoutes = require('./src/routes/categoryRoutes');
 const postcategoryRoutes = require('./src/routes/postcategoryRoutes');
 const reviewRoutes = require('./src/routes/review');
 const userRoutes = require('./src/routes/userRoutes');
+const paymentRoutes = require('./src/routes/paymentRoutes');  // Import routes thanh toán MoMo
 
 const db = require('./src/config/db'); // Nhập db từ config
+const dbmomo = require('./src/config/momo'); // Nhập db từ config
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -75,6 +78,7 @@ app.use('/api', postcategoryRoutes);
 app.use('/api', reviewRoutes);
 app.use('/api', userRoutes);
 app.use('/api', require("./src/routes/index"));
+app.use('/api/payment', paymentRoutes);  // Thêm route thanh toán MoMo
 
 // Start the server
 const PORT = process.env.PORT || 3000;
