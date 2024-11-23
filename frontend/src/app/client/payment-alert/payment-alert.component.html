@@ -1,0 +1,21 @@
+<div class="auto-container text-center mt-5 sidebar-page-container">
+        <!-- payment-alert.component.html -->
+        <div class="payment-status">
+            <h2>{{ paymentStatus }}</h2>
+          
+            <div *ngIf="paymentStatus === 'Thanh toán thành công!'">
+              <p>Mã giao dịch: {{ transId }}</p>
+              <p>Số tiền thanh toán: {{ amount | number:'1.0-0' }} ₫</p>
+              <p>Thông tin đơn hàng: {{ orderInfo }}</p>
+            </div>
+          
+            <div *ngIf="paymentStatus === 'Thanh toán thất bại!'">
+              <p>Vui lòng kiểm tra lại thông tin thanh toán.</p>
+              <p>Lý do: {{ message }}</p>
+            </div>
+          
+            <div *ngIf="paymentStatus === 'Đang xử lý'">
+              <p>Đơn hàng của bạn đang được xử lý. Vui lòng chờ...</p>
+            </div>
+          </div>    
+</div>

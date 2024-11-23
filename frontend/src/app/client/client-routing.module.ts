@@ -21,6 +21,8 @@ import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { PaymentAlertComponent } from './payment-alert/payment-alert.component';
+// import { WishlistComponent } from './wishlist/wishlist.component';
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
@@ -48,6 +50,7 @@ const clientRoutes: Routes = [
       { path: 'search', component: SearchResultComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'payment-alert', component: PaymentAlertComponent },
       { path: '**', component: PagenotfoundComponent },
 
     ]},
