@@ -116,10 +116,11 @@ a:visited{
 h1,h2,h3,h4,h5,h6 {
 	position:relative;
 	font-weight:normal;
+	color:#000000;
 	margin:0px;
 	background:none;
 	line-height:1.2em;
-	font-family: 'Arimo', sans-serif;
+	font-family: 'Roboto';
 }
 
 textarea{
@@ -587,6 +588,15 @@ img{
 	position: relative;
 	float: right;
 	padding:5px 0;
+	color: #000000;
+	
+}
+.main-header .top-right .contact-list li i{
+	float: left;
+	font-size: 16px;
+	line-height: 30px;
+	margin-right: 10px;
+	color: #ffffff;
 }
 
 .social-icon-four{
@@ -601,23 +611,6 @@ img{
 
 .social-icon-four li:first-child{
 	margin-left: 0;
-}
-
-.social-icon-four li a{
-	position: relative;
-	display: block;
-	font-size: 16px;
-	line-height: 30px;
-	color: #ffffff;
-	-webkit-transition: all 300ms ease;
-	-moz-transition: all 300ms ease;
-	-ms-transition: all 300ms ease;
-	-o-transition: all 300ms ease;
-	transition: all 300ms ease;
-}
-
-.social-icon-four li a:hover{
-	color: #222222;
 }
 
 .main-header .main-box{
@@ -2319,6 +2312,28 @@ header-style-seven .nav-toggler:hover{
     -o-transition: top 300ms ease;
     transition: top 300ms ease;
 }
+/* xoa sticky-header ben tren va dung phan nay neu muon loai bo lowerheader
+ .sticky-header{
+    position: fixed;
+    visibility: visible;
+    opacity: 1;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    padding: 0px 0px;
+    z-index: 9999;
+    background: #ffffff;
+    -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.10);
+    -moz-box-shadow: 0 0 15px rgba(0,0,0,0.10);
+    -ms-box-shadow: 0 0 15px rgba(0,0,0,0.10);
+    -o-box-shadow: 0 0 15px rgba(0,0,0,0.10);
+    box-shadow: 0 0 15px rgba(0,0,0,0.10);
+    -webkit-transition: top 300ms ease;
+    -moz-transition: top 300ms ease;
+    -ms-transition: top 300ms ease;
+    -o-transition: top 300ms ease;
+    transition: top 300ms ease;
+} */
 
 .fixed-header .sticky-header{
 	opacity:1;
@@ -4152,97 +4167,94 @@ header-style-seven .nav-toggler:hover{
 
 ***/
 
-.page-title{
-	position:relative;
-	padding: 380px 0 180px;
-	background-size:cover;
-	background-position:center center;
-	background-repeat:no-repeat;
-}
-
-.page-title:before{
-	content:'';
-	left:0px;
-	top:0px;
-	width:100%;
-	height:100%;
-	background:#000000;
-	opacity: .70;
-	position:absolute;
-}
-
-.page-title .inner-container{
+.page-title {
 	position: relative;
-}
-
-.page-title .title-box{
+	padding: 380px 0 100px 0; /* Giảm chiều cao của ảnh */
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+  }
+  
+  .page-title:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: none; /* Loại bỏ lớp màng đen */
+  }
+  
+  .page-title .inner-container {
 	position: relative;
-	float: left;
-}
-
-.page-title h1{
-	position:relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start; /* Đảm bảo các phần tử con nằm trên cùng một trục dọc */
+  }
+  
+  .page-title .title-box {
+	position: relative;
+  }
+  
+  .page-title h1 {
+	position: relative;
 	display: block;
-	font-size:48px;
-	color:#ffffff;
+	font-size: 48px;
+	color: #ffffff;
 	line-height: 50px;
 	font-weight: 500;
-	margin-bottom: 35px;
-}
-
-.page-title .title{
+	margin-bottom: 10px; /* Giảm khoảng cách dưới h1 */
+  }
+  
+  .page-title .title {
 	position: relative;
 	display: block;
 	font-size: 24px;
 	line-height: 40px;
 	color: #ffffff;
 	font-weight: 400;
-}
-
-.page-title .bread-crumb {
+	margin-bottom: 30px; /* Thêm khoảng cách giữa title và breadcrumb */
+  }
+  
+  .page-title .bread-crumb {
 	position: relative;
-	float: right;
-	padding-top: 95px;
-}
-
-.page-title .bread-crumb li{
-	position: relative;
-	float: left;
+	display: flex;
+	align-items: center;
+	margin-top: 20px; /* Di chuyển breadcrumb xuống dưới h1 */
+	padding: 0;
+	list-style: none;
+  }
+  
+  .page-title .bread-crumb li {
 	font-size: 18px;
 	line-height: 30px;
-	color:#ff8a00;
+	color: #ff8a00;
 	font-weight: 700;
 	text-transform: capitalize;
 	cursor: default;
-	padding-right:  10px;
+	padding-right: 10px;
 	margin-right: 10px;
-}
-
-.page-title .bread-crumb li:before{
-	position: absolute;
-	right: -2px;
-	font-size: 16px;
-	line-height: 30px;
-	color: #ffffff;
+	display: inline-block;
+  }
+  
+  .page-title .bread-crumb li:not(:last-child)::after {
 	content: "-";
-}
-
-.page-title .bread-crumb li:last-child:before{
-	display: none;
-}
-
-.page-title .bread-crumb li a{
-	color:#ffffff;
-	-webkit-transition: all 300ms ease;
-	-moz-transition: all 300ms ease;
-	-ms-transition: all 300ms ease;
-	-o-transition: all 300ms ease;
+	font-size: 25px;
+	color: #ffffff;
+	padding-left: 10px;
+  }
+  
+  .page-title .bread-crumb li a {
+	color: #ffffff;
 	transition: all 300ms ease;
-}
-
-.page-title .bread-crumb li a:hover{
-	color:#ff8a00 ;	
-}
+	font-weight: 500;
+  }
+  
+  .page-title .bread-crumb li a:hover {
+	color: #ff8a00;
+  }
+  
+  
 
 /*** 
 
@@ -9779,16 +9791,15 @@ header-style-seven .nav-toggler:hover{
 
 .sidebar-page-container .sidebar-title{
 	position: relative;
-	margin-bottom: 25px;
 }
 
-.sidebar-page-container .sidebar-title h3{
+.sidebar-page-container .sidebar-title h6{
 	position: relative;
 	display: inline-block;
-	font-size: 24px;
+	font-size: 18px;
 	line-height: 1.2em;
 	color: #222222;
-	font-weight: 500;
+	font-weight: normal;
 	text-transform: capitalize;
 }
 
@@ -11489,20 +11500,6 @@ header-style-seven .nav-toggler:hover{
 	padding:30px 25px 30px;
 }
 
-.cart-table tbody tr .qty{
-	width:200px;
-}
-
-.cart-table tbody tr .qty .item-quantity{
-	max-width: 100px;
-	margin: 0 auto;
-}
-
-
-.cart-table tbody tr .qty .quantity-spinner{
-	background:#ffffff;	
-}
-
 .cart-table tbody tr .prod-column .column-box{
 	position:relative;
 	min-height:110px;
@@ -11596,7 +11593,7 @@ header-style-seven .nav-toggler:hover{
 	font-size:16px;
 	color:#222222;
 	font-weight:400;
-	font-family: 'Arimo', sans-serif;
+	font-family: 'Roboto',;
 }
 
 .cart-table tbody tr td .quantity-spinner{
@@ -11738,12 +11735,12 @@ header-style-seven .nav-toggler:hover{
 	display:block;
 	float:left;
 	line-height:24px;
-	width:50%;
+	width:40%;
 	color:#222222;
 	font-size:16px;
 	font-weight:700;
 	text-transform:capitalize;
-	font-family: 'Arimo', sans-serif;
+	font-family: 'Roboto';
 }
 
 .cart-section .totals-table li .col:last-child{
@@ -11751,8 +11748,9 @@ header-style-seven .nav-toggler:hover{
 }
 
 .cart-section .totals-table .total .price{
-	color:#ff8a00;
-	font-weight:400;
+	color: #ef683a!important;
+    font-weight: bold;
+	font-size: 24px;
 }
 
 .cart-section .totals-table .proceed-btn{

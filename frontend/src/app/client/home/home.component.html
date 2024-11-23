@@ -41,30 +41,6 @@
                 <h2 class="text-center fw-bold text-dark mb-3">TẤT CẢ SẢN PHẨM</h2>
                 <div class="our-shop">
                     <div class="row clearfix">
-                      <div *ngFor="let product of products" class="shop-item col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                        <div class="inner-box">
-                          <div class="image">
-                            <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" />
-                            <div class="overlay-box">
-                              <ul class="cart-option">
-                                <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                                <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="lower-content">
-                            <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
-                            <div class="price">{{ product.price | currency: 'VND' }}</div>
-                            <div class="clearfix">
-                              <div class="pull-left">
-                                <!-- Thêm sản phẩm vào giỏ -->
-                                <!-- <a class="add-cart" routerLink="/cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a> -->
-                                <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
             </div>

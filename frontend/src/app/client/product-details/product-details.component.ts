@@ -46,6 +46,7 @@ export class ProductDetailsComponent implements OnInit {
   userName: string | null = null;
   userEmail: string | null = null;
   isLoggedIn: boolean = false;
+  quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
 
   constructor(
     private productService: ProductService,
@@ -94,11 +95,44 @@ export class ProductDetailsComponent implements OnInit {
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
   }
+  
+  // Hàm giảm số lượng
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  // Hàm tăng số lượng
+  increaseQuantity(): void {
+    if (this.quantity < this.product.quantity) {
+      this.quantity++;
+    }
+  }
 
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any) {
-    this.cartService.addToCart(product);
-    alert('Sản phẩm đã được thêm vào giỏ hàng!');
+  addToCart(product: any, quantity: number): void {
+    if (product.quantity > 0 && quantity <= product.quantity) {
+      const success = this.cartService.addToCart(product, quantity);  // Cập nhật số lượng khi thêm vào giỏ hàng
+
+      if (success) {
+        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+      } else {
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+      }
+    } else {
+      alert('Số lượng vượt quá tồn kho!');
+    }
+  }
+
+  // Validate số lượng sản phẩm
+  validateQuantity(): void {
+    if (this.quantity < 1) {
+      this.quantity = 1;  // Đảm bảo số lượng không nhỏ hơn 1
+    } else if (this.quantity > this.product.quantity) {
+      this.quantity = this.product.quantity;  // Điều chỉnh lại số lượng nếu vượt quá kho
+      alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+    }
   }
 
   // Tải các đánh giá của sản phẩm và lấy thông tin người dùng
