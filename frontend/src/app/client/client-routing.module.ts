@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientLayoutComponent } from './client-layout/client-layout.component';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ProductComponent } from './product/product.component';
@@ -19,12 +22,19 @@ import { ProjectsComponent } from './projects/projects.component';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
+<<<<<<< HEAD
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+=======
+import { ProfileComponent } from './profile/profile.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { SearchResultComponent } from './search-result/search-result.component';
+// import { WishlistComponent } from './wishlist/wishlist.component';
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
 
 const clientRoutes: Routes = [
@@ -44,6 +54,7 @@ const clientRoutes: Routes = [
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'user', component: UserComponent },
+<<<<<<< HEAD
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -52,6 +63,13 @@ const clientRoutes: Routes = [
 
     ]},
     
+=======
+      { path: 'profile', component: ProfileComponent },
+      { path: 'wishlist', component: WishlistComponent },
+      { path: 'search', component: SearchResultComponent },
+      { path: '**', component: PagenotfoundComponent },
+    ]},
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
   ];
 
   @NgModule({

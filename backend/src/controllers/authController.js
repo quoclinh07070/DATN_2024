@@ -42,6 +42,7 @@ class AccessController {
         }).send((res))
 
     }
+<<<<<<< HEAD
     
 
     Admin = async (req, res) => {
@@ -58,6 +59,8 @@ class AccessController {
         }
     };
     
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 }
 
 module.exports = new AccessController()

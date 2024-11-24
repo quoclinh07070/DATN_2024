@@ -1,6 +1,7 @@
 .element {
     margin: 40px;
   }
+<<<<<<< HEAD
 .shop-item h3 {
   display: -webkit-box;        /* Sử dụng flexbox để tạo hộp cho text */
   -webkit-line-clamp: 2;       /* Số dòng hiển thị tối đa */
@@ -10,3 +11,6 @@
   height: 50px;                /* Chiều cao cố định */
   line-height: 25px;           /* Căn chỉnh dòng */
 }
+=======
+  
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

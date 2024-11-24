@@ -35,11 +35,19 @@ class KeyTokenService {
         return await KeytokenModel.findByRefreshToken({refreshToken})
     }
 
+<<<<<<< HEAD
     static async updateKeyToken(userId, tokens, expireTime) {
         console.log("tokens::%s", tokens);
         try {
             // Gọi phương thức cập nhật từ model
             await KeytokenModel.updateKeyToken(userId, tokens, expireTime);
+=======
+    static async updateKeyToken(userId, tokens, refreshToken) {
+        console.log("tokens::%s", tokens);
+        try {
+            // Gọi phương thức cập nhật từ model
+            await KeytokenModel.updateKeyToken(userId, tokens, refreshToken);
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
         } catch (error) {
             console.error('Error updating key token:', error);
             throw new Error('Unable to update key token');

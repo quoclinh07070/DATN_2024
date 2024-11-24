@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
 
   // Tăng số lượng sản phẩm
   increaseQuantity(item: any) {
+<<<<<<< HEAD
     this.productService.getProductById(item.id).subscribe((response: any) => {
       const product = response.product;  // Lấy sản phẩm từ response
   
@@ -45,6 +46,10 @@ export class CartComponent implements OnInit {
         alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     });
+=======
+    item.quantity++;
+    this.cartService.updateQuantity(item.id, item.quantity); // Cập nhật số lượng trong giỏ hàng
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
   }
 
   // Giảm số lượng sản phẩm
@@ -52,6 +57,7 @@ export class CartComponent implements OnInit {
     if (item.quantity > 1) {
       item.quantity--;
       this.cartService.updateQuantity(item.id, item.quantity); // Cập nhật số lượng trong giỏ hàng
+<<<<<<< HEAD
     } 
     // else {
     //   alert('Số lượng không thể nhỏ hơn 1');
@@ -95,4 +101,28 @@ export class CartComponent implements OnInit {
     return this.productService.getImageUrl(imageName);
   }
   
+=======
+    }
+  }
+
+  // Tính tổng tiền
+  getTotal() {
+    return this.cartService.getTotal();
+  }
+
+  // Xóa tất cả sản phẩm trong giỏ
+  clearCart() {
+    this.cartService.clearCart();
+    this.loadCart(); // Cập nhật giỏ hàng sau khi xóa tất cả sản phẩm
+  }
+  getImageUrl(imageName: string): string {
+    return this.productService.getImageUrl(imageName);
+  }
+  // Xử lý khi số lượng thay đổi
+  validateQuantity(item: any) {
+    if (item.quantity < 1) {
+      item.quantity = 1; // Nếu số lượng nhỏ hơn 1, đặt lại là 1
+    }
+  }
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 }

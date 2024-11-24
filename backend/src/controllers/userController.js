@@ -1,8 +1,11 @@
 // userController.js
 const db = require('../config/db');
 const User = require('../models/user');
+<<<<<<< HEAD
 const crypto = require("crypto");
 const { sendForgotPassEmail } = require("./emailController");
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -118,6 +121,7 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi xóa người dùng', error: err });
     }
 };
+<<<<<<< HEAD
 
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
@@ -207,3 +211,5 @@ exports.resetPassword = async (req, res) => {
 };
 
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

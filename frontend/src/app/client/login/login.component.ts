@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
+<<<<<<< HEAD
 import { Router, RouterLink } from '@angular/router';
+=======
+import { Router } from '@angular/router';
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
 
@@ -12,7 +16,10 @@ import { CommonModule } from '@angular/common'; // Thêm CommonModule
   imports: [
     CommonModule,
     ReactiveFormsModule,
+<<<<<<< HEAD
     RouterLink
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
   ],
 })
 export class LoginComponent {
@@ -24,9 +31,12 @@ export class LoginComponent {
   signupErrorMessage: string = '';
   isSignupVisible: boolean = false;
   successMessage: string = '';
+<<<<<<< HEAD
   userName: string | null;
   userEmail: string | null;
   isLoggedIn: boolean = false;
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
   isPopupVisible: boolean = false;
   popupMessage: string = '';
@@ -45,6 +55,7 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+<<<<<<< HEAD
 
     // Kiểm tra đăng nhập
     this.isLoggedIn = this.authService.isAuthenticated();
@@ -55,6 +66,8 @@ export class LoginComponent {
       this.userName = null;
       this.userEmail = null;
     }
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
   }
 
   handleSubmit() {
@@ -70,7 +83,11 @@ export class LoginComponent {
         if (response.metadata.tokens && response.metadata.tokens.accessToken) {
           localStorage.setItem('token', response.metadata.tokens.accessToken);
           this.showPopup('Đăng nhập thành công!', true);
+<<<<<<< HEAD
           setTimeout(() => {this.router.navigate(['/user']);}, 2000);
+=======
+          setTimeout(() => {this.router.navigate(['/user']);}, 3000);
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
         } else {
           this.showPopup('Không nhận được token từ server.', false);
         }
@@ -95,9 +112,14 @@ export class LoginComponent {
     this.popupMessage = message;
     this.isSuccess = isSuccess;
     this.isPopupVisible = true;
+<<<<<<< HEAD
     setTimeout(() => this.closePopup(), 4000);
   }
   
+=======
+    setTimeout(() => this.closePopup(), 3000);
+  }
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
   closePopup() {
     this.isPopupVisible = false;

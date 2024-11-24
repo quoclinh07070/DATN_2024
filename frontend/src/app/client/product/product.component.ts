@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { ProductService } from '../../services/product.service';  
 import { CategoryService } from '../../services/category.service';
 import { RouterLink } from '@angular/router';
@@ -44,10 +45,48 @@ export class ProductComponent implements OnInit {
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);  // In ra lỗi nếu có sự cố
+=======
+import { ProductService } from '../../services/product.service';
+import { CategoryService } from '../../services/category.service';
+import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service'; // Import CartService
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-product',
+  standalone: true,
+  imports: [RouterLink, CommonModule],
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css'],
+})
+export class ProductComponent implements OnInit {
+  products: any[] = [];
+  categories: any[] = [];
+
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private cartService: CartService // Inject CartService
+  ) {}
+
+  ngOnInit(): void {
+    this.getAllProducts();
+    this.getAllCategories();
+  }
+
+  getAllProducts(): void {
+    this.productService.getAllProducts().subscribe(
+      (response: any) => {
+        this.products = response.products;
+      },
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
       }
     );
   }
 
+<<<<<<< HEAD
   // Lấy tất cả danh mục sản phẩm từ API
   getAllCategories(): void {
     this.categoryService.getAllCategories().subscribe(
@@ -56,10 +95,20 @@ export class ProductComponent implements OnInit {
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu danh mục:', error);  // In ra lỗi nếu có sự cố
+=======
+  getAllCategories(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.categories;
+      },
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu danh mục:', error);
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
       }
     );
   }
 
+<<<<<<< HEAD
   // Thêm sản phẩm vào giỏ hàng
   addToCart(product: any, quantity: number) {
     if (product.quantity > 0) {
@@ -140,5 +189,15 @@ sortProducts(event: Event): void {
   // Lấy URL của ảnh sản phẩm
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);  // Gọi dịch vụ để lấy URL của ảnh sản phẩm
+=======
+  // Thêm sản phẩm vào giỏ
+  addToCart(product: any) {
+    this.cartService.addToCart(product); // Gọi CartService để thêm sản phẩm vào giỏ
+    alert('Sản phẩm đã được thêm vào giỏ hàng!');
+  }
+
+  getImageUrl(imageName: string): string {
+    return this.productService.getImageUrl(imageName);
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
   }
 }

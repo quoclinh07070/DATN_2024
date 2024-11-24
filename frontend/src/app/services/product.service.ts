@@ -47,4 +47,8 @@ export class ProductService {
     // Cập nhật đường dẫn API để sử dụng path params thay vì query string
     return this.http.get(`${this.baseUrl}/search/${value}`);
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

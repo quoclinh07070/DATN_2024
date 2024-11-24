@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -6,14 +7,26 @@ import { ProductService } from '../../services/product.service';
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';  // Import UserService
+=======
+import { ProductService } from '../../services/product.service';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';  // Thêm import này để sử dụng currency pipe
+import { RouterLink } from '@angular/router';
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 import { CartService } from '../../services/cart.service'; // Import CartService
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
+<<<<<<< HEAD
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
+=======
+  imports: [CommonModule,RouterLink],
+  templateUrl: './product-details.component.html',
+  styleUrl: './product-details.component.css'
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 })
 export class ProductDetailsComponent implements OnInit {
   product: any = {
@@ -27,6 +40,7 @@ export class ProductDetailsComponent implements OnInit {
     categories_id: ''
   };
   productId: number | null = null;
+<<<<<<< HEAD
   reviews: any[] = [];
   newReview: { 
     rating: number; 
@@ -55,10 +69,18 @@ export class ProductDetailsComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,  // Inject UserService
     private router: Router,  // Inject Router
+=======
+
+
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
     private cartService: CartService // Inject CartService
   ) {}
 
   ngOnInit(): void {
+<<<<<<< HEAD
     // Lấy thông tin sản phẩm từ URL
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.productId) {
@@ -80,6 +102,14 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   // Lấy thông tin chi tiết sản phẩm từ API
+=======
+    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.productId) {
+      this.getProduct(this.productId);
+    }
+  }
+
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
   getProduct(id: number): void {
     this.productService.getProductById(id).subscribe(
       (response: any) => {
@@ -90,6 +120,7 @@ export class ProductDetailsComponent implements OnInit {
       }
     );
   }
+<<<<<<< HEAD
 
   // Lấy URL của hình ảnh sản phẩm
   getImageUrl(imageName: string): string {
@@ -195,3 +226,16 @@ export class ProductDetailsComponent implements OnInit {
     }
 }
 }
+=======
+  getImageUrl(imageName: string): string {
+    return this.productService.getImageUrl(imageName);
+  }
+
+  // Thêm sản phẩm vào giỏ
+  addToCart(product: any) {
+    this.cartService.addToCart(product); // Gọi CartService để thêm sản phẩm vào giỏ
+    alert('Sản phẩm đã được thêm vào giỏ hàng!');
+  }
+  
+}
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

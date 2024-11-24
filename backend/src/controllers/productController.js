@@ -26,7 +26,10 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 exports.getProductById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -182,6 +185,7 @@ exports.searchProduct = async (req, res) => {
     }
 };
 
+<<<<<<< HEAD
 exports.Admin = async (req, res) => {
     try {
         res.json({
@@ -196,3 +200,5 @@ exports.Admin = async (req, res) => {
     }
 };
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

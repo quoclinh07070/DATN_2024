@@ -22,6 +22,11 @@ import { AdminEditProductComponent } from './admin-product/admin-edit-product/ad
 //user
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminEditUserComponent } from './admin-user/admin-edit-user/admin-edit-user.component';
+<<<<<<< HEAD
+=======
+//profile
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 //order
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminOrderEditComponent } from './admin-order/admin-order-edit/admin-order-edit.component';
@@ -34,7 +39,10 @@ import { AdminEditComponent } from './admin-post/admin-edit/admin-edit.component
 import { AdminVoucherComponent } from './admin-voucher/admin-voucher.component';
 import { AdminAddVoucherComponent } from './admin-voucher/admin-add-voucher/admin-add-voucher.component';
 import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/admin-edit-voucher.component';
+<<<<<<< HEAD
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
 
 //wishlistitems
@@ -62,6 +70,11 @@ const adminRoutes: Routes = [
     { path: 'user', component: AdminUserComponent },
     { path: 'user/edit/:id', component: AdminEditUserComponent },
 
+<<<<<<< HEAD
+=======
+    { path: 'profile', component: AdminProfileComponent },
+
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
     { path: 'login', component: AdminLoginComponent },
     { path: 'register', component: AdminRegisterComponent },
 
@@ -72,15 +85,21 @@ const adminRoutes: Routes = [
     { path: 'order', component: AdminOrderComponent },//////
     { path: 'order/edit/:id', component: AdminOrderEditComponent },////////
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 
 
     // Thêm các route admin khác ở đây
   ]},
+<<<<<<< HEAD
   { path: 'access-denied', component: AccessDeniedComponent },
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 ];
 
 @NgModule({

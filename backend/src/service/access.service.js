@@ -5,6 +5,10 @@ const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const KeyTokenService = require("../service/keyToken.service")
 const {createTokenPair} = require("../auth/auth.Utils");
+<<<<<<< HEAD
+=======
+
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 class AccessService {
 
     static logout = async (keyStore) => {
@@ -120,12 +124,23 @@ class AccessService {
             console.log(`Created Tokens Success::`, tokens)
             return {
                 code: 201,
+<<<<<<< HEAD
                 user: {
                     "user_id": newShop,
                     "name": name,
                     "email": email
                 },
                 tokens
+=======
+                metadata: {
+                    shop: {
+                        "user_id": newShop,
+                        "name": name,
+                        "email": email
+                    },
+                    tokens
+                }
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
             }
         }
 
@@ -144,6 +159,7 @@ class AccessService {
         // }
     }
 
+<<<<<<< HEAD
     static forgotPassword = async (email) => {
         // Tìm người dùng theo email
         const user = await User.findUserByEmail(email);
@@ -196,6 +212,8 @@ class AccessService {
     // };
     
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 }
 
 

@@ -44,6 +44,7 @@ export class CartService {
   }
 
   // Thêm sản phẩm vào giỏ hàng
+<<<<<<< HEAD
   addToCart(product: any, quantity: number): boolean {
     const existingItem = this.cartItems.find(item => item.id === product.id);
   
@@ -67,6 +68,18 @@ export class CartService {
   }
   
   
+=======
+  addToCart(product: any) {
+    const existingItem = this.cartItems.find(item => item.id === product.id);
+    
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      this.cartItems.push({...product, quantity: 1});
+    }
+    this.saveCartToLocalStorage();
+  }
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
   // Xóa sản phẩm khỏi giỏ hàng
   removeFromCart(productId: number) {
@@ -106,4 +119,7 @@ export class CartService {
     }
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

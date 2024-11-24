@@ -39,7 +39,12 @@ export class AdminEditUserComponent implements OnInit {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     );
+<<<<<<< HEAD
   }
+=======
+}
+
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -49,6 +54,7 @@ export class AdminEditUserComponent implements OnInit {
   }
 
   updateUser(): void {
+<<<<<<< HEAD
     // Tạo đối tượng dữ liệu JSON chứa các thông tin cần thiết
     const updateData = {
       role: this.user.Role,
@@ -71,3 +77,24 @@ export class AdminEditUserComponent implements OnInit {
   }
   
 }
+=======
+    const formData = new FormData();
+    formData.append('role', this.user.Role);
+    formData.append('status', this.user.Status);
+        
+    if (this.userId) {
+        this.userService.updateUser(this.userId, formData).subscribe(
+            (response) => {
+                alert('Thông tin người dùng đã được cập nhật!');
+                this.router.navigate(['/admin/user']);
+            },
+            (error) => {
+                alert('Lỗi khi cập nhật thông tin người dùng!');
+            }
+        );
+    }
+}
+
+
+}
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513

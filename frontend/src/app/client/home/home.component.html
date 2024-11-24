@@ -8,6 +8,7 @@
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
+<<<<<<< HEAD
             <img class="d-block w-100" src="./assets/client/images/banner/Banner.png"
                 alt="First slide">
         </div>
@@ -19,6 +20,23 @@
             <img class="d-block w-100" src="./assets/client/images/banner/Banner2.png"
                 alt="Third slide">
         </div>
+=======
+            <img class="d-block w-100" src="https://nhaxinh.com/wp-content/uploads/2024/08/orientale-bst-scaled.jpg"
+                alt="First slide">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="https://nhaxinh.com/wp-content/uploads/2024/08/orientale-bst-scaled.jpg"
+                alt="Second slide">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="https://nhaxinh.com/wp-content/uploads/2024/08/orientale-bst-scaled.jpg"
+                alt="Third slide">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="https://nhaxinh.com/wp-content/uploads/2024/08/orientale-bst-scaled.jpg"
+                alt="Four slide">
+        </div>
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,13 +56,44 @@
 
             <!--Content Side-->
             <div class="content-side col-xl-12 col-lg-8 col-md-12 p-5">
+<<<<<<< HEAD
                 <h2 class="text-center fw-bold text-dark mb-3">TẤT CẢ SẢN PHẨM</h2>
                 <div class="our-shop">
                     <div class="row clearfix">
+=======
+                <h2 class="text-center fw-bold text-dark mb-3">Tất cả sản phẩm</h2>
+                <div class="our-shop">
+                    <div class="row clearfix">
+                      <div *ngFor="let product of products" class="shop-item col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                          <div class="image">
+                            <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" />
+                            <div class="overlay-box">
+                              <ul class="cart-option">
+                                <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
+                                <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="lower-content">
+                            <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
+                            <div class="price">{{ product.price | currency: 'VND' }}</div>
+                            <div class="clearfix">
+                              <div class="pull-left">
+                                <!-- Thêm sản phẩm vào giỏ -->
+                                <!-- <a class="add-cart" routerLink="/cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a> -->
+                                <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
                     </div>
                   </div>
             </div>
         </div>
+<<<<<<< HEAD
         <!--Post Share Options-->
         <div class="styled-pagination">
             <ul class="clearfix">
@@ -55,6 +104,8 @@
                 <li class="next-post"><a href="#"> Next <span class="fa fa-long-arrow-right"></span> </a></li>
             </ul>
         </div>
+=======
+>>>>>>> e7112c69fb196476b9c27f5fa08bc1e129599513
     </div>
 
     <!-- News Section -->
