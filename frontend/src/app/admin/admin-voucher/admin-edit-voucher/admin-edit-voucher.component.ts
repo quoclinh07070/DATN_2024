@@ -14,8 +14,11 @@ import { CommonModule } from '@angular/common';
 
 export class AdminEditVoucherComponent implements OnInit {
   voucher: any = {
+    voucher_code: '',
     price: 0,
     discount_percent: 0,
+    valid_from: '',
+    valid_to: '',
     status: 'active'
   };
   voucherId: number | null = null;
@@ -27,12 +30,14 @@ export class AdminEditVoucherComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Lấy ID từ URL và gọi API để lấy voucher khi sửa
     this.voucherId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.voucherId) {
       this.getVoucher(this.voucherId);
     }
   }
 
+  // Lấy voucher từ API
   getVoucher(id: number): void {
     this.voucherService.getVoucherById(id).subscribe(
       (response: any) => {
@@ -44,6 +49,7 @@ export class AdminEditVoucherComponent implements OnInit {
     );
   }
 
+  // Cập nhật voucher khi form hợp lệ
   editVoucher(form: NgForm): void {
     if (form.valid) {
       if (this.voucherId) {

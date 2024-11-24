@@ -14,22 +14,30 @@
                   <thead class="table-primary">
                     <tr class="border-bottom">
                       <th scope="col">ID</th>
+                      <th scope="col">Mã Voucher</th> <!-- Thêm cột mã voucher -->
                       <th scope="col">Giá</th>
                       <th scope="col">Giảm giá (%)</th>
+                      <th scope="col">Ngày bắt đầu</th> <!-- Thêm cột ngày bắt đầu -->
+                      <th scope="col">Ngày hết hạn</th> <!-- Thêm cột ngày hết hạn -->
                       <th scope="col">Trạng thái</th>
-                      <th scope="col">Ngày tạo</th>
-                      <th scope="col">Ngày sửa</th>
+                      <!-- <th scope="col">Ngày tạo</th> -->
+                      <!-- <th scope="col">Ngày sửa</th> -->
                       <th scope="col">Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let voucher of vouchers">
                       <th scope="row">{{voucher.id}}</th>
+                      <td>{{voucher.voucher_code}}</td> <!-- Hiển thị mã voucher -->
                       <td>{{voucher.price}}</td>
                       <td>{{voucher.discount_percent}}</td>
-                      <td class="{{ voucher.status === 'active' ? 'badge text-bg-success' : 'badge text-bg-danger' }}" style="margin: 25px; padding: 5px; width: 130px; font-size: 0.9rem;"> {{ voucher.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}</td>
-                      <td>{{voucher.created_at | date:'short' }}</td>
-                      <td>{{voucher.updated_at | date:'short' }}</td>
+                      <td>{{voucher.valid_from | date:'short'}}</td> <!-- Hiển thị ngày bắt đầu -->
+                      <td>{{voucher.valid_to | date:'short'}}</td> <!-- Hiển thị ngày hết hạn -->
+                      <td class="{{ voucher.status === 'active' ? 'badge text-bg-success' : 'badge text-bg-danger' }}" style="margin: 25px; padding: 5px; width: 130px; font-size: 0.9rem;">
+                        {{ voucher.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
+                      </td>
+                      <!-- <td>{{voucher.created_at | date:'short'}}</td> -->
+                      <!-- <td>{{voucher.updated_at | date:'short'}}</td> -->
                       <td>
                         <a class="btn btn-primary btn-sm" routerLink="edit/{{voucher.id}}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteVoucher(voucher.id)">Xóa</button>
@@ -37,6 +45,7 @@
                     </tr>
                   </tbody>
                 </table>
+                
               </div>
             </div>
           </div>
