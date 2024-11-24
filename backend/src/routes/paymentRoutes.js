@@ -9,6 +9,20 @@ const  momoConfig  = require('../config/momo');  // Import cấu hình MoMo
 router.post('/create-payment', async (req, res) => {
   const { amount, orderId, orderInfo } = req.body;
 
+  const MAX_AMOUNT_PER_DAY = 50000000; // Giới hạn số tiền thanh toán trong ngày (50 triệu)
+
+  // Kiểm tra số tiền thanh toán trong ngày
+  try {
+    if (amount > MAX_AMOUNT_PER_DAY) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: `Số tiền thanh toán trên momo không được vượt quá 50.000.000đ/ngày!`,
+      });
+    }
+  } catch (error) {
+    console.error('Lỗi khi kiểm tra số tiền thanh toán trong ngày:', error);
+    return res.status(500).json({ statusCode: 500, message: 'Lỗi khi kiểm tra giao dịch' });
+  }
   const {
     accessKey,
     secretKey,

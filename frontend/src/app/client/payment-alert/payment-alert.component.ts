@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './payment-alert.component.html',
-  styleUrl: './payment-alert.component.css'
+  styleUrl: './payment-alert.component.css',
 })
 
 export class PaymentAlertComponent implements OnInit {

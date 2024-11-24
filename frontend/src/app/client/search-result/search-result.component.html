@@ -26,8 +26,21 @@
                   </div>
                   <div class="lower-content">
                     <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
-                    <div class="price">{{ product.price | currency: 'VND' }}</div>
-
+                    <div class="price">
+                    <ng-container *ngIf="product.discount > 0; else noDiscount">
+                      <span class="discount-price" class="text-danger me-2">
+                        {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                      </span>
+                      <span class="old-price text-dark text-decoration-line-through">
+                        {{ product.price | number:'1.0-0' }} ₫
+                      </span>
+                    </ng-container>
+                    <ng-template #noDiscount>
+                      <span class="current-price text-danger">
+                        {{ product.price | number:'1.0-0' }} ₫
+                      </span>
+                    </ng-template>
+                  </div>
                   </div>
                 </div>
               </div>

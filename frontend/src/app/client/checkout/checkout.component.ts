@@ -100,7 +100,14 @@ export class CheckoutComponent implements OnInit {
         },
         (error) => {
           console.error('Lỗi thanh toán:', error);
-          
+          // Kiểm tra lỗi trả về từ API (ví dụ: mã lỗi 400)
+          if (error.status === 400 && error.error && error.error.message) {
+            // Nếu lỗi là 400 và có thông báo, hiển thị thông báo lỗi cho người dùng
+              alert('Số tiền thanh toán trên MoMo không được vượt quá 50.000.000đ/ngày!');
+          } else {
+            alert('Có lỗi xảy ra khi thanh toán. Vui lòng thử lại sau.');
+          }
+
         }
       );
     }
