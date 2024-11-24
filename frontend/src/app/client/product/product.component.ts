@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service';  // Dịch vụ lấy dữ liệu sản phẩm
-import { CategoryService } from '../../services/category.service';  // Dịch vụ lấy dữ liệu danh mục sản phẩm
-import { RouterLink } from '@angular/router';  // Để sử dụng điều hướng (routerLink) trong template
-import { CartService } from '../../services/cart.service';  // Dịch vụ quản lý giỏ hàng
-import { CommonModule } from '@angular/common';  // Thư viện Angular giúp sử dụng các tính năng chung
-import { FormsModule } from '@angular/forms';  // Dùng cho các tính năng form, ngModel
-
+import { ProductService } from '../../services/product.service';  
+import { CategoryService } from '../../services/category.service';
+import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service'; 
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';  
 @Component({
-  selector: 'app-product',  // Chỉ định selector cho component này
-  standalone: true,  // Component này độc lập, không cần module
-  imports: [RouterLink, CommonModule, FormsModule],  // Các module cần thiết cho component
-  templateUrl: './product.component.html',  // Đường dẫn tới file HTML của component
-  styleUrls: ['./product.component.css'],  // Đường dẫn tới file CSS của component
+  selector: 'app-product',  
+  standalone: true,
+  imports: [RouterLink, CommonModule, FormsModule],
+  templateUrl: './product.component.html', 
+  styleUrls: ['./product.component.css'], 
 })
 export class ProductComponent implements OnInit {
   products: any[] = [];  // Mảng chứa tất cả sản phẩm
@@ -23,11 +22,12 @@ export class ProductComponent implements OnInit {
   maxPrice: number = 0;  // Biến giá tối đa khi lọc
   selectedCategory: number | null = null;  // Biến lưu trữ id của danh mục được chọn
   selectedCategoryName: string = '';  // Biến lưu tên danh mục đã chọn
+  quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
 
   constructor(
-    private productService: ProductService,  // Inject dịch vụ lấy sản phẩm
-    private categoryService: CategoryService,  // Inject dịch vụ lấy danh mục sản phẩm
-    private cartService: CartService  // Inject dịch vụ giỏ hàng
+    private productService: ProductService, 
+    private categoryService: CategoryService, 
+    private cartService: CartService 
   ) {}
 
   ngOnInit(): void {
@@ -61,10 +61,50 @@ export class ProductComponent implements OnInit {
   }
 
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any) {
-    this.cartService.addToCart(product);  // Gọi dịch vụ giỏ hàng để thêm sản phẩm
-    alert('Sản phẩm đã được thêm vào giỏ hàng!');  // Hiển thị thông báo
+  addToCart(product: any, quantity: number) {
+    if (product.quantity > 0) {
+      const success = this.cartService.addToCart(product, quantity);  // Gọi service để thêm sản phẩm vào giỏ
+  
+      if (success) {
+        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+      } else {
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+      }
+    } else {
+      alert('Sản phẩm đã hết hàng!');
+    }
   }
+  
+
+  // Hàm sắp xếp sản phẩm
+sortProducts(event: Event): void {
+  const selectElement = event.target as HTMLSelectElement;
+  const sortOption = selectElement.value;
+
+  switch (sortOption) {
+    case 'name_asc':
+      // Sắp xếp tên sản phẩm theo thứ tự A-Z
+      this.filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case 'name_desc':
+      // Sắp xếp tên sản phẩm theo thứ tự Z-A
+      this.filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case 'price_asc':
+      // Sắp xếp giá sản phẩm từ thấp đến cao
+      this.filteredProducts.sort((a, b) => a.price - b.price);
+      break;
+    case 'price_desc':
+      // Sắp xếp giá sản phẩm từ cao đến thấp
+      this.filteredProducts.sort((a, b) => b.price - a.price);
+      break;
+    default:
+      // Nếu không có lựa chọn sắp xếp, không thay đổi thứ tự
+      this.filteredProducts = [...this.products]; // Trả về danh sách sản phẩm ban đầu
+      break;
+  }
+}
+
 
   // Hàm lọc các sản phẩm theo các điều kiện (giá, tên, danh mục)
   applyFilters(): void {

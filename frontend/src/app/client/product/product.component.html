@@ -1,31 +1,32 @@
-<div class="sidebar-page-container mt-5">
+<section class="page-title" style="background-image:url(./assets/client/images/banner/1.jpg);">
+  <div class="auto-container">
+      <div class="inner-container clearfix">
+          <div class="title-box">
+              <h1>Sản phẩm</h1>
+          </div>
+          
+      </div>
+      <ul class="bread-crumb clearfix">
+        <li><a routerLink="/"><span>Trang chủ</span></a></li>
+        <li><a routerLink="/product"><span>Sản phẩm</span></a></li>
+    </ul>
+  </div>
+</section>
+<div class="sidebar-page-container">
   <div class="auto-container">
     <div class="row clearfix">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a routerLink="/"><span>Trang chủ</span></a>
-          </li>
-          <li class="breadcrumb-item">
-            <a routerLink="/product"><span>Sản phẩm</span></a>
-          </li>
-        </ol>
-      </div>
-
       <!-- Sidebar Side -->
       <div class="sidebar-side col-xl-3 col-lg-4 col-md-12">
         <aside class="sidebar">
-
+          <h5 class="mb-3"><i class="bi bi-funnel"></i>BỘ LỌC |</h5>
           <!-- Lọc theo Loại Sản Phẩm (Dropdown) -->
-          <div class="sidebar-widget sidebar-blog-category">
+          <div class="sidebar-widget sidebar-blog-category mb-4">
             <div class="sidebar-title">
-              <h3>Loại sản phẩm</h3>
-              <div class="separater"></div>
+              <h6>DANH MỤC</h6>
             </div>
             <div class="form-group">
               <select class="form-control" (change)="filterByCategory($event)">
-                <option value="null">Tất cả sản phẩm</option>
-                <!-- Lặp qua các danh mục sản phẩm -->
+                <option value="null"><span>≣</span> Tất cả sản phẩm</option>
                 <option *ngFor="let category of categories" [value]="category.id">
                   {{ category.category_name }}
                 </option>
@@ -35,28 +36,29 @@
           
 
           <!-- Lọc theo Giá -->
-          <div class="sidebar-widget price-filters rangeslider-widget">
-            <div class="sidebar-title">
-              <h3>Lọc theo giá</h3>
-              <div class="separator"></div>
+          <div class="sidebar-widget price-filters rangeslider-widget mb-4">
+            <div class="sidebar-title mb-1">
+              <h6>GIÁ SẢN PHẨM</h6>
             </div>
             <div class="range-slider-one">
-              <div class="mb-3">
-                <label for="minPrice" class="form-label">Giá tối thiểu</label>
-                <input type="number" class="form-control" id="minPrice" [(ngModel)]="minPrice" placeholder="Nhập giá tối thiểu" (input)="applyFilters()">
-              </div>
-              <div class="mb-3">
-                <label for="maxPrice" class="form-label">Giá tối đa</label>
-                <input type="number" class="form-control" id="maxPrice" [(ngModel)]="maxPrice" placeholder="Nhập giá tối đa" (input)="applyFilters()">
+              <div class="row">
+                <div class="col-6">
+                  <label for="minPrice" class="form-label mb-0">Giá tối thiểu</label>
+                  <input type="number" class="form-control form-control-sm" id="minPrice" [(ngModel)]="minPrice" placeholder="Nhập giá tối thiểu" (input)="applyFilters()">
+                </div>
+                <div class="col-6">
+                  <label for="maxPrice" class="form-label mb-0">Giá tối đa</label>
+                  <input type="number" class="form-control form-control-sm" id="maxPrice" [(ngModel)]="maxPrice" placeholder="Nhập giá tối đa" (input)="applyFilters()">
+                </div>
               </div>
             </div>
           </div>
+          
 
           <!-- Lọc theo Tên -->
           <div class="sidebar-widget sidebar-search">
             <div class="sidebar-title">
-              <h3>Lọc theo tên</h3>
-              <div class="separater"></div>
+              <h6>TÊN SẢN PHẨM</h6>
             </div>
             <div class="input-group">
               <input type="text" class="form-control" [(ngModel)]="nameFilter" placeholder="Tìm kiếm sản phẩm..." (input)="applyFilters()">
@@ -67,44 +69,91 @@
 
       <!-- Content Side -->
       <div class="content-side col-xl-9 col-lg-8 col-md-12">
-        <div class="text text-center mb-3">
-          <!-- Tiêu đề thay đổi theo danh mục -->
+        <div class="text text-center mb-3" style="display: flex; justify-content: space-between; align-items: center;">
+          <!-- Tiêu đề sản phẩm -->
           <h3>{{ selectedCategory ? 'Sản phẩm có loại: ' + selectedCategoryName : 'Tất cả sản phẩm' }}</h3>
+          
+          <!-- Dropdown Sắp xếp -->
+          <div class="sort-container">
+            <select class="form-control" (change)="sortProducts($event)">
+              <option value="default">⇅ Sắp xếp theo</option>
+              <option value="name_asc">Tên: A-Z</option>
+              <option value="name_desc">Tên: Z-A</option>
+              <option value="price_asc">Giá: Thấp đến Cao</option>
+              <option value="price_desc">Giá: Cao đến Thấp</option>
+            </select>
+          </div>
         </div>
+        
         
         <!-- Hiển thị thông báo khi không có sản phẩm -->
         <div *ngIf="filteredProducts.length === 0" class="alert alert-warning text-center">
-          Không có sản phẩm nào thỏa mãn điều kiện lọc.
+          Không tìm thấy sản phẩm nào phù hợp!
         </div>
 
         <div class="our-shop">
           <div class="row clearfix">
             <div *ngFor="let product of filteredProducts" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <div class="inner-box">
-                <div class="image">
-                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" />
+                <div class="image position-relative">
+                  
+                  <!-- Phần giảm giá nếu có -->
+                  <div *ngIf="product.discount > 0">
+                    <span class="position-absolute top-0 start-0 m-2 bg-danger text-white p-1">
+                      -{{ product.discount }}%
+                    </span>
+                  </div>
+
+                  <!-- Phần hết hàng nếu có -->
+                  <div *ngIf="product.quantity <= 0">
+                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white p-1">
+                      Hết hàng
+                    </span>
+                  </div>
+
+                  
+                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
                   <div class="overlay-box">
                     <ul class="cart-option">
                       <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                      <li><a (click)="addToCart(product)"><span class="bi bi-cart-plus"></span></a></li>
+                      <li><a (click)="addToCart(product,quantity)"><span class="bi bi-cart-plus"></span></a></li>
                     </ul>
                   </div>
                 </div>
                 <div class="lower-content">
-                  <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
-                  <div class="price">{{ product.price | currency: 'VND' }}</div>
-                  <div class="clearfix">
-                    <div class="pull-left">
-                      <a class="add-cart" (click)="addToCart(product)"><span class="fa fa-cart-plus"></span> Thêm vào giỏ hàng</a>
-                    </div>
+                  <h3>
+                    <a [routerLink]="['/product-detail', product.id]">  
+                      {{ (product.name.length > 60 ? (product.name | slice:0:60) + '...' : product.name) }}
+                    </a>
+                  </h3>
+                  <div class="price">
+                    <ng-container *ngIf="product.discount > 0; else noDiscount">
+                      <span class="discount-price" class="text-danger me-2">
+                        {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                      </span>
+                      <span class="old-price text-dark text-decoration-line-through">
+                        {{ product.price | number:'1.0-0' }} ₫
+                      </span>
+                    </ng-container>
+                    <ng-template #noDiscount>
+                      <span class="current-price text-danger">
+                        {{ product.price | number:'1.0-0' }} ₫
+                      </span>
+                    </ng-template>
                   </div>
+                  <!-- <div class="clearfix">
+                    <div class="pull-left">
+                      Sẵn có {{ product.quantity}} sản phẩm
+                    </div>
+                  </div> -->
                 </div>
               </div>
             </div>
+
           </div>
         </div>
-        <!--Post Share Options-->
-        <div class="styled-pagination">
+        
+        <div class="styled-pagination" *ngIf="filteredProducts.length !== 0">
           <ul class="clearfix">
               <li class="prev-post"><a href="#"><span class="fa fa-long-arrow-left"></span> Prev</a></li>
               <li><a href="#">1</a></li>
@@ -113,6 +162,7 @@
               <li class="next-post"><a href="#"> Next <span class="fa fa-long-arrow-right"></span> </a></li>
           </ul>
       </div>
+
       </div>
     </div>
   </div>

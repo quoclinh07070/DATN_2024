@@ -2,19 +2,6 @@
 <div class="sidebar-page-container mt-2">
   <div class="auto-container">
     <div class="row clearfix">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pd5">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a routerLink="/"><span>Trang chủ</span></a>
-          </li>
-          <li class="breadcrumb-item">
-            <a routerLink="/product"><span>Sản phẩm</span></a>
-          </li>
-          <li class="breadcrumb-item">
-            <span>{{ product.name }}</span>
-          </li>
-        </ol>
-      </div>
       <!-- Content Side -->
       <div class="content-side col-xl-12 col-lg-8 col-md-12">
         <div class="shop-single">
@@ -29,7 +16,7 @@
                       <img
                         [src]="getImageUrl(product.image)"
                         alt="{{ product.name }}"
-                        class="img-fluid rounded shadow"
+                        class="img-fluid rounded shadow align-items-center"
                       />
                     </figure>
                   </div>
@@ -37,17 +24,91 @@
 
                 <!-- Thông tin chi tiết sản phẩm -->
                 <div class="col-md-6 col-sm-12">
+                  <ol class="breadcrumb bg-white">
+                    <li class="breadcrumb-item">
+                      <a class="link-dark" routerLink="/"><span>Trang chủ</span></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a class="link-dark" routerLink="/product"><span>Sản phẩm</span></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <span class="text-dark">{{ (product.name.length > 30 ? (product.name | slice:0:30) + '...' : product.name) }}</span>
+                    </li>
+                  </ol>
                   <div class="product-info">
+                     <!-- Hiển thị thông báo hết hàng nếu sản phẩm hết hàng -->
+                     <div *ngIf="product.quantity <= 0" class="out-of-stock-notice text-danger mt-2">
+                      <span class="m-2 bg-danger text-white p-1 rounded-pill">Hết hàng</span>
+                    </div>
                     <h3 class="product-name text-dark fw-bold">
                       {{ product.name }}
                     </h3>
                     <h4 class="item-price text-danger">
-                      {{ product.price | currency : "VND" }}
+                      <ng-container *ngIf="product.discount > 0; else noDiscount">
+                        <!-- Hiển thị giá giảm và tỷ lệ giảm -->
+                        <span class="discount-percentage m-2 bg-danger text-white p-1">-{{ product.discount }}%</span>
+                        <span class="discount-price" class="text-danger me-2">
+                          {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                        </span>
+                        <span class="old-price text-dark text-decoration-line-through">
+                          {{ product.price | number:'1.0-0' }} ₫
+                        </span>
+                      </ng-container>
+                      <ng-template #noDiscount>
+                        <!-- Hiển thị giá hiện tại nếu không có giảm giá -->
+                        <span class="current-price text-danger">
+                          {{ product.price | number:'1.0-0' }} ₫
+                        </span>
+                      </ng-template>
                     </h4>
-                    <p class="text-muted">{{ product.description }}</p>
-                    <div class="other-options mt-4">
-                      <button (click)="addToCart(product)" type="button" class="btn btn-danger btn-lg w-50">
-                       Thêm vào giỏ
+
+                    <p class="text-muted pt-3">{{ product.description }}</p>
+                    <!-- Điều khiển số lượng -->
+                    <div *ngIf="product.quantity > 0" class="col-md-4 mt-3">
+                      <div class="input-group input-group-sm">
+                        <!-- Nút giảm -->
+                        <button 
+                          (click)="decreaseQuantity()" 
+                          class="btn btn-outline-secondary btn-sm" 
+                          [disabled]="quantity <= 1">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                    
+                        <!-- Input số lượng -->
+                        <input 
+                          type="number" 
+                          [(ngModel)]="quantity" 
+                          class="form-control text-center" 
+                          min="1" 
+                          [max]="product.quantity" 
+                          (input)="validateQuantity()"/>
+                    
+                        <!-- Nút tăng -->
+                        <button 
+                          (click)="increaseQuantity()" 
+                          class="btn btn-outline-secondary btn-sm" 
+                          [disabled]="quantity >= product.quantity">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div class="other-options mt-3">
+                      <button
+                        *ngIf="product.quantity > 0"
+                        (click)="addToCart(product,quantity)"
+                        type="button"
+                        class="btn btn-danger btn-lg w-50"
+                      >
+                        Thêm vào giỏ
+                      </button>
+                      <button
+                        *ngIf="product.quantity <= 0"
+                        type="button"
+                        class="btn btn-secondary btn-lg w-50"
+                        disabled
+                      >
+                        Hết hàng
                       </button>
                     </div>
                   </div>
@@ -62,22 +123,20 @@
               <div class="prod-tabs tabs-box">
                 <!-- Tab Btns -->
                 <ul class="tab-btns tab-buttons clearfix">
-                  <li data-tab="#prod-details" class="tab-btn">Mô tả</li>
-                  <li data-tab="#prod-reviews" class="tab-btn active-btn">
-                    Đánh giá
-                  </li>
+                  <li data-tab="#prod-details" class="tab-btn active-btn">Mô tả</li>
+                  <li data-tab="#prod-reviews" class="tab-btn">Đánh giá</li>
                 </ul>
 
                 <div class="tabs-content">
                   <!-- Tab -->
-                  <div class="tab" id="prod-details">
+                  <div class="tab active-tab" id="prod-details">
                     <div class="content">
                       <p>{{ product.description }}</p>
                     </div>
                   </div>
 
                   <!-- Tab for Reviews -->
-                  <div class="tab active-tab" id="prod-reviews">
+                  <div class="tab" id="prod-reviews">
                     <div class="shop-comment-form">
                       <h2 class="mb-4">Gửi đánh giá của bạn</h2>
                       <form class="review-form" (ngSubmit)="submitReview()">
@@ -95,7 +154,7 @@
                             </option>
                           </select>
                         </div>
-                  
+
                         <div class="form-group mb-4">
                           <label for="comment" class="form-label fw-semibold">Nhận xét:</label>
                           <textarea
@@ -107,10 +166,10 @@
                             required
                           ></textarea>
                         </div>
-                  
+
                         <button type="submit" class="btn btn-primary w-100">Gửi đánh giá</button>
                       </form>
-                  
+
                       <!-- Reviews List -->
                       <div *ngIf="reviews.length > 0" class="reviews-list mt-5">
                         <h2 class="fw-bold">
@@ -120,7 +179,7 @@
                           <!-- Review Header -->
                           <div class="d-flex justify-content-between align-items-center mb-2">
                             <p class="mb-0">
-                              <strong>{{ review.fullname }}</strong> - 
+                              <strong>{{ review.fullname }}</strong> -
                               <span class="text-warning">{{ review.rating }} <i class="fa fa-star"></i></span>
                             </p>
                             <small class="text-secondary">{{ review.created_at | date: 'dd/MM/yyyy' }}</small>
@@ -133,7 +192,7 @@
 
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
               <!-- End Product Info Tabs -->

@@ -8,7 +8,7 @@
   >
     <div class="popup-content">
       <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
-        <span>{{ isSuccess ? "&#10003;" : "&#10007;" }}</span>
+        <span [innerHTML]="isSuccess ? '&#10003;' : '&#10007;'"></span>
       </div>
       <p class="message">{{ popupMessage }}</p>
       <button type="button" class="btn-close" (click)="closePopup()">
@@ -36,10 +36,10 @@
     <div class="container-xl px-4 mt-4">
       <!-- Account page navigation-->
       <nav class="nav nav-borders">
-          <a class="nav-link active ms-0" href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Hồ sơ</a>
-          <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-billing-page" target="__blank">Đơn hàng</a>
-          <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" target="__blank">Thông báo</a>
-          <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"  target="__blank">Cài đặt</a>
+          <a class="nav-link active ms-0" routerLink="/user">Hồ sơ</a>
+          <a class="nav-link">Đơn hàng</a>
+          <a class="nav-link">Thông báo</a>
+          <a class="nav-link">Cài đặt</a>
       </nav>
       <hr class="mt-0 mb-4">
       <div class="row">
@@ -66,29 +66,64 @@
                           <!-- Form Group (username)-->
                           <div class="mb-3">
                               <label class="small mb-1" for="inputUsername">Tên người dùng ( sẽ được hiển thị trên website và được thấy bởi người dùng khác )</label>
-                              <input class="form-control" id="inputUsername" type="text" placeholder="{{userName}}">
+                              <input
+                                class="form-control"
+                                id="inputUsername"
+                                type="text"
+                                [(ngModel)]="userName"
+                                name="userName"
+                                placeholder="Nhập tên người dùng"
+                              >
                           </div>
                           <!-- Form Group (email address)-->
                           <div class="mb-3">
                               <label class="small mb-1" for="inputEmailAddress">Email ( bạn sẽ không thay đổi được email )</label>
-                              <input class="form-control" id="inputEmailAddress" type="email" placeholder="{{userEmail}}">
+                              <input
+                                class="form-control"
+                                id="inputEmailAddress"
+                                type="email"
+                                [(ngModel)]="userEmail"
+                                name="userEmail"
+                                placeholder="Nhập email của bạn"
+                                readonly
+                              >
                           </div>
                           <!-- Form Group (address)-->
                           <div class="mb-3">
                             <label class="small mb-1" for="inputAddress">Địa chỉ</label>
-                            <input class="form-control" id="inputAddress" type="text" placeholder="Nhập địa chỉ của bạn">
-                        </div>
+                            <input
+                              class="form-control"
+                              id="inputAddress"
+                              type="text"
+                              [(ngModel)]="userAddress"
+                              name="userAddress"
+                              placeholder="Nhập địa chỉ của bạn"
+                            >
+                          </div>
                           <!-- Form Group (phone number)-->
                           <div class="mb-3">
                             <label class="small mb-1" for="inputPhone">Số điện thoại</label>
-                            <input class="form-control" id="inputPhone" type="tel" placeholder="Nhập số điện thoại của bạn">
-                        </div>
+                            <input
+                              class="form-control"
+                              id="inputPhone"
+                              type="tel"
+                              [(ngModel)]="userPhone"
+                              name="userPhone"
+                              placeholder="Nhập số điện thoại của bạn"
+                            >
+                          </div>
                           <!-- Form Row-->
                           <div class="row gx-3 mb-3">
-                              <!-- Form Group (phone number)-->
+                              <!-- Form Group (gender)-->
                               <div class="col-md-6">
                                 <label for="gender" class="small mb-1">Giới tính:</label>
-                                <select class="form-select" id="gender" name="gender">
+                                <select
+                                  class="form-select"
+                                  id="gender"
+                                  name="gender"
+                                  [(ngModel)]="userGender"
+                                >
+                                  <option [value]="null">Chọn giới tính</option>
                                   <option value="male">Nam</option>
                                   <option value="female">Nữ</option>
                                   <option value="other">Khác</option>
@@ -97,11 +132,19 @@
                               <!-- Form Group (birthday)-->
                               <div class="col-md-6">
                                   <label class="small mb-1" for="inputBirthday">Ngày sinh</label>
-                                  <input class="form-control" id="inputBirthday" type="date" name="birthday" placeholder="Nhập ngày sinh của bạn">
+                                  <input
+                                    class="form-control"
+                                    id="inputBirthday"
+                                    type="date"
+                                    [(ngModel)]="userBirthDate"
+                                    name="userBirthDate"
+                                    placeholder="Nhập ngày sinh của bạn"
+                                  >
                               </div>
                           </div>
                           <!-- Save changes button-->
-                          <button class="btn btn-primary" type="button">LƯU THAY ĐỔI</button>
+                        <button class="btn btn-primary" type="button" (click)="updateUserInfo()">LƯU THAY ĐỔI</button>
+
                       </form>
                       <button class="logout-btn" (click)="onLogoutConfirm()">Đăng Xuất</button>
                   </div>
@@ -110,32 +153,6 @@
       </div>
     </div>
   </div>
-
-
 </div>
 
-
-
-<script>
-  function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-      tabcontent[i].classList.remove("active");
-    }
-    tablinks = document.getElementsByClassName("tab-link");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    document.getElementById(tabName).classList.add("active");
-    evt.currentTarget.className += " active";
-  }
-
-  // Set default open tab when page loads
-  window.onload = function () {
-    document.getElementById("infoTab").style.display = "block";
-    document.querySelector(".tab-link").classList.add("active");
-  };
-</script>
+<!-- Không cần script này vì Angular xử lý routing và hiển thị tab -->
