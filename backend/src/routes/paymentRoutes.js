@@ -1,4 +1,5 @@
 //paymentRoutes.js
+const db = require('../config/db');
 const express = require('express');
 const axios = require('axios');
 const crypto = require('crypto');
@@ -121,5 +122,93 @@ router.post('/check-status', async (req, res) => {
     res.status(500).json({ statusCode: 500, message: error.message });
   }
 });
+
+// API xử lý thanh toán khi nhận hàng (COD)
+router.post('/submit-cod-order', async (req, res) => {
+  try {
+    const { user, cartItems, totalAmount, orderId, shippingAddress } = req.body;
+
+    if (!user || !user.id) {
+      return res.status(400).json({ message: 'Thiếu thông tin người dùng hoặc ID người dùng.' });
+    }
+
+    const fullAddress = shippingAddress.address;
+
+    // Lưu thông tin vào bảng orders
+    const orderQuery = `
+        INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+    `;
+    await db.query(orderQuery, [
+      user.id,
+      totalAmount,
+      'cod',
+      'shipped',
+      totalAmount,
+      fullAddress,
+      user.phoneNumber,
+    ]);
+
+    // Cập nhật địa chỉ và số điện thoại vào bảng users nếu cần
+    const updateUserQuery = `
+        UPDATE users
+        SET address = ?, phone_number = ?
+        WHERE id = ?
+    `;
+    await db.query(updateUserQuery, [fullAddress, user.phoneNumber, user.id]);
+
+    res.status(200).json({ message: 'Đơn hàng COD đã được tạo thành công' });
+  } catch (err) {
+    console.error('Lỗi khi xử lý thanh toán COD:', err.message);
+    res.status(500).json({ message: 'Lỗi khi xử lý thanh toán COD', error: err.message });
+  }
+});
+
+
+// router.post('/callback', async (req, res) => {
+//   const { resultCode, message, orderId, transId } = req.body;
+
+//   try {
+//     if (resultCode === '0') {
+//       console.log(`Thanh toán thành công, mã giao dịch: ${transId}`);
+
+//       // Lấy thông tin đơn hàng từ orderId (nếu orderId chứa thông tin user)
+//       const [orderResult] = await db.query('SELECT user_id FROM orders WHERE id = ?', [orderId]);
+//       const userId = orderResult?.[0]?.user_id;
+
+//       if (!userId) {
+//         console.error('Không tìm thấy người dùng cho orderId:', orderId);
+//         return res.status(404).json({ message: 'Không tìm thấy thông tin đơn hàng.' });
+//       }
+
+//       // Cập nhật trạng thái đơn hàng
+//       const updateOrderQuery = `
+//           UPDATE orders
+//           SET status = 'shipped', payment_method = 'momo', payment_amount = (SELECT total_amount FROM orders WHERE id = ?)
+//           WHERE id = ?
+//       `;
+//       await db.query(updateOrderQuery, [orderId, orderId]);
+
+//       // Nếu cần cập nhật thông tin người dùng (số điện thoại hoặc địa chỉ)
+//       const userInfoQuery = `
+//           UPDATE users
+//           SET address = COALESCE((SELECT address FROM orders WHERE id = ?), address),
+//               phone_number = COALESCE((SELECT phone_number FROM orders WHERE id = ?), phone_number)
+//           WHERE id = ?
+//       `;
+//       await db.query(userInfoQuery, [orderId, orderId, userId]);
+
+//       res.status(200).json({ message: 'Thanh toán MoMo thành công và dữ liệu đã được cập nhật.' });
+//     } else {
+//       console.error(`Thanh toán thất bại: ${message}`);
+//       res.status(400).json({ message: `Thanh toán thất bại: ${message}` });
+//     }
+//   } catch (err) {
+//     console.error('Lỗi khi xử lý callback MoMo:', err.message);
+//     res.status(500).json({ message: 'Lỗi khi xử lý callback MoMo.', error: err.message });
+//   }
+// });
+
+
 
 module.exports = router;

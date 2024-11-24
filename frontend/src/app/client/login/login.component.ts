@@ -26,6 +26,8 @@ export class LoginComponent {
   successMessage: string = '';
   userName: string | null;
   userEmail: string | null;
+  phoneNumber: string | null;
+  address: string | null;
   isLoggedIn: boolean = false;
 
   isPopupVisible: boolean = false;
@@ -51,9 +53,13 @@ export class LoginComponent {
     if (this.isLoggedIn) {
       this.userName = localStorage.getItem('userName');
       this.userEmail = localStorage.getItem('userEmail');
+      this.phoneNumber = localStorage.getItem('phoneNumber');
+      this.address = localStorage.getItem('address');
     } else {
       this.userName = null;
       this.userEmail = null;
+      this.phoneNumber = null;
+      this.address = null;
     }
   }
 

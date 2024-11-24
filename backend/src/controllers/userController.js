@@ -207,3 +207,39 @@ exports.resetPassword = async (req, res) => {
 };
 
 
+exports.getUserInfo = async (req, res) => {
+    try {
+        // Lấy userId từ header
+        const userId = req.headers['x-client-id'];
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID không được cung cấp!' });
+        }
+
+        // Truy vấn thông tin người dùng
+        const sql = 'SELECT id, fullname, email, phone_number, address FROM users WHERE id = ?';
+        const [results] = await db.query(sql, [userId]);
+
+        // Kiểm tra người dùng có tồn tại không
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng!' });
+        }
+
+        const user = results[0];
+        res.status(200).json({
+            message: 'Lấy thông tin người dùng thành công',
+            user: {
+                id: user.id,
+                fullname: user.fullname,
+                email: user.email,
+                phoneNumber: user.phone_number,
+                address: user.address
+            }
+        });
+    } catch (err) {
+        console.error('Lỗi khi lấy thông tin người dùng:', err.message);
+        res.status(500).json({ message: 'Lỗi khi lấy thông tin người dùng', error: err.message });
+    }
+};
+
+
+

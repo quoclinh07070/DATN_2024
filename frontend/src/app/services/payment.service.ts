@@ -26,6 +26,12 @@ export class PaymentService {
     return this.http.post<any>(`${this.baseUrl}/create-payment`, payload);
   }
 
+
+  // Gửi thông tin đơn hàng COD
+  submitCODOrder(orderData: any) {
+    return this.http.post<any>(`${this.baseUrl}/submit-cod-order`, orderData);
+  }
+
   // Xử lý callback từ MoMo (Sau khi thanh toán)
   handlePaymentCallback(data: any) {
     // Kiểm tra mã kết quả và thông báo trạng thái thanh toán

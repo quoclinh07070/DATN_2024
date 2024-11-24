@@ -33,6 +33,9 @@ router.put('/users/:id', userController.updateUser);
 // Xóa
 router.delete('/users/:id', userController.deleteUser);
 
+// Route lấy thông tin người dùng
+router.get('/user-info', userController.getUserInfo);
+
 // Quên mật khẩu
 router.post("/forgot-password", forgotPassword);
 

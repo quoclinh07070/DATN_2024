@@ -1,0 +1,17 @@
+<section class="login-section mt-4">
+  <div class="success-page">
+    <div class="container text-center">
+      <h1>🎉 Thanh toán thành công! 🎉</h1>
+      <p class="mt-3">Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi!</p>
+
+      <!-- Hiển thị thông tin orderId nếu có -->
+      <div *ngIf="orderId">
+        <h3>Thông tin đơn hàng</h3>
+        <p><strong>Mã đơn hàng:</strong> {{ orderId }}</p>
+      </div>
+
+      <!-- Nút quay lại trang chủ -->
+      <a routerLink="/" class="btn btn-primary mt-4">Quay lại trang chủ</a>
+    </div>
+  </div>
+</section>
