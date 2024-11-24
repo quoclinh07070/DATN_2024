@@ -81,8 +81,9 @@ app.use('/api', reviewRoutes);
 app.use('/api', userRoutes);
 app.use('/api', emailRoutes);
 // app.use('/api', checkoutRoutes);
-app.use('/api', require("./src/routes/index"));
 app.use('/api/payment', paymentRoutes);  // Thêm route thanh toán MoMo
+app.use('/api', require("./src/routes/index"));
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

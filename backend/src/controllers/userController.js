@@ -208,37 +208,89 @@ exports.resetPassword = async (req, res) => {
 
 
 exports.getUserInfo = async (req, res) => {
-    try {
-        // Lấy userId từ header
-        const userId = req.headers['x-client-id'];
-        if (!userId) {
-            return res.status(400).json({ message: 'User ID không được cung cấp!' });
-        }
-
-        // Truy vấn thông tin người dùng
-        const sql = 'SELECT id, fullname, email, phone_number, address FROM users WHERE id = ?';
-        const [results] = await db.query(sql, [userId]);
-
-        // Kiểm tra người dùng có tồn tại không
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'Không tìm thấy người dùng!' });
-        }
-
-        const user = results[0];
-        res.status(200).json({
-            message: 'Lấy thông tin người dùng thành công',
-            user: {
-                id: user.id,
-                fullname: user.fullname,
-                email: user.email,
-                phoneNumber: user.phone_number,
-                address: user.address
-            }
-        });
-    } catch (err) {
-        console.error('Lỗi khi lấy thông tin người dùng:', err.message);
-        res.status(500).json({ message: 'Lỗi khi lấy thông tin người dùng', error: err.message });
+ try {
+    const userId = req.headers['x-client-id'];
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID không được cung cấp!' });
     }
+
+    const sql = 'SELECT id, fullname, email, phone_number, address, profile_picture FROM users WHERE id = ?';
+    const [results] = await db.query(sql, [userId]);
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Không tìm thấy người dùng!' });
+    }
+
+    const user = results[0];
+
+    res.status(200).json({
+      message: 'Lấy thông tin người dùng thành công',
+      user: {
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+        phoneNumber: user.phone_number,
+        address: user.address,
+        profile_picture: user.profile_picture
+          ? `http://localhost:3000${user.profile_picture}` // Trả về URL đầy đủ
+          : null,
+      },
+    });
+  } catch (err) {
+    console.error('Lỗi khi lấy thông tin người dùng:', err.message);
+    res.status(500).json({ message: 'Lỗi khi lấy thông tin người dùng', error: err.message });
+  }
+};
+
+
+// Cập nhật thông tin người dùng
+exports.updateUserProfile = async (req, res) => {
+
+    try {
+        const userId = req.params.id;
+        const { name, email, phoneNumber, address, currentProfilePicture } = req.body;
+    
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ error: 'Người dùng không tồn tại' });
+        }
+    
+        // Xử lý ảnh được lưu
+        const profilePicture = req.file
+        ? `/uploads/${req.file.filename}` // Nếu có file mới, lưu đường dẫn tương đối
+        : currentProfilePicture && currentProfilePicture.startsWith('/uploads')
+        ? currentProfilePicture // Giữ đường dẫn tương đối nếu đã có trong database
+        : user.profile_picture;
+    
+        const updates = {
+          FullName: name || user.FullName,
+          Email: email || user.Email,
+          PhoneNumber: phoneNumber || user.PhoneNumber,
+          Address: address || user.Address,
+          ProfilePicture: profilePicture, // Sử dụng ảnh đã xác định
+        };
+    
+        const success = await User.updateUser(userId, updates);
+    
+        if (!success) {
+          return res.status(400).json({ error: 'Không có thay đổi nào được thực hiện' });
+        }
+    
+        res.status(200).json({
+          message: 'Cập nhật thông tin thành công!',
+          user: {
+            id: userId,
+            FullName: updates.FullName,
+            Email: updates.Email,
+            PhoneNumber: updates.PhoneNumber,
+            Address: updates.Address,
+            ProfilePicture: updates.ProfilePicture ? `http://localhost:3000${updates.profile_picture}` : null,
+          },
+        });
+      } catch (error) {
+        console.error('Lỗi khi cập nhật thông tin người dùng:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi cập nhật thông tin người dùng' });
+      }
 };
 
 
