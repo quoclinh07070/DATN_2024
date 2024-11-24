@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-success-page',
   standalone: true,
-  imports: [RouterModule], // Import RouterModule
+  imports: [RouterModule, CommonModule], // Import RouterModule
   templateUrl: './success-page.component.html',
   styleUrls: ['./success-page.component.css'],
 })
