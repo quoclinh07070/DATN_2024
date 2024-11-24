@@ -13,7 +13,7 @@ import { CartService } from '../../services/cart.service'; // Import CartService
   standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  styleUrls: ['./product-details.component.css'],
 })
 export class ProductDetailsComponent implements OnInit {
   product: any = {
@@ -140,13 +140,11 @@ export class ProductDetailsComponent implements OnInit {
     if (this.productId) {
       this.reviewService.getProductReviews(this.productId).subscribe(
         (data) => {
-          console.log('Product reviews:', data);  // Kiểm tra dữ liệu đánh giá
           this.reviews = data.reviews;
       
           this.reviews.forEach((review) => {
             this.reviewService.getUserById(review.user_id).subscribe(
               (userData: any) => {
-                console.log('User data for review:', userData);  
                 review.fullname = userData.user.FullName;  
               },
               (error) => {

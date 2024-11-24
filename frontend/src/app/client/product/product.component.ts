@@ -10,20 +10,19 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './product.component.html', 
-  styleUrls: ['./product.component.css'], 
+  styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
-  products: any[] = [];  // Mảng chứa tất cả sản phẩm
-  categories: any[] = [];  // Mảng chứa tất cả danh mục sản phẩm
-  filteredProducts: any[] = [];  // Mảng chứa các sản phẩm đã được lọc
-  priceFilter: number = 0;  // Biến dùng để lọc theo giá (tối thiểu hoặc tối đa)
-  nameFilter: string = '';  // Biến dùng để lọc theo tên sản phẩm
-  minPrice: number = 0;  // Biến giá tối thiểu khi lọc
-  maxPrice: number = 0;  // Biến giá tối đa khi lọc
-  selectedCategory: number | null = null;  // Biến lưu trữ id của danh mục được chọn
-  selectedCategoryName: string = '';  // Biến lưu tên danh mục đã chọn
-  quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
-
+  products: any[] = [];  
+  categories: any[] = [];  
+  filteredProducts: any[] = [];  
+  priceFilter: number = 0;  
+  nameFilter: string = '';  
+  minPrice: number = 0;  
+  maxPrice: number = 0;  
+  selectedCategory: number | null = null; 
+  selectedCategoryName: string = '';  
+  quantity: number = 1; 
   constructor(
     private productService: ProductService, 
     private categoryService: CategoryService, 

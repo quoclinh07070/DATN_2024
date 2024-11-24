@@ -17,5 +17,8 @@
             <div *ngIf="paymentStatus === 'Đang xử lý'">
               <p>Đơn hàng của bạn đang được xử lý. Vui lòng chờ...</p>
             </div>
+            <div *ngIf="paymentStatus === ''">
+              <p>Không có đơn hàng nào!</p>
+            </div>
           </div>    
 </div>
