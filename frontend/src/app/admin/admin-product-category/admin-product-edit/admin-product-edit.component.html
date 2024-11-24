@@ -8,7 +8,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Danh Mục Bài Viết</h5>
+                            <h5 class="card-title">SỬA DANH MỤC</h5>
                             <div class="table-responsive">
                                 <form #categoryForm="ngForm" (ngSubmit)="updateCategory(categoryForm)" enctype="multipart/form-data">
 
@@ -36,6 +36,8 @@
                                     <div class="mb-3">
                                         <label for="parent_categoryID" class="form-label">Danh mục cha</label>
                                         <input type="text" class="form-control" id="parent_categoryID" [(ngModel)]="category.parent_categoryID" name="parent_categoryID" #parentCategory="ngModel">
+
+                                        
                                         <div *ngIf="parentCategory.invalid && (parentCategory.dirty || parentCategory.touched)" class="text-danger">
                                             Danh mục cha không hợp lệ.
                                         </div>

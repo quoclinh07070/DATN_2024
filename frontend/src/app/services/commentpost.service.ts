@@ -31,14 +31,10 @@ export class CommentPostService {
     return this.http.post(this.baseUrl, comment);
   }
 
-  // Cập nhật một commentpost
-  updateComment(id: number, comment: any) {
-    return this.http.put(`${this.baseUrl}/${id}`, comment);
-  }
-
   // Xóa một commentpost
   deleteComment(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+  
   
 }
