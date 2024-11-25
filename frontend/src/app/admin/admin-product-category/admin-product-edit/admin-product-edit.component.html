@@ -8,45 +8,54 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Danh Mục Bài Viết</h5>
+                            <h5 class="card-title">SỬA DANH MỤC</h5>
                             <div class="table-responsive">
-                                <form (ngSubmit)="updateCategory()" enctype="multipart/form-data">
+                                <form #categoryForm="ngForm" (ngSubmit)="updateCategory(categoryForm)" enctype="multipart/form-data">
 
                                     <div class="mb-3">
                                         <label for="category_name" class="form-label">Tên danh mục</label>
-                                        <input type="text" class="form-control" id="category_name" [(ngModel)]="category.category_name" name="category_name" required>
+                                        <input type="text" class="form-control" id="category_name" [(ngModel)]="category.category_name" name="category_name" required #categoryName="ngModel">
+                                        <div *ngIf="categoryName.invalid && (categoryName.dirty || categoryName.touched)" class="text-danger">
+                                            Tên danh mục là bắt buộc.
+                                        </div>
                                     </div>
-
+                                
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Mô tả</label>
-                                        <textarea class="form-control" id="description" [(ngModel)]="category.description" name="description" required></textarea>
+                                        <textarea class="form-control" id="description" [(ngModel)]="category.description" name="description" required #description="ngModel"></textarea>
+                                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
+                                            Mô tả là bắt buộc.
+                                        </div>
                                     </div>
-
+                                
                                     <div class="mb-3">
                                         <label for="images" class="form-label">Hình ảnh</label>
                                         <input type="file" class="form-control" id="images" (change)="onFileChange($event)">
-                                        <!-- Hiển thị hình ảnh hiện tại nếu có -->
-                                        <!-- <div *ngIf="category.images" class="mt-2">
-                                            <p>Hình ảnh hiện tại:</p>
-                                            <img [src]="category.images" alt="Current Image" width="150">
-                                        </div> -->
                                     </div>
-
+                                
                                     <div class="mb-3">
                                         <label for="parent_categoryID" class="form-label">Danh mục cha</label>
-                                        <input type="text" class="form-control" id="parent_categoryID" [(ngModel)]="category.parent_categoryID" name="parent_categoryID">
-                                    </div>
+                                        <input type="text" class="form-control" id="parent_categoryID" [(ngModel)]="category.parent_categoryID" name="parent_categoryID" #parentCategory="ngModel">
 
+                                        
+                                        <div *ngIf="parentCategory.invalid && (parentCategory.dirty || parentCategory.touched)" class="text-danger">
+                                            Danh mục cha không hợp lệ.
+                                        </div>
+                                    </div>
+                                
                                     <div class="mb-3">
                                         <label for="status" class="form-label">Trạng thái</label>
-                                        <select class="form-select" id="status" [(ngModel)]="category.status" name="status">
+                                        <select class="form-select" id="status" [(ngModel)]="category.status" name="status" required #status="ngModel">
                                             <option value="active">Kích hoạt</option>
                                             <option value="inactive">Vô hiệu hóa</option>
                                         </select>
+                                        <div *ngIf="status.invalid && (status.dirty || status.touched)" class="text-danger">
+                                            Vui lòng chọn trạng thái.
+                                        </div>
                                     </div>
-
-                                    <button type="submit" class="btn btn-primary w-100">Cập Nhật Danh Mục</button>
-                                </form>
+                                
+                                    <button type="submit" class="btn btn-primary w-100" [disabled]="categoryForm.invalid">Cập Nhật Danh Mục</button>
+                                </form>                                
                             </div>
                         </div>
                     </div>

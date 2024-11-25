@@ -11,7 +11,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { CartComponent } from './cart/cart.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { BlogComponent } from './blog/blog.component';
-import { BlogSingleComponent } from './blog-single/blog-single.component';
+// import { BlogSingleComponent } from './blog/blog-single/blog-single.component';
 import { LoginComponent } from './login/login.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { ServicesComponent } from './services/services.component';
@@ -20,6 +20,7 @@ import { ServiceDetailComponent } from './service-detail/service-detail.componen
 import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { BlogDetailComponent } from './blog/blog-detail/blog-detail.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { PaymentAlertComponent } from './payment-alert/payment-alert.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
@@ -43,7 +44,7 @@ const clientRoutes: Routes = [
       { path: 'cart', component: CartComponent },
       { path: 'contact', component: ContactUsComponent },
       { path: 'blog', component: BlogComponent },
-      { path: 'blog-detail', component: BlogSingleComponent },
+      { path: 'blog/blog-detail/:id', component: BlogDetailComponent },
       { path: 'login', component: LoginComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },
@@ -63,6 +64,6 @@ const clientRoutes: Routes = [
 
   @NgModule({
     imports: [RouterModule.forChild(clientRoutes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
   })
   export class ClientRoutingModule {}

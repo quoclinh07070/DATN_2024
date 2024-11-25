@@ -136,7 +136,23 @@ exports.deleteProduct = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Lỗi khi xóa sản phẩm', error: err });
     }
+
+// Lấy tất cả danh mục sản phẩm
+exports.getCategories = async (req, res) => {
+    try {
+      const [results] = await db.query('SELECT * FROM categories');
+      res.json({
+        message: 'Danh sách loại sản phẩm',
+        categories: results
+      });
+    } catch (err) {
+      res.status(500).json({ message: 'Lỗi khi lấy danh sách loại sản phẩm', error: err });
+    }
+  };
+  
 };
+
+
 
 exports.searchProduct = async (req, res) => {
     try {

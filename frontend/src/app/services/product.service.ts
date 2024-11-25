@@ -7,6 +7,9 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ProductService {
+  // getCategories() {
+  //   throw new Error('Method not implemented.');
+  // }
   private baseUrl = environment.apiUrl + "/products";
   private imageUrl = environment.imageUrl; 
 

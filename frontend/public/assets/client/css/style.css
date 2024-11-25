@@ -9931,8 +9931,8 @@ header-style-seven .nav-toggler:hover{
 
 .latest-news .post{
 	position: relative;
-	padding-left: 130px;
-	margin-bottom: 40px;
+	/* padding-left: 130px; */
+	margin-bottom: 10px;
 	min-height: 90px;
 }
 

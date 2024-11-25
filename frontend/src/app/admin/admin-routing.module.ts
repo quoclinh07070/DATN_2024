@@ -35,6 +35,8 @@ import { AdminVoucherComponent } from './admin-voucher/admin-voucher.component';
 import { AdminAddVoucherComponent } from './admin-voucher/admin-add-voucher/admin-add-voucher.component';
 import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/admin-edit-voucher.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+//Comments
+import { CommentpostComponent } from './commentpost/commentpost.component';
 
 
 //wishlistitems
@@ -72,6 +74,7 @@ const adminRoutes: Routes = [
     { path: 'order', component: AdminOrderComponent },//////
     { path: 'order/edit/:id', component: AdminOrderEditComponent },////////
 
+    { path: 'commentspost', component: CommentpostComponent },////////
 
 
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////

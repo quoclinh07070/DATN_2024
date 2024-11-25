@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHome, faTags, faBoxOpen, faFolderOpen, faNewspaper, faUser, faGift, faShoppingCart, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-
+import { faComments } from '@fortawesome/free-solid-svg-icons'; // Import the FontAwesome comments icon
 
 @Component({
   selector: 'app-admin-navbar',
@@ -27,4 +27,5 @@ export class AdminNavbarComponent {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
+  faComments = faComments; // Define the property for the icon
 }

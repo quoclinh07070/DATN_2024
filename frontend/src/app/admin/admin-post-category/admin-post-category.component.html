@@ -10,12 +10,12 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
                       <th>Tên danh mục</th>
-                      <th>ID danh mục cha</th>
+                      <!-- <th>ID danh mục cha</th> -->
                       <th>Hình ảnh</th>
                       <!-- <th>Ngày tạo</th> -->
                       <!-- <th>Ngày cập nhật</th> -->
@@ -25,8 +25,8 @@
                   <tbody>
                     <tr *ngFor="let postcategory of postcategories">
                       <th scope="row">{{postcategory.id}}</th>
-                      <td>{{postcategory.name}}</td>
-                      <td>{{postcategory.parentCategoryID || 'N/A'}}</td>
+                      <td class="text-truncate" style="max-width: 100px;">{{postcategory.name}}</td>
+                      <!-- <td>{{postcategory.parentCategoryID || 'N/A'}}</td> -->
                       <td>
                         <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{postcategory.name}}" class="img-fluid" style="max-width: 60px;">
                       </td>
