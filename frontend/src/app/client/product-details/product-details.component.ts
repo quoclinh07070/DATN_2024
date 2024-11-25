@@ -161,35 +161,49 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-   // Gửi đánh giá của người dùng
-   submitReview(): void {
-    if (this.isLoggedIn) {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        this.newReview.user_id = userId;
-        this.newReview.product_id = this.productId;
-  
-        // Đảm bảo rằng comment được gửi đúng
-        this.newReview.reviews_text = this.newReview.comment;
-  
-        this.reviewService.addReview(this.newReview).subscribe(
-          (response) => {
-            console.log('Đánh giá thành công:', response);
-            alert('Gửi đánh giá thành công');
-            this.loadReviews();  // Tải lại các đánh giá sau khi gửi thành công
-          },
-          (error) => {
-            console.error('Lỗi khi gửi đánh giá:', error);
-            alert('Lỗi khi gửi đánh giá');
-          }
-        );
+    // Gửi đánh giá của người dùng
+    submitReview(): void {
+      if (this.isLoggedIn) {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          // Kiểm tra xem người dùng đã mua sản phẩm chưa
+          this.reviewService.checkIfPurchased(userId, this.productId!).subscribe(
+            (response) => {
+              if (response.hasPurchased) {
+                // Người dùng đã mua sản phẩm, có thể gửi đánh giá
+                this.newReview.user_id = userId;
+                this.newReview.product_id = this.productId;
+                this.newReview.reviews_text = this.newReview.comment;
+    
+                this.reviewService.addReview(this.newReview).subscribe(
+                  (addResponse) => {
+                    console.log('Đánh giá thành công:', addResponse);
+                    alert('Gửi đánh giá thành công');
+                    this.loadReviews(); // Tải lại đánh giá sau khi gửi thành công
+                    this.newReview.comment = ''; // Xóa nội dung sau khi gửi
+                  },
+                  (error) => {
+                    console.error('Lỗi khi gửi đánh giá:', error);
+                    alert('Lỗi khi gửi đánh giá');
+                  }
+                );
+              } else {
+                // Người dùng chưa mua sản phẩm
+                alert(response.message || 'Bạn cần đặt hàng sản phẩm này trước khi có thể bình luận.');
+              }
+            },
+            (error) => {
+              console.error('Lỗi khi kiểm tra trạng thái đặt hàng:', error);
+              alert('Bạn cần đặt hàng sản phẩm này trước khi có thể bình luận.');
+            }
+          );
+        } else {
+          alert('Không tìm thấy thông tin người dùng');
+        }
       } else {
-        alert('Không tìm thấy thông tin người dùng');
+        alert('Bạn cần đăng nhập để gửi đánh giá');
+        this.router.navigate(['/login']);
       }
-    } else {
-      // Nếu người dùng chưa đăng nhập, điều hướng họ đến trang đăng nhập
-      alert('Bạn cần đăng nhập để gửi đánh giá');
-      this.router.navigate(['/login']);
     }
-}
+    
 }
