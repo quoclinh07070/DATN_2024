@@ -14,3 +14,65 @@
 .image-3 {
     background-image: url('/assets/client/images/main-slider/image-3.jpg');
 }
+
+
+.product-card {
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .image-box {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .image-box img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .image-box:hover img {
+    transform: scale(1.1);
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .image-box:hover .overlay {
+    opacity: 1;
+  }
+  
+  .overlay a {
+    color: #000;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .product-info h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-info .price {
+    font-size: 1rem;
+    color: #e74c3c;
+  }
+  
