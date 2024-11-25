@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
     // Lấy token từ query params
     this.token = this.route.snapshot.queryParams['token'];
     if (!this.token) {
-      this.error = 'Token không hợp lệ!';
+      this.error = 'Xác nhận qua email trước!';
     }
   }
 
@@ -59,7 +59,7 @@ export class ResetPasswordComponent implements OnInit {
           next: (response: any) => {
             this.message = response.message;
             this.error = '';
-            setTimeout(() => this.router.navigate(['/login']), 2000); // Điều hướng sau 2 giây
+            setTimeout(() => this.router.navigate(['/user']), 2000); // Điều hướng sau 2 giây
           },
           error: (err) => {
             this.error = err.error.message || 'Có lỗi xảy ra!';

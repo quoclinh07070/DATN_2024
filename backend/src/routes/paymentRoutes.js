@@ -85,19 +85,60 @@ router.post('/create-payment', async (req, res) => {
 });
 
 // API callback MoMo sau khi thanh toán
-router.post('/callback', (req, res) => {
-  const { resultCode, message, orderId, transId } = req.body;
+router.post('/callback', async (req, res) => {
+  const { resultCode, orderId, transId, amount, extraData } = req.body;
 
-  // Xử lý callback từ MoMo (cập nhật trạng thái đơn hàng)
+  console.log('Dữ liệu callback từ MoMo:', req.body);
+
   if (resultCode === '0') {
-    console.log(`Thanh toán thành công, mã giao dịch: ${transId}`);
-    // Cập nhật trạng thái đơn hàng trong DB (tùy chỉnh theo ứng dụng của bạn)
-  } else {
-    console.log(`Thanh toán thất bại: ${message}`);
-  }
+    try {
+      const parsedExtraData = JSON.parse(extraData);
+      const { userId, address, phoneNumber } = parsedExtraData;
 
-  return res.status(200).json({ message: `Callback nhận thành công, mã giao dịch: ${transId}` });
+      console.log('ExtraData sau khi parse:', parsedExtraData);
+
+      // Kiểm tra xem đơn hàng đã tồn tại chưa
+      const [existingOrder] = await db.query('SELECT orderId FROM orders WHERE orderId = ?', [orderId]);
+
+      if (!existingOrder || existingOrder.length === 0) {
+        console.log('Thêm đơn hàng mới vào bảng orders...');
+        const insertOrderQuery = `
+          INSERT INTO orders (orderId, user_id, total_amount, payment_method, status, payment_amount, address, phone_number, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        `;
+        await db.query(insertOrderQuery, [
+          orderId,
+          userId,
+          amount,
+          'momo',
+          'delivered',
+          amount,
+          address,
+          phoneNumber,
+        ]);
+        console.log('Đơn hàng mới đã được thêm:', orderId);
+      } else {
+        console.log('Cập nhật trạng thái đơn hàng đã tồn tại...');
+        const updateOrderQuery = `
+          UPDATE orders
+          SET status = 'delivered', payment_method = 'momo', payment_amount = ?
+          WHERE orderId = ?
+        `;
+        await db.query(updateOrderQuery, [amount, orderId]);
+        console.log('Đơn hàng đã được cập nhật:', orderId);
+      }
+
+      res.status(200).json({ message: 'Đơn hàng đã được xử lý thành công.' });
+    } catch (error) {
+      console.error('Lỗi khi xử lý callback MoMo:', error.message);
+      res.status(500).json({ message: 'Lỗi khi xử lý callback MoMo.', error: error.message });
+    }
+  } else {
+    console.error(`Thanh toán thất bại với mã lỗi: ${resultCode}`);
+    res.status(400).json({ message: 'Thanh toán thất bại' });
+  }
 });
+
 
 // API kiểm tra trạng thái giao dịch MoMo
 router.post('/check-status', async (req, res) => {

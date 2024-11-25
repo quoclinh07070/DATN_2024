@@ -4,7 +4,7 @@ import { CartService } from '../../services/cart.service'; // Import CartService
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { PaymentService } from '../../services/payment.service'; // Import PaymentService
+import { PaymentService, PaymentResponse } from '../../services/payment.service'; // Import PaymentService
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -234,25 +234,28 @@ export class CheckoutComponent implements OnInit {
         ?.full_name || '';
 
     const fullAddress = `${this.user.address}, ${selectedPhuongName}, ${selectedQuanName}, ${selectedTinhName}`;
+    
+    const extraData = {
+      userId: this.user.id,
+      address: fullAddress,
+      phoneNumber: this.user.phoneNumber,
+    };
 
     if (this.paymentMethod === 'momo') {
-      // Xử lý thanh toán qua MoMo
-      this.paymentService
-        .createPayment(this.totalAmount, orderId, orderInfo)
-        .subscribe(
-          (response) => {
-            if (response && response.payUrl) {
-              // Xóa giỏ hàng trước khi chuyển hướng
-              this.cartService.clearCart();
-              window.location.href = response.payUrl;
-            } else {
-              alert('Chuyển hướng đến trang thanh toán thất bại!');
-            }
-          },
-          (error) => {
-            console.error('Lỗi thanh toán:', error);
+
+      this.paymentService.createPayment(this.totalAmount, orderId, orderInfo, extraData).subscribe(
+        (response: PaymentResponse) => {
+          if (response && response.payUrl) {
+            this.cartService.clearCart(); // Xóa giỏ hàng trước khi chuyển hướng
+            window.location.href = response.payUrl;
+          } else {
+            alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
           }
-        );
+        },
+        (error) => {
+          console.error('Lỗi thanh toán:', error);
+        }
+      );
     } else if (this.paymentMethod === 'cod') {
       // Xử lý thanh toán khi nhận hàng
       const orderData = {
