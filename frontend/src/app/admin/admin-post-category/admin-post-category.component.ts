@@ -1,55 +1,73 @@
-import { Component } from '@angular/core';
-// import { PostCategoriesService } from '../../services/postcategories';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PostCategoryService } from '../../services/postcategory.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-post-category',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './admin-post-category.component.html',
-  styleUrl: './admin-post-category.component.css'
+  styleUrls: ['./admin-post-category.component.css']
 })
-export class AdminPostCategoryComponent {
-  postcategories: any[] = [];  // Array to store categories
+export class AdminPostCategoryComponent implements OnInit {
+  postcategories: any[] = [];  // Array to store all categories
+  filteredCategories: any[] = [];  // Array to store filtered categories based on search
+  searchTerm: string = '';  // Variable to store the search term
 
   constructor(private postCategoryService: PostCategoryService) {}
 
   ngOnInit(): void {
-    this.getAllCategories();  // Call function on component initialization
+    this.getAllCategories();  // Fetch categories when the component is initialized
   }
 
+  // Function to fetch all categories
   getAllCategories(): void {
     this.postCategoryService.getAllPostCategories().subscribe(
       (response: any) => {
-        this.postcategories = response.postcategories;  // Gán dữ liệu vào mảng postcategories
+        this.postcategories = response.postcategories;  // Store categories in postcategories
+        this.filteredCategories = this.postcategories;  // Initially, show all categories
       },
       (error) => {
-        console.error('Lỗi khi lấy danh mục:', error);
+        console.error('Error fetching categories:', error);
       }
     );
   }
-  
-  getImageUrl(imageName: string): string {
-    return this.postCategoryService.getImageUrl(imageName); // Gọi phương thức từ service
+
+  // Function to filter categories based on the search term
+  filterCategories(): void {
+    if (this.searchTerm) {
+      // Filter categories by name using the search term (case-insensitive)
+      this.filteredCategories = this.postcategories.filter(category =>
+        category.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      // If there's no search term, show all categories
+      this.filteredCategories = this.postcategories;
+    }
   }
-  
+
+  // Function to get image URL for categories
+  getImageUrl(imageName: string): string {
+    return this.postCategoryService.getImageUrl(imageName);  // Call method from service
+  }
+
+  // Function to delete a category
   deleteCategory(id: number): void {
     if (confirm('Bạn có chắc chắn muốn xóa danh mục này không?')) {
       this.postCategoryService.deletePostCategory(id).subscribe(
         () => {
-          // Cập nhật danh sách danh mục sau khi xóa
+          // Update the list of categories after deletion
           this.postcategories = this.postcategories.filter(category => category.id !== id);
+          this.filterCategories();  // Re-filter categories after deletion
           alert('Xóa danh mục thành công!');
-          console.log('Xóa danh mục thành công!');
         },
         (error) => {
           alert('Lỗi khi xóa danh mục!');
-          console.error('Lỗi khi xóa danh mục:', error);
+          console.error('Error deleting category:', error);
         }
       );
     }
   }
-  
 }

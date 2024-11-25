@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';  // Đổi thành PostService
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -14,21 +13,22 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-post.component.css']  // Đổi thành đường dẫn đến file CSS của post
 })
 export class AdminPostComponent implements OnInit {
-  posts: any[] = [];
-  filteredPosts: any[] = [];
-  showPublishedOnly: boolean = false;
+  posts: any[] = [];  // Khai báo mảng để lưu trữ bài viết
+  filteredPosts: any[] = [];  // Mảng lưu trữ bài viết sau khi lọc
+  searchTerm: string = '';  // Biến để lưu giá trị tìm kiếm
+  selectedStatus: string = '';  // Biến để lưu giá trị lọc trạng thái
 
   constructor(private postService: PostService) {}
-
+  
   ngOnInit(): void {
-    this.getAllPosts();
+    this.getAllPosts();  // Gọi hàm khi component được khởi tạo
   }
-
+  
   getAllPosts(): void {
     this.postService.getAllPosts().subscribe(
       (response: any) => {
-        this.posts = response.posts;
-        this.filterPosts();  // Initialize filtered list based on current filter
+        this.posts = response.posts;  // Gán dữ liệu vào mảng posts
+        this.filteredPosts = this.posts;  // Mặc định không lọc, hiển thị tất cả
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu bài viết:', error);
@@ -36,17 +36,32 @@ export class AdminPostComponent implements OnInit {
     );
   }
 
-  getImageUrl(imageName: string): string {
-    return this.postService.getImageUrl(imageName);
+  // Lọc bài viết theo tên và trạng thái
+  filterPosts(): void {
+    this.filteredPosts = this.posts.filter(post => {
+      // Lọc theo tên bài viết
+      const matchesSearchTerm = post.title.toLowerCase().includes(this.searchTerm.toLowerCase());
+      
+      // Lọc theo trạng thái
+      const matchesStatus = this.selectedStatus ? post.status === this.selectedStatus : true;
+      
+      return matchesSearchTerm && matchesStatus;
+    });
   }
 
+  getImageUrl(imageName: string): string {
+    return this.postService.getImageUrl(imageName); // Gọi phương thức từ service
+  }
+  
   deletePost(id: number): void {
     if (confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
       this.postService.deletePost(id).subscribe(
         () => {
+          // Cập nhật danh sách bài viết sau khi xóa
           this.posts = this.posts.filter(post => post.id !== id);
-          this.filterPosts();  // Update filtered list after deletion
+          this.filterPosts(); // Lọc lại bài viết sau khi xóa
           alert('Bài viết đã được xóa thành công!');
+          console.log('Bài viết đã được xóa thành công!');
         },
         (error) => {
           alert('Lỗi khi xóa bài viết!');
@@ -54,11 +69,5 @@ export class AdminPostComponent implements OnInit {
         }
       );
     }
-  }
-
-  filterPosts(): void {
-    this.filteredPosts = this.showPublishedOnly
-      ? this.posts.filter(post => post.status === 'published')
-      : this.posts;
   }
 }
