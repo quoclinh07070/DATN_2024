@@ -83,7 +83,8 @@
                         <td>{{ i + 1 }}</td>
                         <td>{{ order.total_amount | currency: 'VND' }}</td>
                         <td>{{ order.payment_method }}</td>
-                        <td class="badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</td>
+                        <td class="badge" [ngClass]="getStatusClass(order.status)">{{ order.status === 'cancelled' ? 'Hủy' : order.status === 'shipped' ? 'Đã giao' : order.status
+                          === 'delivered' ? 'Đang giao' : order.status }}</td>
                         <td>{{ order.address }}</td>
                         <td>{{ order.phone_number }}</td>
                         <td>{{ order.created_at | date: 'short' }}</td>

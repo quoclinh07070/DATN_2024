@@ -157,7 +157,7 @@ router.post('/submit-cod-order', async (req, res) => {
       user.id,
       totalAmount,
       'cod',
-      'shipped',
+      'delivered',
       totalAmount,
       fullAddress,
       user.phoneNumber,
