@@ -1,16 +1,61 @@
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-  <!-- Main wrapper -->
+<div 
+  class="page-wrapper"
+  id="main-wrapper"
+  data-layout="vertical"
+  data-navbarbg="skin6"
+  data-sidebartype="full"
+  data-sidebar-position="fixed"
+  data-header-position="fixed"
+>
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between align-items-center mt-2">
-            <h3 class="mb-0">DANH SÁCH TÀI KHOẢN</h3>
+            <h3 class="mb-0">DANH SÁCH NGƯỜI DÙNG</h3>
           </div>
+
+          <!-- Bộ lọc người dùng -->
+          <div class="d-flex align-items-center mt-3">
+            <label for="searchTerm" class="mr-2">LỌC:</label>
+            <!-- Tìm kiếm -->
+            <input
+              type="text"
+              id="searchTerm"
+              class="form-control w-25 mr-3"
+              placeholder="Nhập tên, email hoặc số điện thoại"
+              [(ngModel)]="searchTerm"
+              (input)="filterUsers()"
+            />
+
+            <!-- Lọc theo vai trò -->
+            <select
+              class="form-control w-25 mr-3"
+              [(ngModel)]="selectedRole"
+              (change)="filterUsers()"
+            >
+              <option value="">Tất cả vai trò</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </select>
+
+            <!-- Lọc theo trạng thái -->
+            <select
+              class="form-control w-25"
+              [(ngModel)]="selectedStatus"
+              (change)="filterUsers()"
+            >
+              <option value="">Tất cả trạng thái</option>
+              <option value="active">Hoạt động</option>
+              <option value="inactive">Không hoạt động</option>
+            </select>
+          </div>
+
+          <!-- Bảng hiển thị danh sách người dùng -->
           <div class="card mt-3">
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+              <div class="table-responsive mt-3">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
@@ -24,25 +69,45 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let user of users" [ngClass]="{'table-light': user.Status === 'active', 'table-danger': user.Status !== 'active'}">
-                      <th scope="row">{{user.UserID}}</th>
-                      <td>{{user.FullName}}</td>
+                    <tr
+                      *ngFor="let user of paginatedUsers"
+                      [ngClass]="{
+                        'table-light': user.Status === 'active',
+                        'table-danger': user.Status !== 'active'
+                      }"
+                    >
+                      <td>{{ user.UserID }}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{ user.FullName }}</td>
                       <td>
-                        <img [src]="getImageUrl(user.image)" alt="{{user.FullName}}" class="img-fluid" style="max-width: 60px;">
-                      </td>                       
-                      <td>{{user.PhoneNumber}}</td>
-                      <td>{{user.Email}}</td>
-                      <td>{{user.Role}}</td>
+                        <img
+                          [src]="getImageUrl(user.image)"
+                          alt="{{ user.FullName }}"
+                          class="img-fluid"
+                          style="max-width: 60px;"
+                        />
+                      </td>
+                      <td>{{ user.PhoneNumber }}</td>
+                      <td>{{ user.Email }}</td>
+                      <td>{{ user.Role }}</td>
                       <td>
-                        <span class="badge" [ngClass]="{'bg-success': user.Status === 'active', 'bg-danger': user.Status !== 'active'}">{{ user.Status }}</span>
+                        <span class="badge" [ngClass]="{'bg-success': user.Status === 'active', 'bg-danger': user.Status !== 'active'}">
+                          {{ user.Status === 'active' ? 'Hoạt động' : 'Không hoạt động' }}
+                        </span>
                       </td>
                       <td>
-                        <a class="btn btn-info btn-sm" routerLink="edit/{{user.UserID}}">Sửa</a>
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{ user.UserID }}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteUser(user.UserID, user.Email, user.FullName)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              <!-- Phân trang -->
+              <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-outline-primary btn-sm mr-2" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Trước</button>
+                <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+                <button class="btn btn-outline-primary btn-sm ml-2" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Tiếp</button>
               </div>
             </div>
           </div>
