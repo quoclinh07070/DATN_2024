@@ -3,6 +3,7 @@ import { ProductService } from '../../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-admin-edit-product',
@@ -15,10 +16,12 @@ import { CommonModule } from '@angular/common';
 export class AdminEditProductComponent implements OnInit {
   productForm: FormGroup;
   productId: number | null = null;
+  categories: any[] = [];  // Lưu danh sách danh mục
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private categoryService: CategoryService,  // Inject CategoryService
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -40,20 +43,36 @@ export class AdminEditProductComponent implements OnInit {
     if (this.productId) {
       this.getProduct(this.productId);
     }
+    this.getCategories();  // Lấy danh sách danh mục khi khởi tạo
   }
 
+  // Lấy danh sách danh mục từ API
+  getCategories(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.categories;  // Giả sử response có thuộc tính categories
+      },
+      (error) => {
+        console.error('Lỗi khi lấy danh mục:', error);
+        alert('Không thể tải danh mục sản phẩm.');
+      }
+    );
+  }
+
+  // Lấy thông tin sản phẩm theo ID
   getProduct(id: number): void {
     this.productService.getProductById(id).subscribe(
       (response: any) => {
         this.productForm.patchValue(response.product);
       },
       (error) => {
-        console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
-        alert('Không thể tải dữ liệu sản phẩm.');
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        alert('Không thể tải thông tin sản phẩm.');
       }
     );
   }
 
+  // Xử lý khi người dùng thay đổi hình ảnh
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -61,6 +80,7 @@ export class AdminEditProductComponent implements OnInit {
     }
   }
 
+  // Cập nhật sản phẩm
   updateProduct(): void {
     if (this.productForm.invalid) {
       alert('Vui lòng kiểm tra lại thông tin sản phẩm!');
@@ -84,11 +104,7 @@ export class AdminEditProductComponent implements OnInit {
         },
         (error) => {
           console.error('Lỗi khi cập nhật sản phẩm:', error);
-          if (error.status === 400) {
-            alert('Lỗi: Dữ liệu không hợp lệ!');
-          } else {
-            alert('Có lỗi xảy ra, vui lòng thử lại.');
-          }
+          alert('Có lỗi xảy ra, vui lòng thử lại.');
         }
       );
     }

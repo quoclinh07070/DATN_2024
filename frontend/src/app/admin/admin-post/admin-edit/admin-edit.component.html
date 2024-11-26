@@ -39,8 +39,9 @@
                   
                     <div class="mb-3">
                       <label for="post_category_id" class="form-label">Loại bài viết</label>
-                      <input type="text" class="form-control" id="post_category_id" [(ngModel)]="post.post_category_id" name="post_category_id" required>
-                      <div *ngIf="post.post_category_id?.length === 0" class="text-danger">
+                      <input type="text" class="form-control" id="post_category_id" [(ngModel)]="post.post_category_id"
+                        name="post_category_id" required #postCategoryId="ngModel">
+                      <div *ngIf="postCategoryId.invalid && postCategoryId.touched" class="text-danger">
                         Loại bài viết là bắt buộc.
                       </div>
                     </div>

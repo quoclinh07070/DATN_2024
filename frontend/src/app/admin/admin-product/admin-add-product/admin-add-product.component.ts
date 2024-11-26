@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/product.service'; // Import service
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-admin-add-product',
   standalone: true,
-  imports: [FormsModule,  CommonModule],
+  imports: [FormsModule,  CommonModule, ReactiveFormsModule],
 
   templateUrl: './admin-add-product.component.html',
   styleUrls: ['./admin-add-product.component.css']
 })
-export class AdminAddProductComponent {
+export class AdminAddProductComponent implements OnInit {
   product: any = {
     name: '',
     price: 0,
@@ -23,10 +24,32 @@ export class AdminAddProductComponent {
     status: 'active',
     categories_id: ''
   };
-
+  categories: any[] = []; // Lưu danh sách danh mục
   fileError: boolean = false;
+  submitted: boolean = false;
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService, // Inject CategoryService
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.getCategories(); // Lấy danh sách danh mục khi khởi tạo
+  }
+
+  // Lấy danh sách danh mục từ API
+  getCategories(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.categories; // Giả sử response có thuộc tính categories
+      },
+      (error) => {
+        console.error('Lỗi khi lấy danh mục:', error);
+        alert('Không thể tải danh mục sản phẩm.');
+      }
+    );
+  }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -43,6 +66,13 @@ export class AdminAddProductComponent {
   }
 
   addProduct(): void {
+    this.submitted = true;
+
+    if (!this.product.categories_id) {
+      alert('Vui lòng chọn loại sản phẩm!');
+      return;
+    }
+
     if (this.fileError) {
       alert('Vui lòng chọn tệp hình ảnh hợp lệ.');
       return;
@@ -68,6 +98,4 @@ export class AdminAddProductComponent {
       }
     );
   }
-
-  
 }

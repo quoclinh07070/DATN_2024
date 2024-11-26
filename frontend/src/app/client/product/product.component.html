@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
               <select class="form-control" (change)="filterByCategory($event)">
-                <option value="null">≣ Tất cả sản phẩm</option>
+                <option value="null">≣ Tất Cả Sản Phẩm</option>
                 <option *ngFor="let category of categories" [value]="category.id">
                   {{ category.category_name }}
                 </option>
@@ -71,7 +71,7 @@
       <div class="content-side col-xl-9 col-lg-8 col-md-12">
         <div class="text text-center mb-3" style="display: flex; justify-content: space-between; align-items: center;">
           <!-- Tiêu đề sản phẩm -->
-          <h3>{{ selectedCategory ? 'Sản phẩm có loại: ' + selectedCategoryName : 'Tất cả sản phẩm' }}</h3>
+          <h3>{{ selectedCategory ? 'Sản phẩm có loại: ' + selectedCategoryName : 'TẤT CẢ SẢN PHẨM' }}</h3>
           
           <!-- Dropdown Sắp xếp -->
           <div class="sort-container">
@@ -114,21 +114,21 @@
                   
                   <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
                   <div class="overlay-box">
-                    <ul class="cart-option">
-                      <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
+                    <ul class="cart-option" style="margin-top: 10px;">
+                      <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-eye"></span></a></li>
                       <li><a (click)="addToCart(product,quantity)"><span class="bi bi-cart-plus"></span></a></li>
                     </ul>
                   </div>
                 </div>
                 <div class="lower-content">
                   <h3>
-                    <a [routerLink]="['/product-detail', product.id]">  
+                    <a [routerLink]="['/product-detail', product.id]">
                       {{ (product.name.length > 60 ? (product.name | slice:0:60) + '...' : product.name) }}
                     </a>
                   </h3>
                   <div class="price">
                     <ng-container *ngIf="product.discount > 0; else noDiscount">
-                      <span class="discount-price" class="text-danger me-2">
+                      <span class="discount-price text-danger me-2">
                         {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
                       </span>
                       <span class="old-price text-dark text-decoration-line-through">
@@ -141,12 +141,8 @@
                       </span>
                     </ng-template>
                   </div>
-                  <!-- <div class="clearfix">
-                    <div class="pull-left">
-                      Sẵn có {{ product.quantity}} sản phẩm
-                    </div>
-                  </div> -->
                 </div>
+                
               </div>
             </div>
 

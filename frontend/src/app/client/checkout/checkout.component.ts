@@ -242,6 +242,7 @@ export class CheckoutComponent implements OnInit {
     };
 
     if (this.paymentMethod === 'momo') {
+      console.log(extraData)
 
       this.paymentService.createPayment(this.totalAmount, orderId, orderInfo, extraData).subscribe(
         (response: PaymentResponse) => {
