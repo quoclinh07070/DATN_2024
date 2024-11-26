@@ -125,3 +125,43 @@ exports.deleteOrder = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi xóa đơn hàng', error: err });
     }
 };
+
+// Lấy danh sách đơn hàng theo user_id
+exports.getOrdersByUserId = async (req, res) => {
+    const { user_id } = req.query;
+
+    if (!user_id) {
+        return res.status(400).json({ message: 'Thiếu user_id' });
+    }
+
+    try {
+        const [results] = await db.query(
+            `SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC`,
+            [user_id]
+        );
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy đơn hàng cho người dùng này' });
+        }
+
+        res.json({
+            message: 'Lấy danh sách đơn hàng thành công',
+            orders: results.map(order => new Order(
+                order.id,
+                order.user_id,
+                order.total_amount,
+                order.payment_method,
+                order.status,
+                order.payment_amount,
+                order.address,
+                order.phone_number,
+                order.voucher_id,
+                order.created_at,
+                order.updated_at
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy danh sách đơn hàng', error: err });
+    }
+};
+

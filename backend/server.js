@@ -10,9 +10,13 @@ const orderRoutes = require('./src/routes/orderRoutes');
 const productRoutes = require('./src/routes/productRoutes');
 const categoryRoutes = require('./src/routes/categoryRoutes');
 const postcategoryRoutes = require('./src/routes/postcategoryRoutes');
+const commentpostRoutes = require('./src/routes/commentpostRoutes');
+// const userRoutes = require('./src/routes/userRoutes');
 const reviewRoutes = require('./src/routes/review');
 const userRoutes = require('./src/routes/userRoutes');
 const paymentRoutes = require('./src/routes/paymentRoutes');  // Import routes thanh toán MoMo
+const emailRoutes = require('./src/routes/emailRoutes');
+const checkoutRoutes = require('./src/routes/checkoutRoutes');
 
 const db = require('./src/config/db'); // Nhập db từ config
 const dbmomo = require('./src/config/momo'); // Nhập db từ config
@@ -75,10 +79,16 @@ app.use('/api', voucherRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', postcategoryRoutes);
+app.use('/api', commentpostRoutes);
+// app.use('/api', userRoutes);
+
 app.use('/api', reviewRoutes);
 app.use('/api', userRoutes);
-app.use('/api', require("./src/routes/index"));
+app.use('/api', emailRoutes);
+// app.use('/api', checkoutRoutes);
 app.use('/api/payment', paymentRoutes);  // Thêm route thanh toán MoMo
+app.use('/api', require("./src/routes/index"));
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

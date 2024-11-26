@@ -1,0 +1,189 @@
+<div class="page-wrapper">
+    <!-- Sidebar Page Container -->
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <br>
+            <div class="row clearfix">
+                <!--Content Side-->
+                <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                    <div class="blog-detail">
+                        <!-- News Block -->
+                        <div class="news-block-two">
+                            <div class="inner-box">
+                                <div class="image-box">
+                                    <figure class="image">
+                                        <!-- Display post image from API -->
+                                        <img *ngIf="post.image_url && !isFile; else defaultImage"
+                                            [src]="getImageUrl(post.image_url)" alt="{{ post.title }}">
+                                        <ng-template #defaultImage>
+                                        </ng-template>
+                                    </figure>
+                                </div>
+                                <div class="caption-box">
+                                    <div class="inner">
+                                        <!-- Display post title -->
+                                        <h3>{{ post.title }}</h3>
+                                        <ul class="info">
+                                            <li>{{ post.created_at | date: 'dd MMMM yyyy' }}</li>
+                                            <li><a href="#">{{ post.author_name }}</a></li>
+                                        </ul>
+                                        <!-- Display post content -->
+                                        <p>{{ post.content }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="tags clearfix">
+                            <span class="title">Từ khóa:</span>
+                            <ul>
+                                <li><a href="#">Business</a></li>
+                                <li><a href="#">Financial</a></li>
+                                <li><a href="#">Life</a></li>
+                                <li><a href="#">Investment</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Share Option -->
+                        <div class="share-option">
+                            <span class="title">Chia sẻ:</span>
+                            <ul class="social-icon-colored clearfix">
+                                <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                                <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
+                                <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google Plus</a>
+                                </li>
+                                <li class="pinterest"><a href="#"><i class="fa fa-pinterest-p"></i>Pinterest</a></li>
+                                <li class="mail"><a href="#"><i class="fa fa-envelope"></i>Mail to Friends</a></li>
+                            </ul>
+                        </div>
+                        <!-- Comments Area -->
+                        <div class="comments-area">
+                            <div class="group-title">
+                                <h2>Bình Luận Hiện Tại</h2>
+                            </div>
+
+                            <div class="comment-box">
+                                <div class="comment">
+                                    <div class="author-thumb"><img src="/assets/client/images/resource/thumb-4.jpg"
+                                            alt=""></div>
+                                    <div class="comment-info">
+                                        <div class="name">Rayan Collins</div>
+                                        <div class="date">November 6, 2017</div>
+                                    </div>
+                                    <div class="text">It’s no secret that the digital industry is booming. From exciting
+                                        startups to global brands, companies are reaching out.</div>
+                                    <a href="#" class="reply-btn">Reply</a>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+                        <!--Comment Form-->
+                        <div class="comment-form">
+                            <div class="group-title">
+                                <h2>Bình luận bài viết</h2>
+                            </div>
+                            <form method="post" action="#">
+                                <div class="form-group">
+                                    <textarea name="message" placeholder="Đánh giá bài viết"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="theme-btn btn-style-one" type="submit"
+                                        name="submit-form">Gửi</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--Sidebar Side-->
+                <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                    <aside class="sidebar default-sidebar">
+
+
+
+                        <!--search box-->
+                        <!-- <div class="sidebar-widget search-box">
+                            <form method="post" action="#">
+                                <div class="form-group">
+                                    <input type="search" name="search-field" value="" placeholder="Search....."
+                                        required="">
+                                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                                </div>
+                            </form>
+                        </div> -->
+
+
+
+                        <!-- Categories -->
+                        <div class="sidebar-widget categories">
+                            <div class="sidebar-title">
+                                <h3>Danh mục bài viết</h3>
+                            </div>
+                            <ul class="cat-list">
+                                <li><a href="#">Residential <span>25</span></a></li>
+                                <li><a href="#">Commercial <span>20</span></a></li>
+                                <li class="active"><a href="#">Corporate <span>10</span></a></li>
+                                <li><a href="#">Hospitality <span>15</span></a></li>
+                                <li><a href="#">Restaurant <span>10</span></a></li>
+                                <li><a href="#">Industrial <span>05</span></a></li>
+                            </ul>
+                        </div>
+
+
+
+                        <!-- Latest News -->
+                        <div class="sidebar-widget latest-news">
+                            <div class="sidebar-title">
+                                <h3>Bài viết liên quan</h3>
+                            </div>
+                            <div class="widget-content" >
+                                <article class="post" *ngFor="let post of posts | slice:0:2">
+                                    <div class="image-box">
+                                      <figure class="image_url">
+                                        <img [src]="getImageUrl(post.image_url)" alt="{{ post.title }}">
+                                      </figure>
+                                      <div>
+                                        <a routerLink="/blog"></a>
+                                      </div>
+                                    </div>
+                                    <h3><a routerLink="/blog">{{ post.title }}</a></h3>
+                                  </article>
+                                
+                                <!-- <article class="post">
+                                    <div class="post-thumb"><a href="blog-detail.html"><img
+                                                src="/assets/client/images/resource/post-thumb-4.jpg" alt=""></a></div>
+                                    <h3><a href="blog-detail.html">Best Floor Service With Chepaest Price</a></h3>
+                                    <div class="post-info">by John Doe</div>
+                                </article> -->
+                                
+                            </div>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="sidebar-widget tags">
+                            <div class="sidebar-title">
+                                <h3>Từ khóa liên quan</h3>
+                            </div>
+                            <ul class="tag-list clearfix">
+                                <li><a routerLink="/blog">Bàn</a></li>
+                                <li><a routerLink="/blog">Ghế</a></li>
+                                <li><a routerLink="/blog">Sofa</a></li>
+                                <li><a routerLink="/blog">Nội thất</a></li>
+                                <li><a routerLink="/blog">Sửa Chữa</a></li>
+                                <li><a routerLink="/blog">Phong Thủy</a></li>
+                                <li><a routerLink="/blog">Phụ Kiện</a></li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Sidebar Container -->
+</div>

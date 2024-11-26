@@ -14,8 +14,11 @@ import { VoucherService } from '../../../services/voucher.service';
 })
 export class AdminAddVoucherComponent implements OnInit {
   voucher = {
+    voucher_code: '',
     price: 0,
     discount_percent: 0,
+    valid_from: '',
+    valid_to: '',
     status: 'active'
   };
 

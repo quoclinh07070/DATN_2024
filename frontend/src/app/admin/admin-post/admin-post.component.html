@@ -7,36 +7,53 @@
             <h3 class="mb-0">BÀI VIẾT</h3>
             <a class="btn btn-success" routerLink="add">Thêm Bài Viết</a>
           </div>
+          <div class="d-flex align-items-center mt-3 mb-3">
+            <label for="searchTerm" class="mr-2">Lọc:</label>
+            <!-- Tìm kiếm -->
+            <input 
+              type="text" 
+              class="form-control simple-search-input mr-3" 
+              placeholder="Tìm kiếm theo tên bài viết" 
+              [(ngModel)]="searchTerm"
+              (input)="filterPosts()"
+            />
+            <!-- Lọc theo trạng thái -->
+            <select class="form-control" [(ngModel)]="selectedStatus" (change)="filterPosts()">
+              <option value="">Tất cả trạng thái</option>
+              <option value="published">Đã xuất bản</option>
+              <option value="draft">Nháp</option>
+            </select>
+          </div>
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
                       <th>Tiêu đề</th>
                       <th>Hình ảnh</th>
                       <th>Nội dung</th>
-                      <th>ID Loại bài viết</th>
+                      <!-- <th>ID Loại bài viết</th> -->
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let post of posts" [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
+                    <tr *ngFor="let post of filteredPosts" [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
                       <th scope="row">{{post.id}}</th>
-                      <td>{{post.title}}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{post.title}}</td>
                       <td>
                         <img [src]="getImageUrl(post.image_url)" alt="{{post.title}}" class="img-fluid" style="max-width: 60px;">
                       </td>
                       <td class="text-truncate" style="max-width: 120px;">{{post.content}}</td>
-                      <td>{{post.post_category_id}}</td>
+                      <!-- <td>{{post.post_category_id}}</td> -->
                       <td>
-                        <span class="badge" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}">{{ post.status }}</span>
+                        <span class="badge" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}"> {{ post.status === 'published' ? 'Xuất bản' : 'Nháp' }}</span>
                       </td>
                       <td>
                         <a class="btn btn-info btn-sm" routerLink="edit/{{post.id}}">Sửa</a>
-                        <button type="button" class="btn btn-danger btn-sm" (click)="deletePost(post.id)">Xóa</button>
+<button type="button" class="btn btn-danger btn-sm" (click)="deletePost(post.id)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
@@ -49,4 +66,3 @@
     </div>
   </div>
 </div>
-

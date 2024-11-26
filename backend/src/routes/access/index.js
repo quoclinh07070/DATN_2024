@@ -9,9 +9,9 @@ const router = express.Router()
 router.post('/signup', asyncHandler(accessController.signUp))
 
 router.post('/login', asyncHandler(accessController.login))
-// router.use(authentication) //tạm ẩn để test checkout
+router.use(authentication) //tạm ẩn để test checkout
 router.post('/logout',asyncHandler(accessController.logout))
 router.post('/handler-refresh-token', asyncHandler(accessController.handlerRefreshToken))
-router.post('/forgot-password',accessController.forgotPassword)
+
 
 module.exports = router;

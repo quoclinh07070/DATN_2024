@@ -16,7 +16,6 @@ const HEADER = {
 
 
 const authentication = asyncHandler(async (req, res, next) => {
-    console.log('auth.Utils - authentication')
     const userId = req.headers[HEADER.CLIENT_ID]
     if (!userId) throw new AuthFailureError('Invalid Request')
 

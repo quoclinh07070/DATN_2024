@@ -9,8 +9,11 @@ exports.getAllVouchers = async (req, res) => {
             message: 'Lấy voucher thành công',
             vouchers: results.map(voucher => new Voucher(
                 voucher.id,
+                voucher.voucher_code,  // Thêm voucher_code
                 voucher.price,
                 voucher.discount_percent,
+                voucher.valid_from,    // Thêm valid_from
+                voucher.valid_to,      // Thêm valid_to
                 voucher.status,
                 voucher.created_at,
                 voucher.updated_at
@@ -34,8 +37,11 @@ exports.getVoucherById = async (req, res) => {
             message: 'Lấy voucher thành công',
             voucher: new Voucher(
                 voucher.id,
+                voucher.voucher_code,  // Thêm voucher_code
                 voucher.price,
                 voucher.discount_percent,
+                voucher.valid_from,    // Thêm valid_from
+                voucher.valid_to,      // Thêm valid_to
                 voucher.status,
                 voucher.created_at,
                 voucher.updated_at
@@ -48,18 +54,21 @@ exports.getVoucherById = async (req, res) => {
 
 // Tạo voucher mới
 exports.createVoucher = async (req, res) => {
-    const { price, discount_percent, status } = req.body;
+    const { voucher_code, price, discount_percent, valid_from, valid_to, status } = req.body;
     try {
         const [results] = await db.query(
-            'INSERT INTO vouchers (price, discount_percent, status) VALUES (?, ?, ?)',
-            [price, discount_percent, status]
+            'INSERT INTO vouchers (voucher_code, price, discount_percent, valid_from, valid_to, status) VALUES (?, ?, ?, ?, ?, ?)',
+            [voucher_code, price, discount_percent, valid_from, valid_to, status]
         );
         res.status(201).json({
             message: 'Tạo voucher thành công',
             voucher: new Voucher(
                 results.insertId,
+                voucher_code,          // Thêm voucher_code
                 price,
                 discount_percent,
+                valid_from,            // Thêm valid_from
+                valid_to,              // Thêm valid_to
                 status,
                 new Date(),
                 new Date()
@@ -73,20 +82,23 @@ exports.createVoucher = async (req, res) => {
 // Cập nhật voucher
 exports.updateVoucher = async (req, res) => {
     const { id } = req.params;
-    const { price, discount_percent, status } = req.body;
+    const { voucher_code, price, discount_percent, valid_from, valid_to, status } = req.body;
     try {
         await db.query(
-            'UPDATE vouchers SET price = ?, discount_percent = ?, status = ? WHERE id = ?',
-            [price, discount_percent, status, id]
+            'UPDATE vouchers SET voucher_code = ?, price = ?, discount_percent = ?, valid_from = ?, valid_to = ?, status = ? WHERE id = ?',
+            [voucher_code, price, discount_percent, valid_from, valid_to, status, id]
         );
         res.json({
             message: 'Cập nhật voucher thành công',
             voucher: new Voucher(
                 id,
+                voucher_code,          // Thêm voucher_code
                 price,
                 discount_percent,
+                valid_from,            // Thêm valid_from
+                valid_to,              // Thêm valid_to
                 status,
-                null, // giữ nguyên ngày tạo khi cập nhật
+                null,                   // giữ nguyên ngày tạo khi cập nhật
                 new Date()
             )
         });

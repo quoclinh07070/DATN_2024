@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { forgotPassword, resetPassword } = require("../controllers/userController");
 const multer = require('multer');
 // const  {authentication, authorization}= require("../auth/auth.Utils");
 
@@ -31,5 +32,16 @@ router.put('/users/:id', userController.updateUser);
 
 // Xóa
 router.delete('/users/:id', userController.deleteUser);
+
+// Route lấy thông tin người dùng
+router.get('/user-info', userController.getUserInfo);
+// Cập nhật thông tin người dùng với upload file
+router.put('/profile/:id', upload.single('profilePicture'), userController.updateUserProfile);
+// Quên mật khẩu
+router.post("/forgot-password", forgotPassword);
+
+// Đặt lại mật khẩu
+router.post("/reset-password", resetPassword);
+
 
 module.exports = router;

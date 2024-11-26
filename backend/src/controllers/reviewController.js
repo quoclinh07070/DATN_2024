@@ -2,41 +2,81 @@ const db = require('../config/db');
 const Review = require('../models/reviewModel');
 
 
+// Kiểm tra đơn hàng
+exports.hasPurchasedProduct = async (req, res) => {
+  const { user_id, product_id } = req.body;
+
+  if (!user_id || !product_id) {
+    return res.status(400).json({ message: 'Thiếu thông tin user_id hoặc product_id' });
+  }
+
+  try {
+    // Kiểm tra xem người dùng đã đặt hàng sản phẩm chưa
+    const [orderResults] = await db.query(
+      'SELECT * FROM orders WHERE user_id = ? AND product_id = ? AND status = "completed"',
+      [user_id, product_id]
+    );
+
+    if (orderResults.length > 0) {
+      // Người dùng đã đặt hàng sản phẩm
+      return res.status(200).json({ hasPurchased: true });
+    } else {
+      // Người dùng chưa đặt hàng
+      return res.status(403).json({
+        hasPurchased: false,
+        message: 'Bạn cần đặt hàng sản phẩm này trước khi có thể bình luận.',
+      });
+    }
+  } catch (err) {
+    console.error('Lỗi khi kiểm tra trạng thái đặt hàng:', err);
+    return res.status(500).json({ message: 'Lỗi server', error: err.message });
+  }
+};
+
 // Tạo đánh giá mới
 exports.createReview = async (req, res) => {
-    const { product_id, rating, reviews_text, user_id } = req.body;  // Nhận user_id từ body thay vì từ token
-  
-    if (!user_id) {
-      return res.status(400).json({ message: 'Không tìm thấy user_id' });
-    }
-  
-    try {
-      // Lưu đánh giá vào cơ sở dữ liệu
-      const [results] = await db.query(
-        'INSERT INTO reviews (product_id, user_id, rating, reviews_text) VALUES (?, ?, ?, ?)',
-        [product_id, user_id, rating, reviews_text]
-      );
-  
-      // Trả về thông tin đánh giá vừa tạo
-      res.status(201).json({
-        message: 'Tạo đánh giá thành công',
-        review: {
-          id: results.insertId,
-          product_id,
-          user_id,
-          rating,
-          reviews_text,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }
-      });
-    } catch (err) {
-      console.error('Lỗi khi tạo đánh giá:', err);
-      return res.status(500).json({ message: 'Lỗi khi tạo đánh giá', error: err.message });
-    }
-  };
-  
+  const { product_id, rating, reviews_text, user_id } = req.body;
 
+  if (!user_id) {
+    return res.status(400).json({ message: 'Không tìm thấy user_id' });
+  }
+
+  try {
+    // Kiểm tra nếu người dùng đã mua sản phẩm
+    const [orderResults] = await db.query(
+      'SELECT * FROM orders WHERE user_id = ? AND product_id = ? AND status = "completed"',
+      [user_id, product_id]
+    );
+
+    if (orderResults.length === 0) {
+      return res.status(403).json({
+        message: 'Bạn cần đặt hàng sản phẩm này trước khi đánh giá.',
+      });
+    }
+
+    // Lưu đánh giá vào cơ sở dữ liệu
+    const [results] = await db.query(
+      'INSERT INTO reviews (product_id, user_id, rating, reviews_text) VALUES (?, ?, ?, ?)',
+      [product_id, user_id, rating, reviews_text]
+    );
+
+    res.status(201).json({
+      message: 'Tạo đánh giá thành công',
+      review: {
+        id: results.insertId,
+        product_id,
+        user_id,
+        rating,
+        reviews_text,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  } catch (err) {
+    console.error('Lỗi khi tạo đánh giá:', err);
+    return res.status(500).json({ message: 'Lỗi khi tạo đánh giá', error: err.message });
+  }
+};
 
 // Lấy tất cả đánh giá của một sản phẩm
 exports.getProductReviews = async (req, res) => {

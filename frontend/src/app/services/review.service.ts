@@ -38,5 +38,10 @@ export class ReviewService {
     return this.http.get<{ reviews: any[] }>(`${this.baseUrl}/${productId}`);
   }
   
+  //kiểm tra người đã đặt hàng hay chưa
+  checkIfPurchased(userId: string, productId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/hasPurchased`, { user_id: userId, product_id: productId });
+  }
+
 }
 

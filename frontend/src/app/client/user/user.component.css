@@ -119,7 +119,21 @@
   .logout-btn:hover {
     background-color: #e60000;
   }
+  .changepass-btn {
+    padding: 10px 20px;
+    background-color: #44c5ec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
 
+  .changepass-btn:hover {
+    background-color: #17a8d4;
+  }
   .icon-success {
     font-size: 3em;
     color: #28a745;
@@ -264,4 +278,60 @@
     padding-right: 0;
     margin-left: 1rem;
     margin-right: 1rem;
+}
+
+/* Wrapper để định vị mũi tên */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%; /* Đảm bảo chiếm đủ không gian */
+}
+
+.css_select {
+  width: 100%; /* Đảm bảo thẻ select rộng bằng wrapper */
+  padding: 10px; /* Khoảng cách bên trong */
+  padding-right: 30px; /* Chừa khoảng trống cho mũi tên */
+  border: 1px solid #ced4da; /* Viền mặc định */
+  border-radius: 5px; /* Góc bo tròn */
+  background-color: #ffffff; /* Màu nền */
+  color: #495057; /* Màu chữ */
+  font-size: 14px; /* Kích thước chữ */
+  appearance: none; /* Ẩn mũi tên mặc định của trình duyệt */
+  outline: none; /* Loại bỏ viền mặc định khi focus */
+  cursor: pointer; /* Con trỏ chuột */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Hiệu ứng */
+}
+
+/* Mũi tên tùy chỉnh */
+.select-wrapper::after {
+  content: '▼'; /* Mũi tên tùy chỉnh */
+  position: absolute;
+  top: 70%; /* Canh giữa theo chiều dọc */
+  right: 20px; /* Đặt ở mép phải */
+  transform: translateY(-50%); /* Dịch chuyển để canh giữa */
+  color: #007bff; /* Màu mũi tên */
+  pointer-events: none; /* Không cho mũi tên nhận sự kiện */
+}
+
+/* Hiệu ứng khi hover */
+.css_select:hover {
+  border-color: #80bdff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+/* Hiệu ứng khi focus */
+.css_select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Khi không hợp lệ */
+.css_select.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.25);
+}
+
+.css_select.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
 }

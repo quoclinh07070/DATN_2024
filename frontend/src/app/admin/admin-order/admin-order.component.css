@@ -1,0 +1,57 @@
+button{
+    padding: 8px;
+    margin-right: 5px;
+}
+a{
+    padding: 8px;
+    margin-right: 5px;
+}
+
+/* Container for filter inputs */
+.filter-container {
+    display: flex;
+    gap: 15px;  /* Add space between the input and select */
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the filter input fields */
+  .filter-container input,
+  .filter-container select {
+    width: 250px;  /* Set a fixed width for the input and select elements */
+    padding: 10px;  /* Add padding for better touch target */
+    border-radius: 5px;  /* Rounded corners for input fields */
+    border: 1px solid #ccc;  /* Light border */
+    font-size: 14px;
+    transition: border-color 0.3s ease;  /* Smooth transition on focus */
+  }
+  
+  /* Style on hover */
+  .filter-container input:hover,
+  .filter-container select:hover {
+    border-color: #007bff;  /* Change border color on hover */
+  }
+  
+  /* Style on focus */
+  .filter-container input:focus,
+  .filter-container select:focus {
+    border-color: #0056b3;  /* Change border color on focus */
+    outline: none;  /* Remove the default focus outline */
+  }
+  
+  /* Optional: Add a "filter" button for a more interactive feel */
+  .filter-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-container button:hover {
+    background-color: #0056b3;
+  }
+  

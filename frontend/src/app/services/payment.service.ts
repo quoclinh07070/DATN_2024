@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+
+export interface PaymentResponse {
+  payUrl: string; // URL thanh toán trả về từ MoMo
+  message: string; // Thông báo trạng thái
+  [key: string]: any; // Các thuộc tính bổ sung nếu có
+}
 
 @Injectable({
   providedIn: 'root',
@@ -16,14 +22,26 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   // Tạo yêu cầu thanh toán qua MoMo
-  createPayment(amount: number, orderId: string, orderInfo: string) {
-    const payload = {
+  // Tạo yêu cầu thanh toán qua MoMo
+  createPayment(
+    amount: number,
+    orderId: string,
+    orderInfo: string,
+    extraData: any
+  ): Observable<PaymentResponse> {
+    return this.http.post<PaymentResponse>(`${this.baseUrl}/create-payment`, {
       amount,
       orderId,
-      orderInfo
-    };
+      orderInfo,
+      extraData: JSON.stringify(extraData), // Chuyển `extraData` thành chuỗi JSON
+    });
+  }
+  
 
-    return this.http.post<any>(`${this.baseUrl}/create-payment`, payload);
+
+  // Gửi thông tin đơn hàng COD
+  submitCODOrder(orderData: any) {
+    return this.http.post<any>(`${this.baseUrl}/submit-cod-order`, orderData);
   }
 
   // Xử lý callback từ MoMo (Sau khi thanh toán)

@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const KeyTokenService = require("../service/keyToken.service")
 const {createTokenPair} = require("../auth/auth.Utils");
-
 class AccessService {
 
     static logout = async (keyStore) => {
@@ -94,7 +93,7 @@ class AccessService {
             FullName: name,
             Email: email,
             Password: passwordHash,
-            PhoneNumber: "0913634651",
+            PhoneNumber: "",
             Role: "user", // Có thể để mặc định là 'user'
             Status: "active" // Có thể để mặc định là 'active'
         });
