@@ -15,7 +15,7 @@ const reviewRoutes = require('./src/routes/review');
 const userRoutes = require('./src/routes/userRoutes');
 const paymentRoutes = require('./src/routes/paymentRoutes');  // Import routes thanh toán MoMo
 const emailRoutes = require('./src/routes/emailRoutes');
-const shippingRoutes = require("./src/routes/shippingRoutes");
+const ghtkRoutes = require("./src/routes/ghtkRoutes");
 
 const db = require('./src/config/db'); // Nhập db từ config
 const dbmomo = require('./src/config/momo'); // Nhập db từ config
@@ -83,7 +83,7 @@ app.use('/api', reviewRoutes);
 app.use('/api', userRoutes);
 app.use('/api', emailRoutes);
 app.use('/api/payment', paymentRoutes);
-app.use("/api/shipping", shippingRoutes);
+app.use('/api/orders', ghtkRoutes);
 app.use('/api', require("./src/routes/index"));
 
 
