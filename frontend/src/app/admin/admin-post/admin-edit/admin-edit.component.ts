@@ -1,16 +1,25 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostService } from '../../../services/post.service'; // Giả sử có một PostService thay vì ProductService
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+=======
+import { Component } from '@angular/core';
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
 @Component({
-  selector: 'app-admin-edit-post',
+  selector: 'app-admin-edit',
   standalone: true,
+<<<<<<< HEAD
   imports: [FormsModule, RouterLink, CommonModule],
+=======
+  imports: [],
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   templateUrl: './admin-edit.component.html',
-  styleUrls: ['./admin-edit.component.css']
+  styleUrl: './admin-edit.component.css'
 })
+<<<<<<< HEAD
 
 export class AdminEditComponent implements OnInit {
   post: any = {
@@ -96,5 +105,9 @@ export class AdminEditComponent implements OnInit {
     }
     return true;
   }
+=======
+export class AdminEditComponent {
+
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 }
 

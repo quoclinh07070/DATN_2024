@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div 
   class="page-wrapper"
   id="main-wrapper"
@@ -7,11 +8,15 @@
   data-sidebar-position="fixed"
   data-header-position="fixed"
 >
+=======
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between align-items-center mt-2">
+<<<<<<< HEAD
             <h3 class="mb-0">DANH SÁCH NGƯỜI DÙNG</h3>
           </div>
 
@@ -56,6 +61,14 @@
             <div class="card-body">
               <div class="table-responsive mt-3">
                 <table class="table table-hover text-nowrap" style="text-align: center;">
+=======
+            <h3 class="mb-0">DANH SÁCH TÀI KHOẢN</h3>
+          </div>
+          <div class="card mt-3">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover text-nowrap">
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
                   <thead class="table-primary">
                     <tr>
                       <th>ID</th>
@@ -68,6 +81,7 @@
                       <th>Thao tác</th>
                     </tr>
                   </thead>
+<<<<<<< HEAD
                   <tbody>
                     <tr
                       *ngFor="let user of paginatedUsers"
@@ -108,6 +122,30 @@
                 <button class="btn btn-outline-primary btn-sm mr-2" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Trước</button>
                 <span>Trang {{ currentPage }} / {{ totalPages }}</span>
                 <button class="btn btn-outline-primary btn-sm ml-2" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Tiếp</button>
+=======
+                    <tbody>
+                      <tr *ngFor="let user of users" [ngClass]="{'table-light': user.Status === 'active', 'table-danger': user.Status !== 'active'}">
+                        <th scope="row">{{user.UserID}}</th>
+                        <td>{{user.FullName}}</td>
+                        <td>
+                          <img [src]="getImageUrl(user.image)" alt="{{user.FullName}}" class="img-fluid" style="max-width: 60px;">
+                        </td>                      
+                        <td>{{user.PhoneNumber}}</td>
+                        <td>{{user.Email}}</td>
+                        <td>{{user.Role}}</td>
+                        <td>
+                          <span class="badge" [ngClass]="{'bg-success': user.Status === 'active', 'bg-danger': user.Status !== 'active'}">{{ user.Status }}</span>
+                        </td>
+                        <!-- <td>{{product.created_at | date:'short' }}</td>
+                        <td>{{product.updated_at | date:'short' }}</td> -->
+                        <td>
+                          <a class="btn btn-info btn-sm" routerLink="edit/{{user.UserID}}">Sửa</a>
+                          <button type="button" class="btn btn-danger btn-sm" (click)="deleteUser(user.UserID)">Xóa</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
               </div>
             </div>
           </div>

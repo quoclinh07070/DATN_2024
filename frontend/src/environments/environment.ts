@@ -5,8 +5,12 @@
 
 export const environment = {
   production: false,
+<<<<<<< HEAD
   posttion: false,
   // vouchertion: false,
+=======
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   apiUrl: 'http://localhost:3000/api',
   imageUrl: 'http://localhost:3000/uploads',
+  
 };

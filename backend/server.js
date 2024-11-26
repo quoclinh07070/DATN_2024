@@ -1,13 +1,15 @@
+<<<<<<< HEAD
+=======
+// server.js
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 const nodemailer = require('nodemailer'); // Import nodemailer
 
-const postRoutes = require('./src/routes/postRoutes');
-const voucherRoutes = require('./src/routes/voucherRoutes');
-const orderRoutes = require('./src/routes/orderRoutes');
 const productRoutes = require('./src/routes/productRoutes');
+<<<<<<< HEAD
 const categoryRoutes = require('./src/routes/categoryRoutes');
 const postcategoryRoutes = require('./src/routes/postcategoryRoutes');
 const commentpostRoutes = require('./src/routes/commentpostRoutes');
@@ -18,9 +20,15 @@ const paymentRoutes = require('./src/routes/paymentRoutes');  // Import routes t
 const emailRoutes = require('./src/routes/emailRoutes');
 const checkoutRoutes = require('./src/routes/checkoutRoutes');
 
+=======
+const userRoutes = require('./src/routes/userRoutes');
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 const db = require('./src/config/db'); // Nhập db từ config
 const dbmomo = require('./src/config/momo'); // Nhập db từ config
 
+
+const multer = require('multer');
+const upload = multer(); // Tạo một instance multer để xử lý multipart/form-data
 
 // Load environment variables from .env file
 dotenv.config();
@@ -74,6 +82,7 @@ app.post('/send-email', (req, res) => {
 
 // Routes
 app.use('/api', productRoutes);
+<<<<<<< HEAD
 app.use('/api', postRoutes);
 app.use('/api', voucherRoutes);
 app.use('/api', orderRoutes);
@@ -88,7 +97,27 @@ app.use('/api', emailRoutes);
 // app.use('/api', checkoutRoutes);
 app.use('/api/payment', paymentRoutes);  // Thêm route thanh toán MoMo
 app.use('/api', require("./src/routes/index"));
+=======
+app.use(upload.none());
+app.use('/api', userRoutes);
+app.use('/api', require("./src/routes/index"));
 
+app.use((req,res,next) => {
+  const error = new Error('Not Found')
+  error.status = 404
+  next(error)
+})
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
+
+app.use((error,req,res,next) => {
+  const statusCode = error.status || 500
+  return  res.status(statusCode).json({
+    status : 'error',
+    code :statusCode,
+    // stack:error.stack,
+    message: error.message || 'Internal Server Error'
+  })
+})
 
 // Start the server
 const PORT = process.env.PORT || 3000;

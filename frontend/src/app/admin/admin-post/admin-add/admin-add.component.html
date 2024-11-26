@@ -11,56 +11,7 @@
             <div class="card-body">
               <h5 class="card-title">THÊM BÀI VIẾT</h5>
               <div class="table-responsive">
-                <form #form="ngForm" (ngSubmit)="addPost()" enctype="multipart/form-data">
-                  <div class="mb-3">
-                    <label for="title" class="form-label">Tiêu đề</label>
-                    <input type="text" class="form-control" id="title" [(ngModel)]="post.title" name="title" required
-                      #title="ngModel">
-                    <div *ngIf="title.invalid && title.touched" class="text-danger">
-                      Tiêu đề là bắt buộc.
-                    </div>
-                  </div>
 
-                  <div class="mb-3">
-                    <label for="content" class="form-label">Nội dung</label>
-                    <textarea class="form-control" id="content" [(ngModel)]="post.content" name="content" required
-                      #content="ngModel"></textarea>
-                    <div *ngIf="content.invalid && content.touched" class="text-danger">
-                      Nội dung là bắt buộc.
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="image_url" class="form-label">Hình ảnh</label>
-                    <input type="file" class="form-control" id="image_url" (change)="onFileChange($event)" required>
-                    <div *ngIf="fileError" class="text-danger">
-                      Vui lòng chỉ chọn các tệp hình ảnh (JPG, PNG).
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="post_category_id" class="form-label">Loại bài viết</label>
-                    <input type="text" class="form-control" id="post_category_id" [(ngModel)]="post.post_category_id"
-                      name="post_category_id" required #postCategoryId="ngModel">
-                    <div *ngIf="postCategoryId.invalid && postCategoryId.touched" class="text-danger">
-                      Loại bài viết là bắt buộc.
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select class="form-select" id="status" [(ngModel)]="post.status" name="status">
-                      <option value="published">Xuất bản</option>
-                      <option value="draft">Nháp</option>
-                    </select>
-                  </div>
-
-                  <div *ngIf="form.invalid && (form.dirty || form.touched)" class="alert alert-danger">
-                    Vui lòng kiểm tra lại các trường bắt buộc.
-                  </div>
-
-                  <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid">Thêm Bài Viết</button>
-                </form>
               </div>
             </div>
           </div>

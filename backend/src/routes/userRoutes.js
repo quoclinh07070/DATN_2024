@@ -2,9 +2,14 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+<<<<<<< HEAD
 const { forgotPassword, resetPassword } = require("../controllers/userController");
 const multer = require('multer');
 // const  {authentication, authorization}= require("../auth/auth.Utils");
+=======
+const multer = require('multer');
+const  {authentication, authorization}= require("../auth/auth.Utils");
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
 // Cấu hình multer
 const storage = multer.diskStorage({
@@ -33,6 +38,7 @@ router.put('/users/:id', userController.updateUser);
 // Xóa
 router.delete('/users/:id', userController.deleteUser);
 
+<<<<<<< HEAD
 // Route lấy thông tin người dùng
 router.get('/user-info', userController.getUserInfo);
 // Cập nhật thông tin người dùng với upload file
@@ -44,4 +50,6 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 
 
+=======
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 module.exports = router;

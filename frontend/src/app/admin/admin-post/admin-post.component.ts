@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';  // Đổi thành PostService
 import { RouterLink } from '@angular/router';
@@ -71,3 +72,17 @@ export class AdminPostComponent implements OnInit {
     }
   }
 }
+=======
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+@Component({
+  selector: 'app-admin-post',
+  standalone: true,
+  imports: [RouterModule],
+  templateUrl: './admin-post.component.html',
+  styleUrl: './admin-post.component.css'
+})
+export class AdminPostComponent {
+
+}
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7

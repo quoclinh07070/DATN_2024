@@ -1,16 +1,25 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PostCategoryService } from '../../services/postcategory.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+=======
+import { Component } from '@angular/core';
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
 @Component({
   selector: 'app-admin-post-category',
   standalone: true,
+<<<<<<< HEAD
   imports: [RouterLink, CommonModule, FormsModule],
+=======
+  imports: [],
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   templateUrl: './admin-post-category.component.html',
   styleUrls: ['./admin-post-category.component.css']
 })
+<<<<<<< HEAD
 export class AdminPostCategoryComponent implements OnInit {
   postcategories: any[] = [];  // Array to store all categories
   filteredCategories: any[] = [];  // Array to store filtered categories based on search
@@ -71,3 +80,8 @@ export class AdminPostCategoryComponent implements OnInit {
     }
   }
 }
+=======
+export class AdminPostCategoryComponent {
+
+}
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7

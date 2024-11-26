@@ -1,17 +1,26 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';  // Import service
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  // Import FormsModule
+=======
+import { Component } from '@angular/core';
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
 @Component({
   selector: 'app-admin-order',
   standalone: true,
+<<<<<<< HEAD
   imports: [RouterLink, CommonModule, FormsModule],  // Include FormsModule here
   providers: [OrderService],
+=======
+  imports: [],
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   templateUrl: './admin-order.component.html',
-  styleUrls: ['./admin-order.component.css']
+  styleUrl: './admin-order.component.css'
 })
+<<<<<<< HEAD
 export class AdminOrderComponent implements OnInit {
   orders: any[] = [];  // Store all orders
   filteredOrders: any[] = [];  // Store filtered orders
@@ -61,4 +70,8 @@ export class AdminOrderComponent implements OnInit {
       return matchesName && matchesStatus;
     });
   }
+=======
+export class AdminOrderComponent {
+
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 }

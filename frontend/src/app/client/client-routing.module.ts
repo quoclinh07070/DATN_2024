@@ -19,6 +19,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
+<<<<<<< HEAD
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { BlogDetailComponent } from './blog/blog-detail/blog-detail.component';
 import { SearchResultComponent } from './search-result/search-result.component';
@@ -31,6 +32,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
+=======
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
 const clientRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -53,6 +56,7 @@ const clientRoutes: Routes = [
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'user', component: UserComponent },
+<<<<<<< HEAD
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -60,6 +64,8 @@ const clientRoutes: Routes = [
       { path: 'payment-alert', component: PaymentAlertComponent },
       { path: 'success-page', component: SuccessPageComponent },
       { path: 'order-list', component: OrderListComponent },
+=======
+>>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
       { path: '**', component: PagenotfoundComponent },
 
     ]},
