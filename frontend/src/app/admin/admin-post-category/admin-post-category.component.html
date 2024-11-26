@@ -1,4 +1,4 @@
- <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
@@ -6,19 +6,6 @@
           <div class="d-flex justify-content-between align-items-center mt-2">
             <h3 class="mb-0">DANH MỤC BÀI VIẾT</h3>
             <a class="btn btn-success" routerLink="add">Thêm Danh Mục Bài Viết</a>
-          </div>
-          <div class="d-flex align-items-center mt-3">
-            <label for="searchTerm" class="mr-2">Lọc:</label>
-            
-            <!-- Tìm kiếm -->
-            <input 
-              type="text" 
-              id="searchTerm" 
-              class="form-control simple-search-input mr-3" 
-              placeholder="Tìm kiếm danh mục" 
-              [(ngModel)]="searchTerm"
-              (input)="filterCategories()" 
-            />
           </div>
           <div class="card mt-3">
             <div class="card-body">
@@ -30,17 +17,21 @@
                       <th>Tên danh mục</th>
                       <!-- <th>ID danh mục cha</th> -->
                       <th>Hình ảnh</th>
+                      <!-- <th>Ngày tạo</th> -->
+                      <!-- <th>Ngày cập nhật</th> -->
                       <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let postcategory of filteredCategories">
+                    <tr *ngFor="let postcategory of postcategories">
                       <th scope="row">{{postcategory.id}}</th>
                       <td class="text-truncate" style="max-width: 100px;">{{postcategory.name}}</td>
                       <!-- <td>{{postcategory.parentCategoryID || 'N/A'}}</td> -->
                       <td>
                         <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{postcategory.name}}" class="img-fluid" style="max-width: 60px;">
                       </td>
+                      <!-- <td>{{postcategory.created_at}}</td> -->
+                      <!-- <td>{{postcategory.updated_at}}</td> -->
                       <td>
                         <a class="btn btn-info btn-sm" routerLink="edit/{{postcategory.id}}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteCategory(postcategory.id)">Xóa</button>
@@ -56,3 +47,4 @@
     </div>
   </div>
 </div>
+
