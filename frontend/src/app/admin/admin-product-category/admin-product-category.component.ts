@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category.service';
@@ -9,14 +8,9 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-admin-product-category',
   standalone: true,
   imports: [RouterLink, CommonModule, FormsModule],
-=======
-@Component({
-  selector: 'app-admin-product-category',
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   templateUrl: './admin-product-category.component.html',
-  styleUrls: ['./admin-product-category.component.css']
+  styleUrl: './admin-product-category.component.css'
 })
-<<<<<<< HEAD
 export class AdminProductCategoryComponent {
   categories: any[] = [];
   filteredCategories: any[] = [];
@@ -45,10 +39,6 @@ export class AdminProductCategoryComponent {
       }
     );
   }
-=======
-export class AdminProductCategoryComponent  {
-
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
   filterCategories(): void {
     this.filteredCategories = this.categories.filter(category => {
@@ -84,4 +74,3 @@ export class AdminProductCategoryComponent  {
     }
   }
 }
-

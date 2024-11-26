@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { ProductService } from '../../../services/product.service'; // Import service
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-add-product',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,  CommonModule],
+
   templateUrl: './admin-add-product.component.html',
   styleUrls: ['./admin-add-product.component.css']
 })
@@ -22,16 +24,30 @@ export class AdminAddProductComponent {
     categories_id: ''
   };
 
+  fileError: boolean = false;
+
   constructor(private productService: ProductService, private router: Router) {}
 
   onFileChange(event: any) {
     const file = event.target.files[0];
+    this.fileError = false; // Reset error
+
     if (file) {
-      this.product.image = file;
+      const allowedTypes = ['image/jpeg', 'image/png'];
+      if (allowedTypes.includes(file.type)) {
+        this.product.image = file;
+      } else {
+        this.fileError = true;
+      }
     }
   }
 
   addProduct(): void {
+    if (this.fileError) {
+      alert('Vui lòng chọn tệp hình ảnh hợp lệ.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('name', this.product.name);
     formData.append('price', this.product.price.toString());
@@ -48,14 +64,10 @@ export class AdminAddProductComponent {
         this.router.navigate(['/admin/product']);
       },
       (error) => {
-        alert('Lỗi khi thêm sản phẩm!');
+        alert('Lỗi khi thêm sản phẩm! Vui lòng kiểm tra lại thông tin.');
       }
     );
   }
-<<<<<<< HEAD
 
   
 }
-=======
-}
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7

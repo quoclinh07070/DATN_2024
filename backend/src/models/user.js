@@ -55,7 +55,6 @@ module.exports = class User {
         }
     }
 
-<<<<<<< HEAD
     // Tìm người dùng bằng ID
     static async findById(UserID) {
         const query = `SELECT *
@@ -105,22 +104,3 @@ static async updateUser(UserID, updates) {
 }
 
 };
-=======
-    static async findUserByUserName(name) {
-        const query = `SELECT *
-                       FROM users
-                       WHERE fullname = ?`;
-
-        return new Promise((resolve, reject) => {
-            db.execute(query, [name], (err, rows) => {
-                if (err) {
-                    reject(new Error('Error finding user: ' + err.message));
-                    return;
-                }
-                resolve(rows.length > 0 ? rows[0] : null); // Trả về thông tin người dùng nếu tìm thấy, nếu không thì null
-            });
-        });
-    }
-
-};
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const multer = require('multer');
-const  {authentication, authorization}= require("../auth/auth.Utils");
 
 // Cấu hình multer
 const storage = multer.diskStorage({
@@ -19,8 +18,6 @@ const upload = multer({ storage: storage });
 
 // Lấy danh sách sản phẩm
 router.get('/products', productController.getAllProducts);
-
-// authorization("[admin,user]"),
 
 // Lấy sản phẩm theo ID
 router.get('/products/:id', productController.getProductById);

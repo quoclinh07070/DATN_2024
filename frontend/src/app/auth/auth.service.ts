@@ -155,7 +155,6 @@ export class AuthService {
       })
     );
   }
-<<<<<<< HEAD
 // AuthService
 checkUserRole(): Observable<boolean> {
   const userId = localStorage.getItem('userId');
@@ -194,8 +193,6 @@ private redirectToLogin(): void {
   // localStorage.removeItem('userEmail');
   window.location.href = '/admin/access-denied';
 }
-=======
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
   
 }

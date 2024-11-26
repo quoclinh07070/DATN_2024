@@ -12,13 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminEditUserComponent implements OnInit {
   user: any = {
-<<<<<<< HEAD
     Role: 'user',
     Status: 'active',
-=======
-    role: 'user',
-    status: 'active',
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   };
   userId: number | null = null;
 
@@ -38,26 +33,13 @@ export class AdminEditUserComponent implements OnInit {
   getUser(id: number): void {
     this.userService.getUserById(id).subscribe(
         (response: any) => {
-<<<<<<< HEAD
             this.user = response.user;
-=======
-            this.user = {
-                ...response.user, // Sao chép các thuộc tính từ response.user
-                role: response.user.Role, // Gán giá trị Role vào role
-                status: response.user.Status // Gán giá trị Status vào status
-            };
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
         },
         (error) => {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     );
-<<<<<<< HEAD
   }
-=======
-}
-
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -67,7 +49,6 @@ export class AdminEditUserComponent implements OnInit {
   }
 
   updateUser(): void {
-<<<<<<< HEAD
     // Tạo đối tượng dữ liệu JSON chứa các thông tin cần thiết
     const updateData = {
       role: this.user.Role,
@@ -90,24 +71,3 @@ export class AdminEditUserComponent implements OnInit {
   }
   
 }
-=======
-    const formData = new FormData();
-    formData.append('role', this.user.Role);
-    formData.append('status', this.user.Status);
-        
-    if (this.userId) {
-        this.userService.updateUser(this.userId, formData).subscribe(
-            (response) => {
-                alert('Thông tin người dùng đã được cập nhật!');
-                this.router.navigate(['/admin/user']);
-            },
-            (error) => {
-                alert('Lỗi khi cập nhật thông tin người dùng!');
-            }
-        );
-    }
-}
-
-
-}
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7

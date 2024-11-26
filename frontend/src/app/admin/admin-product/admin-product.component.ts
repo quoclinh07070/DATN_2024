@@ -3,41 +3,28 @@ import { ProductService } from '../../services/product.service';  // Import serv
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-<<<<<<< HEAD
 import { FormsModule } from '@angular/forms';
-=======
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
 @Component({
   selector: 'app-admin-product',
   standalone: true,
-<<<<<<< HEAD
   imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
-=======
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   providers: [ProductService],
   templateUrl: './admin-product.component.html',
   styleUrls: ['./admin-product.component.css']
 })
 export class AdminProductComponent implements OnInit {
   products: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm
-<<<<<<< HEAD
   filteredProducts: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm đã lọc
-=======
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   priceForm: FormGroup;
   loading: boolean = true;
   errorMessage: string = '';
 
-<<<<<<< HEAD
   // Khai báo các biến lọc
   searchTerm: string = '';
   selectedPriceRange: string = '';
   selectedStatus: string = '';
 
-=======
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   constructor(private productService: ProductService, private fb: FormBuilder) {
     this.priceForm = this.fb.group({
       minPrice: [null],
@@ -45,39 +32,16 @@ export class AdminProductComponent implements OnInit {
       categoryId: [null],
     });
   }
-<<<<<<< HEAD
-=======
-  
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
   ngOnInit(): void {
-    this._getProducts();  // Gọi hàm khi component được khởi tạo
+    this.getAllProducts();  // Gọi hàm khi component được khởi tạo
   }
 
-<<<<<<< HEAD
   getAllProducts(): void {
     this.loading = true;
     const { minPrice, maxPrice, categoryId} = this.priceForm.value;
 
     this.productService.getAllProducts().subscribe(
-=======
-  // getAllProducts(): void {
-  //   this.productService.getAllProducts().subscribe(
-  //     (response: any) => {
-  //       this.products = response.products;  // Gán dữ liệu vào mảng products
-  //     },
-  //     (error) => {
-  //       console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
-  //     }
-  //   );
-  // }
-  
-  _getProducts(): void {
-    this.loading = true;
-    const { minPrice, maxPrice, categoryId} = this.priceForm.value;
-
-    this.productService.getAllProducts(minPrice, maxPrice, categoryId).subscribe(
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
       (response: any) => {
         this.products = response.products;  // Gán dữ liệu vào mảng products
         this.filterProducts();  // Lọc sản phẩm sau khi nhận được dữ liệu
@@ -87,7 +51,6 @@ export class AdminProductComponent implements OnInit {
       }
     );
   }
-<<<<<<< HEAD
 
   // Hàm lọc sản phẩm
   filterProducts(): void {
@@ -112,8 +75,6 @@ export class AdminProductComponent implements OnInit {
   }
 
   // Hàm lấy đường dẫn hình ảnh
-=======
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName); // Gọi phương thức từ service
   }

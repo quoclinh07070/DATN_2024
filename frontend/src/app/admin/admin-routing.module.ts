@@ -9,9 +9,12 @@ import { AdminRegisterComponent } from './admin-register/admin-register.componen
 
 //post category
 import { AdminPostCategoryComponent } from './admin-post-category/admin-post-category.component';
-
+import { AdminAddPostComponent } from './admin-post-category/admin-add-post/admin-add-post.component';
+import { AdminEditPostComponent } from './admin-post-category/admin-edit-post/admin-edit-post.component';
 //product category
 import { AdminProductCategoryComponent } from './admin-product-category/admin-product-category.component';
+import { AdminProductAddComponent } from './admin-product-category/admin-product-add/admin-product-add.component';
+import { AdminProductEditComponent } from './admin-product-category/admin-product-edit/admin-product-edit.component';
 //product
 import { AdminProductComponent } from './admin-product/admin-product.component';
 import { AdminAddProductComponent } from './admin-product/admin-add-product/admin-add-product.component';
@@ -22,6 +25,7 @@ import { AdminEditUserComponent } from './admin-user/admin-edit-user/admin-edit-
 //order
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminOrderEditComponent } from './admin-order/admin-order-edit/admin-order-edit.component';
+
 //post
 import { AdminPostComponent } from './admin-post/admin-post.component';
 import { AdminAddComponent } from './admin-post/admin-add/admin-add.component';
@@ -34,17 +38,24 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
 //Comments
 import { CommentpostComponent } from './commentpost/commentpost.component';
 
+
+//wishlistitems
+// import { AdminWishlistitemsComponent } from './admin-wishlistitems/admin-wishlistitems.component';
+
 const adminRoutes: Routes = [
   { path: '', component: AdminLayoutComponent, children: [
     { path: '', component: HomeComponent },
     { path: 'postCategory', component: AdminPostCategoryComponent },
+    { path: 'postCategory/add', component: AdminAddPostComponent },////////
+    { path: 'postCategory/edit/:id', component: AdminEditPostComponent },/////////
     
     { path: 'post', component: AdminPostComponent },
     { path: 'post/add', component: AdminAddComponent },
-    { path: 'post/edit', component: AdminEditComponent },
+    { path: 'post/edit/:id', component: AdminEditComponent },
 
     { path: 'productCategory', component: AdminProductCategoryComponent },
-
+    { path: 'productCategory/add', component: AdminProductAddComponent },/////////
+    { path: 'productCategory/edit/:id', component: AdminProductEditComponent },
 
     { path: 'product', component: AdminProductComponent },
     { path: 'product/add', component: AdminAddProductComponent },
@@ -58,7 +69,6 @@ const adminRoutes: Routes = [
 
     { path: 'voucher', component: AdminVoucherComponent },
     { path: 'voucher/add', component: AdminAddVoucherComponent },
-<<<<<<< HEAD
     { path: 'voucher/edit/:id', component: AdminEditVoucherComponent },
 
     { path: 'order', component: AdminOrderComponent },//////
@@ -69,12 +79,7 @@ const adminRoutes: Routes = [
 
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 
-=======
-    { path: 'voucher/edit', component: AdminEditVoucherComponent },
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
-    { path: 'order', component: AdminOrderComponent },
-    { path: 'order/edit', component: AdminOrderEditComponent },
     // Thêm các route admin khác ở đây
   ]},
   { path: 'access-denied', component: AccessDeniedComponent },

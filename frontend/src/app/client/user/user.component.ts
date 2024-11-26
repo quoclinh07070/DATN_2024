@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -45,29 +44,11 @@ export class UserComponent {
   };
 
   isLoggedIn: boolean = false;
-=======
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
-import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-
-@Component({
-  standalone: true,
-  imports: [RouterLink, CommonModule],
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-})
-export class UserComponent {
-  userName: string | null;
-  userEmail: string | null;
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 
   isPopupVisible: boolean = false;
   popupMessage: string = '';
   isSuccess: boolean = true;
 
-<<<<<<< HEAD
   profilePicture: File | null = null; // Lưu trữ file ảnh
   profilePicturePreview: string | null = null; // URL preview ảnh
 
@@ -119,13 +100,6 @@ export class UserComponent {
   }
   
   
-=======
-  constructor(private authService: AuthService, private router: Router) {
-    this.userName = localStorage.getItem('userName');
-    this.userEmail = localStorage.getItem('userEmail');
-  }
-
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   onLogout() {
     this.authService.logout().subscribe(
       () => {
@@ -139,7 +113,6 @@ export class UserComponent {
       }
     );
   }
-<<<<<<< HEAD
   onLogoutConfirm() {
     // Hiển thị hộp thoại xác nhận
     const userConfirmed = confirm('Bạn có chắc chắn muốn đăng xuất không?');
@@ -252,24 +225,16 @@ export class UserComponent {
     }
   }
   
-=======
-
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   showPopup(message: string, isSuccess: boolean) {
     this.popupMessage = message;
     this.isSuccess = isSuccess;
     this.isPopupVisible = true;
-<<<<<<< HEAD
     setTimeout(() => this.closePopup(), 2000);
-=======
-    setTimeout(() => this.closePopup(), 3000);
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
   }
 
   closePopup() {
     this.isPopupVisible = false;
   }
-<<<<<<< HEAD
 
   // Phương thức điều hướng
   navigateToLogin() {
@@ -351,6 +316,4 @@ export class UserComponent {
   }
   
   
-=======
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 }

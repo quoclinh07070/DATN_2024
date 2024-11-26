@@ -81,19 +81,11 @@ class AccessService {
 
     static signUp = async ({name, email, password}) => {
         // console.log("signUp:: name %s :: email %s :: password %s", name, email, password)
-        let holderShop = await User.findUserByEmail(email);
+        const holderShop = await User.findUserByEmail(email);
         console.log('holderShop::', holderShop)
         if (holderShop) {
-
             throw new BadRequestError('Error Shop already registered!')
         }
-
-        holderShop = await User.findUserByUserName(name);
-
-        if (holderShop) {
-            throw new BadRequestError('Error Shop already registered!')
-        }
-
         const passwordHash = await bcrypt.hash(password, 10)
 
         // Lưu người dùng mới

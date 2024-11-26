@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PostCategoryService } from '../../../services/postcategory.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-edit-post',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, FormsModule, CommonModule],
   templateUrl: './admin-edit-post.component.html',
   styleUrl: './admin-edit-post.component.css'
 })
 
 export class AdminEditPostComponent {
-<<<<<<< HEAD
   postcategory: any = {
     name: '',
     parentCategoryID: null,
@@ -98,7 +101,4 @@ export class AdminEditPostComponent {
       );
     }
   }
-=======
-
->>>>>>> ba55266b582d2e1d084af9c54fb4be332359bff7
 }
