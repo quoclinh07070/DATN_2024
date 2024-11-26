@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-login',
@@ -75,6 +76,7 @@ export class LoginComponent {
       (response) => {
         if (response.metadata.tokens && response.metadata.tokens.accessToken) {
           localStorage.setItem('token', response.metadata.tokens.accessToken);
+          Swal.fire('Đăng nhập thành công!', 'success')
           this.showPopup('Đăng nhập thành công!', true);
           setTimeout(() => {this.router.navigate(['/user']);}, 2000);
         } else {

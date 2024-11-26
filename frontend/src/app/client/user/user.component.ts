@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { PaymentService } from '../../services/payment.service'; // Import PaymentService
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   standalone: true,
   imports: [RouterLink, CommonModule, FormsModule],
@@ -56,6 +59,7 @@ export class UserComponent {
     private paymentService: PaymentService,
     private http: HttpClient, // Inject HttpClient
     private authService: AuthService,
+    private toastr: ToastrService,
     private router: Router
   ) {
     this.isLoggedIn = this.authService.isAuthenticated();
@@ -103,10 +107,6 @@ export class UserComponent {
   onLogout() {
     this.authService.logout().subscribe(
       () => {
-        this.showPopup('Đăng xuất thành công!', true);
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 3000);
       },
       (error) => {
         console.error('Lỗi khi đăng xuất:', error);
@@ -114,11 +114,33 @@ export class UserComponent {
     );
   }
   onLogoutConfirm() {
-    // Hiển thị hộp thoại xác nhận
-    const userConfirmed = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-    if (userConfirmed) {
-      this.onLogout(); // Gọi hàm đăng xuất nếu người dùng xác nhận
-    }
+    Swal.fire({
+      title: 'Bạn có chắc chắn muốn đăng xuất không?',
+      text: 'Hành động này không thể hoàn tác!',
+      icon: 'warning', // Các giá trị khác: success, error, info, question
+      showCancelButton: true, // Hiển thị nút "Cancel"
+      confirmButtonColor: '#3085d6', // Màu nút xác nhận
+      cancelButtonColor: '#d33', // Màu nút hủy
+      confirmButtonText: 'Xác nhận',
+      cancelButtonText: 'Hủy',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Xong!', 'Đăng xuất thành công!', 'success');
+        this.authService.logout().subscribe(
+          () => {
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 2000);
+          },
+          (error) => {
+            console.error('Lỗi khi đăng xuất:', error);
+          }
+        );
+      } else if (result.isDismissed) {
+        Swal.fire('Đã hủy!', 'Bạn đã hủy đăng xuất!', 'info');
+      }
+    });
+    
   }
 
   validateAddress(): boolean {
@@ -225,16 +247,6 @@ export class UserComponent {
     }
   }
   
-  showPopup(message: string, isSuccess: boolean) {
-    this.popupMessage = message;
-    this.isSuccess = isSuccess;
-    this.isPopupVisible = true;
-    setTimeout(() => this.closePopup(), 2000);
-  }
-
-  closePopup() {
-    this.isPopupVisible = false;
-  }
 
   // Phương thức điều hướng
   navigateToLogin() {
@@ -288,14 +300,14 @@ export class UserComponent {
     const apiUrl = `http://localhost:3000/api/profile/${this.user.id}`;
     this.http.put(apiUrl, formData).subscribe({
       next: (response: any) => {
-        this.showPopup('Cập nhật thông tin thành công!', true);
+        this.toastr.success('Cập nhật thông tin thành công!', 'Success');
         setTimeout(() => {
           location.reload(); // Tải lại trang
         }, 2000);
       },
       error: (error) => {
         console.error('Lỗi khi cập nhật thông tin:', error);
-        this.showPopup('Cập nhật thông tin thất bại!', false);
+        this.toastr.error('Cập nhật thông tin thất bại!', 'Error');
       },
     });
   }
@@ -306,11 +318,11 @@ export class UserComponent {
   
     this.http.post(apiUrl, { email: userEmail }).subscribe({
       next: (response: any) => {
-        this.showPopup('Link đặt lại mật khẩu đã được gửi đến email của bạn!', true);
+        this.toastr.success('Link đặt lại mật khẩu đã được gửi đến email của bạn!', 'Success')
       },
       error: (error) => {
         console.error('Lỗi khi gửi link đặt lại mật khẩu:', error);
-        this.showPopup('Không thể gửi link đặt lại mật khẩu. Vui lòng thử lại!', false);
+        this.toastr.error('Không thể gửi link đặt lại mật khẩu. Vui lòng thử lại!', 'Error');
       },
     });
   }
