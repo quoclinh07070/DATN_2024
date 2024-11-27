@@ -54,69 +54,125 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive mt-3">
-                <table class="table table-hover text-nowrap" style="text-align: center;">
-                  <thead class="table-primary">
+                <table class="table table-hover table-bordered text-nowrap">
+                  <thead class="table-dark text-white text-center align-middle">
                     <tr>
-                      <th>ID</th>
-                      <th>Tên sản phẩm</th>
-                      <th>Hình ảnh</th>
-                      <th>Giá</th>
-                      <!-- <th>Mô tả</th> -->
-                      <th>Giảm giá(%)</th>
-                      <th>Số lượng</th>
-                      <th>Trạng thái</th>
-                      <!-- <th>ID Loại SP</th> -->
-                      <th>Thao tác</th>
+                      <th scope="col" class="py-3">ID</th>
+                      <th scope="col" class="py-3">Tên sản phẩm</th>
+                      <th scope="col" class="py-3">Hình ảnh</th>
+                      <th scope="col" class="py-3">Giá</th>
+                      <th scope="col" class="py-3">Giảm giá(%)</th>
+                      <th scope="col" class="py-3">Số lượng</th>
+                      <th scope="col" class="py-3">Trạng thái</th>
+                      <th scope="col" class="py-3">Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr
-                      *ngFor="let product of filteredProducts"
+                      *ngFor="let product of getPagedData()"
                       [ngClass]="{
                         'table-light': product.status === 'active',
                         'table-danger': product.status !== 'active'
                       }"
                     >
-<th scope="row">{{ product.id }}</th>
-                      <td class="text-truncate" style="max-width: 120px">{{ product.name }}</td>
-                      <td>
+                      <th scope="row" class="text-center align-middle">
+                        {{ product.id }}
+                      </th>
+                      <td class="text-center align-middle">
+                        {{ product.name }}
+                      </td>
+                      <td class="text-center align-middle">
                         <img
                           [src]="getImageUrl(product.image)"
                           alt="{{ product.name }}"
-                          class="img-fluid"
-                          style="max-width: 60px"
+                          class="img-thumbnail"
+                          style="max-width: 60px; height: auto"
                         />
                       </td>
-                      <td>{{ product.price | number:'1.0-0' }} ₫</td>
-                      <!-- <td class="text-truncate" style="max-width: 120px">
-                        {{ product.description }}
-                      </td> -->
-                      <td>{{ product.discount }}</td>
-                      <td>{{ product.quantity }}</td>
-                      <td>
-                        <span class="badge" [ngClass]="{'bg-success': product.status === 'active', 'bg-danger': product.status !== 'active'}">
-                          {{ product.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
+                      <td class="text-center align-middle">
+                        {{ product.price | number : "1.0-0" }} ₫
+                      </td>
+                      <td class="text-center align-middle">
+                        {{ product.discount }}
+                      </td>
+                      <td class="text-center align-middle">
+                        {{ product.quantity }}
+                      </td>
+                      <td class="text-center align-middle">
+                        <span
+                          class="badge"
+                          [ngClass]="{
+                            'bg-success': product.status === 'active',
+                            'bg-danger': product.status !== 'active'
+                          }"
+                        >
+                          {{
+                            product.status === "active"
+                              ? "Kích hoạt"
+                              : "Vô hiệu hóa"
+                          }}
                         </span>
                       </td>
-
-                      <!-- <td>{{ product.categories_id }}</td> -->
-                      <td>
-                        <a
-                          class="btn btn-info btn-sm"
-                          routerLink="edit/{{ product.id }}"
-                          >Sửa</a
+                      <td class="text-center align-middle">
+                        <div
+                          class="d-flex justify-content-center align-items-center gap-2"
                         >
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm"
-                          (click)="deleteProduct(product.id)"
-                        >
-                          Xóa
-                        </button>
+                          <a
+                            class="btn btn-sm btn-info"
+                            routerLink="edit/{{ product.id }}"
+                            >Sửa</a
+                          >
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            (click)="deleteProduct(product.id)"
+                          >
+                            Xóa
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-3">
+                  <nav>
+                    <ul class="pagination">
+                      <li
+                        class="page-item"
+                        [class.disabled]="currentPage === 1"
+                      >
+                        <button
+                          class="page-link"
+                          (click)="goToPage(currentPage - 1)"
+                          [disabled]="currentPage === 1"
+                        >
+                          Trước
+                        </button>
+                      </li>
+                      <li
+                        class="page-item"
+                        *ngFor="let page of getPaginationArray()"
+                        [class.active]="page === currentPage"
+                      >
+                        <button class="page-link" (click)="goToPage(page)">
+                          {{ page }}
+                        </button>
+                      </li>
+                      <li
+                        class="page-item"
+                        [class.disabled]="currentPage === getTotalPages()"
+                      >
+                        <button
+                          class="page-link"
+                          (click)="goToPage(currentPage + 1)"
+                          [disabled]="currentPage === getTotalPages()"
+                        >
+                          Tiếp theo
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
