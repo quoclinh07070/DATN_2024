@@ -35,6 +35,7 @@ export class BlogDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPosts();
+    this.getAllCategories();  // Fetch categories when the component is initialized
     this.getAllPostCategories();  // Gọi hàm lấy danh mục bài viết
     this.postId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.postId) {
@@ -81,6 +82,39 @@ export class BlogDetailComponent implements OnInit {
         console.error('Lỗi khi lấy danh mục bài viết:', error);
       }
     );
+  }
+
+
+
+
+  postcategories: any[] = [];  // Array to store all categories
+  filteredCategories: any[] = [];  // Array to store filtered categories based on search
+  searchTerm: string = '';  // Variable to store the search term
+
+  // Function to fetch all categories
+  getAllCategories(): void {
+    this.postCategoryService.getAllPostCategories().subscribe(
+      (response: any) => {
+        this.postcategories = response.postcategories;  // Store categories in postcategories
+        this.filteredCategories = this.postcategories;  // Initially, show all categories
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
+  // Function to filter categories based on the search term
+  filterCategories(): void {
+    if (this.searchTerm) {
+      // Filter categories by name using the search term (case-insensitive)
+      this.filteredCategories = this.postcategories.filter(category =>
+        category.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      // If there's no search term, show all categories
+      this.filteredCategories = this.postcategories;
+    }
   }
   
 }

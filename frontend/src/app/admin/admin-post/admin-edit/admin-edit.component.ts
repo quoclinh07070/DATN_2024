@@ -35,6 +35,7 @@ export class AdminEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getAllCategories();  // Fetch categories when the component is initialized
     this.postId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.postId) {
       this.getPost(this.postId);
@@ -117,4 +118,23 @@ export class AdminEditComponent implements OnInit {
     }
     return true;
   }
+
+
+  postcategories: any[] = [];  // Array to store all categories
+  filteredCategories: any[] = [];  // Array to store filtered categories based on search
+  searchTerm: string = '';  // Variable to store the search term
+  
+  // Function to fetch all categories
+  getAllCategories(): void {
+    this.postCategoryService.getAllPostCategories().subscribe(
+      (response: any) => {
+        this.postcategories = response.postcategories;  // Store categories in postcategories
+        this.filteredCategories = this.postcategories;  // Initially, show all categories
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
 }

@@ -37,14 +37,18 @@
                       </div>
                     </div>
                   
-                    <div class="mb-3">
+                    <div class="mb-3" >
                       <label for="post_category_id" class="form-label">Loại bài viết</label>
-                      <input type="text" class="form-control" id="post_category_id" [(ngModel)]="post.post_category_id"
-                        name="post_category_id" required #postCategoryId="ngModel">
-                      <div *ngIf="postCategoryId.invalid && postCategoryId.touched" class="text-danger">
+                      <select class="form-select" id="post_category_id" name="post_category_id" >
+                        <option *ngFor="let postcategory of filteredCategories" [value]="postcategory.id">
+                          {{ postcategory.name }}
+                        </option>
+                      </select>
+                      <!-- <div *ngIf="!post.post_category_id && postCategoryForm.submitted" class="text-danger">
                         Loại bài viết là bắt buộc.
-                      </div>
+                      </div> -->
                     </div>
+                    
                   
                     <div class="mb-3">
                       <label for="status" class="form-label">Trạng thái</label>
