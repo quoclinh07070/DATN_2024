@@ -1,32 +1,22 @@
-<!-- Popup Success/Error Alert -->
-<div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
-  <div class="popup-content">
-    <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
-      <span [innerHTML]="isSuccess ? '&#10003;' : '&#10007;'"></span>
-    </div>
-    <p class="message">{{ popupMessage }}</p>
-    <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
-  </div>
-</div>
+<div class="d-lg-flex half">
+  <div class="bg order-1 order-md-2" style="background-image: url('/assets/client/images/gallery/3.jpg');"></div>
+  <div class="contents order-2 order-md-1 bg-form">
 
-<!-- Register Section -->
-<section class="login-section mt-4">
-  <div class="auto-container">
-    <div class="row clearfix">
-      <div class="column col-lg-12 col-md-12 col-sm-12">
-        <h2 class="text-center text-primary">Đăng Ký</h2>
-        <div class="login-form register-form">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-7">
+          <h3 class="mb-4"><strong>Đăng Ký</strong></h3>
           <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
             <div class="form-group">
-              <label for="signup-name">Tên:</label>
-              <input type="text" id="signup-name" formControlName="name" required class="form-control">
+              <label for="signup-name">Họ và tên:</label>
+              <input type="text" id="signup-name" formControlName="name" required class="form-control" placeholder="Nhập họ và tên của bạn">
               <small *ngIf="signupForm.get('name')?.errors?.['required'] && signupForm.get('name')?.touched" class="error-message">
                 Tên là bắt buộc.
               </small>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
               <label for="signup-email">Email:</label>
-              <input type="email" id="signup-email" formControlName="email" required class="form-control">
+              <input type="email" id="signup-email" formControlName="email" required class="form-control" placeholder="Nhập email của bạn">
               <small *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched" class="error-message">
                 Email là bắt buộc.
               </small>
@@ -34,16 +24,16 @@
                 Email không hợp lệ.
               </small>
             </div>
-            <div class="form-group">
-              <label for="signup-password">Mật Khẩu:</label>
-              <input type="password" id="signup-password" formControlName="password" required class="form-control">
+            <div class="form-group mt-4">
+              <label for="signup-password">Mật khẩu:</label>
+              <input type="password" id="signup-password" formControlName="password" required class="form-control" placeholder="Nhập mật khẩu của bạn">
               <small *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="error-message">
                 Mật khẩu là bắt buộc.
               </small>
             </div>
-            <div class="form-group">
-              <label for="signup-confirm-password">Xác Nhận Mật Khẩu:</label>
-              <input type="password" id="signup-confirm-password" formControlName="confirmPassword" required class="form-control">
+            <div class="form-group mb-4 mt-4">
+              <label for="signup-confirm-password">Xác nhận mật khẩu:</label>
+              <input type="password" id="signup-confirm-password" formControlName="confirmPassword" required class="form-control" placeholder="Nhập lại mật khẩu của bạn">
               <small *ngIf="signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.get('confirmPassword')?.touched" class="error-message">
                 Xác nhận mật khẩu là bắt buộc.
               </small>
@@ -51,8 +41,8 @@
                 Mật khẩu và xác nhận mật khẩu không khớp.
               </small>
             </div>
-            <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Đăng Ký</button>
-            <div class="text-center mt-3 link-group">
+            <button type="submit" class="btn btn-primary col-12 mt-4" [disabled]="signupForm.invalid">Đăng Ký</button>
+            <div class="text-center mt-4 link-group">
               <span>Đã có tài khoản? </span>
               <a routerLink="/login">Đăng nhập</a>
             </div>
@@ -61,4 +51,6 @@
       </div>
     </div>
   </div>
-</section>
+
+  
+</div>
