@@ -26,11 +26,9 @@ export class CheckoutComponent implements OnInit {
   selectedQuan: string = '';
   selectedPhuong: string = '';
   totalAmount: number = 0;
+  appliedVoucher: any = null; // Voucher đã áp dụng
 
   paymentMethod: string = 'cod'; // Mặc định là thanh toán cod
-
-  feeResponse: any;
-  orderResponse: any;
 
   // Biến lỗi để kiểm tra địa chỉ
   addressError: string = '';
@@ -50,6 +48,10 @@ export class CheckoutComponent implements OnInit {
     address: '',
   }; // Thông tin người dùng
 
+  feeResponse: any;
+  orderResponse: any;
+ // Thông tin người dùng
+
   constructor(
     private cartService: CartService,
     private paymentService: PaymentService,
@@ -61,7 +63,6 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.authService.getUserInfo().subscribe({
       next: (data) => {
         this.user = {
@@ -87,73 +88,84 @@ export class CheckoutComponent implements OnInit {
       },
       error: (err) => {
         console.error('Lỗi khi lấy thông tin người dùng:', err);
-        Swal.fire('Lỗi!', 'Lấy thông tin người dùng thất bại! Vui lòng thử lại!', 'error');
         this.router.navigate(['/login']);
       },
     });
 
+    // Tải giỏ hàng
     this.cartItems = this.cartService.getCartItems();
+
+    // Lấy thông tin voucher từ localStorage
+    const savedVoucher = localStorage.getItem('appliedVoucher');
+    if (savedVoucher) {
+      this.appliedVoucher = JSON.parse(savedVoucher);
+    }
+
+    // Tính tổng tiền sau khi áp dụng voucher
     this.totalAmount = Math.round(this.getTotal());
   }
 
   getTotal() {
-    // Tính tổng giỏ hàng với giảm giá (nếu có)
-    return this.cartItems.reduce((total, item) => {
-      const priceWithDiscount =
-        item.discount > 0
-          ? item.price - item.price * (item.discount / 100)
-          : item.price;
-      return total + priceWithDiscount * item.quantity; // Cộng tổng tiền với discount
+    let total = this.cartItems.reduce((total, item) => {
+      const priceWithDiscount = item.discount > 0 
+        ? item.price - (item.price * (item.discount / 100)) 
+        : item.price;
+      return total + priceWithDiscount * item.quantity;
     }, 0);
+        // Nếu có voucher đã áp dụng, tính giảm giá
+        if (this.appliedVoucher) {
+          const discount = (this.appliedVoucher.discount_percent / 100) * total;
+          total -= discount; // Trừ đi giảm giá từ tổng tiền
+        }
+      
+        return total;
+  }
+ // Kiểm tra địa chỉ trước khi xử lý thanh toán
+ validateAddress(): boolean {
+  let isValid = true;
+  // Kiểm tra số điện thoại
+  const phoneRegex = /^[0-9]{10,11}$/; // Chỉ cho phép số điện thoại 10-11 chữ số
+  if (!this.user.phoneNumber || !phoneRegex.test(this.user.phoneNumber)) {
+    this.errors.phone =
+      'Số điện thoại không hợp lệ. Vui lòng nhập đúng số điện thoại.';
+    isValid = false;
+  } else {
+    this.errors.phone = ''; // Xóa lỗi nếu hợp lệ
+  }
+  // Kiểm tra địa chỉ chi tiết
+  if (!this.user.address || this.user.address.trim() === '') {
+    this.errors.address = 'Vui lòng nhập địa chỉ chi tiết.';
+    isValid = false;
+  } else {
+    this.errors.address = ''; // Xóa lỗi nếu hợp lệ
   }
 
-  // Kiểm tra địa chỉ trước khi xử lý thanh toán
-  validateAddress(): boolean {
-    let isValid = true;
-    // Kiểm tra số điện thoại
-    const phoneRegex = /^[0-9]{10,11}$/; // Chỉ cho phép số điện thoại 10-11 chữ số
-    if (!this.user.phoneNumber || !phoneRegex.test(this.user.phoneNumber)) {
-      this.errors.phone =
-        'Số điện thoại không hợp lệ. Vui lòng nhập đúng số điện thoại.';
-      isValid = false;
-    } else {
-      this.errors.phone = ''; // Xóa lỗi nếu hợp lệ
-    }
-    // Kiểm tra địa chỉ chi tiết
-    if (!this.user.address || this.user.address.trim() === '') {
-      this.errors.address = 'Vui lòng nhập địa chỉ chi tiết.';
-      isValid = false;
-    } else {
-      this.errors.address = ''; // Xóa lỗi nếu hợp lệ
-    }
-
-    // Kiểm tra Tỉnh
-    if (!this.selectedTinh) {
-      this.errors.tinh = 'Vui lòng chọn Tỉnh/Thành phố.';
-      isValid = false;
-    } else {
-      this.errors.tinh = ''; // Xóa lỗi nếu hợp lệ
-    }
-
-    // Kiểm tra Quận
-    if (!this.selectedQuan) {
-      this.errors.quan = 'Vui lòng chọn Quận/Huyện.';
-      isValid = false;
-    } else {
-      this.errors.quan = ''; // Xóa lỗi nếu hợp lệ
-    }
-
-    // Kiểm tra Phường
-    if (!this.selectedPhuong) {
-      this.errors.phuong = 'Vui lòng chọn Phường/Xã.';
-      isValid = false;
-    } else {
-      this.errors.phuong = ''; // Xóa lỗi nếu hợp lệ
-    }
-
-    return isValid;
+  // Kiểm tra Tỉnh
+  if (!this.selectedTinh) {
+    this.errors.tinh = 'Vui lòng chọn Tỉnh/Thành phố.';
+    isValid = false;
+  } else {
+    this.errors.tinh = ''; // Xóa lỗi nếu hợp lệ
   }
 
+  // Kiểm tra Quận
+  if (!this.selectedQuan) {
+    this.errors.quan = 'Vui lòng chọn Quận/Huyện.';
+    isValid = false;
+  } else {
+    this.errors.quan = ''; // Xóa lỗi nếu hợp lệ
+  }
+
+  // Kiểm tra Phường
+  if (!this.selectedPhuong) {
+    this.errors.phuong = 'Vui lòng chọn Phường/Xã.';
+    isValid = false;
+  } else {
+    this.errors.phuong = ''; // Xóa lỗi nếu hợp lệ
+  }
+
+  return isValid;
+}
   // Lấy danh sách Tỉnh Thành từ API
   loadTinhThanh() {
     this.http

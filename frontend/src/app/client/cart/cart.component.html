@@ -98,8 +98,9 @@
         
                     <div class="cart-options clearfix">
                       <div class="pull-left d-flex">
-                        <input type="text" placeholder="Nhập mã voucher"  class="form-control">
-                        <button type="button" class="btn btn-success" >Áp dụng</button>
+                        <input type="text" placeholder="Nhập mã voucher" [(ngModel)]="voucherCode" class="form-control">
+                        <button type="button" class="btn btn-success" (click)="applyVoucher()">Áp dụng</button>
+                        <button type="button" class="btn btn-danger" (click)="removeVoucher()">Xóa</button>
                       </div>
                       
                     <div class="pull-right">
@@ -113,7 +114,18 @@
                         <li class="bg-white">
                             <h3 class="text-center">Thông tin đơn hàng</h3>
                         </li>
-                        <li class="clearfix total"><span class="col">Tổng tiền:</span><span class="price">{{ getTotal() | number:'1.0-0' }} ₫</span></li>
+                        <!-- Nếu ko có voucher -->
+                        <li *ngIf="!appliedVoucher" class="clearfix total"><span class="col">Tổng tiền:</span><span class="price">{{ getTotal() | number:'1.0-0' }} ₫</span></li>
+                        <!-- Nếu có, Hiển thị voucher đã áp dụng -->
+                        <li *ngIf="appliedVoucher" class="clearfix total">
+                          <span class="col">Voucher:</span>
+                          <span class="text-success">{{ appliedVoucher.voucher_code }} - Giảm {{ appliedVoucher.discount_percent }}%</span>
+                        </li>
+
+                        <li *ngIf="appliedVoucher" class="clearfix total">
+                          <span class="col">Tổng tiền</span>
+                          <span class="price">{{ getTotal() | number:'1.0-0' }} ₫</span> <!-- getTotal() sẽ tự tính tổng sau giảm giá -->
+                        </li>
                         <li class="text-right">
                             <a routerLink="/checkout" class="btn btn-info w-100">Thanh toán</a>
                         </li>
