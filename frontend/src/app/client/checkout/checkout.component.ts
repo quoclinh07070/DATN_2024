@@ -24,6 +24,7 @@ export class CheckoutComponent implements OnInit {
   selectedQuan: string = '';
   selectedPhuong: string = '';
   totalAmount: number = 0;
+  appliedVoucher: any = null; // Voucher đã áp dụng
 
   paymentMethod: string = 'cod'; // Mặc định là thanh toán cod
 
@@ -88,20 +89,36 @@ export class CheckoutComponent implements OnInit {
       },
     });
 
+    // Tải giỏ hàng
     this.cartItems = this.cartService.getCartItems();
+
+    // Lấy thông tin voucher từ localStorage
+    const savedVoucher = localStorage.getItem('appliedVoucher');
+    if (savedVoucher) {
+      this.appliedVoucher = JSON.parse(savedVoucher);
+    }
+
+    // Tính tổng tiền sau khi áp dụng voucher
     this.totalAmount = Math.round(this.getTotal());
   }
 
   getTotal() {
-    // Tính tổng giỏ hàng với giảm giá (nếu có)
-    return this.cartItems.reduce((total, item) => {
-      const priceWithDiscount =
-        item.discount > 0
-          ? item.price - item.price * (item.discount / 100)
-          : item.price;
-      return total + priceWithDiscount * item.quantity; // Cộng tổng tiền với discount
+    let total = this.cartItems.reduce((total, item) => {
+      const priceWithDiscount = item.discount > 0 
+        ? item.price - (item.price * (item.discount / 100)) 
+        : item.price;
+      return total + priceWithDiscount * item.quantity;
     }, 0);
+  
+    // Nếu có voucher đã áp dụng, tính giảm giá
+    if (this.appliedVoucher) {
+      const discount = (this.appliedVoucher.discount_percent / 100) * total;
+      total -= discount; // Trừ đi giảm giá từ tổng tiền
+    }
+  
+    return total;
   }
+  
 
   // Kiểm tra địa chỉ trước khi xử lý thanh toán
   validateAddress(): boolean {
@@ -214,12 +231,9 @@ export class CheckoutComponent implements OnInit {
   // Phương thức thanh toán
   onCheckout(): void {
     if (!this.validateAddress()) {
+      alert('Chưa nhập đủ thông tin!');
       return; // Ngăn không cho tiếp tục nếu địa chỉ không hợp lệ
     }
-    //   if (this.totalAmount < 1000) {
-    //     alert('Bạn chưa có sản phẩm nào dể thanh toán!');
-    //     return;
-    // }
     const orderId = this.generateOrderId();
     const orderInfo = `Thanh toán cho đơn hàng ${orderId}`;
 
@@ -248,12 +262,22 @@ export class CheckoutComponent implements OnInit {
           if (response && response.payUrl) {
             this.cartService.clearCart(); // Xóa giỏ hàng trước khi chuyển hướng
             window.location.href = response.payUrl;
-          } else {
-            alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
+          } else{
+            alert('Chuyển hướng đến trang thanh toán thất bại!');
+            console.log('Chuyển hướng đến trang thanh toán thất bại!');
           }
         },
         (error) => {
           console.error('Lỗi thanh toán:', error);
+          // Kiểm tra lỗi trả về từ API (ví dụ: mã lỗi 400)
+          if (error.status === 400 && error.error && error.error.message) {
+            // Nếu lỗi là 400 và có thông báo, hiển thị thông báo lỗi cho người dùng
+              alert('Số tiền thanh toán trên MoMo không được vượt quá 50.000.000đ/ngày!');
+          }else  if (error.status === 401 && error.error && error.error.message){
+            alert('Số tiền thanh toán tối thiểu 10.000đ!');
+          }else {
+            alert('Có lỗi xảy ra khi thanh toán. Vui lòng thử lại sau.');
+          }
         }
       );
     } else if (this.paymentMethod === 'cod') {
@@ -274,7 +298,7 @@ export class CheckoutComponent implements OnInit {
       this.paymentService.submitCODOrder(orderData).subscribe({
         next: (response) => {
           alert(
-            'Đơn hàng của bạn đã được tạo thành công. Đơn vị vận chuyển sẽ liên hệ với bạn sớm!'
+            'Đơn hàng đã được tạo thành công. Vui lòng chờ quá trình xét duyệt!'
           );
           this.cartService.clearCart();
           this.router.navigate(['/success-page'], {
@@ -308,7 +332,7 @@ export class CheckoutComponent implements OnInit {
     this.paymentService.submitCODOrder(orderData).subscribe({
       next: (response) => {
         alert(
-          'Đơn hàng của bạn đã được tạo thành công. Đơn vị vận chuyển sẽ liên hệ với bạn sớm!'
+          'Đơn hàng đã được tạo thành công. Vui lòng chờ quá trình xét duyệt!'
         );
         this.cartService.clearCart(); // Xóa giỏ hàng
         this.router.navigate(['/success-page']); // Điều hướng đến trang thành công
