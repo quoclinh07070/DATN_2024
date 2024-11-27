@@ -10,42 +10,58 @@
           <div *ngIf="errorMessage" class="alert alert-danger text-center">
             {{ errorMessage }}
           </div>
-  
           <div class="our-shop">
-            <div class="row clearfix">
-              <div *ngFor="let product of products" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="inner-box">
-                  <div class="image">
-                    <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" />
-                    <div class="overlay-box">
-                      <ul class="cart-option">
-                        <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                        <li><a (click)="addToCart(product, quantity)"><span class="bi bi-cart-plus"></span></a></li>
-                      </ul>
+            <div class="row">
+              <div *ngFor="let product of products" class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3">
+                <!-- Card Bootstrap -->
+                <div class="card shadow-sm border-0 h-100">
+                  <!-- Hình ảnh sản phẩm -->
+                  <div class="card-header bg-transparent position-relative p-0">
+                    <!-- Giảm giá -->
+                    <div *ngIf="product.discount > 0">
+                      <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                        -{{ product.discount }}%
+                      </span>
+                    </div>
+                    <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;" />
+                  </div>
+                  <!-- Nội dung -->
+                  <div class="card-body text-center">
+                    <h6 class="card-title text-truncate" style="max-width: 200px; margin: 0 auto;">
+                      <a [routerLink]="['/product-detail', product.id]" class="text-dark text-decoration-none">
+                        {{ product.name }}
+                      </a>
+                    </h6>
+                    <div class="price mt-2">
+                      <ng-container *ngIf="product.discount > 0; else noDiscount">
+                        <span class="text-danger fw-bold">
+                          {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                        </span>
+                        <span class="text-muted text-decoration-line-through ms-2">
+                          {{ product.price | number:'1.0-0' }} ₫
+                        </span>
+                      </ng-container>
+                      <ng-template #noDiscount>
+                        <span class="current-price text-danger fw-bold">
+                          {{ product.price | number:'1.0-0' }} ₫
+                        </span>
+                      </ng-template>
                     </div>
                   </div>
-                  <div class="lower-content">
-                    <h3><a [routerLink]="['/product-detail', product.id]">{{ product.name }}</a></h3>
-                    <div class="price">
-                    <ng-container *ngIf="product.discount > 0; else noDiscount">
-                      <span class="discount-price" class="text-danger me-2">
-                        {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
-                      </span>
-                      <span class="old-price text-dark text-decoration-line-through">
-                        {{ product.price | number:'1.0-0' }} ₫
-                      </span>
-                    </ng-container>
-                    <ng-template #noDiscount>
-                      <span class="current-price text-danger">
-                        {{ product.price | number:'1.0-0' }} ₫
-                      </span>
-                    </ng-template>
-                  </div>
+                  <!-- Nút -->
+                  <div class="card-footer bg-transparent d-flex justify-content-center gap-2 p-2">
+                    <button class="bi bi-cart-plus btn btn-primary btn-sm px-3 d-flex align-items-center justify-content-center gap-2" (click)="addToCart(product, quantity)">
+                      Thêm vào giỏ
+                    </button>
+                    <a [routerLink]="['/product-detail', product.id]" class="bi bi-eye btn btn-outline-secondary btn-sm px-3 d-flex align-items-center justify-content-center gap-2">
+                      Xem thêm
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          
           
         </div>
       </div>
