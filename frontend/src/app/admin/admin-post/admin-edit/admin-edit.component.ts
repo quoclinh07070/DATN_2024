@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostService } from '../../../services/post.service'; // Giả sử có một PostService thay vì ProductService
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { PostCategoryService } from '../../../services/postcategory.service';
 
 @Component({
   selector: 'app-admin-edit-post',
@@ -24,26 +25,30 @@ export class AdminEditComponent implements OnInit {
   };
   postId: number | null = null;
   isFile: boolean = false; // Biến để theo dõi nếu image_url là file hay không
+  categories: any[] = []; // Danh sách danh mục bài viết
 
   constructor(
     private postService: PostService,
+    private postCategoryService: PostCategoryService, // Inject PostCategoryService
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.getAllCategories();  // Fetch categories when the component is initialized
     this.postId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.postId) {
       this.getPost(this.postId);
     }
+    this.getCategories(); // Lấy danh mục bài viết
   }
 
+  // Lấy thông tin bài viết theo ID
   getPost(id: number): void {
     this.postService.getPostById(id).subscribe(
       (response: any) => {
         this.post = response.post;
-        // Kiểm tra nếu post.image_url là file
-        this.isFile = this.post.image_url instanceof File;
+        this.isFile = this.post.image_url instanceof File; // Kiểm tra nếu image_url là file
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu bài viết:', error);
@@ -51,18 +56,34 @@ export class AdminEditComponent implements OnInit {
     );
   }
 
-  onFileChange(event: any) {
+  // Lấy danh sách danh mục bài viết
+  getCategories(): void {
+    this.postCategoryService.getAllPostCategories().subscribe(
+      (response: any) => {
+        this.categories = response.categories; // Giả sử API trả về { categories: [...] }
+      },
+      (error) => {
+        console.error('Lỗi khi lấy danh sách danh mục:', error);
+      }
+    );
+  }
+
+  // Xử lý khi thay đổi file
+  onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.post.image_url = file;  // Gán file vào post.image_url
+      this.post.image_url = file; // Gán file vào post.image_url
       this.isFile = true; // Đánh dấu đây là một file
     }
   }
 
+  // Cập nhật bài viết
   updatePost(): void {
     if (!this.validateForm()) {
       return;
     }
+
+    this.isFile = typeof this.post.image_url === 'object' && this.post.image_url instanceof Blob;
 
     const formData = new FormData();
     formData.append('title', this.post.title);
@@ -77,12 +98,13 @@ export class AdminEditComponent implements OnInit {
 
     if (this.postId) {
       this.postService.updatePost(this.postId, formData).subscribe(
-        (response) => {
+        () => {
           alert('Bài viết đã được cập nhật!');
           this.router.navigate(['/admin/post']);
         },
         (error) => {
           alert('Lỗi khi cập nhật bài viết!');
+          console.error(error);
         }
       );
     }
@@ -96,5 +118,23 @@ export class AdminEditComponent implements OnInit {
     }
     return true;
   }
-}
 
+
+  postcategories: any[] = [];  // Array to store all categories
+  filteredCategories: any[] = [];  // Array to store filtered categories based on search
+  searchTerm: string = '';  // Variable to store the search term
+  
+  // Function to fetch all categories
+  getAllCategories(): void {
+    this.postCategoryService.getAllPostCategories().subscribe(
+      (response: any) => {
+        this.postcategories = response.postcategories;  // Store categories in postcategories
+        this.filteredCategories = this.postcategories;  // Initially, show all categories
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
+}

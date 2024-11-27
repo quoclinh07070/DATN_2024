@@ -121,20 +121,16 @@
 
 
                         <!-- Categories -->
-                        <div class="sidebar-widget categories">
+                        <h3>Danh mục bài viết</h3>
+                        <div class="text" *ngFor="let postcategory of filteredCategories">
                             <div class="sidebar-title">
-                                <h3>Danh mục bài viết</h3>
                             </div>
                             <ul class="cat-list">
-                                <li><a href="#">Residential <span>25</span></a></li>
-                                <li><a href="#">Commercial <span>20</span></a></li>
-                                <li class="active"><a href="#">Corporate <span>10</span></a></li>
-                                <li><a href="#">Hospitality <span>15</span></a></li>
-                                <li><a href="#">Restaurant <span>10</span></a></li>
-                                <li><a href="#">Industrial <span>05</span></a></li>
+                                <strong>
+                                    <li><a href="#">{{postcategory.name}} <span></span></a></li>
+                                </strong>
                             </ul>
                         </div>
-
 
 
                         <!-- Latest News -->

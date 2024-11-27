@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
               <select class="form-control" (change)="filterByCategory($event)">
-                <option value="null">≣ Tất cả sản phẩm</option>
+                <option value="null">≣ Tất Cả Sản Phẩm</option>
                 <option *ngFor="let category of categories" [value]="category.id">
                   {{ category.category_name }}
                 </option>
@@ -71,7 +71,7 @@
       <div class="content-side col-xl-9 col-lg-8 col-md-12">
         <div class="text text-center mb-3" style="display: flex; justify-content: space-between; align-items: center;">
           <!-- Tiêu đề sản phẩm -->
-          <h3>{{ selectedCategory ? 'Sản phẩm có loại: ' + selectedCategoryName : 'Tất cả sản phẩm' }}</h3>
+          <h3>{{ selectedCategory ? 'Sản phẩm có loại: ' + selectedCategoryName : 'TẤT CẢ SẢN PHẨM' }}</h3>
           
           <!-- Dropdown Sắp xếp -->
           <div class="sort-container">
@@ -92,66 +92,59 @@
         </div>
 
         <div class="our-shop">
-          <div class="row clearfix">
-            <div *ngFor="let product of filteredProducts" class="shop-item col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="inner-box">
-                <div class="image position-relative">
-                  
-                  <!-- Phần giảm giá nếu có -->
+          <div class="row">
+            <div *ngFor="let product of filteredProducts" class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3">
+              <!-- Card Boostrap -->
+              <div class="card shadow-sm border-0 h-100">
+                <!-- Hình ảnh sản phẩm -->
+                <div class="card-header bg-transparent position-relative p-0">
+                  <!-- Giảm giá -->
                   <div *ngIf="product.discount > 0">
-                    <span class="position-absolute top-0 start-0 m-2 bg-danger text-white p-1">
+                    <span class="badge bg-danger position-absolute top-0 start-0 m-2">
                       -{{ product.discount }}%
                     </span>
                   </div>
-
-                  <!-- Phần hết hàng nếu có -->
-                  <div *ngIf="product.quantity <= 0">
-                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white p-1">
-                      Hết hàng
-                    </span>
-                  </div>
-
-                  
-                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="img-fluid" style="height: 250px; object-fit: cover; width: 100%;" />
-                  <div class="overlay-box">
-                    <ul class="cart-option">
-                      <li><a [routerLink]="['/product-detail', product.id]"><span class="bi bi-search"></span></a></li>
-                      <li><a (click)="addToCart(product,quantity)"><span class="bi bi-cart-plus"></span></a></li>
-                    </ul>
-                  </div>
+                  <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;" />
                 </div>
-                <div class="lower-content">
-                  <h3>
-                    <a [routerLink]="['/product-detail', product.id]">  
-                      {{ (product.name.length > 60 ? (product.name | slice:0:60) + '...' : product.name) }}
+                <!-- Nội dung -->
+                <div class="card-body text-center">
+                  <h6 class="card-title text-truncate" style="max-width: 200px; margin: 0 auto;">
+                    <a [routerLink]="['/product-detail', product.id]" class="text-dark text-decoration-none">
+                      {{ product.name }}
                     </a>
-                  </h3>
-                  <div class="price">
+                  </h6>
+                  <div class="price mt-2">
                     <ng-container *ngIf="product.discount > 0; else noDiscount">
-                      <span class="discount-price" class="text-danger me-2">
+                      <span class="text-danger fw-bold">
                         {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
                       </span>
-                      <span class="old-price text-dark text-decoration-line-through">
+                      <span class="text-muted text-decoration-line-through ms-2">
                         {{ product.price | number:'1.0-0' }} ₫
                       </span>
                     </ng-container>
                     <ng-template #noDiscount>
-                      <span class="current-price text-danger">
+                      <span class="current-price text-danger fw-bold">
                         {{ product.price | number:'1.0-0' }} ₫
                       </span>
                     </ng-template>
                   </div>
-                  <!-- <div class="clearfix">
-                    <div class="pull-left">
-                      Sẵn có {{ product.quantity}} sản phẩm
-                    </div>
-                  </div> -->
+                </div>
+                <!-- Nút -->
+                <div class="card-footer bg-transparent d-flex justify-content-center gap-2 p-2">
+                  <button class="bi bi-cart-plus btn btn-primary btn-sm px-3 d-flex align-items-center justify-content-center gap-2" (click)="addToCart(product, quantity)">
+                    Thêm vào giỏ
+                  </button>
+                  <a [routerLink]="['/product-detail', product.id]" class="bi bi-eye btn btn-outline-secondary btn-sm px-3 d-flex align-items-center justify-content-center gap-2">
+                    Xem thêm
+                  </a>
+                  
+                  
                 </div>
               </div>
             </div>
-
           </div>
         </div>
+        
         
         <div class="styled-pagination" *ngIf="filteredProducts.length !== 0">
           <ul class="clearfix">
