@@ -29,7 +29,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
+import { AuthGuard } from '../guards/auth.guard';
 
 
 const clientRoutes: Routes = [
@@ -44,7 +44,7 @@ const clientRoutes: Routes = [
       { path: 'product', component: ProductComponent },
       { path: 'product-detail/:id', component: ProductDetailsComponent },
       { path: 'services', component: ServicesComponent },
-      { path: 'checkout', component: CheckoutComponent },
+      { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
       { path: 'cart', component: CartComponent },
       { path: 'contact', component: ContactUsComponent },
       { path: 'blog', component: BlogComponent },
@@ -52,7 +52,7 @@ const clientRoutes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'user', component: UserComponent },
+      { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'search', component: SearchResultComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },

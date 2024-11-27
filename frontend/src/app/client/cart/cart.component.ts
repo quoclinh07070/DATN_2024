@@ -4,7 +4,8 @@ import { ProductService } from '../../services/product.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';   // Import FormsModule
-
+import { NotyfService } from '../../services/notyf.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';   // Import FormsModule
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
 
-  constructor(private cartService: CartService, private productService: ProductService) {}
+  constructor(private cartService: CartService, private productService: ProductService, private notyfService: NotyfService) {}
 
   ngOnInit(): void {
     this.loadCart();
@@ -42,7 +43,7 @@ export class CartComponent implements OnInit {
         item.quantity++;
         this.cartService.updateQuantity(item.id, item.quantity);
       } else {
-        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+        this.notyfService.error('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     });
   }
@@ -67,7 +68,7 @@ export class CartComponent implements OnInit {
         item.quantity = 1;  // Đảm bảo số lượng không nhỏ hơn 1
       } else if (item.quantity > product.quantity) {
         item.quantity = product.quantity;  // Điều chỉnh lại số lượng nếu vượt quá kho
-        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+        this.notyfService.error('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
       this.cartService.updateQuantity(item.id, item.quantity);
     });
@@ -84,11 +85,23 @@ export class CartComponent implements OnInit {
   
   // Xóa tất cả sản phẩm trong giỏ
   clearCart() {
-    const confirmation = window.confirm("Bạn có chắc chắn muốn xóa sạch giỏ hàng?");
-    if (confirmation) {
-      this.cartService.clearCart();
-      this.loadCart(); // Cập nhật giỏ hàng sau khi xóa tất cả sản phẩm
-    }
+    Swal.fire({
+      title: 'Bạn có chắc chắn xóa hết giỏ hàng không?',
+      text: 'Hành động này không thể hoàn tác!',
+      icon: 'warning', // Các giá trị khác: success, error, info, question
+      showCancelButton: true, // Hiển thị nút "Cancel"
+      confirmButtonColor: '#3085d6', // Màu nút xác nhận
+      cancelButtonColor: '#d33', // Màu nút hủy
+      confirmButtonText: 'Xác nhận',
+      cancelButtonText: 'Hủy',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Xong!', 'Xóa giỏ hàng thành công!', 'success');
+        this.cartService.clearCart();
+        this.loadCart(); // Cập nhật giỏ hàng sau khi xóa tất cả sản phẩm
+      }
+    });
+    
   }
   
   getImageUrl(imageName: string): string {

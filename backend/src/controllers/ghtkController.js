@@ -6,7 +6,7 @@ const GHTK_TOKEN = process.env.GHTK_TOKEN;
 
 // Tính phí vận chuyển
 exports.calculateFee = async (req, res) => {
-    const { pick_address, pick_province, pick_district, deliver_province, deliver_district, weight } = req.body;
+    const { pick_address, pick_province, pick_district, deliver_province, deliver_district, weight, deliver_option } = req.body;
 
     console.log("Dữ liệu nhận từ frontend:", req.body); // Log dữ liệu nhận được
 
@@ -18,6 +18,7 @@ exports.calculateFee = async (req, res) => {
             deliver_province,
             deliver_district,
             weight,
+            deliver_option,
         }, {
             headers: { Token: GHTK_TOKEN },
         });

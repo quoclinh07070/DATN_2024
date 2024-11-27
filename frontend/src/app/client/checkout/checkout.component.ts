@@ -8,6 +8,8 @@ import { PaymentService, PaymentResponse } from '../../services/payment.service'
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { GhtkService } from '../../services/ghtk.service';
+import Swal from 'sweetalert2';
+import { NotyfService } from '../../services/notyf.service';
 @Component({
   selector: 'app-checkout',
   standalone: true,
@@ -54,14 +56,11 @@ export class CheckoutComponent implements OnInit {
     private http: HttpClient, // Inject HttpClient
     private authService: AuthService,
     private ghtkService: GhtkService,
+    private notyfService: NotyfService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return;
-    }
 
     this.authService.getUserInfo().subscribe({
       next: (data) => {
@@ -88,6 +87,7 @@ export class CheckoutComponent implements OnInit {
       },
       error: (err) => {
         console.error('Lỗi khi lấy thông tin người dùng:', err);
+        Swal.fire('Lỗi!', 'Lấy thông tin người dùng thất bại! Vui lòng thử lại!', 'error');
         this.router.navigate(['/login']);
       },
     });
@@ -244,83 +244,62 @@ export class CheckoutComponent implements OnInit {
       address: fullAddress,
       phoneNumber: this.user.phoneNumber,
     };
+    Swal.fire({
+      title: 'Bạn có chắc chắn muốn thanh toán không?',
+      text: 'Hãy chắc chắn thông tin của bạn là đúng!',
+      icon: 'warning', // Các giá trị khác: success, error, info, question
+      showCancelButton: true, // Hiển thị nút "Cancel"
+      confirmButtonColor: '#3085d6', // Màu nút xác nhận
+      cancelButtonColor: '#d33', // Màu nút hủy
+      confirmButtonText: 'Xác nhận',
+      cancelButtonText: 'Hủy',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.paymentMethod === 'momo') {
 
-    if (this.paymentMethod === 'momo') {
-
-      this.paymentService.createPayment(this.totalAmount, orderId, orderInfo, extraData).subscribe(
-        (response: PaymentResponse) => {
-          if (response && response.payUrl) {
-            this.cartService.clearCart(); // Xóa giỏ hàng trước khi chuyển hướng
-            window.location.href = response.payUrl;
-          } else {
-            alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
-          }
-        },
-        (error) => {
-          console.error('Lỗi thanh toán:', error);
-        }
-      );
-    } else if (this.paymentMethod === 'cod') {
-      // Xử lý thanh toán khi nhận hàng
-      const orderData = {
-        user: this.user,
-        cartItems: this.cartItems,
-        totalAmount: this.totalAmount,
-        orderId: orderId,
-        shippingAddress: {
-          address: fullAddress,
-          province: selectedTinhName,
-          district: selectedQuanName,
-          ward: selectedPhuongName,
-        },
-      };
-
-      this.paymentService.submitCODOrder(orderData).subscribe({
-        next: (response) => {
-          alert(
-            'Đơn hàng của bạn đã được tạo thành công. Đơn vị vận chuyển sẽ liên hệ với bạn sớm!'
+          this.paymentService.createPayment(this.totalAmount, orderId, orderInfo, extraData).subscribe(
+            (response: PaymentResponse) => {
+              if (response && response.payUrl) {
+                this.cartService.clearCart(); // Xóa giỏ hàng trước khi chuyển hướng
+                window.location.href = response.payUrl;
+              } else {
+                alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
+              }
+            },
+            (error) => {
+              console.error('Lỗi thanh toán:', error);
+            }
           );
-          this.cartService.clearCart();
-          this.router.navigate(['/success-page'], {
-            queryParams: { orderId: orderId },
+        } else if (this.paymentMethod === 'cod') {
+          // Xử lý thanh toán khi nhận hàng
+          const orderData = {
+            user: this.user,
+            cartItems: this.cartItems,
+            totalAmount: this.totalAmount,
+            orderId: orderId,
+            shippingAddress: {
+              address: fullAddress,
+              province: selectedTinhName,
+              district: selectedQuanName,
+              ward: selectedPhuongName,
+            },
+          };
+    
+          this.paymentService.submitCODOrder(orderData).subscribe({
+            next: (response) => {
+              Swal.fire('Chúc mừng!', 'Đơn hàng của bạn đã được tạo thành công. Chúng tôi sẽ liên hệ với bạn sớm nhất!', 'success');
+              this.cartService.clearCart();
+              this.router.navigate(['/success-page'], {
+                queryParams: { orderId: orderId },
+              });
+            },
+            error: (err) => {
+              console.error('Lỗi khi tạo đơn hàng COD:', err);
+              Swal.fire('Lỗi!', 'Tạo đơn hàng COD thất bại. Vui lòng thử lại!', 'error');
+            },
           });
-        },
-        error: (err) => {
-          console.error('Lỗi khi tạo đơn hàng COD:', err);
-          alert('Tạo đơn hàng COD thất bại. Vui lòng thử lại!');
-        },
-      });
-    }
-  }
-
-  createCODOrder(orderId: string): void {
-    const orderData = {
-      user: this.user,
-      cartItems: this.cartItems,
-      totalAmount: this.totalAmount,
-      orderId: orderId,
-      paymentMethod: 'cod',
-      shippingAddress: {
-        address: this.user.address,
-        province: this.selectedTinh,
-        district: this.selectedQuan,
-        ward: this.selectedPhuong,
-      },
-    };
-
-    // Gửi dữ liệu đến backend
-    this.paymentService.submitCODOrder(orderData).subscribe({
-      next: (response) => {
-        alert(
-          'Đơn hàng của bạn đã được tạo thành công. Đơn vị vận chuyển sẽ liên hệ với bạn sớm!'
-        );
-        this.cartService.clearCart(); // Xóa giỏ hàng
-        this.router.navigate(['/success-page']); // Điều hướng đến trang thành công
-      },
-      error: (err) => {
-        console.error('Lỗi khi tạo đơn hàng COD:', err);
-        alert('Tạo đơn hàng COD thất bại. Vui lòng thử lại!');
-      },
+        }
+      }
     });
   }
 
@@ -337,6 +316,7 @@ export class CheckoutComponent implements OnInit {
       province: "Cần Thơ", // Tỉnh/thành phố nhận hàng
       district: "Ninh Kiều", // Quận/huyện nhận hàng
       weight: 1000, // Trọng lượng gói hàng (đơn vị gram)
+      deliver_option: "none"
     };
   
     console.log("Dữ liệu gửi đến GHTK:", data);

@@ -2,17 +2,6 @@
   <!--Login Section-->
   <section class="login-section mt-4">
 
-<!-- Popup Success/Error Alert -->
-<div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
-  <div class="popup-content">
-    <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
-      <span>{{ isSuccess ? '&#10003;' : '&#10007;' }}</span>
-    </div>
-    <p class="message">{{ popupMessage }}</p>
-    <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
-  </div>
-</div>
-
 <div *ngIf="!isLoggedIn" class="not-logged-in">
     <div class="auto-container">
       <div class="row clearfix">
@@ -56,6 +45,7 @@
 <div *ngIf="isLoggedIn">
   <p class="login-message">
     Bạn đã đăng nhập, vui quay lại trang chủ hoặc trang khác để sử dụng!
+    <a routerLink="/forgot-password">Quay lại trang chủ</a>
   </p>
 </div>
   </section>

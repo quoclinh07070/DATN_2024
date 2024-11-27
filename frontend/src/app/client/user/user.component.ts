@@ -7,7 +7,7 @@ import { PaymentService } from '../../services/payment.service'; // Import Payme
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
+import { NotyfService } from '../../services/notyf.service';
 
 @Component({
   standalone: true,
@@ -59,16 +59,12 @@ export class UserComponent {
     private paymentService: PaymentService,
     private http: HttpClient, // Inject HttpClient
     private authService: AuthService,
-    private toastr: ToastrService,
+    private notyfService: NotyfService,
     private router: Router
   ) {
     this.isLoggedIn = this.authService.isAuthenticated();
   }
   ngOnInit(): void {
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return;
-    }
   
     this.authService.getUserInfo().subscribe({
       next: (data) => {
@@ -103,16 +99,6 @@ export class UserComponent {
     });
   }
   
-  
-  onLogout() {
-    this.authService.logout().subscribe(
-      () => {
-      },
-      (error) => {
-        console.error('Lỗi khi đăng xuất:', error);
-      }
-    );
-  }
   onLogoutConfirm() {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn đăng xuất không?',
@@ -125,15 +111,16 @@ export class UserComponent {
       cancelButtonText: 'Hủy',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Xong!', 'Đăng xuất thành công!', 'success');
         this.authService.logout().subscribe(
           () => {
+            Swal.fire('Xong!', 'Đăng xuất thành công!', 'success');
             setTimeout(() => {
               this.router.navigate(['/']);
             }, 2000);
           },
           (error) => {
             console.error('Lỗi khi đăng xuất:', error);
+            Swal.fire('Lỗi!', 'Đăng xuất thất bại! Vui lòng thử lại!', 'error');
           }
         );
       } else if (result.isDismissed) {
@@ -268,7 +255,7 @@ export class UserComponent {
       };
       reader.readAsDataURL(file);
     } else {
-      alert('Vui lòng chọn file ảnh hợp lệ!');
+      this.notyfService.warning('Vui lòng chọn file ảnh hợp lệ!');
     }
   }
 
@@ -300,14 +287,11 @@ export class UserComponent {
     const apiUrl = `http://localhost:3000/api/profile/${this.user.id}`;
     this.http.put(apiUrl, formData).subscribe({
       next: (response: any) => {
-        this.toastr.success('Cập nhật thông tin thành công!', 'Success');
-        setTimeout(() => {
-          location.reload(); // Tải lại trang
-        }, 2000);
+        this.notyfService.success('Cập nhật thông tin thành công!');
       },
       error: (error) => {
         console.error('Lỗi khi cập nhật thông tin:', error);
-        this.toastr.error('Cập nhật thông tin thất bại!', 'Error');
+        this.notyfService.error('Cập nhật thông tin thất bại!');
       },
     });
   }
@@ -318,11 +302,11 @@ export class UserComponent {
   
     this.http.post(apiUrl, { email: userEmail }).subscribe({
       next: (response: any) => {
-        this.toastr.success('Link đặt lại mật khẩu đã được gửi đến email của bạn!', 'Success')
+        this.notyfService.success('Link đặt lại mật khẩu đã được gửi đến email của bạn!')
       },
       error: (error) => {
         console.error('Lỗi khi gửi link đặt lại mật khẩu:', error);
-        this.toastr.error('Không thể gửi link đặt lại mật khẩu. Vui lòng thử lại!', 'Error');
+        this.notyfService.error('Không thể gửi link đặt lại mật khẩu. Vui lòng thử lại!');
       },
     });
   }
