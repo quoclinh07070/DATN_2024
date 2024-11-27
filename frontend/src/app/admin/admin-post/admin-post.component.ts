@@ -3,7 +3,7 @@ import { PostService } from '../../services/post.service';  // Đổi thành Pos
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-post',
   standalone: true,
@@ -54,20 +54,44 @@ export class AdminPostComponent implements OnInit {
   }
   
   deletePost(id: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
-      this.postService.deletePost(id).subscribe(
-        () => {
-          // Cập nhật danh sách bài viết sau khi xóa
-          this.posts = this.posts.filter(post => post.id !== id);
-          this.filterPosts(); // Lọc lại bài viết sau khi xóa
-          alert('Bài viết đã được xóa thành công!');
-          console.log('Bài viết đã được xóa thành công!');
-        },
-        (error) => {
-          alert('Lỗi khi xóa bài viết!');
-          console.error('Lỗi khi xóa bài viết:', error);
-        }
-      );
-    }
+    Swal.fire({
+      title: 'Xác nhận',
+      text: 'Bạn có chắc chắn muốn xóa bài viết này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.postService.deletePost(id).subscribe(
+          () => {
+            // Cập nhật danh sách bài viết sau khi xóa
+            this.posts = this.posts.filter(post => post.id !== id);
+            this.filterPosts(); // Lọc lại bài viết sau khi xóa
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Bài viết đã được xóa thành công!',
+              icon: 'success',
+              timer: 2000, // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
+            console.log('Bài viết đã được xóa thành công!');
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi xóa bài viết!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
+            console.error('Lỗi khi xóa bài viết:', error);
+          }
+        );
+      }
+    });
   }
+  
 }

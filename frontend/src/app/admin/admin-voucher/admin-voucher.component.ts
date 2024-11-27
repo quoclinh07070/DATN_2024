@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule để sử dụng *ngFor và *ngIf
 import { VoucherService } from '../../services/voucher.service';
 import { FormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-voucher',
   standalone: true,
@@ -46,20 +46,44 @@ export class AdminVoucherComponent implements OnInit {
 
   // Xóa voucher
   deleteVoucher(id: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa voucher này?')) {
-      this.voucherService.deleteVoucher(id).subscribe(
-        () => {
-          // Cập nhật danh sách voucher sau khi xóa
-          this.vouchers = this.vouchers.filter(voucher => voucher.id !== id);
-          this.filterByStatus();  // Lọc lại danh sách voucher sau khi xóa
-          alert('Voucher đã được xóa thành công!');
-          console.log('Voucher đã được xóa thành công!');
-        },
-        (error) => {
-          alert('Lỗi khi xóa voucher!');
-          console.error('Lỗi khi xóa voucher:', error);
-        }
-      );
-    }
+    Swal.fire({
+      title: 'Xác nhận',
+      text: 'Bạn có chắc chắn muốn xóa voucher này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.voucherService.deleteVoucher(id).subscribe(
+          () => {
+            // Cập nhật danh sách voucher sau khi xóa
+            this.vouchers = this.vouchers.filter(voucher => voucher.id !== id);
+            this.filterByStatus();  // Lọc lại danh sách voucher sau khi xóa
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Voucher đã được xóa thành công!',
+              icon: 'success',
+              timer: 2000,  // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
+            console.log('Voucher đã được xóa thành công!');
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi xóa voucher!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
+            console.error('Lỗi khi xóa voucher:', error);
+          }
+        );
+      }
+    });
   }
+  
 }

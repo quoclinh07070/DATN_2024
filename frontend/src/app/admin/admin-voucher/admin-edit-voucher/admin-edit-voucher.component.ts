@@ -3,7 +3,7 @@ import { VoucherService } from '../../../services/voucher.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-voucher',
   standalone: true,
@@ -55,18 +55,37 @@ export class AdminEditVoucherComponent implements OnInit {
       if (this.voucherId) {
         this.voucherService.updateVoucher(this.voucherId, this.voucher).subscribe(
           (response) => {
-            alert('Voucher đã được cập nhật!');
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Voucher đã được cập nhật!',
+              icon: 'success',
+              timer: 2000,  // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
             console.log('Voucher đã được cập nhật:', response);
             this.router.navigate(['/admin/voucher']); // Chuyển hướng về danh sách voucher
           },
           (error) => {
-            alert('Lỗi khi cập nhật voucher!');
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi cập nhật voucher!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
             console.error('Lỗi khi cập nhật voucher:', error);
           }
         );
       }
     } else {
-      alert('Vui lòng điền đầy đủ thông tin!');
+      Swal.fire({
+        title: 'Cảnh báo!',
+        text: 'Vui lòng điền đầy đủ thông tin!',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6'
+      });
     }
   }
+  
 }

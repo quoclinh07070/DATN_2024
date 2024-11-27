@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostCategoryService } from '../../../services/postcategory.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-add-post',
   standalone: true,
@@ -38,23 +38,42 @@ export class AdminAddPostComponent {
 
   createPostCategory(): void {
     if (this.fileError) {
-      alert('Vui lòng chọn tệp hình ảnh hợp lệ.');
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Vui lòng chọn tệp hình ảnh hợp lệ.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#d33'
+      });
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('name', this.postcategory.name);
     formData.append('parentCategoryID', this.postcategory.parentCategoryID?.toString() || '');
     formData.append('image_url', this.postcategory.image_url);
-
+  
     this.postCategoryService.createPostCategory(formData).subscribe(
       (response) => {
-        alert('Danh mục đã được thêm!');
-        this.router.navigate(['/admin/post-category']);
+        Swal.fire({
+          title: 'Thành công!',
+          text: 'Danh mục đã được thêm!',
+          icon: 'success',
+          timer: 2000, // Đóng tự động sau 2 giây
+          showConfirmButton: false
+        });
+        this.router.navigate(['/admin/postCategory']);
       },
       (error) => {
-        alert('Lỗi khi thêm danh mục! Vui lòng kiểm tra lại thông tin.');
+        Swal.fire({
+          title: 'Lỗi!',
+          text: 'Lỗi khi thêm danh mục! Vui lòng kiểm tra lại thông tin.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#d33'
+        });
       }
     );
   }
+  
 }

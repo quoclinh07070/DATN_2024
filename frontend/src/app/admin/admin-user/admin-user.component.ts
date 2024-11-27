@@ -3,7 +3,7 @@ import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Thêm HttpClient để gửi request
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-user',
   standalone: true,
@@ -37,22 +37,46 @@ export class AdminUserComponent implements OnInit {
   }
 
   deleteUser(id: number, email: string, fullName: string): void {
-    if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-      this.userService.deleteUser(id).subscribe(
-        () => {
-          // Gửi email thông báo
-          this.sendEmailNotification(email, fullName);
+    Swal.fire({
+      title: 'Xác nhận',
+      text: 'Bạn có chắc chắn muốn xóa người dùng này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService.deleteUser(id).subscribe(
+          () => {
+            // Gửi email thông báo
+            this.sendEmailNotification(email, fullName);
   
-          // Cập nhật danh sách người dùng
-          this.getAllUsers();
-          alert('Người dùng đã được xóa thành công!');
-        },
-        (error) => {
-          alert('Lỗi khi xóa người dùng!');
-          console.error('Lỗi khi xóa người dùng:', error);
-        }
-      );
-    }
+            // Cập nhật danh sách người dùng
+            this.getAllUsers();
+  
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Người dùng đã được xóa thành công!',
+              icon: 'success',
+              timer: 2000,  // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi xóa người dùng!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
+            console.error('Lỗi khi xóa người dùng:', error);
+          }
+        );
+      }
+    });
   }
   
   sendEmailNotification(email: string, fullName: string): void {

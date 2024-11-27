@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CategoryService } from '../../../services/category.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-product-edit',
@@ -56,13 +57,18 @@ export class AdminProductEditComponent implements OnInit {
     }
   }
 
+
   updateCategory(categoryForm: NgForm): void {
     if (categoryForm.invalid) {
-      // Hiển thị thông báo lỗi và ngừng xử lý nếu form không hợp lệ
-      alert('Vui lòng điền đầy đủ thông tin và kiểm tra các lỗi!');
+      // Hiển thị thông báo lỗi khi form không hợp lệ
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Vui lòng điền đầy đủ thông tin và kiểm tra các lỗi!',
+        icon: 'warning'
+      });
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('category_name', this.category.category_name);
     formData.append('description', this.category.description);
@@ -73,18 +79,28 @@ export class AdminProductEditComponent implements OnInit {
     formData.append('status', this.category.status);
     formData.append('created_at', this.category.created_at);
     formData.append('updated_at', this.category.updated_at);
-
+  
     if (this.categoryId) {
       this.categoryService.updateCategory(this.categoryId, formData).subscribe(
         (response) => {
-          alert('Danh mục đã được cập nhật!');
-          this.router.navigate(['/admin/productCategory']);
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Danh mục đã được cập nhật!',
+            icon: 'success'
+          }).then(() => {
+            this.router.navigate(['/admin/productCategory']);
+          });
         },
         (error) => {
           console.error('Lỗi khi cập nhật danh mục:', error);
-          alert('Lỗi khi cập nhật danh mục!');
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Lỗi khi cập nhật danh mục!',
+            icon: 'error'
+          });
         }
       );
     }
   }
+  
 }
