@@ -22,7 +22,6 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   // Tạo yêu cầu thanh toán qua MoMo
-  // Tạo yêu cầu thanh toán qua MoMo
   createPayment(
     amount: number,
     orderId: string,

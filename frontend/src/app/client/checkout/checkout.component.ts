@@ -103,6 +103,7 @@ export class CheckoutComponent implements OnInit {
 
     // Tính tổng tiền sau khi áp dụng voucher
     this.totalAmount = Math.round(this.getTotal());
+
   }
 
   getTotal() {
@@ -232,10 +233,6 @@ export class CheckoutComponent implements OnInit {
     if (!this.validateAddress()) {
       return; // Ngăn không cho tiếp tục nếu địa chỉ không hợp lệ
     }
-    //   if (this.totalAmount < 1000) {
-    //     alert('Bạn chưa có sản phẩm nào dể thanh toán!');
-    //     return;
-    // }
     const orderId = this.generateOrderId();
     const orderInfo = `Thanh toán cho đơn hàng ${orderId}`;
 
@@ -256,6 +253,7 @@ export class CheckoutComponent implements OnInit {
       address: fullAddress,
       phoneNumber: this.user.phoneNumber,
     };
+    
     Swal.fire({
       title: 'Bạn có chắc chắn muốn thanh toán không?',
       text: 'Hãy chắc chắn thông tin của bạn là đúng!',
@@ -283,10 +281,10 @@ export class CheckoutComponent implements OnInit {
             }
           );
         } else if (this.paymentMethod === 'cod') {
+          
           // Xử lý thanh toán khi nhận hàng
           const orderData = {
             user: this.user,
-            cartItems: this.cartItems,
             totalAmount: this.totalAmount,
             orderId: orderId,
             shippingAddress: {

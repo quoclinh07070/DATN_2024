@@ -224,6 +224,7 @@
               <ul>
                 <!-- Total price -->
                 <li *ngIf="appliedVoucher" class="clearfix">
+                  <div hidden>{{ appliedVoucher.id }}</div>
                   <strong>Voucher:</strong>
                   <span>{{ appliedVoucher.voucher_code }} - Giảm {{ appliedVoucher.discount_percent }}%</span>
                 </li>
