@@ -16,10 +16,6 @@ export class AdminVoucherComponent implements OnInit {
   filteredVouchers: any[] = [];  // Mảng lưu trữ các voucher sau khi lọc
   selectedStatus: string = '';  // Biến lưu trữ trạng thái đã chọn cho lọc
 
-  // Thuộc tính phân trang
-  currentPage: number = 1; // Trang hiện tại
-  itemsPerPage: number = 4; // Số mục hiển thị trên mỗi trang
-
   constructor(private voucherService: VoucherService) {}
 
   ngOnInit(): void {
@@ -46,24 +42,6 @@ export class AdminVoucherComponent implements OnInit {
     } else {
       this.filteredVouchers = this.vouchers;  // Hiển thị tất cả nếu không có trạng thái chọn
     }
-  }
-
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredVouchers.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredVouchers.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
   }
 
   // Xóa voucher

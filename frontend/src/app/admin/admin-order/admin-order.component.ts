@@ -18,10 +18,6 @@ export class AdminOrderComponent implements OnInit {
   filterName: string = '';  // Filter input for name
   filterStatus: string = '';  // Filter input for status
 
-
-  currentPage: number = 1;
-  itemsPerPage: number = 10; 
-
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
@@ -80,25 +76,7 @@ export class AdminOrderComponent implements OnInit {
       }
     });
   }
-
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredOrders.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredOrders.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
-  }
-
+  
   // Method to filter orders based on name and status
   applyFilters(): void {
     this.filteredOrders = this.orders.filter(order => {

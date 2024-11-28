@@ -21,10 +21,6 @@ export class AdminProductCategoryComponent {
   selectedParentCategory: string = '';
   selectedStatus: string = '';
 
-   // Thuộc tính phân trang
-   currentPage: number = 1; // Trang hiện tại
-   itemsPerPage: number = 4; // Số mục hiển thị trên mỗi trang
-
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
@@ -57,23 +53,6 @@ export class AdminProductCategoryComponent {
 
       return matchesSearchTerm && matchesParentCategory && matchesStatus;
     });
-  }
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredCategories.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredCategories.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
   }
 
   getImageUrl(imageName: string): string {

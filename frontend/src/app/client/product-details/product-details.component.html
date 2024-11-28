@@ -26,109 +26,78 @@
                 <div class="col-md-6 col-sm-12">
                   <ol class="breadcrumb bg-white">
                     <li class="breadcrumb-item">
-                      <a class="link-dark" routerLink="/"
-                        ><span>Trang chủ</span></a
-                      >
+                      <a class="link-dark" routerLink="/"><span>Trang chủ</span></a>
                     </li>
                     <li class="breadcrumb-item">
-                      <a class="link-dark" routerLink="/product"
-                        ><span>Sản phẩm</span></a
-                      >
+                      <a class="link-dark" routerLink="/product"><span>Sản phẩm</span></a>
                     </li>
                     <li class="breadcrumb-item">
-                      <span class="text-dark">{{
-                        product.name.length > 30
-                          ? (product.name | slice : 0 : 30) + "..."
-                          : product.name
-                      }}</span>
+                      <span class="text-dark">{{ (product.name.length > 30 ? (product.name | slice:0:30) + '...' : product.name) }}</span>
                     </li>
                   </ol>
                   <div class="product-info">
-                    <!-- Hiển thị thông báo hết hàng nếu sản phẩm hết hàng -->
-                    <div
-                      *ngIf="product.quantity <= 0"
-                      class="out-of-stock-notice text-danger mt-2"
-                    >
-                      <span class="m-2 bg-danger text-white p-1 rounded-pill"
-                        >Hết hàng</span
-                      >
+                     <!-- Hiển thị thông báo hết hàng nếu sản phẩm hết hàng -->
+                     <div *ngIf="product.quantity <= 0" class="out-of-stock-notice text-danger mt-2">
+                      <span class="m-2 bg-danger text-white p-1 rounded-pill">Hết hàng</span>
                     </div>
                     <h3 class="product-name text-dark fw-bold">
                       {{ product.name }}
                     </h3>
                     <h4 class="item-price text-danger">
-                      <ng-container
-                        *ngIf="product.discount > 0; else noDiscount"
-                      >
+                      <ng-container *ngIf="product.discount > 0; else noDiscount">
                         <!-- Hiển thị giá giảm và tỷ lệ giảm -->
-                        <span
-                          class="discount-percentage m-2 bg-danger text-white p-1"
-                          >-{{ product.discount }}%</span
-                        >
+                        <span class="discount-percentage m-2 bg-danger text-white p-1">-{{ product.discount }}%</span>
                         <span class="discount-price" class="text-danger me-2">
-                          {{
-                            product.price -
-                              product.price * (product.discount / 100)
-                              | number : "1.0-0"
-                          }}
-                          ₫
+                          {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
                         </span>
-                        <span
-                          class="old-price text-dark text-decoration-line-through"
-                        >
-                          {{ product.price | number : "1.0-0" }} ₫
+                        <span class="old-price text-dark text-decoration-line-through">
+                          {{ product.price | number:'1.0-0' }} ₫
                         </span>
                       </ng-container>
                       <ng-template #noDiscount>
                         <!-- Hiển thị giá hiện tại nếu không có giảm giá -->
                         <span class="current-price text-danger">
-                          {{ product.price | number : "1.0-0" }} ₫
+                          {{ product.price | number:'1.0-0' }} ₫
                         </span>
                       </ng-template>
                     </h4>
 
                     <p class="text-muted pt-3">{{ product.description }}</p>
                     <!-- Điều khiển số lượng -->
-                    <div
-                      *ngIf="product.quantity > 0"
-                      class="col-md-5 mt-3 p-0 d-flex align-items-center"
-                    >
+                    <div *ngIf="product.quantity > 0" class="col-md-5 mt-3 p-0 d-flex align-items-center">
                       <h6 class="col-md-6">Số lượng:</h6>
                       <div class="input-group input-group-sm">
                         <!-- Nút giảm -->
-                        <button
-                          (click)="decreaseQuantity()"
-                          class="btn btn-outline-secondary btn-sm"
-                          [disabled]="quantity <= 1"
-                        >
+                        <button 
+                          (click)="decreaseQuantity()" 
+                          class="btn btn-outline-secondary btn-sm" 
+                          [disabled]="quantity <= 1">
                           <i class="fa fa-minus"></i>
                         </button>
-
+                    
                         <!-- Input số lượng -->
-                        <input
-                          type="number"
-                          [(ngModel)]="quantity"
-                          class="form-control text-center"
-                          min="1"
-                          [max]="product.quantity"
-                          (input)="validateQuantity()"
-                        />
-
+                        <input 
+                          type="number" 
+                          [(ngModel)]="quantity" 
+                          class="form-control text-center" 
+                          min="1" 
+                          [max]="product.quantity" 
+                          (input)="validateQuantity()"/>
+                    
                         <!-- Nút tăng -->
-                        <button
-                          (click)="increaseQuantity()"
-                          class="btn btn-outline-secondary btn-sm"
-                          [disabled]="quantity >= product.quantity"
-                        >
+                        <button 
+                          (click)="increaseQuantity()" 
+                          class="btn btn-outline-secondary btn-sm" 
+                          [disabled]="quantity >= product.quantity">
                           <i class="fa fa-plus"></i>
                         </button>
                       </div>
                     </div>
-
+                    
                     <div class="other-options mt-3">
                       <button
                         *ngIf="product.quantity > 0"
-                        (click)="addToCart(product, quantity)"
+                        (click)="addToCart(product,quantity)"
                         type="button"
                         class="btn btn-danger btn-lg w-50"
                       >
@@ -155,9 +124,7 @@
               <div class="prod-tabs tabs-box">
                 <!-- Tab Btns -->
                 <ul class="tab-btns tab-buttons clearfix">
-                  <li data-tab="#prod-details" class="tab-btn active-btn">
-                    Mô tả
-                  </li>
+                  <li data-tab="#prod-details" class="tab-btn active-btn">Mô tả</li>
                   <li data-tab="#prod-reviews" class="tab-btn">Đánh giá</li>
                 </ul>
 
@@ -175,9 +142,7 @@
                       <h2 class="mb-4">Gửi đánh giá của bạn</h2>
                       <form class="review-form" (ngSubmit)="submitReview()">
                         <div class="form-group mb-3">
-                          <label for="rating" class="form-label fw-semibold"
-                            >Đánh giá:</label
-                          >
+                          <label for="rating" class="form-label fw-semibold">Đánh giá:</label>
                           <select
                             id="rating"
                             [(ngModel)]="newReview.rating"
@@ -185,144 +150,50 @@
                             class="form-select"
                             required
                           >
-                            <option
-                              *ngFor="let star of [1, 2, 3, 4, 5]"
-                              [value]="star"
-                            >
+                            <option *ngFor="let star of [1, 2, 3, 4, 5]" [value]="star">
                               {{ star }} sao
                             </option>
                           </select>
                         </div>
 
                         <div class="form-group mb-4">
-                          <label for="comment" class="form-label fw-semibold"
-                            >Nhận xét:</label
-                          >
+                          <label for="comment" class="form-label fw-semibold">Nhận xét:</label>
                           <textarea
                             id="comment"
                             [(ngModel)]="newReview.comment"
                             name="comment"
                             class="form-control"
-                            rows="3"
+                            rows="4"
                             required
                           ></textarea>
                         </div>
 
-                        <button type="submit" style="background-color: rgb(255, 138, 0);" class="btn btn-primary w-100">
-                          Gửi đánh giá
-                        </button>
+                        <button type="submit" class="btn btn-primary w-100">Gửi đánh giá</button>
                       </form>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="star-rating-options">
-                          <button
-                            class="btn btn-outline-me-2"
-                            [ngClass]="{ active: selectedRating === 1 }"
-                            (click)="setRatingFilter(1)"
-                          >
-                            1 sao
-                          </button>
-                          <button
-                            class="btn btn-outline- me-2"
-                            [ngClass]="{ active: selectedRating === 2 }"
-                            (click)="setRatingFilter(2)"
-                          >
-                            2 sao
-                          </button>
-                          <button
-                            class="btn btn-outline- me-2"
-                            [ngClass]="{ active: selectedRating === 3 }"
-                            (click)="setRatingFilter(3)"
-                          >
-                            3 sao
-                          </button>
-                          <button
-                            class="btn btn-outline- me-2"
-                            [ngClass]="{ active: selectedRating === 4 }"
-                            (click)="setRatingFilter(4)"
-                          >
-                            4 sao
-                          </button>
-                          <button
-                            class="btn btn-outline-"
-                            [ngClass]="{ active: selectedRating === 5 }"
-                            (click)="setRatingFilter(5)"
-                          >
-                            5 sao
-                          </button>
-                        </div>
-                        <div class="comment-options">
-                          <button
-                            class="btn btn-outline-me-2"
-                            [ngClass]="{ active: displayOption === 'latest' }"
-                            (click)="setDisplayOption('latest')"
-                          >
-                            Bình luận mới nhất
-                          </button>
-                          <button
-                            class="btn btn-outline"
-                            [ngClass]="{ active: displayOption === 'all' }"
-                            (click)="setDisplayOption('all')"
-                          >
-                            Tất cả bình luận
-                          </button>
-                        </div>
-                      </div>
+
                       <!-- Reviews List -->
-                      <div
-                        *ngIf="filteredReviews.length > 0"
-                        class="reviews-list mt-5"
-                      >
+                      <div *ngIf="reviews.length > 0" class="reviews-list mt-5">
                         <h2 class="fw-bold">
-                          {{ filteredReviews.length }} Đánh giá cho
-                          {{ product.name }}
+                          {{ reviews.length }} Đánh giá cho {{ product.name }}
                         </h2>
-                        <div
-                          *ngFor="let review of filteredReviews; let i = index"
-                          class="review-item mt-4 p-3 border rounded"
-                          [ngClass]="{ 'd-none': i >= visibleReviews }"
-                        >
+                        <div *ngFor="let review of reviews" class="review-item mt-4 p-3 border rounded">
                           <!-- Review Header -->
-                          <div
-                            class="d-flex justify-content-between align-items-center mb-2"
-                          >
+                          <div class="d-flex justify-content-between align-items-center mb-2">
                             <p class="mb-0">
                               <strong>{{ review.fullname }}</strong> -
-                              <span class="text-warning">
-                                <ng-container
-                                  *ngFor="let star of [1, 2, 3, 4, 5]"
-                                >
-                                  <i
-                                    class="fa"
-                                    [ngClass]="
-                                      star <= review.rating
-                                        ? 'fa-star'
-                                        : 'fa-star-o'
-                                    "
-                                  ></i>
-                                </ng-container>
-                              </span>
+                              <span class="text-warning">{{ review.rating }} <i class="fa fa-star"></i></span>
                             </p>
-                            <small class="text-secondary">{{
-                              review.created_at | date : "dd/MM/yyyy"
-                            }}</small>
+                            <small class="text-secondary">{{ review.created_at | date: 'dd/MM/yyyy' }}</small>
                           </div>
 
                           <!-- Review Content -->
-                          <p class="text-muted mb-1">
-                            {{ review.reviews_text }}
-                          </p>
+                          <p class="text-muted mb-1">{{ review.reviews_text }}</p>
                         </div>
-
-                        <button
-                          *ngIf="filteredReviews.length > visibleReviews"
-                          (click)="loadMore()"
-                          class="btn btn-link load-more-btn"
-                        >
-                          Xem thêm
-                        </button>
                       </div>
+
                     </div>
                   </div>
+
                 </div>
               </div>
               <!-- End Product Info Tabs -->

@@ -1,16 +1,65 @@
-.slide-item {
-    background-size: cover; /* Đảm bảo hình nền bao phủ toàn bộ phần tử */
-    background-position: center; /* Đặt hình nền ở giữa */
-    height: 400px; /* Đặt chiều cao cho slide item */
-}
-.image-1 {
-    background-image: url('/assets/client/images/main-slider/image-4.jpg');
-}
-
-.image-2 {
-    background-image: url('/assets/client/images/main-slider/image-2.jpg');
+/* Đảm bảo ảnh trong thẻ bài viết không bị lệch */
+.card {
+    border-radius: 8px; /* Bo góc nhẹ */
+    overflow: hidden; /* Ẩn nội dung dư */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng mờ */
+    transition: transform 0.3s ease-in-out; /* Hiệu ứng hover */
 }
 
-.image-3 {
-    background-image: url('/assets/client/images/main-slider/image-3.jpg');
+.card:hover {
+    transform: translateY(-5px); /* Nâng nhẹ khi hover */
+}
+
+.image-box {
+    position: relative; /* Đặt vị trí cho overlay */
+    overflow: hidden; /* Ẩn phần thừa của ảnh */
+}
+
+.image-box img {
+    width: 100%; /* Đảm bảo ảnh phủ toàn bộ container */
+    transition: transform 0.3s ease-in-out; /* Hiệu ứng zoom */
+}
+
+.image-box:hover img {
+    transform: scale(1.1); /* Phóng to nhẹ khi hover */
+}
+
+/* Overlay căn chỉnh đúng giữa */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Nền xám nhẹ */
+    opacity: 0; /* Mặc định ẩn */
+    transition: opacity 0.3s ease-in-out; /* Hiệu ứng xuất hiện */
+    display: flex; /* Căn giữa nội dung */
+    justify-content: center;
+    align-items: center;
+}
+
+.image-box:hover .overlay {
+    opacity: 1; /* Hiện overlay khi hover */
+}
+
+.card-body {
+    padding: 15px; /* Khoảng cách nội dung trong bài viết */
+    text-align: center; /* Canh giữa nội dung */
+}
+
+/* Tiêu đề bài viết */
+.card-title {
+    font-size: 1rem; /* Kích thước chữ */
+    font-weight: 600; /* Độ đậm */
+    text-overflow: ellipsis; /* Dấu "..." khi quá dài */
+    overflow: hidden; /* Ẩn nội dung vượt giới hạn */
+    white-space: nowrap; /* Không xuống dòng */
+}
+
+/* Ngày bài viết */
+.card-text {
+    font-size: 0.875rem; /* Nhỏ hơn tiêu đề */
+    color: #6c757d; /* Màu xám nhạt */
+    margin-bottom: 0; /* Giảm khoảng cách */
 }

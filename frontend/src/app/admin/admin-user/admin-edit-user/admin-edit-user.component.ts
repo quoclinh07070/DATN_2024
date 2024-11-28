@@ -32,15 +32,14 @@ export class AdminEditUserComponent implements OnInit {
 
   getUser(id: number): void {
     this.userService.getUserById(id).subscribe(
-      (response: any) => {
-        this.user = response.user;  // Đảm bảo response.user có trường address
-      },
-      (error) => {
-        console.error('Lỗi khi lấy thông tin người dùng:', error);
-      }
+        (response: any) => {
+            this.user = response.user;
+        },
+        (error) => {
+            console.error('Lỗi khi lấy thông tin người dùng:', error);
+        }
     );
   }
-  
 
   onFileChange(event: any) {
     const file = event.target.files[0];

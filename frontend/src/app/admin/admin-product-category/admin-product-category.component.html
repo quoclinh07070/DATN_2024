@@ -5,7 +5,7 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between align-items-center mt-2">
             <h3 class="mb-0">DANH MỤC SẢN PHẨM</h3>
-            <a class="btn btn-success ms-2" routerLink="add">Thêm danh mục</a>
+            <a class="btn btn-success ms-2" routerLink="add">Thêm sản phẩm</a>
           </div>
           <div class="d-flex align-items-center mt-3">
             <label for="searchTerm" class="mr-2">Lọc:</label>
@@ -26,101 +26,51 @@
               <option value="active">Hoạt động</option>
               <option value="inactive">Không hoạt động</option>
             </select>
-          </div>  
+          </div>
+          
+            
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered text-nowrap">
-                  <thead class="table-dark text-white text-center align-middle">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead class="table-primary">
                     <tr>
-                      <th scope="col" class="py-3">ID</th>
-                      <th scope="col" class="py-3">Tên danh mục</th>
-                      <th scope="col" class="py-3">Hình ảnh</th>
-                      <th scope="col" class="py-3">Mô tả</th>
-                      <th scope="col" class="py-3">Trạng thái</th>
-                      <th scope="col" class="py-3">Thao tác</th>
+                      <th>ID</th>
+                      <th>Tên danh mục</th>
+                      <th>Hình ảnh</th>
+                      <th>Mô tả</th>
+                      <!-- <th>ID Danh mục cha</th> -->
+                      <th>Trạng thái</th>
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      *ngFor="let category of getPagedData()"
-                      [ngClass]="category.status === 'active' ? 'table-light' : 'table-danger'"
-                    >
-                      <th scope="row" class="text-center align-middle">{{ category.id }}</th>
-                      <td class="text-center align-middle">{{ category.category_name }}</td>
-                      <td class="text-center align-middle">
-                        <img
-                          [src]="getImageUrl(category.images)"
-                          alt="{{ category.category_name }}"
-                          class="img-thumbnail"
-                          style="max-width: 60px; height: auto;"
-                        />
+                    <tr 
+                      *ngFor="let category of filteredCategories" 
+                      [ngClass]="{'table-light': category.status === 'active', 'table-danger': category.status !== 'active'}">
+                      <th scope="row">{{category.id}}</th>
+                      <td>{{category.category_name}}</td>
+                      <td>
+                        <img [src]="getImageUrl(category.images)" alt="{{category.category_name}}" class="img-fluid" style="max-width: 60px;">
                       </td>
-                      <td class="text-center align-middle text-truncate" style="max-width: 150px">
-                        {{ category.description }}
-                      </td>
-                      <td class="text-center align-middle">
-                        <span
-                          class="badge"
-                          [ngClass]="category.status === 'active' ? 'bg-success' : 'bg-danger'"
-                        >
+                      <td class="text-truncate" style="max-width: 120px;">{{category.description}}</td>
+                      <!-- <td>{{category.parent_categoryID}}</td> -->
+                      <td>
+                        <span class="badge" [ngClass]="{'bg-success': category.status === 'active', 'bg-danger': category.status !== 'active'}">
                           {{ category.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
                         </span>
                       </td>
-                      <td class="text-center align-middle">
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                          <a [routerLink]="'edit/' + category.id" class="btn btn-sm btn-info">Sửa</a>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-danger"
-                            (click)="deleteCategory(category.id)"
-                          >
-                            Xóa
-                          </button>
-                        </div>
+
+<td>
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{category.id}}">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteCategory(category.id)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
                   
                 </table>
-                <div class="d-flex justify-content-center mt-3">
-                  <nav>
-                    <ul class="pagination">
-                      <li class="page-item" [class.disabled]="currentPage === 1">
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage - 1)"
-                          [disabled]="currentPage === 1"
-                        >
-                          Trước
-                        </button>
-                      </li>
-                      <li
-                        class="page-item"
-                        *ngFor="let page of getPaginationArray()"
-                        [class.active]="page === currentPage"
-                      >
-                        <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
-                      </li>
-                      <li
-                        class="page-item"
-                        [class.disabled]="currentPage === getTotalPages()"
-                      >
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage + 1)"
-                          [disabled]="currentPage === getTotalPages()"
-                        >
-                          Tiếp theo
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+                
               </div>
-              <div *ngIf="filteredCategories.length === 0" class="text-center mt-3">
-                <p class="text-muted">Không tìm thấy kết quả phù hợp.</p>
-              </div>              
             </div>
           </div>
         </div>
