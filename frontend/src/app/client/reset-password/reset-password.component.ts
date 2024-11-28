@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { NotyfService } from '../../services/notyf.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -25,7 +27,8 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private notyfService: NotyfService
   ) {
     // Khởi tạo Reactive Form
     this.resetPasswordForm = this.fb.group({
@@ -41,31 +44,51 @@ export class ResetPasswordComponent implements OnInit {
       this.error = 'Xác nhận qua email trước!';
     }
   }
-
   onSubmit() {
-    if (this.resetPasswordForm.valid) {
-      const { password, confirmPassword } = this.resetPasswordForm.value;
-
-      // Kiểm tra mật khẩu khớp
-      if (password !== confirmPassword) {
-        this.error = 'Mật khẩu không khớp!';
-        return;
+    // Kiểm tra nếu form không hợp lệ
+    if (this.resetPasswordForm.invalid) {
+      // Lỗi ở trường "password"
+      if (this.resetPasswordForm.controls['password'].hasError('required')) {
+        this.notyfService.error('Mật khẩu là bắt buộc!');
+      } else if (this.resetPasswordForm.controls['password'].hasError('minlength')) {
+        this.notyfService.error('Mật khẩu phải trên 6 ký tự!');
       }
-
-      // Gửi yêu cầu reset mật khẩu
-      this.http
-        .post('http://localhost:3000/api/reset-password', { token: this.token, newPassword: password })
-        .subscribe({
-          next: (response: any) => {
-            this.message = response.message;
-            this.error = '';
-            setTimeout(() => this.router.navigate(['/user']), 2000); // Điều hướng sau 2 giây
-          },
-          error: (err) => {
-            this.error = err.error.message || 'Có lỗi xảy ra!';
-            this.message = '';
-          },
-        });
+  
+      // Lỗi ở trường "confirmPassword"
+      if (this.resetPasswordForm.controls['confirmPassword'].hasError('required')) {
+        this.notyfService.error('Xác nhận mật khẩu là bắt buộc!');
+      }
+      return; // Ngăn submit khi form không hợp lệ
     }
+  
+    const { password, confirmPassword } = this.resetPasswordForm.value;
+  
+    // Kiểm tra mật khẩu không khớp
+    if (password !== confirmPassword) {
+      this.notyfService.error('Mật khẩu không khớp!');
+      return; // Ngăn submit nếu mật khẩu không khớp
+    }
+  
+    // Nếu tất cả đều hợp lệ, gọi API đặt lại mật khẩu
+    this.http
+      .post('http://localhost:3000/api/reset-password', { token: this.token, newPassword: password })
+      .subscribe({
+        next: (response: any) => {
+          // Hiển thị thông báo thành công với SweetAlert
+          Swal.fire({
+            title: 'Thành công!',
+            text: response.message || 'Mật khẩu của bạn đã được đặt lại.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            this.router.navigate(['/login']); // Điều hướng đến trang đăng nhập
+          });
+        },
+        error: (err) => {
+          // Hiển thị lỗi từ server với Notyf
+          this.notyfService.error(err.error.message || 'Có lỗi xảy ra!');
+        },
+      });
   }
+  
 }

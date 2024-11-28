@@ -3,7 +3,7 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';  // Import service
 import { CartService } from '../../services/cart.service';
-
+import { NotyfService } from '../../services/notyf.service';
 @Component({
   selector: 'app-search-result',
   standalone: true,
@@ -20,6 +20,7 @@ export class SearchResultComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,  // Inject ActivatedRoute để lấy query params
+    private notyfService: NotyfService,
     private cartService: CartService // Inject CartService
   ) {}
 
@@ -63,12 +64,13 @@ export class SearchResultComponent implements OnInit {
       const success = this.cartService.addToCart(product,quantity);  // Gọi service để thêm sản phẩm vào giỏ
   
       if (success) {
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        this.notyfService.success('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
         alert('Sản phẩm trong giỏ đã đạt số lượng tối đa!');
+        this.notyfService.warning('Sản phẩm trong giỏ đã đạt số lượng tối đa!');
       }
     } else {
-      alert('Sản phẩm đã hết hàng!');
+      this.notyfService.warning('Sản phẩm đã hết hàng!');
     }
   }
   

@@ -1,62 +1,42 @@
-<div class="page-wrapper">
-  <!--Login Section-->
-  <section class="login-section mt-4">
+<div class="d-lg-flex half">
+  <div class="bg order-1 order-md-2" style="background-image: url('/assets/client/images/gallery/2-7.jpg');"></div>
+  <div class="contents order-2 order-md-1 bg-form">
 
-<!-- Popup Success/Error Alert -->
-<div *ngIf="isPopupVisible" class="popup-success-alert" id="popupSuccessAlert" role="alert">
-  <div class="popup-content">
-    <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
-      <span>{{ isSuccess ? '&#10003;' : '&#10007;' }}</span>
-    </div>
-    <p class="message">{{ popupMessage }}</p>
-    <button type="button" class="btn-close" (click)="closePopup()">Đóng</button>
-  </div>
-</div>
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-7">
+          <h3 class="mb-4"><strong>Đăng Nhập</strong></h3>
+          <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+            <div class="form-group">
+              <label for="username">Email:</label>
+              <input type="email" id="username" formControlName="username" required class="form-control" placeholder="Nhập email của bạn">
+              <small *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error-message">
+                Email là bắt buộc và phải hợp lệ.
+              </small>
+            </div>
+            <div class="form-group mt-4 mb-4">
+              <label for="password">Mật Khẩu:</label>
+              <input type="password" id="password" formControlName="password" required class="form-control" placeholder="Nhập mật khẩu của bạn">
+              <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+                Mật khẩu là bắt buộc.
+              </small>
+            </div>
+            
+            <div class="text-center mt-3 link-group">
+              <span>Bạn chưa có tài khoản? </span>
+              <a routerLink="/register">Đăng ký</a>
+            </div>
+            <div class="text-center mt-2 mb-4 link-group">
+              <span>Bạn quên mật khẩu? </span>
+              <a routerLink="/forgot-password">Khôi phục mật khẩu</a>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary col-12 mt-4" [disabled]="loginForm.invalid">Đăng Nhập</button>
 
-<div *ngIf="!isLoggedIn" class="not-logged-in">
-    <div class="auto-container">
-      <div class="row clearfix">
-        <div class="column col-lg-12 col-md-12 col-sm-12">
-          <h2 class="text-center text-primary">Đăng Nhập</h2>
-
-          <!-- Login Form -->
-          <div class="login-form">
-            <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
-              <div class="form-group">
-                <label for="username">Email:</label>
-                <input type="email" id="username" formControlName="username" required class="form-control">
-                <small *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error-message">
-                  Email là bắt buộc và phải hợp lệ.
-                </small>
-              </div>
-              <div class="form-group">
-                <label for="password">Mật Khẩu:</label>
-                <input type="password" id="password" formControlName="password" required class="form-control">
-                <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
-                  Mật khẩu là bắt buộc.
-                </small>
-              </div>
-              <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Đăng Nhập</button>
-              <div class="text-center mt-3 link-group">
-                <span>Bạn chưa có tài khoản? </span>
-                <a routerLink="/register">Đăng ký</a>
-              </div>
-              <div class="text-center mt-2 link-group">
-                <span>Bạn quên mật khẩu? </span>
-                <a routerLink="/forgot-password">Khôi phục mật khẩu</a>
-              </div>
-              
-            </form>
-          </div>
-          <!-- End Login Form -->
+          </form>
         </div>
       </div>
     </div>
-</div>
-<div *ngIf="isLoggedIn">
-  <p class="login-message">
-    Bạn đã đăng nhập, vui quay lại trang chủ hoặc trang khác để sử dụng!
-  </p>
-</div>
-  </section>
+  </div>
+
+  
 </div>

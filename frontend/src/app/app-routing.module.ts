@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminRoutingModule } from './admin/admin-routing.module';
 import { ClientRoutingModule } from './client/client-routing.module';
 import { PagenotfoundComponent } from './client/pagenotfound/pagenotfound.component'; // Đảm bảo import đúng
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   // Route cho admin
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], },
   
   // Route cho client
   { path: '', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },

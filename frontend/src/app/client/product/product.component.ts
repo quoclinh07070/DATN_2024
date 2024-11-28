@@ -4,7 +4,8 @@ import { CategoryService } from '../../services/category.service';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service'; 
 import { CommonModule } from '@angular/common'; 
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
+import { NotyfService } from '../../services/notyf.service';
 @Component({
   selector: 'app-product',  
   standalone: true,
@@ -26,7 +27,8 @@ export class ProductComponent implements OnInit {
   constructor(
     private productService: ProductService, 
     private categoryService: CategoryService, 
-    private cartService: CartService 
+    private cartService: CartService,
+    private notyfService: NotyfService
   ) {}
 
   ngOnInit(): void {
@@ -65,12 +67,12 @@ export class ProductComponent implements OnInit {
       const success = this.cartService.addToCart(product, quantity);  // Gọi service để thêm sản phẩm vào giỏ
   
       if (success) {
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        this.notyfService.success('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
-        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+        this.notyfService.warning('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     } else {
-      alert('Sản phẩm đã hết hàng!');
+      this.notyfService.error('Sản phẩm đã hết hàng!');
     }
   }
   
