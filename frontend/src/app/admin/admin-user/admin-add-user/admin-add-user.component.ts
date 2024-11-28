@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user.service'; // Import UserServ
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-add-user',
@@ -73,9 +74,13 @@ export class AdminAddUserComponent {
       this.authService.Usignup(name, email, password, status, role).subscribe(
         (response) => {
           if (response.metadata?.tokens?.accessToken) {
-            // Hiển thị thông báo thành công
-            this.showPopup('Thêm tài khoản thành công', true);
-            // Điều hướng về trang danh sách người dùng sau khi 2 giây
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Thông tin người dùng đã được cập nhật!',
+              icon: 'success',
+              timer: 2000,  // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
             setTimeout(() => this.router.navigate(['/admin/user']), 2000);
           } else {
             this.signupErrorMessage = 'Tài khoản đã tồn tại. Vui lòng thử lại.';

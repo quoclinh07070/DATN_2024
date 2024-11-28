@@ -20,7 +20,7 @@ export class AdminOrderComponent implements OnInit {
 
 
   currentPage: number = 1;
-  itemsPerPage: number = 10; 
+  itemsPerPage: number = 5; 
 
   constructor(private orderService: OrderService) {}
 

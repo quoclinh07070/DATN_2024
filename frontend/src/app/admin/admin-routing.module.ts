@@ -39,7 +39,7 @@ import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/ad
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 //Comments
 import { CommentpostComponent } from './commentpost/commentpost.component';
-
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 //wishlistitems
 // import { AdminWishlistitemsComponent } from './admin-wishlistitems/admin-wishlistitems.component';
@@ -79,13 +79,14 @@ const adminRoutes: Routes = [
 
     { path: 'commentspost', component: CommentpostComponent },////////
 
-
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 
 
     // Thêm các route admin khác ở đây
   ]},
   { path: 'access-denied', component: AccessDeniedComponent },
+  { path: '**', component: PagenotfoundComponent },
+
 
 ];
 
