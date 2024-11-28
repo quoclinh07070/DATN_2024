@@ -33,49 +33,68 @@
     <div class="auto-container">
       <div class="row clearfix">
   
-        <!--Content Side-->
         <div class="content-side col-xl-12 col-lg-12 col-md-12 p-5">
           <h2 class="text-center fw-bold text-dark mb-4">SẢN PHẨM MỚI NHẤT</h2>
-          <div class="our-shop">
-            <div class="row g-4">
-              <div
-                class="col-lg-3 col-md-4 col-sm-6"
-                *ngFor="let product of newestProducts"
-              >
-                <div class="product-card shadow-sm">
-                  <div class="image-box position-relative">
-                    <img
-                      [src]="getImageUrl(product.image)"
-                      alt="{{ product.name }}"
-                      class="w-100 img-fluid rounded"
-                    />
-                    <div class="overlay d-flex justify-content-center align-items-center"  [routerLink]="['/product-detail', product.id]">
-                        <img [src]="getImageUrl(product.image)" alt="Hover Image" class="hover-image">
+          <div class="content-side col-xl-12 col-lg-12 col-md-12 p-5">
+            <div class="our-shop">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- Lặp qua danh sách sản phẩm -->
+                <div *ngFor="let product of newestProducts" class="col">
+                  <!-- Card Bootstrap -->
+                  <div class="card shadow-sm border-0 h-100">
+                    <!-- Hình ảnh sản phẩm -->
+                    <div class="card-header bg-transparent position-relative p-0 image-box">
+                      <!-- Badge giảm giá -->
+                      <div *ngIf="product.discount > 0">
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                          -{{ product.discount }}%
+                        </span>
                       </div>
-                      
-                  </div>
-                  <div class="product-info text-center mt-3">
-                    <h5 class="text-truncate">{{ product.name }}</h5>
-                    <p class="price text-danger fw-bold mb-0">
-                      {{ product.price | number:'1.0-0' }} ₫
+                      <img
+                        [src]="getImageUrl(product.image)"
+                        alt="{{ product.name }}"
+                        class="card-img-top img-fluid rounded"
+                        style="height: 220px; object-fit: cover;"
+                      />
+                    </div>
+                    <!-- Nội dung sản phẩm -->
+                    <div class="card-body text-center">
+                      <h6
+                        class="card-title text-truncate fw-bold text-primary"
+                        style="max-width: 220px; margin: 0 auto; font-size: 1rem;"
+                      >
+                        <a
+                          [routerLink]="['/product-detail', product.id]"
+                          class="text-decoration-none"
+                          style="color: #007bff;"
+                        >
+                          {{ product.name }}
+                        </a>
+                      </h6>
+                      <div class="price mt-3">
+                        <ng-container *ngIf="product.discount > 0; else noDiscount">
+                          <span class="text-danger fw-bold" style="font-size: 1.2rem;">
+                            {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                          </span>
+                          <span class="text-muted text-decoration-line-through ms-2" style="font-size: 0.9rem;">
+                            {{ product.price | number:'1.0-0' }} ₫
+                          </span>
+                        </ng-container>
+                        <ng-template #noDiscount>
+                          <span class="current-price text-success fw-bold" style="font-size: 1.2rem;">
+                            {{ product.price | number:'1.0-0' }} ₫
+                          </span>
+                        </ng-template>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        
-      <!--Post Share Options-->
-      <div class="styled-pagination">
-        <ul class="clearfix">
-          <li class="prev-post"><a href="#"><span class="fa fa-long-arrow-left"></span> Prev</a></li>
-          <li><a href="#">1</a></li>
-          <li class="active"><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li class="next-post"><a href="#"> Next <span class="fa fa-long-arrow-right"></span> </a></li>
-        </ul>
-      </div>
-    </div>
+          
+          
+      
   
     <!-- News Section -->
     <section class="news-section">
