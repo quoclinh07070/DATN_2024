@@ -1,6 +1,6 @@
-const transporter = require('../config/emailConfig');
-const crypto = require('crypto');
-const User = require('../models/user');
+const transporter = require("../config/emailConfig");
+const crypto = require("crypto");
+const User = require("../models/user");
 
 // Hàm gửi email thông báo tài khoản bị xóa
 const sendEmail = (req, res) => {
@@ -8,7 +8,7 @@ const sendEmail = (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Thông báo về trạng thái tài khoản',
+    subject: "Thông báo về trạng thái tài khoản",
     html: `
       <html>
         <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333;">
@@ -50,12 +50,11 @@ const sendEmail = (req, res) => {
   };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return res.status(500).send({ message: 'Gửi email thất bại' });
+      return res.status(500).send({ message: "Gửi email thất bại" });
     }
-    res.status(200).send({ message: 'Email đã được gửi thành công' });
+    res.status(200).send({ message: "Email đã được gửi thành công" });
   });
 };
-
 
 // Hàm gửi email chúc mừng đăng ký tài khoản thành công
 const sendWelcomeEmail = (req, res) => {
@@ -63,7 +62,7 @@ const sendWelcomeEmail = (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: '🎉 Chào mừng bạn đến với cộng đồng của chúng tôi!',
+    subject: "🎉 Chào mừng bạn đến với cộng đồng của chúng tôi!",
     html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f9; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
       <!-- Header -->
@@ -99,27 +98,26 @@ const sendWelcomeEmail = (req, res) => {
     </div>
     `,
   };
-  
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Lỗi khi gửi email:', error);
-      return res.status(500).send('Lỗi khi gửi email chúc mừng');
+      console.error("Lỗi khi gửi email:", error);
+      return res.status(500).send("Lỗi khi gửi email chúc mừng");
     }
-    console.log('Email chúc mừng đã được gửi:', info.response);
-    res.status(200).send('Email chúc mừng đã được gửi thành công');
+    console.log("Email chúc mừng đã được gửi:", info.response);
+    res.status(200).send("Email chúc mừng đã được gửi thành công");
   });
 };
 
-    // Hàm gửi email quên mật khẩu
-    const sendForgotPassEmail = async ({ email, name, resetLink }) => {
-      console.log('Email:', email); // Thêm log để kiểm tra
-      console.log('Reset Link:', resetLink);
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: '🔑 Yêu cầu đặt lại mật khẩu!',
-        html: `
+// Hàm gửi email quên mật khẩu
+const sendForgotPassEmail = async ({ email, name, resetLink }) => {
+  console.log("Email:", email); // Thêm log để kiểm tra
+  console.log("Reset Link:", resetLink);
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "🔑 Yêu cầu đặt lại mật khẩu!",
+    html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f9; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); padding: 20px;">
           <!-- Header -->
           <div style="text-align: center; padding-bottom: 20px;">
@@ -158,16 +156,78 @@ const sendWelcomeEmail = (req, res) => {
           </div>
         </div>
         `,
-      };      
-  
-      try {
-          const info = await transporter.sendMail(mailOptions);
-          console.log('Email đã được gửi:', info.response);
-          return { success: true };
-      } catch (error) {
-          console.error('Lỗi khi gửi email:', error);
-          throw new Error('Lỗi khi gửi email');
-      }
   };
-   
-module.exports = { sendEmail, sendWelcomeEmail, sendForgotPassEmail};
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email đã được gửi:", info.response);
+    return { success: true };
+  } catch (error) {
+    console.error("Lỗi khi gửi email:", error);
+    throw new Error("Lỗi khi gửi email");
+  }
+};
+
+const sendContactEmail = (req, res) => {
+  const { name, phone, company, email, message } = req.body;
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: process.env.RECEIVER_EMAIL,
+    subject: "📩 Yêu cầu liên hệ từ khách hàng",
+    html: `
+       <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px; background-color: #ffffff; border: 1px solid #e0e0e0; overflow: hidden;">
+  <h2 style="color: #007bff; font-size: 26px; margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Thông tin liên hệ</h2>
+  
+  <div style="margin-bottom: 15px;">
+    <p style="font-size: 16px; color: #555; margin: 0; font-weight: bold;">Họ và tên: <span style="color: #333; font-weight: normal;">${name}</span></p>
+  </div>
+  
+  <div style="margin-bottom: 15px;">
+    <p style="font-size: 16px; color: #555; margin: 0; font-weight: bold;">Số điện thoại: <span style="color: #333; font-weight: normal;">${phone}</span></p>
+  </div>
+  
+  <div style="margin-bottom: 15px;">
+    <p style="font-size: 16px; color: #555; margin: 0; font-weight: bold;">Tên công ty: <span style="color: #333; font-weight: normal;">${company || 'Không cung cấp'}</span></p>
+  </div>
+  
+  <div style="margin-bottom: 15px;">
+    <p style="font-size: 16px; color: #555; margin: 0; font-weight: bold;">Email: <span style="color: #333; font-weight: normal;">${email}</span></p>
+  </div>
+  
+  <div style="margin-bottom: 20px;">
+    <p style="font-size: 16px; color: #555; margin: 0; font-weight: bold;">Lời nhắn:</p>
+    <p style="background-color: #f0f8ff; padding: 15px; border-radius: 5px; border-left: 6px solid #007bff; color: #333; font-size: 14px; line-height: 1.5; font-style: italic;">
+      ${message}
+    </p>
+  </div>
+
+  <div style="text-align: center;">
+  <a href="mailto:${email}" style="text-decoration: none;">
+    <button style="padding: 12px 25px; background-color: #28a745; color: #fff; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease; font-weight: bold;">
+      Liên hệ lại với khách hàng
+    </button>
+  </a>
+</div>
+</div>
+
+      `,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Lỗi khi gửi email:", error);
+      return res.status(500).json({ message: "Gửi email thất bại" });
+    }
+    res
+      .status(200)
+      .json({ message: "Thông tin của bạn đã được gửi thành công!" });
+  });
+};
+
+module.exports = {
+  sendEmail,
+  sendWelcomeEmail,
+  sendForgotPassEmail,
+  sendContactEmail,
+};

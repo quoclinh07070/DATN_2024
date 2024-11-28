@@ -48,6 +48,13 @@ export class UserService {
     return this.http.post(welcomeEmailApiUrl, { email, name });
   }
 
+  // Gửi email từ form liên hệ
+  sendContactEmail(contactData: { name: string; email: string; phone: string; company?: string; message: string }): Observable<any> {
+    const emailApiUrl = `${environment.apiUrl}/send-contact-email`;
+    return this.http.post(emailApiUrl, contactData);
+  }
+
+
   // Phương thức để lấy URL hình ảnh (nếu cần dùng cho avatar hoặc hình đại diện của user)
   getImageUrl(imageName: string): string {
     if (!imageName) {

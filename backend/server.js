@@ -31,6 +31,8 @@ app.use(express.json());
 // Use CORS middleware
 app.use(cors());
 
+app.use(express.urlencoded({ extended: true }));
+
 // Middleware để phục vụ tệp tĩnh
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
