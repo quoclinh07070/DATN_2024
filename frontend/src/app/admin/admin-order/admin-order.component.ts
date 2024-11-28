@@ -3,7 +3,7 @@ import { OrderService } from '../../services/order.service';  // Import service
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  // Import FormsModule
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-order',
   standalone: true,
@@ -41,20 +41,44 @@ export class AdminOrderComponent implements OnInit {
   }
 
   deleteOrder(id: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
-      this.orderService.deleteOrder(id).subscribe(
-        () => {
-          // Remove deleted order from both orders and filteredOrders
-          this.orders = this.orders.filter(order => order.id !== id);
-          this.filteredOrders = this.filteredOrders.filter(order => order.id !== id);
-          alert('Đơn hàng đã được xóa thành công!');
-        },
-        (error) => {
-          alert('Lỗi khi xóa đơn hàng!');
-          console.error('Lỗi khi xóa đơn hàng:', error);
-        }
-      );
-    }
+    Swal.fire({
+      title: 'Xác nhận',
+      text: 'Bạn có chắc chắn muốn xóa đơn hàng này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.orderService.deleteOrder(id).subscribe(
+          () => {
+            // Remove deleted order from both orders and filteredOrders
+            this.orders = this.orders.filter(order => order.id !== id);
+            this.filteredOrders = this.filteredOrders.filter(order => order.id !== id);
+  
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Đơn hàng đã được xóa thành công!',
+              icon: 'success',
+              timer: 2000,  // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi xóa đơn hàng!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
+            console.error('Lỗi khi xóa đơn hàng:', error);
+          }
+        );
+      }
+    });
   }
 
   getPagedData(): any[] {

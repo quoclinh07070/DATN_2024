@@ -35,7 +35,7 @@
                         </div>
 
                         <!-- Tags -->
-                        <div class="tags clearfix">
+                        <!-- <div class="tags clearfix">
                             <span class="title">Từ khóa:</span>
                             <ul>
                                 <li><a href="#">Business</a></li>
@@ -43,22 +43,26 @@
                                 <li><a href="#">Life</a></li>
                                 <li><a href="#">Investment</a></li>
                             </ul>
-                        </div>
+                        </div> -->
 
                         <!-- Share Option -->
-                        <div class="share-option">
+                        <div class="share-option" style="color: #ffffff">
                             <span class="title">Chia sẻ:</span>
                             <ul class="social-icon-colored clearfix">
-                                <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
-                                <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
-                                <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google Plus</a>
+                                <li class="facebook" (click)="copyLink(post.id)"><a href="
+                                    https://vi-vn.facebook.com/"><i class="fa fa-facebook"></i>Facebook</a></li>
+
+                                <li class="twitter"><a href="
+                                    https://x.com/"><i class="fa fa-twitter"></i>Twitter</a></li>
+
+                                <li class="facebook" (click)="copyLink(post.id)"><a><i class="fa fa-copy"></i>Sao Chép Liên Kết</a>
                                 </li>
-                                <li class="pinterest"><a href="#"><i class="fa fa-pinterest-p"></i>Pinterest</a></li>
-                                <li class="mail"><a href="#"><i class="fa fa-envelope"></i>Mail to Friends</a></li>
+                                <li class="mail"><a><i class="fa fa-envelope"></i>Mail to Friends</a></li>
                             </ul>
                         </div>
+
                         <!-- Comments Area -->
-                        <div class="comments-area">
+                        <!-- <div class="comments-area">
                             <div class="group-title">
                                 <h2>Bình Luận Hiện Tại</h2>
                             </div>
@@ -78,10 +82,10 @@
                             </div>
 
                             
-                        </div>
+                        </div> -->
 
                         <!--Comment Form-->
-                        <div class="comment-form">
+                        <!-- <div class="comment-form">
                             <div class="group-title">
                                 <h2>Bình luận bài viết</h2>
                             </div>
@@ -95,7 +99,7 @@
                                         name="submit-form">Gửi</button>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -139,18 +143,18 @@
                                 <h3>Bài viết liên quan</h3>
                             </div>
                             <div class="widget-content" >
-                                <article class="post" *ngFor="let post of posts | slice:0:2">
-                                    <div class="image-box">
-                                      <figure class="image_url">
-                                        <img [src]="getImageUrl(post.image_url)" alt="{{ post.title }}">
-                                      </figure>
-                                      <div>
-                                        <a routerLink="/blog"></a>
-                                      </div>
-                                    </div>
-                                    <h3><a routerLink="/blog">{{ post.title }}</a></h3>
-                                  </article>
-                                
+                                    <article class="post" *ngFor="let post of posts | slice:0:2">
+                                        <div class="image-box">
+                                        <figure class="image_url">
+                                            <img [src]="getImageUrl(post.image_url)" alt="{{ post.title }}">
+                                        </figure>
+                                        <div>
+                                            <a routerLink="/blog"></a>
+                                        </div>
+                                        </div>
+                                        <h3><a routerLink="/blog">{{ post.title }}</a></h3>
+                                    </article>
+                                    
                                 <!-- <article class="post">
                                     <div class="post-thumb"><a href="blog-detail.html"><img
                                                 src="/assets/client/images/resource/post-thumb-4.jpg" alt=""></a></div>

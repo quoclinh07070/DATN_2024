@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-product',
   standalone: true,
@@ -102,19 +102,43 @@ export class AdminProductComponent implements OnInit {
   }
 
   // Hàm xóa sản phẩm
-deleteProduct(id: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      this.productService.deleteProduct(id).subscribe(
-        () => {
-          // Cập nhật danh sách sản phẩm sau khi xóa
-          this.products = this.products.filter(product => product.id !== id);
-          alert('Sản phẩm đã được xóa thành công!');
-        },
-        (error) => {
-          alert('Lỗi khi xóa sản phẩm!');
-          console.error('Lỗi khi xóa sản phẩm:', error);
-        }
-      );
-    }
+  deleteProduct(id: number): void {
+    Swal.fire({
+      title: 'Xác nhận',
+      text: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.deleteProduct(id).subscribe(
+          () => {
+            // Cập nhật danh sách sản phẩm sau khi xóa
+            this.products = this.products.filter(product => product.id !== id);
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Sản phẩm đã được xóa thành công!',
+              icon: 'success',
+              timer: 2000, // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi xóa sản phẩm!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
+            console.error('Lỗi khi xóa sản phẩm:', error);
+          }
+        );
+      }
+    });
   }
+  
 }

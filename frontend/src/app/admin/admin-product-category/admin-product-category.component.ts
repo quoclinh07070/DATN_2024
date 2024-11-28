@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category.service';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-product-category',
@@ -79,19 +80,42 @@ export class AdminProductCategoryComponent {
     return this.categoryService.getImageUrl(imageName);
   }
 
-  deleteCategory(id: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
+
+deleteCategory(id: number): void {
+  Swal.fire({
+    title: 'Bạn có chắc chắn?',
+    text: 'Bạn có muốn xóa danh mục này không?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Có, xóa ngay!',
+    cancelButtonText: 'Hủy',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6'
+  }).then((result) => {
+    if (result.isConfirmed) {
       this.categoryService.deleteCategory(id).subscribe(
         () => {
           this.categories = this.categories.filter(category => category.id !== id);
-          this.filterCategories(); // Cập nhật danh sách danh mục sau khi xóa
-          alert('Danh mục đã được xóa thành công!');
+          this.filterCategories(); // Cập nhật danh sách sau khi xóa
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Danh mục đã được xóa thành công!',
+            icon: 'success',
+            timer: 2000, // Đóng tự động sau 2 giây
+            showConfirmButton: false
+          });
         },
         (error) => {
-          alert('Lỗi khi xóa danh mục!');
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Lỗi khi xóa danh mục!',
+            icon: 'error'
+          });
           console.error('Lỗi khi xóa danh mục:', error);
         }
       );
     }
-  }
+  });
+}
+
 }

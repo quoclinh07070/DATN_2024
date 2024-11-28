@@ -4,7 +4,7 @@ import { PostService } from '../../../services/post.service'; // Giả sử có 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PostCategoryService } from '../../../services/postcategory.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-post',
   standalone: true,
@@ -82,9 +82,9 @@ export class AdminEditComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-
+  
     this.isFile = typeof this.post.image_url === 'object' && this.post.image_url instanceof Blob;
-
+  
     const formData = new FormData();
     formData.append('title', this.post.title);
     formData.append('content', this.post.content);
@@ -95,20 +95,34 @@ export class AdminEditComponent implements OnInit {
     formData.append('status', this.post.status);
     formData.append('created_at', this.post.created_at);
     formData.append('updated_at', this.post.updated_at);
-
+  
     if (this.postId) {
       this.postService.updatePost(this.postId, formData).subscribe(
         () => {
-          alert('Bài viết đã được cập nhật!');
-          this.router.navigate(['/admin/post']);
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Bài viết đã được cập nhật!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+          }).then(() => {
+            this.router.navigate(['/admin/post']);
+          });
         },
         (error) => {
-          alert('Lỗi khi cập nhật bài viết!');
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Có lỗi khi cập nhật bài viết, vui lòng thử lại!',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#d33'
+          });
           console.error(error);
         }
       );
     }
   }
+  
 
   // Hàm kiểm tra dữ liệu trước khi submit
   validateForm(): boolean {

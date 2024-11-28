@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../services/category.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-product',
   standalone: true,
@@ -83,10 +83,16 @@ export class AdminEditProductComponent implements OnInit {
   // Cập nhật sản phẩm
   updateProduct(): void {
     if (this.productForm.invalid) {
-      alert('Vui lòng kiểm tra lại thông tin sản phẩm!');
+      Swal.fire({
+        title: 'Thông báo!',
+        text: 'Vui lòng kiểm tra lại thông tin sản phẩm!',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6'
+      });
       return;
     }
-
+  
     const formData = new FormData();
     Object.keys(this.productForm.controls).forEach(key => {
       if (key === 'image' && this.productForm.get('image')?.value) {
@@ -95,18 +101,31 @@ export class AdminEditProductComponent implements OnInit {
         formData.append(key, this.productForm.get(key)?.value);
       }
     });
-
+  
     if (this.productId) {
       this.productService.updateProduct(this.productId, formData).subscribe(
         (response) => {
-          alert('Sản phẩm đã được cập nhật!');
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Sản phẩm đã được cập nhật!',
+            icon: 'success',
+            timer: 2000, // Đóng tự động sau 2 giây
+            showConfirmButton: false
+          });
           this.router.navigate(['/admin/product']);
         },
         (error) => {
           console.error('Lỗi khi cập nhật sản phẩm:', error);
-          alert('Có lỗi xảy ra, vui lòng thử lại.');
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Có lỗi xảy ra, vui lòng thử lại.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#d33'
+          });
         }
       );
     }
   }
+  
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-user',
   standalone: true,
@@ -60,15 +60,28 @@ export class AdminEditUserComponent implements OnInit {
       // Gọi service để gửi dữ liệu
       this.userService.updateUser(this.userId, updateData).subscribe(
         (response) => {
-          alert('Thông tin người dùng đã được cập nhật!');
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Thông tin người dùng đã được cập nhật!',
+            icon: 'success',
+            timer: 2000,  // Đóng tự động sau 2 giây
+            showConfirmButton: false
+          });
           this.router.navigate(['/admin/user']);  // Quay lại trang danh sách người dùng
         },
         (error) => {
-          alert('Lỗi khi cập nhật thông tin người dùng!');
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Lỗi khi cập nhật thông tin người dùng!',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#d33'
+          });
           console.error('Lỗi khi cập nhật người dùng:', error);
         }
       );
     }
   }
+  
   
 }

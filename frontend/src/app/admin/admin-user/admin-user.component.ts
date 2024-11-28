@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http'; // Sử dụng HttpClient cho các yêu cầu HTTP
 import { FormsModule } from '@angular/forms';
 
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-user',
   standalone: true,

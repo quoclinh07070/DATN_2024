@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostService } from '../../../services/post.service';
 import { CommonModule } from '@angular/common';
 import { PostCategoryService } from '../../../services/postcategory.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
@@ -115,6 +115,22 @@ export class BlogDetailComponent implements OnInit {
       // If there's no search term, show all categories
       this.filteredCategories = this.postcategories;
     }
+  }
+  shareToFacebook(postId: number): void {
+    const url = `${window.location.origin}/post-detail/${postId}`;
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(facebookShareUrl, '_blank'); // Mở trang chia sẻ Facebook
+  }
+
+
+  copyLink(postId: number): void {
+    const url = `${window.location.origin}/post-detail/${postId}`;
+    navigator.clipboard.writeText(url).then(() => {
+      Swal.fire('Thành công!', 'Liên kết đã được sao chép!', 'success');
+    }).catch((err) => {
+      console.error('Lỗi sao chép liên kết:', err);
+      Swal.fire('Thất bại!', 'Sao chép liên kết thất bại!', 'error');
+    });
   }
   
 }

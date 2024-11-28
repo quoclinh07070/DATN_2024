@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostCategoryService } from '../../../services/postcategory.service';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-post',
   standalone: true,
@@ -78,7 +78,7 @@ export class AdminEditPostComponent {
     if (!this.validateForm()) {
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('name', this.postcategory.name);
     formData.append('parentCategoryID', this.postcategory.parentCategoryID || '');
@@ -88,17 +88,32 @@ export class AdminEditPostComponent {
     formData.append('status', this.postcategory.status);
     formData.append('created_at', this.postcategory.created_at);
     formData.append('updated_at', this.postcategory.updated_at);
-
+  
     if (this.postCategoryId) {
       this.postCategoryService.updatePostCategory(this.postCategoryId, formData).subscribe(
         (response) => {
-          alert('Danh mục bài viết đã được cập nhật!');
-          this.router.navigate(['/admin/postCategory']);
+          // Hiển thị thông báo thành công
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Danh mục bài viết đã được cập nhật!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            // Chuyển hướng về trang danh mục sau khi cập nhật
+            this.router.navigate(['/admin/postCategory']);
+          });
         },
         (error) => {
-          alert('Lỗi khi cập nhật danh mục bài viết!');
+          // Hiển thị thông báo lỗi
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Lỗi khi cập nhật danh mục bài viết!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       );
     }
   }
+  
 }

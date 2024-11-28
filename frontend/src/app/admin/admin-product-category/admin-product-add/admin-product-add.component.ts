@@ -3,7 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../../services/category.service';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
   standalone: true,
   imports: [FormsModule, CommonModule],
@@ -39,12 +39,14 @@ export class AdminProductAddComponent {
     }
   }
 
+
+
   addCategory(): void {
     if (this.form.invalid) {
       this.form.form.markAllAsTouched();
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('category_name', this.category.category_name);
     formData.append('description', this.category.description);
@@ -55,15 +57,24 @@ export class AdminProductAddComponent {
     formData.append('status', this.category.status);
     formData.append('created_at', new Date().toISOString());
     formData.append('updated_at', new Date().toISOString());
-
+  
     this.categoryService.createCategory(formData).subscribe(
       (response) => {
-        alert('Danh mục đã được thêm!');
+        this.successNotification(); // Gọi thông báo thành công
         this.router.navigate(['/admin/productCategory']);
       },
       (error) => {
-        alert('Lỗi khi thêm danh mục!');
+        this.errorNotification(); // Gọi thông báo thất bại
       }
     );
   }
+  
+  successNotification() {
+    Swal.fire('Thành công!', 'Danh mục đã được thêm!', 'success');
+  }
+  
+  errorNotification() {
+    Swal.fire('Thất bại!', 'Lỗi khi thêm danh mục!', 'error');
+  }
+  
 }
