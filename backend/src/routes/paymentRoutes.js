@@ -9,9 +9,11 @@ const  momoConfig  = require('../config/momo');  // Import cấu hình MoMo
 // API tạo yêu cầu thanh toán
 // API tạo yêu cầu thanh toán
 router.post('/create-payment', async (req, res) => {
-  const { amount, orderId, orderInfo, extraData } = req.body;
+  const { amount, orderId, orderInfo, extraData, cartItems  } = req.body;
   const { userId, address, phoneNumber } = JSON.parse(extraData); // Lấy thông tin người dùng từ extraData
-
+  
+  console.log(cartItems);
+  
   const MAX_AMOUNT_PER_DAY = 50000000; // Giới hạn số tiền thanh toán trong ngày (50 triệu)
   const MIN_AMOUNT = 10000; // Tối thiểu số tiền thanh toán
 
@@ -73,24 +75,64 @@ router.post('/create-payment', async (req, res) => {
     const response = await axios(options);
 
     // Lưu thông tin đơn hàng vào DB khi thanh toán qua MoMo
-    const orderQuery = `
+      const orderQuery = `
       INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
-    `;
-    await db.query(orderQuery, [
+      `;
+
+      // Thực hiện truy vấn và lưu kết quả vào biến `orderResult`
+      const orderResult = await db.query(orderQuery, [
       userId,
       amount,
       'momo',
-      'processing', 
+      'processing', // Trạng thái đơn hàng
       amount,
       address,
       phoneNumber,
-    ]);
+      ]);
 
+      // Lấy orderId của đơn hàng vừa tạo (insertId từ câu lệnh INSERT)
+      const orderIdFromDB = orderResult[0].insertId;
+
+      // Nếu orderIdFromDB không có giá trị (trường hợp lỗi), trả lỗi ngay
+      if (!orderIdFromDB) {
+      return res.status(500).json({
+        statusCode: 500,
+        message: 'Không thể tạo đơn hàng, vui lòng thử lại!',
+      });
+      }
+
+      // Sau khi đã có orderId, bạn có thể thực hiện chèn các chi tiết đơn hàng đồng thời
+      const insertOrderDetailsPromises = cartItems.map((item) => {
+      console.log('Saving cart item:', item);  // Log cart item
+
+      const { productId, productName, quantity, unitPrice, totalPrice, voucherCode, voucherDiscount } = item;
+
+      const orderDetailQuery = `
+        INSERT INTO order_details (order_id, product_id, product_name, quantity, unit_price, total_price, created_at, updated_at, voucher_code, voucher_discount)
+        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?)
+      `;
+
+      // Trả về Promise cho mỗi truy vấn chèn chi tiết đơn hàng
+      return db.query(orderDetailQuery, [
+        orderIdFromDB, // orderId đã có
+        productId,
+        productName,
+        quantity,
+        unitPrice,
+        totalPrice,
+        voucherCode || null,
+        voucherDiscount || 0
+      ]);
+      });
+
+      // Chờ tất cả các Promise hoàn thành
+      await Promise.all(insertOrderDetailsPromises);
+    
     console.log(`Thanh toán thành công, mã giao dịch: ${response.data}`);
     res.status(200).json(response.data);
   } catch (error) {
-    console.log(`Thanh toán thất bại: ${message}`);
+    console.error('Thanh toán thất bại:', error);  // Log toàn bộ lỗi
     res.status(500).json({ statusCode: 500, message: error.message });
     
   }
@@ -111,9 +153,6 @@ router.post('/callback', (req, res) => {
 
   return res.status(200).json({ message: `Callback nhận thành công, mã giao dịch: ${transId}` });
 });
-
-
-
 
 
 // API kiểm tra trạng thái giao dịch MoMo
@@ -157,7 +196,7 @@ router.post('/check-status', async (req, res) => {
 // API xử lý thanh toán khi nhận hàng (COD)
 router.post('/submit-cod-order', async (req, res) => {
   try {
-    const { user, totalAmount, shippingAddress } = req.body;
+    const { user, totalAmount, shippingAddress, cartItems } = req.body;
 
     if (!user || !user.id) {
       return res.status(400).json({ message: 'Thiếu thông tin người dùng hoặc ID người dùng.' });
@@ -170,7 +209,7 @@ router.post('/submit-cod-order', async (req, res) => {
         INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
     `;
-    await db.query(orderQuery, [
+    const orderResult = await db.query(orderQuery, [
       user.id,
       totalAmount,
       'cod',
@@ -179,7 +218,42 @@ router.post('/submit-cod-order', async (req, res) => {
       fullAddress,
       user.phoneNumber,
     ]);
-      
+      // Lấy orderId của đơn hàng vừa tạo (insertId từ câu lệnh INSERT)
+    const orderIdFromDB = orderResult[0].insertId;
+ // Kiểm tra xem orderIdFromDB có giá trị (trường hợp lỗi), trả lỗi ngay
+ if (!orderIdFromDB) {
+  return res.status(500).json({
+    statusCode: 500,
+    message: 'Không thể tạo đơn hàng, vui lòng thử lại!',
+  });
+}
+
+    // Sau khi đã có orderId, bạn có thể thực hiện chèn các chi tiết đơn hàng đồng thời
+    const insertOrderDetailsPromises = cartItems.map((item) => {
+      console.log('Saving cart item:', item);  // Log cart item
+
+      const { productId, productName, quantity, unitPrice, totalPrice, voucherCode, voucherDiscount } = item;
+
+      const orderDetailQuery = `
+        INSERT INTO order_details (order_id, product_id, product_name, quantity, unit_price, total_price, created_at, updated_at, voucher_code, voucher_discount)
+        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?)
+      `;
+
+      // Trả về Promise cho mỗi truy vấn chèn chi tiết đơn hàng
+      return db.query(orderDetailQuery, [
+        orderIdFromDB, // orderId đã có
+        productId,
+        productName,
+        quantity,
+        unitPrice,
+        totalPrice,
+        voucherCode || null,
+        voucherDiscount || 0
+      ]);
+    });
+
+    // Chờ tất cả các Promise hoàn thành
+    await Promise.all(insertOrderDetailsPromises);
 
     // Cập nhật địa chỉ và số điện thoại vào bảng users nếu cần
     const updateUserQuery = `
