@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service'; // Import UserService
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -83,7 +84,7 @@ export class RegisterComponent {
               }
             );
 
-            this.showPopup('Đăng ký thành công', true);
+            Swal.fire('Chúc mừng!', 'Đăng ký thành công!', 'success');
             // Điều hướng sau khi đăng ký thành công
             setTimeout(() => {
               this.router.navigate(['/user']);
@@ -94,7 +95,7 @@ export class RegisterComponent {
         },
         (error) => {
           console.error('Lỗi đăng ký:', error);
-          this.showPopup('Đăng ký không thành công. Vui lòng thử lại.', false);
+          Swal.fire('Lỗi!', 'Địa chỉ mail đã được sử dụng. Vui lòng thử lại!', 'error');
         }
       );
     }

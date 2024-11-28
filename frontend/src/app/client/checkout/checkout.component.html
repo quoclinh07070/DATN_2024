@@ -223,10 +223,15 @@
               </div>
               <ul>
                 <!-- Total price -->
-                <li class="clearfix">
+                <li *ngIf="appliedVoucher" class="clearfix">
+                  <strong>Voucher:</strong>
+                  <span>{{ appliedVoucher.voucher_code }} - Giảm {{ appliedVoucher.discount_percent }}%</span>
+                </li>
+                <li  class="clearfix">
                   <strong>TỔNG TIỀN</strong>
                   <span>{{ getTotal() | number : "1.0-0" }} ₫</span>
                 </li>
+                
                 <li class="clearfix">
                   <strong>VẬN CHUYỂN</strong>
                   <span class="free">Miễn phí vận chuyển</span>
@@ -278,6 +283,7 @@
               </div>
             </div>
             <div class="lower-box text-right">
+              <button class="theme-btn btn-style-one" type="button" (click)="calculateShippingFee()">Tính phí vận chuyển</button>
               <button class="theme-btn btn-style-one" (click)="onCheckout()">
                 Tiến hành thanh toán
               </button>
@@ -289,3 +295,4 @@
     </div>
   </div>
 </div>
+

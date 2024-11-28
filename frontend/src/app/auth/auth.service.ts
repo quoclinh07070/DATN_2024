@@ -182,7 +182,6 @@ checkUserRole(): Observable<boolean> {
   const accessToken = localStorage.getItem('accessToken');
 
   if (!userId || !accessToken) {
-    this.redirectToLogin();
     return throwError(() => new Error('Người dùng chưa đăng nhập.'));
   }
 
@@ -194,25 +193,13 @@ checkUserRole(): Observable<boolean> {
   return this.http.post(`${this.apiUrl}/admin`, {}, { headers }).pipe(
     tap((response: any) => {
       if (response.status !== 200) {
-        this.redirectToLogin();
       }
     }),
     catchError((error: any) => {
-      this.redirectToLogin();
       return throwError(() => new Error(error.error?.message || 'Lỗi xác thực quyền.'));
     }),
     tap(() => true)
   );
-}
-
-private redirectToLogin(): void {
-  // Xóa token và điều hướng về trang đăng nhập
-  // localStorage.removeItem('accessToken');
-  // localStorage.removeItem('refreshToken');
-  // localStorage.removeItem('userId');
-  // localStorage.removeItem('userName');
-  // localStorage.removeItem('userEmail');
-  window.location.href = '/admin/access-denied';
 }
 
   

@@ -11,6 +11,8 @@ router.post('/create-payment', async (req, res) => {
   const { amount, orderId, orderInfo } = req.body;
 
   const MAX_AMOUNT_PER_DAY = 50000000; // Giới hạn số tiền thanh toán trong ngày (50 triệu)
+  const MIN_AMOUNT = 10000; // Tối thiểu số tiền thanh toán
+
 
   // Kiểm tra số tiền thanh toán trong ngày
   try {
@@ -18,6 +20,11 @@ router.post('/create-payment', async (req, res) => {
       return res.status(400).json({
         statusCode: 400,
         message: `Số tiền thanh toán trên momo không được vượt quá 50.000.000đ/ngày!`,
+      });
+    }else if (amount < MIN_AMOUNT){
+      return res.status(401).json({
+        statusCode: 401,
+        message: `Số tiền thanh toán tối thiểu  10.000đ!`,
       });
     }
   } catch (error) {

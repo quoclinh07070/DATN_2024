@@ -55,11 +55,17 @@
                                   
                                     <div class="mb-3">
                                       <label for="categories_id" class="form-label">Loại sản phẩm</label>
-                                      <input type="text" id="categories_id" class="form-control" formControlName="categories_id" required>
+                                      <select id="categories_id" class="form-select" formControlName="categories_id" required>
+                                        <!-- <option value="" disabled selected>Chọn loại sản phẩm</option> -->
+                                        <option *ngFor="let category of categories" [value]="category.id">
+                                          {{ category.category_name }}
+                                        </option>
+                                      </select>
                                       <div *ngIf="productForm.get('categories_id')?.invalid && productForm.get('categories_id')?.touched" class="text-danger">
                                         Loại sản phẩm là bắt buộc.
                                       </div>
                                     </div>
+                                    
                                   
                                     <div class="mb-3">
                                       <label for="status" class="form-label">Trạng thái</label>

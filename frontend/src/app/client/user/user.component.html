@@ -1,38 +1,6 @@
 <div class="user-info-container formUser">
-  <!-- Popup Success Alert -->
-  <div
-    *ngIf="isPopupVisible"
-    class="popup-success-alert"
-    id="popupSuccessAlert"
-    role="alert"
-  >
-    <div class="popup-content">
-      <div [ngClass]="isSuccess ? 'icon-success' : 'icon-error'">
-        <span>{{ isSuccess ? "&#10003;" : "&#10007;" }}</span>
-      </div>
-      <p class="message">{{ popupMessage }}</p>
-      <button type="button" class="btn-close" (click)="closePopup()">
-        Đóng
-      </button>
-    </div>
-  </div>
 
   <h2><i class="bi bi-person-circle"></i> Thông Tin Người Dùng</h2>
-
-  <div *ngIf="!isLoggedIn" class="not-logged-in">
-    <p class="login-message">
-      Bạn chưa đăng nhập, vui lòng đăng nhập để xem thêm thông tin hoặc đăng ký
-      nếu chưa có tài khoản!
-    </p>
-    <div class="auth-buttons">
-      <button class="login-btn" (click)="navigateToLogin()">Đăng Nhập</button>
-      <button class="register-btn" (click)="navigateToRegister()">
-        Đăng Ký
-      </button>
-    </div>
-  </div>
-
-  <div *ngIf="isLoggedIn">
     <div class="container-xl px-4 mt-4">
       <!-- Account page navigation-->
       <nav class="nav nav-borders">
@@ -199,7 +167,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <script></script>

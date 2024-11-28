@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -75,65 +76,15 @@ export class LoginComponent {
       (response) => {
         if (response.metadata.tokens && response.metadata.tokens.accessToken) {
           localStorage.setItem('token', response.metadata.tokens.accessToken);
-          this.showPopup('Đăng nhập thành công!', true);
-          setTimeout(() => {this.router.navigate(['/user']);}, 2000);
+          Swal.fire('Xong!', 'Đăng nhập thành công!', 'success');
+          setTimeout(() => {this.router.navigate(['/']);}, 2000);
         } else {
-          this.showPopup('Không nhận được token từ server.', false);
+          Swal.fire('Lỗi!', 'Có lỗi xảy ra trong quá trình đăng nhập!', 'error');
         }
       },
       (error) => {
-        this.showPopup('Đăng nhập không thành công ! Vui lòng thử lại', false);
+        Swal.fire('Lỗi!', 'Đăng nhập không thành công ! Vui lòng thử lại', 'error');
       }
     );
-  }
-
-  showSignupPopup() {
-    this.isSignupVisible = true;
-  }
-
-  closeSignupPopup() {
-    this.isSignupVisible = false;
-    this.signupForm.reset();
-    this.signupErrorMessage = '';
-  }
-
-  showPopup(message: string, isSuccess: boolean) {
-    this.popupMessage = message;
-    this.isSuccess = isSuccess;
-    this.isPopupVisible = true;
-    setTimeout(() => this.closePopup(), 4000);
-  }
-  
-
-  closePopup() {
-    this.isPopupVisible = false;
-  }
-
-  handleSignup() {
-    if (this.signupForm.valid) {
-      const { name, email, password } = this.signupForm.value;
-      this.authService.signup(name, email, password).subscribe(
-        (response) => {
-          if (response.metadata?.tokens?.accessToken) {
-            // Lưu thông tin token và user vào localStorage
-            localStorage.setItem('accessToken', response.metadata.tokens.accessToken);
-            localStorage.setItem('refreshToken', response.metadata.tokens.refreshToken);
-            localStorage.setItem('userId', response.metadata.user.user_id);
-            localStorage.setItem('userName', response.metadata.user.name);
-            localStorage.setItem('userEmail', response.metadata.user.email);
-
-            this.closeSignupPopup();
-            this.showPopup('Đăng ký thành công', true);
-            this.router.navigate(['/login']);
-          } else {
-            this.signupErrorMessage = 'Đăng ký không thành công. Vui lòng thử lại.';
-          }
-        },
-        (error) => {
-          console.error('Lỗi đăng ký:', error);
-          this.showPopup('Đăng ký không thành công. Vui lòng thử lại.', false);
-        }
-      );
-    }
   }
 }

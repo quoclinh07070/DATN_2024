@@ -181,7 +181,7 @@ exports.resetPassword = async (req, res) => {
         const user = rows[0]; // Lấy hàng đầu tiên từ kết quả truy vấn
 
         if (!user) {
-            return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn!" });
+            return res.status(400).json({ message: "Link đổi mật khẩu không hợp lệ hoặc đã hết hạn!" });
         }
 
         // Hash mật khẩu mới (sử dụng bcrypt hoặc thư viện hash khác)
