@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';  // Đổi thành PostService
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 @Component({
@@ -23,16 +24,16 @@ export class AdminPostComponent implements OnInit {
     itemsPerPage: number = 8; // Số mục hiển thị trên mỗi tran
 
   constructor(private postService: PostService) {}
-  
+
   ngOnInit(): void {
-    this.getAllPosts();  // Gọi hàm khi component được khởi tạo
+    this.getAllPosts();
   }
-  
+
   getAllPosts(): void {
     this.postService.getAllPosts().subscribe(
       (response: any) => {
-        this.posts = response.posts;  // Gán dữ liệu vào mảng posts
-        this.filteredPosts = this.posts;  // Mặc định không lọc, hiển thị tất cả
+        this.posts = response.posts;
+        this.filterPosts();  // Initialize filtered list based on current filter
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu bài viết:', error);
@@ -71,9 +72,9 @@ export class AdminPostComponent implements OnInit {
   }
 
   getImageUrl(imageName: string): string {
-    return this.postService.getImageUrl(imageName); // Gọi phương thức từ service
+    return this.postService.getImageUrl(imageName);
   }
-  
+
   deletePost(id: number): void {
     Swal.fire({
       title: 'Xác nhận',

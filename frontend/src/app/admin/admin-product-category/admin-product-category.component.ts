@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-product-category',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './admin-product-category.component.html',
   styleUrl: './admin-product-category.component.css'
 })
@@ -25,11 +25,11 @@ export class AdminProductCategoryComponent {
    currentPage: number = 1; // Trang hiện tại
    itemsPerPage: number = 4; // Số mục hiển thị trên mỗi trang
 
-  constructor(private categoryService: CategoryService) {}
+constructor(private categoryService: CategoryService) {}
 
-  ngOnInit(): void {
-    this.getAllCategories();
-  }
+ngOnInit(): void {
+  this.getAllCategories();  // Gọi hàm khi component được khởi tạo
+}
 
   getAllCategories(): void {
     this.categoryService.getAllCategories().subscribe(
@@ -76,9 +76,9 @@ export class AdminProductCategoryComponent {
     this.currentPage = page;
   }
 
-  getImageUrl(imageName: string): string {
-    return this.categoryService.getImageUrl(imageName);
-  }
+getImageUrl(imageName: string): string {
+  return this.categoryService.getImageUrl(imageName); // Gọi phương thức từ service
+}
 
 
 deleteCategory(id: number): void {
