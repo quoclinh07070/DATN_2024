@@ -268,59 +268,47 @@
                         </div>
                       </div>
                       <!-- Reviews List -->
-                      <div
-                        *ngIf="filteredReviews.length > 0"
-                        class="reviews-list mt-5"
-                      >
+                      <div *ngIf="displayedReviews.length > 0" class="reviews-list mt-5">
                         <h2 class="fw-bold">
-                          {{ filteredReviews.length }} Đánh giá cho
-                          {{ product.name }}
+                          {{ displayedReviews.length }} Đánh giá cho {{ product.name }}
                         </h2>
+                      
                         <div
-                          *ngFor="let review of filteredReviews; let i = index"
-                          class="review-item mt-4 p-3 border rounded"
+                          *ngFor="let review of displayedReviews; let i = index"
                           [ngClass]="{ 'd-none': i >= visibleReviews }"
+                          class="review-item mt-4 p-3 border rounded"
                         >
                           <!-- Review Header -->
-                          <div
-                            class="d-flex justify-content-between align-items-center mb-2"
-                          >
+                          <div class="d-flex justify-content-between align-items-center mb-2">
                             <p class="mb-0">
                               <strong>{{ review.fullname }}</strong> -
                               <span class="text-warning">
-                                <ng-container
-                                  *ngFor="let star of [1, 2, 3, 4, 5]"
-                                >
+                                <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
                                   <i
                                     class="fa"
-                                    [ngClass]="
-                                      star <= review.rating
-                                        ? 'fa-star'
-                                        : 'fa-star-o'
-                                    "
+                                    [ngClass]="star <= review.rating ? 'fa-star' : 'fa-star-o'"
                                   ></i>
                                 </ng-container>
                               </span>
                             </p>
-                            <small class="text-secondary">{{
-                              review.created_at | date : "dd/MM/yyyy"
-                            }}</small>
+                            <small class="text-secondary">
+                              {{ review.created_at | date : 'dd/MM/yyyy' }}
+                            </small>
                           </div>
-
+                      
                           <!-- Review Content -->
-                          <p class="text-muted mb-1">
-                            {{ review.reviews_text }}
-                          </p>
+                          <p class="text-muted mb-1">{{ review.reviews_text }}</p>
                         </div>
-
+                      
                         <button
-                          *ngIf="filteredReviews.length > visibleReviews"
+                          *ngIf="displayedReviews.length > visibleReviews"
                           (click)="loadMore()"
                           class="btn btn-link load-more-btn"
                         >
                           Xem thêm
                         </button>
                       </div>
+                      
                     </div>
                   </div>
                 </div>

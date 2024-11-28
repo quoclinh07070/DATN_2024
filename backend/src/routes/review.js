@@ -8,6 +8,9 @@ router.post('/reviews', reviewController.createReview);
 // Route để lấy tất cả đánh giá của một sản phẩm
 router.get('/reviews/:product_id', reviewController.getProductReviews);
 
+// Tất cả đánh giá
+router.get('/review', reviewController.getAllReviews);
+
 // Route để cập nhật đánh giá
 router.put('/reviews/:id', reviewController.updateReview);
 
@@ -15,7 +18,6 @@ router.put('/reviews/:id', reviewController.updateReview);
 router.delete('/reviews/:id', reviewController.deleteReview);
 
 // Route để lấy đánh giá theo ID
-router.get('/reviews/id/:id', reviewController.getReviewById);
-
+router.get('/reviews/reviewid/:id', reviewController.getReviewById);
 
 module.exports = router;

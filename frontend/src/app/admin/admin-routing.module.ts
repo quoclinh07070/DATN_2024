@@ -33,7 +33,8 @@ import { AdminEditComponent } from './admin-post/admin-edit/admin-edit.component
 import { AdminVoucherComponent } from './admin-voucher/admin-voucher.component';
 import { AdminAddVoucherComponent } from './admin-voucher/admin-add-voucher/admin-add-voucher.component';
 import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/admin-edit-voucher.component';
-
+//Review
+import { AdminReviewComponent } from './admin-review/admin-review.component';
 
 //wishlistitems
 // import { AdminWishlistitemsComponent } from './admin-wishlistitems/admin-wishlistitems.component';
@@ -68,6 +69,8 @@ const adminRoutes: Routes = [
 
     { path: 'order', component: AdminOrderComponent },//////
     { path: 'order/edit/:id', component: AdminOrderEditComponent },////////
+    
+    { path: 'review', component: AdminReviewComponent },
 
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 

@@ -141,14 +141,20 @@ export class ProductDetailsComponent implements OnInit {
       this.filteredReviews = this.reviews; // Nếu không chọn sao, hiển thị tất cả đánh giá
     }
   }
+    
+  get displayedReviews() {
+    return this.filteredReviews.filter(review => review.status === 1);
+  }
+
   loadMore() {
     this.visibleReviews += 3; // Tăng số lượng bình luận hiển thị mỗi lần nhấn
   }
+
   setDisplayOption(option: string) {
     this.displayOption = option;
     this.filterReviews();
   }
-
+  
   filterReviews() {
     const currentDate = new Date();
     const threeDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 3));
@@ -199,7 +205,5 @@ export class ProductDetailsComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-
-
     
 }
