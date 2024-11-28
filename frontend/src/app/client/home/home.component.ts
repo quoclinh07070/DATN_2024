@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
+import { PostService } from '../../services/post.service'; // Import PostService
 import { RouterLink } from '@angular/router';
-import { CartService } from '../../services/cart.service'; // Import CartService
+import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 
 
@@ -10,34 +11,34 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'], // Sửa lỗi nhỏ: "styleUrl" => "styleUrls"
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   products: any[] = []; // Tất cả sản phẩm
-  newestProducts: any[] = []; // Danh sách sản phẩm sắp xếp theo ngày mới nhất
+  newestProducts: any[] = []; // Sản phẩm mới nhất
+  posts: any[] = []; // Danh sách bài viết
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService // Inject CartService
+    private postService: PostService, // Inject PostService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
-    this.getNewestProducts(); // Gọi hàm lấy danh sách sản phẩm mới nhất
+    this.getNewestProducts(); // Lấy sản phẩm mới nhất
+    this.getAllPosts(); // Lấy danh sách bài viết
   }
 
-  // Hàm gọi API để lấy danh sách tất cả sản phẩm và sắp xếp theo ngày
+  // Lấy danh sách sản phẩm mới nhất
   getNewestProducts(): void {
     this.productService.getAllProducts().subscribe(
       (response: any) => {
         this.products = response.products;
-
-        // Sắp xếp sản phẩm theo ngày mới nhất (giả sử `created_at` là ngày tạo sản phẩm)
-        this.newestProducts = this.products.sort((a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-
-        // Giới hạn chỉ hiển thị 6 sản phẩm mới nhất
-        this.newestProducts = this.newestProducts.slice(0, 8);
+        this.newestProducts = this.products
+          .sort((a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          )
+          .slice(0, 8); // Giới hạn 8 sản phẩm
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
@@ -45,7 +46,19 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  // Hàm lấy URL hình ảnh sản phẩm
+  // Lấy danh sách bài viết
+  getAllPosts(): void {
+    this.postService.getAllPosts().subscribe(
+      (response: any) => {
+        this.posts = response.posts.slice(0, 3); // Lấy tối đa 6 bài viết
+      },
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu bài viết:', error);
+      }
+    );
+  }
+
+  // Lấy URL hình ảnh
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
   }
@@ -54,7 +67,6 @@ export class HomeComponent implements OnInit {
   addToCart(product: any, quantity: number = 1): void {
     if (product.quantity > 0) {
       const success = this.cartService.addToCart(product, quantity);
-
       if (success) {
         alert('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {

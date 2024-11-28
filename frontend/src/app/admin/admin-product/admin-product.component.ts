@@ -8,14 +8,13 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-product',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule],
   providers: [ProductService],
   templateUrl: './admin-product.component.html',
   styleUrls: ['./admin-product.component.css']
 })
 export class AdminProductComponent implements OnInit {
   products: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm
-  filteredProducts: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm đã lọc
   priceForm: FormGroup;
   loading: boolean = true;
   errorMessage: string = '';
@@ -48,7 +47,6 @@ export class AdminProductComponent implements OnInit {
     this.productService.getAllProducts().subscribe(
       (response: any) => {
         this.products = response.products;  // Gán dữ liệu vào mảng products
-        this.filterProducts();  // Lọc sản phẩm sau khi nhận được dữ liệu
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
@@ -140,5 +138,6 @@ export class AdminProductComponent implements OnInit {
       }
     });
   }
+  
   
 }

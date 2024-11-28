@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-order',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],  // Include FormsModule here
+  imports: [RouterLink, CommonModule],
   providers: [OrderService],
   templateUrl: './admin-order.component.html',
   styleUrls: ['./admin-order.component.css']
@@ -25,14 +25,13 @@ export class AdminOrderComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
-    this.getAllOrders();  // Fetch all orders on init
+    this.getAllOrders();  // Gọi hàm khi component được khởi tạo
   }
 
   getAllOrders(): void {
     this.orderService.getAllOrders().subscribe(
       (response: any) => {
-        this.orders = response.orders;  // Store orders
-        this.filteredOrders = this.orders;  // Initialize filteredOrders with all orders
+        this.orders = response.orders;  // Gán dữ liệu vào mảng orders
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu đơn hàng:', error);

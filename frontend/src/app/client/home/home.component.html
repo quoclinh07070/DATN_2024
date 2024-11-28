@@ -8,13 +8,13 @@
     </ol>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="d-block w-100" src="./assets/client/images/banner/banner.png" alt="First slide">
+        <img class="d-block w-100" src="./assets/client/images/banner/Banner.png" alt="First slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/client/images/banner/banner2.png" alt="Second slide">
+        <img class="d-block w-100" src="./assets/client/images/banner/Banner1.png" alt="Second slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/client/images/banner/banner3.png" alt="Third slide">
+        <img class="d-block w-100" src="./assets/client/images/banner/Banner2.png" alt="Third slide">
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -33,116 +33,113 @@
     <div class="auto-container">
       <div class="row clearfix">
   
-        <!--Content Side-->
         <div class="content-side col-xl-12 col-lg-12 col-md-12 p-5">
-          <h2 class="text-center fw-bold text-dark mb-4">TẤT CẢ SẢN PHẨM</h2>
-          <div class="our-shop">
-            <div class="row g-4">
-              <div
-                class="col-lg-3 col-md-4 col-sm-6"
-                *ngFor="let product of newestProducts"
-              >
-                <div class="product-card shadow-sm">
-                  <div class="image-box position-relative">
-                    <img
-                      [src]="getImageUrl(product.image)"
-                      alt="{{ product.name }}"
-                      class="w-100 img-fluid rounded"
-                    />
-                    <div class="overlay d-flex justify-content-center align-items-center">
-                      <a [routerLink]="['/product-detail', product.id]" class="btn btn-light">
-                        Xem chi tiết
-                      </a>
+          <h2 class="text-center fw-bold text-dark mb-4">SẢN PHẨM MỚI NHẤT</h2>
+          <div class="content-side col-xl-12 col-lg-12 col-md-12 p-5">
+            <div class="our-shop">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- Lặp qua danh sách sản phẩm -->
+                <div *ngFor="let product of newestProducts" class="col">
+                  <!-- Card Bootstrap -->
+                  <div class="card shadow-sm border-0 h-100">
+                    <!-- Hình ảnh sản phẩm -->
+                    <div class="card-header bg-transparent position-relative p-0 image-box">
+                      <!-- Badge giảm giá -->
+                      <div *ngIf="product.discount > 0">
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                          -{{ product.discount }}%
+                        </span>
+                      </div>
+                      <img
+                        [src]="getImageUrl(product.image)"
+                        alt="{{ product.name }}"
+                        class="card-img-top img-fluid rounded"
+                        style="height: 220px; object-fit: cover;"
+                      />
                     </div>
-                  </div>
-                  <div class="product-info text-center mt-3">
-                    <h5 class="text-truncate">{{ product.name }}</h5>
-                    <p class="price text-danger fw-bold mb-0">
-                      {{ product.price | number:'1.0-0' }} ₫
+                    <!-- Nội dung sản phẩm -->
+                    <div class="card-body text-center">
+                      <h6
+                        class="card-title text-truncate fw-bold text-primary"
+                        style="max-width: 220px; margin: 0 auto; font-size: 1rem;"
+                      >
+                        <a
+                          [routerLink]="['/product-detail', product.id]"
+                          class="text-decoration-none"
+                          style="color: #007bff;"
+                        >
+                          {{ product.name }}
+                        </a>
+                      </h6>
+                      <div class="price mt-3">
+                        <ng-container *ngIf="product.discount > 0; else noDiscount">
+                          <span class="text-danger fw-bold" style="font-size: 1.2rem;">
+                            {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                          </span>
+                          <span class="text-muted text-decoration-line-through ms-2" style="font-size: 0.9rem;">
+                            {{ product.price | number:'1.0-0' }} ₫
+                          </span>
+                        </ng-container>
+                        <ng-template #noDiscount>
+                          <span class="current-price text-success fw-bold" style="font-size: 1.2rem;">
+                            {{ product.price | number:'1.0-0' }} ₫
+                          </span>
+                        </ng-template>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        
-      <!--Post Share Options-->
-      <div class="styled-pagination">
-        <ul class="clearfix">
-          <li class="prev-post"><a href="#"><span class="fa fa-long-arrow-left"></span> Prev</a></li>
-          <li><a href="#">1</a></li>
-          <li class="active"><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li class="next-post"><a href="#"> Next <span class="fa fa-long-arrow-right"></span> </a></li>
-        </ul>
-      </div>
-    </div>
+          
+          
+      
   
     <!-- News Section -->
     <section class="news-section">
       <div class="auto-container">
         <div class="sec-title">
           <span class="float-text">Blogs</span>
-          <h2 class="text-center fw-bold text-dark mb-3">BÀI VIẾT NỔI BẬT</h2>
+          <h2 class="text-center fw-bold text-dark mb-3">BÀI VIẾT MỚI NHẤT</h2>
         </div>
         <div class="row">
-          <!-- News Block -->
-          <div class="news-block col-lg-4 col-md-6 col-sm-12">
-            <div class="inner-box">
-              <div class="image-box">
-                <figure class="image"><img src="assets/client/images/resource/news-1.jpg" alt=""></figure>
-                <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a>
+            <div class="container">
+               
+                <div class="row g-4">
+                  <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let post of posts">
+                    <div class="card shadow-sm blog-card">
+                        <div class="image-box position-relative" [routerLink]="['/blog/blog-detail', post.id]">
+                            <img
+                                [src]="getImageUrl(post.image_url)"
+                                alt="{{ post.title }}"
+                                class="w-100 img-fluid rounded"
+                            />
+                            <!-- Đảm bảo căn giữa overlay -->
+                            <div class="overlay d-flex justify-content-center align-items-center">
+                                <a [routerLink]="['/blog/blog-detail', post.id]" class="text-white">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body" [routerLink]="['blog/blog-detail', post.id]">
+                            <h5 class="card-title text-truncate">{{ post.title }}</h5>
+                            <p class="card-text text-muted small mb-2">
+                                {{ post.created_at | date: 'dd/MM/yyyy' }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="caption-box">
-                <h3><a href="blog-detail.html">In Good Taste: Mark Finlay Architects &
-                    Interiors.</a></h3>
-                <ul class="info">
-                  <li>06 June 2018,</li>
-                  <li>John Smith</li>
-                </ul>
-              </div>
-            </div>
+              
           </div>
   
           <!-- News Block -->
-          <div class="news-block col-lg-4 col-md-6 col-sm-12">
-            <div class="inner-box">
-              <div class="image-box">
-                <figure class="image"><img src="assets/client/images/resource/news-2.jpg" alt=""></figure>
-                <div class="overlay-box"><a href=""><i class="fa fa-link"></i></a>
-                </div>
-              </div>
-              <div class="caption-box">
-                <h3><a href="">The Lexury Apartment of sepcial interiors.</a></h3>
-                <ul class="info">
-                  <li>06 June 2018,</li>
-                  <li>John Smith</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-  
-          <!-- News Block -->
-          <div class="news-block col-lg-4 col-md-6 col-sm-12">
-            <div class="inner-box">
-              <div class="image-box">
-                <figure class="image"><img src="assets/client/images/resource/news-3.jpg" alt=""></figure>
-                <div class="overlay-box"><a href="blog-detail.html"><i class="fa fa-link"></i></a>
-                </div>
-              </div>
-              <div class="caption-box">
-                <h3><a href="blog-detail.html">The Business metting room interior in the rank.</a>
-                </h3>
-                <ul class="info">
-                  <li>06 June 2018,</li>
-                  <li>John Smith</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          
+       
+      
     </section>
     <!--End News Section -->
   

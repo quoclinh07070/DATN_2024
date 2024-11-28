@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+// import { PostCategoriesService } from '../../services/postcategories';
 import { RouterLink } from '@angular/router';
 import { PostCategoryService } from '../../services/postcategory.service';
 import { CommonModule } from '@angular/common';
@@ -7,9 +8,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-post-category',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './admin-post-category.component.html',
-  styleUrls: ['./admin-post-category.component.css']
+  styleUrl: './admin-post-category.component.css'
 })
 export class AdminPostCategoryComponent implements OnInit {
   postcategories: any[] = [];  // Array to store all categories
@@ -23,15 +24,13 @@ export class AdminPostCategoryComponent implements OnInit {
   constructor(private postCategoryService: PostCategoryService) {}
 
   ngOnInit(): void {
-    this.getAllCategories();  // Fetch categories when the component is initialized
+    this.getAllCategories();  // Call function on component initialization
   }
 
-  // Function to fetch all categories
   getAllCategories(): void {
     this.postCategoryService.getAllPostCategories().subscribe(
       (response: any) => {
-        this.postcategories = response.postcategories;  // Store categories in postcategories
-        this.filteredCategories = this.postcategories;  // Initially, show all categories
+        this.postcategories = response.postcategories;  // Gán dữ liệu vào mảng postcategories
       },
       (error) => {
         console.error('Error fetching categories:', error);
@@ -72,10 +71,9 @@ export class AdminPostCategoryComponent implements OnInit {
 
   // Function to get image URL for categories
   getImageUrl(imageName: string): string {
-    return this.postCategoryService.getImageUrl(imageName);  // Call method from service
+    return this.postCategoryService.getImageUrl(imageName); // Gọi phương thức từ service
   }
-
-  // Function to delete a category
+  
   deleteCategory(id: number): void {
     Swal.fire({
       title: 'Xác nhận',
@@ -120,5 +118,6 @@ export class AdminPostCategoryComponent implements OnInit {
       }
     });
   }
+  
   
 }
