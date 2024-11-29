@@ -135,16 +135,21 @@
                   <li class="panel-outer">
                     <div class="form-container">
                       <form (submit)="onSearchSubmit($event)">
-                        <div class="form-group">
-                          <input type="search" name="field-name" [(ngModel)]="searchValue" placeholder="Tìm kiếm sản phẩm..." required />
-                          <button type="submit" class="search-btn">
+                        <div class="form-group d-flex align-items-center">
+                          <input type="search" name="field-name" [(ngModel)]="searchValue" class="form-control" placeholder="Tìm kiếm sản phẩm..." required />
+                          <button type="submit" class="btn btn-primary ml-2">
                             <span class="fa fa-search"></span>
+                          </button>
+                          <button type="button" (click)="startVoiceSearch()" class="btn btn-outline-primary ml-2">
+                            <span class="fa fa-microphone"></span>
                           </button>
                         </div>
                       </form>
                     </div>
                   </li>
                 </ul>
+                
+                
               </div>
             </div>
             
