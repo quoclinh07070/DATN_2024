@@ -1,12 +1,5 @@
-<div
-  class="page-wrapper"
-  id="main-wrapper"
-  data-layout="vertical"
-  data-navbarbg="skin6"
-  data-sidebartype="full"
-  data-sidebar-position="fixed"
-  data-header-position="fixed"
->
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed">
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
@@ -14,127 +7,47 @@
           <div class="d-flex justify-content-between align-items-center mt-2">
             <h3 class="mb-0">BÌNH LUẬN BÀI VIẾT</h3>
           </div>
-
-          <div class="d-flex align-items-center mt-3">
-            <label for="filterStatus" class="mr-2">Lọc trạng thái:</label>
-            <select
-              class="form-control w-25"
-              id="filterStatus"
-              [(ngModel)]="selectedStatus"
-              (change)="filterComments()"
-            >
-              <option value="">Tất cả</option>
-              <option value="visible">Hiển thị</option>
-              <option value="hidden">Ẩn</option>
-            </select>
-          </div>
-
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered text-nowrap">
-                  <thead class="table-dark text-white text-center align-middle">
+
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead class="table-primary">
                     <tr>
-                      <th scope="col" class="py-3">ID</th>
-                      <th scope="col" class="py-3">ID Bài viết</th>
-                      <th scope="col" class="py-3">ID Người dùng</th>
-                      <th scope="col" class="py-3">Bình luận</th>
-                      <th scope="col" class="py-3">Trạng thái</th>
-                      <th scope="col" class="py-3">Thao tác</th>
+                      <th>ID</th>
+                      <th>ID Bài viết</th>
+                      <th>ID Người dùng</th>
+                      <th>Bình luận</th>
+                      <th>Trạng thái</th>
+                      <!-- <th>Ngày tạo</th> -->
+                      <!-- <th>Ngày sửa</th> -->
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      *ngFor="let commentpost of getPagedData()"
-                      [ngClass]="{
-                        'table-light': commentpost.status === 'visible',
-                        'table-danger': commentpost.status === 'hidden'
-                      }"
-                    >
-                      <th scope="row" class="text-center align-middle">
-                        {{ commentpost.id }}
-                      </th>
-                      <td class="text-center align-middle">
-                        {{ commentpost.posts_id }}
-                      </td>
-                      <td class="text-center align-middle">
-                        {{ commentpost.users_id }}
-                      </td>
-                      <td
-                        class="text-center align-middle text-truncate"
-                        style="max-width: 120px"
-                      >
-                        {{ commentpost.comment }}
-                      </td>
-                      <td class="text-center align-middle">
-                        <span
-                          class="badge"
-                          [ngClass]="{
-                            'bg-success': commentpost.status === 'visible',
-                            'bg-danger': commentpost.status === 'hidden'
-                          }"
-                        >
-                          {{
-                            commentpost.status === "visible" ? "Hiển thị" : "Ẩn"
-                          }}
+                    <tr *ngFor="let commentpost of commentposts"
+                      [ngClass]="{'table-light': commentpost.status === 'visible', 'table-danger': commentpost.status === 'hidden'}">
+                      <th scope="row">{{ commentpost.id }}</th>
+                      <td>{{ commentpost.posts_id }}</td>
+                      <td>{{ commentpost.users_id }}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{ commentpost.comment }}</td>
+                      <td>
+                        <span class="badge"
+                          [ngClass]="{'bg-success': commentpost.status === 'visible', 'bg-danger': commentpost.status === 'hidden'}">
+                          {{ commentpost.status === 'visible' ? 'Hiển thị' : 'Ẩn' }}
                         </span>
                       </td>
-                      <td class="text-center align-middle">
-                        <div
-                          class="d-flex justify-content-center align-items-center gap-2"
-                        >
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-danger"
-                            (click)="deleteCommentPost(commentpost.id)"
-                          >
-                            Xóa
-                          </button>
-                        </div>
+                      <!-- <td>{{ commentpost.created_at | date: 'short' }}</td> -->
+                      <!-- <td>{{ commentpost.updated_at | date: 'short' }}</td> -->
+                      <td>
+                        <!-- <a class="btn btn-info btn-sm" routerLink="edit/{{ commentpost.id }}">Sửa</a> -->
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteCommentPost(commentpost.id)">
+                          Xóa
+                        </button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-
-                <div class="d-flex justify-content-center mt-3">
-                  <nav>
-                    <ul class="pagination">
-                      <li
-                        class="page-item"
-                        [class.disabled]="currentPage === 1"
-                      >
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage - 1)"
-                          [disabled]="currentPage === 1"
-                        >
-                          Trước
-                        </button>
-                      </li>
-                      <li
-                        class="page-item"
-                        *ngFor="let page of getPaginationArray()"
-                        [class.active]="page === currentPage"
-                      >
-                        <button class="page-link" (click)="goToPage(page)">
-                          {{ page }}
-                        </button>
-                      </li>
-                      <li
-                        class="page-item"
-                        [class.disabled]="currentPage === getTotalPages()"
-                      >
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage + 1)"
-                          [disabled]="currentPage === getTotalPages()"
-                        >
-                          Tiếp theo
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
               </div>
             </div>
           </div>

@@ -21,11 +21,15 @@ export class AdminProductCategoryComponent {
   selectedParentCategory: string = '';
   selectedStatus: string = '';
 
+<<<<<<< HEAD
    // Thuộc tính phân trang
    currentPage: number = 1; // Trang hiện tại
    itemsPerPage: number = 4; // Số mục hiển thị trên mỗi trang
 
 constructor(private categoryService: CategoryService) {}
+=======
+  constructor(private categoryService: CategoryService) {}
+>>>>>>> d58cdb7109333951d275d7d475f1a6a37f05a0f0
 
 ngOnInit(): void {
   this.getAllCategories();  // Gọi hàm khi component được khởi tạo
@@ -57,23 +61,6 @@ ngOnInit(): void {
 
       return matchesSearchTerm && matchesParentCategory && matchesStatus;
     });
-  }
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredCategories.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredCategories.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
   }
 
 getImageUrl(imageName: string): string {

@@ -19,10 +19,6 @@ export class AdminPostComponent implements OnInit {
   searchTerm: string = '';  // Biến để lưu giá trị tìm kiếm
   selectedStatus: string = '';  // Biến để lưu giá trị lọc trạng thái
 
-    // Thuộc tính phân trang
-    currentPage: number = 1; // Trang hiện tại
-    itemsPerPage: number = 8; // Số mục hiển thị trên mỗi tran
-
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
@@ -52,23 +48,6 @@ export class AdminPostComponent implements OnInit {
       
       return matchesSearchTerm && matchesStatus;
     });
-  }
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredPosts.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredPosts.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
   }
 
   getImageUrl(imageName: string): string {

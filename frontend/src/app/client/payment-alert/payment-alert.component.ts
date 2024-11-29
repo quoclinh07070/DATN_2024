@@ -1,13 +1,13 @@
 // payment-alert.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,RouterLink } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-payment-alert',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './payment-alert.component.html',
   styleUrl: './payment-alert.component.css',
 })

@@ -10,86 +10,31 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered text-nowrap">
-                  <thead class="table-dark text-white text-center align-middle">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead class="table-primary">
                     <tr>
-                      <th scope="col" class="py-3">ID</th>
-                      <th scope="col" class="py-3">Tên danh mục</th>
-                      <th scope="col" class="py-3">Hình ảnh</th>
-                      <th scope="col" class="py-3">Thao tác</th>
+                      <th>ID</th>
+                      <th>Tên danh mục</th>
+                      <!-- <th>ID danh mục cha</th> -->
+                      <th>Hình ảnh</th>
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                    *ngFor="let postcategory of getPagedData()"
-                  >
-                    <th scope="row" class="text-center align-middle">{{ postcategory.id }}</th>
-                    <td class="text-center align-middle text-truncate" style="max-width: 100px;">
-                      {{ postcategory.name }}
-                    </td>
-                    <td class="text-center align-middle">
-                      <img
-                        *ngIf="postcategory.image_url"
-                        [src]="getImageUrl(postcategory.image_url)"
-                        alt="{{ postcategory.name }}"
-                        class="img-thumbnail"
-                        style="max-width: 60px; height: auto;"
-                      />
-                    </td>
-                    <td class="text-center align-middle">
-                      <div class="d-flex justify-content-center align-items-center gap-2">
-                        <a
-                          class="btn btn-sm btn-info"
-                          routerLink="edit/{{ postcategory.id }}"
-                        >
-                          Sửa
-                        </a>
-                        <button
-                          type="button"
-                          class="btn btn-sm btn-danger"
-                          (click)="deleteCategory(postcategory.id)"
-                        >
-                          Xóa
-                        </button>
-                      </div>
-                    </td>
-                  </tr>                  
+                    <tr *ngFor="let postcategory of filteredCategories">
+                      <th scope="row">{{postcategory.id}}</th>
+                      <td class="text-truncate" style="max-width: 100px;">{{postcategory.name}}</td>
+                      <!-- <td>{{postcategory.parentCategoryID || 'N/A'}}</td> -->
+                      <td>
+                        <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{postcategory.name}}" class="img-fluid" style="max-width: 60px;">
+                      </td>
+                      <td>
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{postcategory.id}}">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteCategory(postcategory.id)">Xóa</button>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-                <div class="d-flex justify-content-center mt-3">
-                  <nav>
-                    <ul class="pagination">
-                      <li class="page-item" [class.disabled]="currentPage === 1">
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage - 1)"
-                          [disabled]="currentPage === 1"
-                        >
-                          Trước
-                        </button>
-                      </li>
-                      <li
-                        class="page-item"
-                        *ngFor="let page of getPaginationArray()"
-                        [class.active]="page === currentPage"
-                      >
-                        <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
-                      </li>
-                      <li
-                        class="page-item"
-                        [class.disabled]="currentPage === getTotalPages()"
-                      >
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage + 1)"
-                          [disabled]="currentPage === getTotalPages()"
-                        >
-                          Tiếp theo
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
               </div>
             </div>
           </div>

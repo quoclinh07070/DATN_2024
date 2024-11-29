@@ -1,84 +1,92 @@
-import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { HttpClient } from '@angular/common/http'; // Sử dụng HttpClient cho các yêu cầu HTTP
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 
+=======
+import { HttpClient } from '@angular/common/http';  // Thêm HttpClient để gửi request
+import Swal from 'sweetalert2';
+>>>>>>> d58cdb7109333951d275d7d475f1a6a37f05a0f0
 @Component({
   selector: 'app-admin-user',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule, RouterModule],
-  providers: [UserService, AuthService],
+  imports: [RouterLink, CommonModule],
+  providers: [UserService],
   templateUrl: './admin-user.component.html',
-  styleUrls: ['./admin-user.component.css'], // Đổi từ `styleUrl` thành `styleUrls` để đúng cú pháp
+  styleUrl: './admin-user.component.css'
 })
 export class AdminUserComponent implements OnInit {
-  users: any[] = [];
-  filteredUsers: any[] = [];
-  searchTerm: string = '';
-  selectedStatus: string = '';
-  selectedRole: string = '';
-  userToDelete: any = null;
-  deleteReason: string = '';
-  deleteReasonError: string = ''; // Thêm thuộc tính này
-  // Thuộc tính phân trang
-  currentPage: number = 1; // Trang hiện tại
-  itemsPerPage: number = 5; // Số mục hiển thị trên mỗi trang
+  users: any[] = [];  // Khai báo mảng để lưu trữ
 
   constructor(private userService: UserService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.getAllUsers();
-    this.resetModal();
+    this.getAllUsers();  // Gọi hàm khi component được khởi tạo
   }
 
-  
   getAllUsers(): void {
     this.userService.getAllUsers().subscribe(
       (response: any) => {
-        this.users = response.users;
-        this.filteredUsers = [...this.users];
+        this.users = response.users;  // Gán dữ liệu vào mảng 
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu người dùng:', error);
       }
     );
   }
-
-  // Lấy URL của ảnh người dùng
+  
   getImageUrl(imageName: string): string {
-    return this.userService.getImageUrl(imageName);
+    return this.userService.getImageUrl(imageName); // Gọi phương thức từ service
   }
 
-
-  filterUsers(): void {
-    this.filteredUsers = this.users.filter(user => {
-      const matchesSearchTerm = user.FullName.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesStatus = this.selectedStatus ? user.Status === this.selectedStatus : true;
-      const matchesRole = this.selectedRole ? user.Role === this.selectedRole : true;
-      return matchesSearchTerm && matchesStatus && matchesRole;
+  deleteUser(id: number, email: string, fullName: string): void {
+    Swal.fire({
+      title: 'Xác nhận',
+      text: 'Bạn có chắc chắn muốn xóa người dùng này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa!',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService.deleteUser(id).subscribe(
+          () => {
+            // Gửi email thông báo
+            this.sendEmailNotification(email, fullName);
+  
+            // Cập nhật danh sách người dùng
+            this.getAllUsers();
+  
+            Swal.fire({
+              title: 'Thành công!',
+              text: 'Người dùng đã được xóa thành công!',
+              icon: 'success',
+              timer: 2000,  // Đóng tự động sau 2 giây
+              showConfirmButton: false
+            });
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Lỗi khi xóa người dùng!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#d33'
+            });
+            console.error('Lỗi khi xóa người dùng:', error);
+          }
+        );
+      }
     });
   }
-
-  // Mở modal xác nhận xóa
-  openDeleteModal(userID: number, email: string, fullName: string): void {
-    // Gán thông tin người dùng cần xóa
-    this.userToDelete = { userID, email, fullName };
-    
-    // Lấy phần tử modal từ DOM
-    const modalElement = document.getElementById('deleteModal');
-    
-    // Kiểm tra và hiển thị modal
-    if (modalElement) {
-      modalElement.style.display = 'flex'; // Hiển thị modal
-      modalElement.setAttribute('aria-hidden', 'false'); // Đảm bảo hỗ trợ accessibility
-    }
-  }
   
+<<<<<<< HEAD
   showModal(): void {
     // Kiểm tra nếu có userToDelete, tức là có người dùng cần xóa
     if (this.userToDelete) {
@@ -165,13 +173,18 @@ export class AdminUserComponent implements OnInit {
   sendEmailNotification(email: string, fullName: string, reason: string): void {
     this.userService.sendEmail(email, fullName, reason).subscribe(
       (response) => {
+=======
+  sendEmailNotification(email: string, fullName: string): void {
+    this.userService.sendEmail(email, fullName).subscribe(
+      response => {
+>>>>>>> d58cdb7109333951d275d7d475f1a6a37f05a0f0
         console.log('Email đã được gửi:', response);
       },
-      (error) => {
+      error => {
         console.error('Lỗi khi gửi email:', error);
       }
     );
   }
-
+  
   
 }

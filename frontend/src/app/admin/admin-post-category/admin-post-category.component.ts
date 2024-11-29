@@ -17,10 +17,6 @@ export class AdminPostCategoryComponent implements OnInit {
   filteredCategories: any[] = [];  // Array to store filtered categories based on search
   searchTerm: string = '';  // Variable to store the search term
 
-  // Thuộc tính phân trang
-  currentPage: number = 1; // Trang hiện tại
-  itemsPerPage: number = 4; // Số mục hiển thị trên mỗi trang
-
   constructor(private postCategoryService: PostCategoryService) {}
 
   ngOnInit(): void {
@@ -49,24 +45,6 @@ export class AdminPostCategoryComponent implements OnInit {
       // If there's no search term, show all categories
       this.filteredCategories = this.postcategories;
     }
-  }
-
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredCategories.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredCategories.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
   }
 
   // Function to get image URL for categories

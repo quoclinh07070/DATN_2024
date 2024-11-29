@@ -11,83 +11,48 @@
             <label for="statusFilter" class="mr-2">LỌC</label>
             <select class="form-control" [(ngModel)]="selectedStatus" (change)="filterByStatus()">
               <option value="">Tất cả trạng thái</option>
-              <option value="active">Kích hoạt</option>
-              <option value="inactive">Vô hiệu hóa</option>
+              <option value="active">Hoạt động</option>
+              <option value="inactive">Không hoạt động</option>
             </select>
           </div>
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered text-nowrap">
-                  <thead class="table-dark text-white text-center align-middle">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead class="table-primary">
                     <tr class="border-bottom">
-                      <th scope="col" class="py-3">ID</th>
-                      <th scope="col" class="py-3">Mã Voucher</th>
-                      <th scope="col" class="py-3">Giá</th>
-                      <th scope="col" class="py-3">Giảm giá (%)</th>
-                      <th scope="col" class="py-3">Ngày bắt đầu</th>
-                      <th scope="col" class="py-3">Ngày hết hạn</th>
-                      <th scope="col" class="py-3">Trạng thái</th>
-                      <th scope="col" class="py-3">Thao tác</th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Mã Voucher</th> <!-- Thêm cột mã voucher -->
+                      <th scope="col">Giá</th>
+                      <th scope="col">Giảm giá (%)</th>
+                      <th scope="col">Ngày bắt đầu</th> <!-- Thêm cột ngày bắt đầu -->
+                      <th scope="col">Ngày hết hạn</th> <!-- Thêm cột ngày hết hạn -->
+                      <th scope="col">Trạng thái</th>
+                      <!-- <th scope="col">Ngày tạo</th> -->
+                      <!-- <th scope="col">Ngày sửa</th> -->
+                      <th scope="col">Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr 
-                    *ngFor="let voucher of getPagedData()">
-                      <th scope="row" class="text-center">{{voucher.id}}</th>
-                      <td class="text-center">{{voucher.voucher_code}}</td>
-                      <td class="text-center">{{voucher.price | currency}}</td>
-                      <td class="text-center">{{voucher.discount_percent}}%</td>
-                      <td class="text-center">{{voucher.valid_from | date:'shortDate'}}</td>
-                      <td class="text-center">{{voucher.valid_to | date:'shortDate'}}</td>
-                      <td class="text-center">
-                        <span class="badge" [ngClass]="voucher.status === 'active' ? 'bg-success' : 'bg-danger'" style="font-size: 0.9rem;">
-                          {{ voucher.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
-                        </span>
+                    <tr *ngFor="let voucher of vouchers">
+                      <th scope="row">{{voucher.id}}</th>
+                      <td>{{voucher.voucher_code}}</td> <!-- Hiển thị mã voucher -->
+                      <td>{{voucher.price}}</td>
+                      <td>{{voucher.discount_percent}}</td>
+                      <td>{{voucher.valid_from | date:'short'}}</td> <!-- Hiển thị ngày bắt đầu -->
+                      <td>{{voucher.valid_to | date:'short'}}</td> <!-- Hiển thị ngày hết hạn -->
+                      <td class="{{ voucher.status === 'active' ? 'badge text-bg-success' : 'badge text-bg-danger' }}" style="margin: 25px; padding: 5px; width: 130px; font-size: 0.9rem;">
+                        {{ voucher.status === 'active' ? 'Kích hoạt' : 'Vô hiệu hóa' }}
                       </td>
-                      <td class="text-center">
-                        <div class="d-flex justify-content-center gap-2">
-                          <a class="btn btn-primary btn-sm" routerLink="edit/{{voucher.id}}">Sửa</a>
-                          <button type="button" class="btn btn-danger btn-sm" (click)="deleteVoucher(voucher.id)">Xóa</button>
-                        </div>
+                      <!-- <td>{{voucher.created_at | date:'short'}}</td> -->
+                      <!-- <td>{{voucher.updated_at | date:'short'}}</td> -->
+                      <td>
+                        <a class="btn btn-primary btn-sm" routerLink="edit/{{voucher.id}}">Sửa</a>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteVoucher(voucher.id)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <div class="d-flex justify-content-center mt-3">
-                  <nav>
-                    <ul class="pagination">
-                      <li class="page-item" [class.disabled]="currentPage === 1">
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage - 1)"
-                          [disabled]="currentPage === 1"
-                        >
-                          Trước
-                        </button>
-                      </li>
-                      <li
-                        class="page-item"
-                        *ngFor="let page of getPaginationArray()"
-                        [class.active]="page === currentPage"
-                      >
-                        <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
-                      </li>
-                      <li
-                        class="page-item"
-                        [class.disabled]="currentPage === getTotalPages()"
-                      >
-                        <button
-                          class="page-link"
-                          (click)="goToPage(currentPage + 1)"
-                          [disabled]="currentPage === getTotalPages()"
-                        >
-                          Tiếp theo
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
 
               </div>
             </div>

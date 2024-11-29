@@ -24,10 +24,6 @@ export class AdminProductComponent implements OnInit {
   selectedPriceRange: string = '';
   selectedStatus: string = '';
 
-  // Thuộc tính phân trang
-  currentPage: number = 1; // Trang hiện tại
-  itemsPerPage: number = 4; // Số mục hiển thị trên mỗi tran
-
   constructor(private productService: ProductService, private fb: FormBuilder) {
     this.priceForm = this.fb.group({
       minPrice: [null],
@@ -74,24 +70,6 @@ export class AdminProductComponent implements OnInit {
     if (this.selectedPriceRange === 'medium') return price >= 1000000 && price <= 5000000;
     if (this.selectedPriceRange === 'high') return price > 5000000;
     return true;
-  }
-
-  getPagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredProducts.slice(startIndex, endIndex);
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
-  }
-
-  getPaginationArray(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
   }
 
   // Hàm lấy đường dẫn hình ảnh

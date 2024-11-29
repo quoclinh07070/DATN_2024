@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-home',
   standalone: true,

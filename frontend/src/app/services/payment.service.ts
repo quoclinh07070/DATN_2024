@@ -22,18 +22,20 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   // Tạo yêu cầu thanh toán qua MoMo
-  // Tạo yêu cầu thanh toán qua MoMo
   createPayment(
     amount: number,
     orderId: string,
     orderInfo: string,
-    extraData: any
+    extraData: any,
+    cartItems: any[] // Thêm tham số cartItems vào đây
   ): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.baseUrl}/create-payment`, {
       amount,
       orderId,
       orderInfo,
       extraData: JSON.stringify(extraData), // Chuyển `extraData` thành chuỗi JSON
+      cartItems // Truyền cartItems vào payload
+
     });
   }
   

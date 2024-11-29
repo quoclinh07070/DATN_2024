@@ -17,5 +17,6 @@ router.delete('/reviews/:id', reviewController.deleteReview);
 // Route để lấy đánh giá theo ID
 router.get('/reviews/id/:id', reviewController.getReviewById);
 
+router.post('/hasPurchased', reviewController.hasPurchasedProduct);
 
 module.exports = router;
