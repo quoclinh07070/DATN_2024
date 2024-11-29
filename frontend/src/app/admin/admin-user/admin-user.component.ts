@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http'; // Sử dụng HttpClient cho các yêu cầu HTTP
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-admin-user',
   standalone: true,
@@ -109,12 +111,14 @@ export class AdminUserComponent implements OnInit {
 
     this.userService.deleteUser(this.userToDelete.userID).subscribe(
       () => {
+        Swal.fire('Thành công!','Thông tin người dùng đã được cập nhật!','success');
         this.sendEmailNotification(this.userToDelete.email, this.userToDelete.fullName, this.deleteReason);
         this.getAllUsers();
         this.closeModal(); // Đóng modal sau khi xóa thành công
       },
       (error) => {
         console.error('Lỗi khi xóa người dùng:', error);
+        Swal.fire('Thất bại!','Thông tin người dùng không được cập nhật!','error');
         this.deleteReasonError = 'Lỗi khi xóa người dùng. Vui lòng thử lại sau.';
       }
     );

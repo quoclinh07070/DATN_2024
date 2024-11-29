@@ -121,7 +121,6 @@ const sendForgotPassEmail = async ({ email, name, resetLink }) => {
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f9; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); padding: 20px;">
           <!-- Header -->
           <div style="text-align: center; padding-bottom: 20px;">
-            <img src="https://yourwebsite.com/assets/logo.png" alt="Logo" style="max-width: 150px;">
           </div>
       
           <!-- Body -->
@@ -140,7 +139,7 @@ const sendForgotPassEmail = async ({ email, name, resetLink }) => {
             </p>
             <p style="font-size: 16px; line-height: 1.6; color: #333;">
               Trân trọng,<br>
-              <strong>[Tên công ty của bạn]</strong>
+              <strong>IN7</strong>
             </p>
           </div>
       
@@ -151,7 +150,7 @@ const sendForgotPassEmail = async ({ email, name, resetLink }) => {
               Nếu bạn gặp bất kỳ vấn đề nào, hãy liên hệ với chúng tôi qua trang hỗ trợ của công ty.
             </p>
             <p>
-              © 2024 [Tên công ty của bạn]. Tất cả các quyền được bảo lưu.
+              © 2024 IN7. Tất cả các quyền được bảo lưu.
             </p>
           </div>
         </div>
