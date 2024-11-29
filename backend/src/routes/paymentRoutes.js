@@ -10,7 +10,7 @@ const  momoConfig  = require('../config/momo');  // Import cấu hình MoMo
 // API tạo yêu cầu thanh toán
 router.post('/create-payment', async (req, res) => {
   const { amount, orderId, orderInfo, extraData, cartItems  } = req.body;
-  const { userId, address, phoneNumber } = JSON.parse(extraData); // Lấy thông tin người dùng từ extraData
+  const { userId, address, phoneNumber, note  } = JSON.parse(extraData); // Lấy thông tin người dùng từ extraData
   
   console.log(cartItems);
   
@@ -76,8 +76,8 @@ router.post('/create-payment', async (req, res) => {
 
     // Lưu thông tin đơn hàng vào DB khi thanh toán qua MoMo
       const orderQuery = `
-      INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+      INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, note, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
       `;
 
       // Thực hiện truy vấn và lưu kết quả vào biến `orderResult`
@@ -89,6 +89,7 @@ router.post('/create-payment', async (req, res) => {
       amount,
       address,
       phoneNumber,
+      note || null,  // Lưu ghi chú vào trường note
       ]);
 
       // Lấy orderId của đơn hàng vừa tạo (insertId từ câu lệnh INSERT)
@@ -206,8 +207,8 @@ router.post('/submit-cod-order', async (req, res) => {
 
     // Lưu thông tin vào bảng orders
     const orderQuery = `
-        INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+        INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, note, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
     `;
     const orderResult = await db.query(orderQuery, [
       user.id,
@@ -217,6 +218,7 @@ router.post('/submit-cod-order', async (req, res) => {
       totalAmount,
       fullAddress,
       user.phoneNumber,
+      user.note,
     ]);
       // Lấy orderId của đơn hàng vừa tạo (insertId từ câu lệnh INSERT)
     const orderIdFromDB = orderResult[0].insertId;

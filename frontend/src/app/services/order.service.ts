@@ -22,19 +22,8 @@ export class OrderService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  // Thêm đơn hàng mới
-//   createOrder(order: any) {
-//     return this.http.post(this.baseUrl, order);
-//   }
-
-  // Cập nhật đơn hàng
-  updateOrder(id: number, order: any) {
+  UpDateStatus(id:number, order: any){
     return this.http.put(`${this.baseUrl}/${id}`, order);
-  }
-
-  // Xóa đơn hàng
-  deleteOrder(id: number) {
-    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
   getOrdersByUserId(userID: number) {

@@ -8,14 +8,8 @@ router.get('/orders', orderController.getAllOrders);
 // Lấy đơn hàng theo ID
 router.get('/orders/:id', orderController.getOrderById);
 
-// Thêm đơn hàng mới
-router.post('/orders', orderController.createOrder);
-
 // Cập nhật đơn hàng
-router.put('/orders/:id', orderController.updateOrder);
-
-// Xóa đơn hàng
-router.delete('/orders/:id', orderController.deleteOrder);
+router.put('/orders/:id', orderController.updateOrderStatus);
 
 // Lấy danh sách đơn hàng theo user_id
 router.get('/user-orders', orderController.getOrdersByUserId);

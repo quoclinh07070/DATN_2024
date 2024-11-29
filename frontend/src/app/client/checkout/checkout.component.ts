@@ -46,6 +46,7 @@ export class CheckoutComponent implements OnInit {
     email: '',
     phoneNumber: '',
     address: '',
+    note: '',  // Thêm thuộc tính ghi chú
   }; // Thông tin người dùng
 
   feeResponse: any;
@@ -71,6 +72,7 @@ export class CheckoutComponent implements OnInit {
           email: data.user.email,
           phoneNumber: data.user.phoneNumber || '',
           address: data.user.address || '',
+          note: data.user.note,
         };
         console.log('Địa chỉ từ backend:', this.user.address);
 
@@ -252,6 +254,7 @@ export class CheckoutComponent implements OnInit {
       userId: this.user.id,
       address: fullAddress,
       phoneNumber: this.user.phoneNumber,
+      note: this.user.note || null,  // Thêm ghi chú vào dữ liệu gửi đi
     };
      // Dữ liệu giỏ hàng với chi tiết sản phẩm
   const cartItems = this.cartItems.map((item) => {

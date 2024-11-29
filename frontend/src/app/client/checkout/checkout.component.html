@@ -139,13 +139,16 @@
               </div>
 
               <!-- Form Group: Ghi chú -->
-              <div class="form-group col-md-12 col-sm-12">
-                <div class="field-label">Ghi chú</div>
-                <textarea
-                  class="form-control"
-                  placeholder="Ghi chú của khách hàng"
-                ></textarea>
-              </div>
+<div class="form-group col-md-12 col-sm-12">
+  <div class="field-label">Ghi chú</div>
+  <textarea
+    class="form-control"
+    name="note"
+    placeholder="Ghi chú của khách hàng"
+    [(ngModel)]="user.note"  
+  ></textarea>
+</div>
+
             </div>
           </div>
 
