@@ -108,11 +108,11 @@
                 </div>
                 <!-- Nội dung -->
                 <div class="card-body text-center">
-                  <h6 class="card-title text-truncate" style="max-width: 200px; margin: 0 auto;">
+                  <h6 class="card-title text-truncate product-name">
                     <a [routerLink]="['/product-detail', product.id]" class="text-dark text-decoration-none">
                       {{ product.name }}
                     </a>
-                  </h6>
+                  </h6>                  
                   <div class="price mt-2">
                     <ng-container *ngIf="product.discount > 0; else noDiscount">
                       <span class="text-danger fw-bold">
@@ -130,16 +130,16 @@
                   </div>
                 </div>
                 <!-- Nút -->
-                <div class="card-footer bg-transparent d-flex justify-content-center gap-2 p-2">
-                  <button class="bi bi-cart-plus btn btn-primary btn-sm px-3 d-flex align-items-center justify-content-center gap-2" (click)="addToCart(product, quantity)">
-                    Thêm vào giỏ
+                <div class="card-footer bg-transparent d-flex justify-content-center gap-2">
+                  <button class="btn btn-primary d-flex align-items-center" (click)="addToCart(product, quantity)">
+                    <i class="bi bi-cart-plus"></i>
+                    Thêm Giỏ hàng
                   </button>
-                  <a [routerLink]="['/product-detail', product.id]" class="bi bi-eye btn btn-outline-secondary btn-sm px-3 d-flex align-items-center justify-content-center gap-2">
-                    Xem thêm
+                  <a [routerLink]="['/product-detail', product.id]" class="btn btn-outline-secondary d-flex align-items-center">
+                    <i class="bi bi-eye"></i>
+                    Xem Chi Tiết
                   </a>
-                  
-                  
-                </div>
+                </div>                
               </div>
             </div>
           </div>

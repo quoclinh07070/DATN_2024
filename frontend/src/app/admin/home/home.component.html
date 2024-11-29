@@ -11,206 +11,141 @@
   <div class="body-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-4">
-          <div class="card">
-            <div class="card-body text-center">
-              <img
-                src="/assets/admin/images/backgrounds/product-tip.png"
-                alt="image"
-                class="img-fluid"
-                width="205"
-              />
-              <h4 class="mt-7">Productivity Tips!</h4>
-              <p class="card-subtitle mt-2 mb-3">
-                Duis at orci justo nulla in libero id leo molestie sodales
-                phasellus justo.
-              </p>
-              <button class="btn btn-primary mb-3">View All Tips</button>
+
+
+        <div class="row g-4">
+          <!-- Tổng quan sản phẩm -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="position-relative">
+                <a href="javascript:void(0)">
+                  <!-- <img
+                    src="/assets/client/images/main-slider/image-1.jpg"
+                    class="card-img-top rounded-top"
+                    alt="product-overview"
+                    style="height: 200px; object-fit: cover;"
+                  /> -->
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <div class="icon-circle bg-primary text-white mb-3">
+                  <i class="bi bi-box-seam fs-3"></i>
+                </div>
+                <h4 class="fs-5 text-dark fw-semibold">TỔNG QUAN SẢN PHẨM</h4>
+                <p class="mb-1">Sản phẩm hiện tại: <span class="text-primary fw-bold">{{ totalProductCount }}</span></p>
+                <p>Tổng số lượng trong kho: <span class="text-primary fw-bold">{{ totalQuantity }}</span></p>
+                <p><a href="/admin/product" class="text-decoration-none text-primary">Xem chi tiết</a></p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-8">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Sản Phẩm Nổi Bật</h5>
-              <div class="table-responsive">
-                <table class="table table-hover text-nowrap" style="text-align: center;" >
-                  <thead class="table-primary">
-                    <tr>
-                      <!-- <th>ID</th> -->
-                      <th>Tên sản phẩm</th>
-                      <th>Hình ảnh</th>
-                      <th>Giá</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let product of filteredProducts.slice(0, 4)" 
-                        [ngClass]="{
-                          'table-light': product.status === 'active',
-                          'table-danger': product.status !== 'active'
-                        }">
-                      <!-- <th scope="row">{{ product.id }}</th> -->
-                      <td class="text-truncate" style="max-width: 120px">{{ product.name }}</td>
-                      <td>
-                        <img
-                          [src]="getImageUrl(product.image)"
-                          alt="{{ product.name }}"
-                          class="img-fluid"
-                          style="max-width: 60px"
-                        />
-                      </td>
-                      <td>{{ product.price | number:'1.0-0' }} ₫</td>
-                    </tr>
-                  </tbody>
-                </table>
-                
+        
+          <!-- Tổng quan bài viết -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="position-relative">
+                <a href="javascript:void(0)">
+                  <!-- <img
+                    src="/assets/client/images/main-slider/image-4.jpg"
+                    class="card-img-top rounded-top"
+                    alt="post-overview"
+                    style="height: 200px; object-fit: cover;"
+                  /> -->
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <div class="icon-circle bg-success text-white mb-3">
+                  <i class="bi bi-file-earmark-text fs-3"></i>
+                </div>
+                <h4 class="fs-5 text-dark fw-semibold">TỔNG QUAN BÀI VIẾT</h4>
+                <p class="mb-1">Tổng số bài viết: <span class="text-success fw-bold">{{ totalPostCount }}</span></p>
+                <!-- <p class="mb-1">Bài viết nháp: <span class="text-success fw-bold">{{ totalDrafts }}</span></p> -->
+                <p>Bài viết đã xuất bản: <span class="text-success fw-bold">{{ totalPublished }}</span></p>
+                <p><a href="/admin/post" class="text-decoration-none text-primary">Xem chi tiết</a></p>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Tổng quan voucher -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="position-relative">
+                <a href="javascript:void(0)">
+                  <!-- <img
+                    src="/assets/client/images/banner/Banner1.png"
+                    class="card-img-top rounded-top"
+                    alt="voucher-overview"
+                    style="height: 200px; object-fit: cover;"
+                  /> -->
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <div class="icon-circle bg-warning text-white mb-3">
+                  <i class="bi bi-tags fs-3"></i>
+                </div>
+                <h4 class="fs-5 text-dark fw-semibold">TỔNG QUAN VOUCHER</h4>
+                <p class="mb-1">Tổng số voucher: <span class="text-warning fw-bold">{{ totalVoucherCount }}</span></p>
+                <p class="">Voucher kích hoạt: <span class="text-warning fw-bold">{{ totalActiveVouchers }}</span></p>
+                <p><a href="/admin/voucher" class="text-decoration-none text-primary">Xem chi tiết</a></p>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-4">
-          <div class="card overflow-hidden hover-img">
-            <div class="position-relative">
-              <a href="javascript:void(0)">
-                <img
-                  src="/assets/admin/images/blog/blog-img1.jpg"
-                  class="card-img-top"
-                  alt="matdash-img"
-                />
-              </a>
-              <span
-                class="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0"
-                >2 min Read</span
-              >
-              <img
-                src="/assets/admin/images/profile/user-3.jpg"
-                alt="matdash-img"
-                class="img-fluid rounded-circle position-absolute bottom-0 start-0 mb-n9 ms-9"
-                width="40"
-                height="40"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                data-bs-title="Georgeanna Ramero"
-              />
-            </div>
-            <div class="card-body p-4">
-              <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm mt-3"
-                >Social</span
-              >
-              <a
-                class="d-block my-4 fs-5 text-dark fw-semibold link-primary"
-                href=""
-                >As yen tumbles, gadget-loving Japan goes for secondhand
-                iPhones</a
-              >
-              <div class="d-flex align-items-center gap-4">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-eye text-dark fs-5"></i>9,125
+
+
+        <div class="row g-4">
+          <!-- Tổng quan sản phẩm -->
+          <!-- <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="position-relative">
+                <a href="javascript:void(0)">
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <div class="icon-circle bg-primary text-white mb-3">
+                  <i class="bi bi-box-seam fs-3"></i>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-message-2 text-dark fs-5"></i>3
-                </div>
-                <div class="d-flex align-items-center fs-2 ms-auto">
-                  <i class="ti ti-point text-dark"></i>Mon, Dec 19
-                </div>
+                <h3>Tổng Đơn Hàng</h3>
+                <p>Tổng số đơn hàng: {{ totalOrderCount }}</p>
+                <p>Tổng số đơn hàng đã giao: {{ totalDeliveredOrders }}</p>
+                <p>Tổng số đơn hàng đã hủy: {{ totalCancelledOrders }}</p>
+                <p><a href="/admin/user" class="text-decoration-none text-primary">Xem chi tiết</a></p>
+
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card overflow-hidden hover-img">
-            <div class="position-relative">
-              <a href="javascript:void(0)">
-                <img
-                  src="/assets/admin/images/blog/blog-img2.jpg"
-                  class="card-img-top"
-                  alt="matdash-img"
-                />
-              </a>
-              <span
-                class="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0"
-                >2 min Read</span
-              >
-              <img
-                src="/assets/admin/images/profile/user-2.jpg"
-                alt="matdash-img"
-                class="img-fluid rounded-circle position-absolute bottom-0 start-0 mb-n9 ms-9"
-                width="40"
-                height="40"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                data-bs-title="Georgeanna Ramero"
-              />
-            </div>
-            <div class="card-body p-4">
-              <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm mt-3"
-                >Gadget</span
-              >
-              <a
-                class="d-block my-4 fs-5 text-dark fw-semibold link-primary"
-                href=""
-                >Intel loses bid to revive antitrust case against patent foe
-                Fortress</a
-              >
-              <div class="d-flex align-items-center gap-4">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-eye text-dark fs-5"></i>4,150
+         -->
+          <!-- Tổng quan bài viết -->
+          <!-- <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="position-relative">
+                <a href="javascript:void(0)">
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <div class="icon-circle bg-success text-white mb-3">
+                  <i class="bi bi-file-earmark-text fs-3"></i>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-message-2 text-dark fs-5"></i>38
-                </div>
-                <div class="d-flex align-items-center fs-2 ms-auto">
-                  <i class="ti ti-point text-dark"></i>Sun, Dec 18
-                </div>
+              <p><a href="/admin/user" class="text-decoration-none text-primary">Xem chi tiết</a></p>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card overflow-hidden hover-img">
-            <div class="position-relative">
-              <a href="javascript:void(0)">
-                <img
-                  src="/assets/admin/images/blog/blog-img3.jpg"
-                  class="card-img-top"
-                  alt="matdash-img"
-                />
-              </a>
-              <span
-                class="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0"
-                >2 min Read</span
-              >
-              <img
-                src="/assets/admin/images/profile/user-3.jpg"
-                alt="matdash-img"
-                class="img-fluid rounded-circle position-absolute bottom-0 start-0 mb-n9 ms-9"
-                width="40"
-                height="40"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                data-bs-title="Georgeanna Ramero"
-              />
-            </div>
-            <div class="card-body p-4">
-              <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm mt-3"
-                >Health</span
-              >
-              <a
-                class="d-block my-4 fs-5 text-dark fw-semibold link-primary"
-                href=""
-                >COVID outbreak deepens as more lockdowns loom in China</a
-              >
-              <div class="d-flex align-items-center gap-4">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-eye text-dark fs-5"></i>9,480
+          </div> -->
+        
+          <!-- Tổng quan voucher -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="position-relative">
+                <a href="javascript:void(0)">
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <div class="icon-circle bg-warning text-white mb-3">
+                  <i class="bi bi-tags fs-3"></i>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-message-2 text-dark fs-5"></i>12
-                </div>
-                <div class="d-flex align-items-center fs-2 ms-auto">
-                  <i class="ti ti-point text-dark"></i>Sat, Dec 17
-                </div>
+                <h3>Tổng Người Dùng</h3>
+                <p>Tổng số người dùng: <span class="text-primary fw-bold">{{ totalUserCount }}</span></p>
+                <!-- <p>Tổng số người dùng là quản trị viên: <span class="text-primary fw-bold">{{ totalAdminUsers }}</span></p> -->
+                <p><a href="/admin/user" class="text-decoration-none text-primary">Xem chi tiết</a></p>
               </div>
             </div>
           </div>
