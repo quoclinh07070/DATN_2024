@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-voucher',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule], // Thêm CommonModule vào imports
+  imports: [RouterModule, CommonModule], // Thêm CommonModule vào imports
   templateUrl: './admin-voucher.component.html',
   styleUrls: ['./admin-voucher.component.css']
 })
@@ -21,17 +21,15 @@ export class AdminVoucherComponent implements OnInit {
   itemsPerPage: number = 4; // Số mục hiển thị trên mỗi trang
 
   constructor(private voucherService: VoucherService) {}
-
+  
   ngOnInit(): void {
     this.getAllVouchers();  // Gọi hàm khi component được khởi tạo
   }
-
-  // Lấy tất cả voucher
+  
   getAllVouchers(): void {
     this.voucherService.getAllVouchers().subscribe(
       (response: any) => {
         this.vouchers = response.vouchers;  // Gán dữ liệu vào mảng vouchers
-        this.filteredVouchers = this.vouchers;  // Khởi tạo mảng filteredVouchers với tất cả dữ liệu
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu voucher:', error);
@@ -107,5 +105,6 @@ export class AdminVoucherComponent implements OnInit {
       }
     });
   }
+  
   
 }
