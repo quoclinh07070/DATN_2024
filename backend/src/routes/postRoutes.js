@@ -30,5 +30,15 @@ router.put('/posts/:id', upload.single('image_url'), postController.updatePost);
 
 // Xóa bài viết
 router.delete('/posts/:id', postController.deletePost);
+// **Tính tổng số lượng sản phẩm**
+router.get('/posts/total-quantity', async (req, res) => {
+  try {
+    const [result] = await db.query('SELECT SUM(quantity) AS totalQuantity FROM posts');
+    res.json({ totalQuantity: result[0].totalQuantity || 0 });
+  } catch (error) {
+    console.error('Lỗi khi tính tổng số lượng sản phẩm:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

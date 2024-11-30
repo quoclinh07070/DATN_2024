@@ -7,6 +7,9 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
+  getUsers() {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = environment.apiUrl + "/users";
   private imageUrl = environment.imageUrl; 
 

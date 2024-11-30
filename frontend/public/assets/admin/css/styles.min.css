@@ -1048,7 +1048,7 @@ progress {
 
 .g-4,
 .gy-4 {
-  --bs-gutter-y: 1.5rem;
+  /* --bs-gutter-y: 1.5rem; */
 }
 
 .g-5,
