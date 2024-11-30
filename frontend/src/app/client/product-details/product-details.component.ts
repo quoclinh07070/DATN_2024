@@ -7,6 +7,7 @@ import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';  // Import UserService
 import { CartService } from '../../services/cart.service'; // Import CartService
+import { NotyfService } from '../../services/notyf.service';
 
 @Component({
   selector: 'app-product-details',
@@ -49,6 +50,7 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
 
   constructor(
+    private notyfService: NotyfService,
     private productService: ProductService,
     private reviewService: ReviewService,
     private route: ActivatedRoute,
@@ -111,17 +113,17 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any, quantity: number): void {
-    if (product.quantity > 0 && quantity <= product.quantity) {
-      const success = this.cartService.addToCart(product, quantity);  // Cập nhật số lượng khi thêm vào giỏ hàng
-
+  addToCart(product: any, quantity: number) {
+    if (product.quantity > 0) {
+      const success = this.cartService.addToCart(product, quantity);  // Gọi service để thêm sản phẩm vào giỏ
+  
       if (success) {
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        this.notyfService.success('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
-        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+        this.notyfService.warning('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     } else {
-      alert('Số lượng vượt quá tồn kho!');
+      this.notyfService.error('Sản phẩm đã hết hàng!');
     }
   }
 
