@@ -76,41 +76,40 @@ export class OrderListComponent implements OnInit {
           },
           (error) => {
             console.error('Lỗi khi hủy đơn:', error);
-            Swal.fire('Lỗi!', 'Không thể hủy đơn hàng lúc này. Vui lòng thử lại.', 'error');
-          }
-        );
+            Swal.fire('Lỗi!', 'Không thể hủy đơn hàng lúc này. Vui lòng thử lại.', 'error');}
+          );
+        }
+      });
+    }
+  
+    // Lấy class theo trạng thái đơn hàng
+    getStatusClass(status: string): string {
+      switch (status) {
+        case 'processing':
+          return 'bg-warning';  // Yellow for processing
+        case 'delivering':
+          return 'bg-primary';  // Blue for delivering
+        case 'canceled':
+          return 'bg-danger';   // Red for canceled
+        case 'completed':
+          return 'bg-success';  // Green for completed
+        default:
+          return '';
       }
-    });
-  }
-
-  // Lấy class theo trạng thái đơn hàng
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'processing':
-        return 'bg-warning';  // Yellow for processing
-      case 'delivering':
-        return 'bg-primary';  // Blue for delivering
-      case 'canceled':
-        return 'bg-danger';   // Red for canceled
-      case 'completed':
-        return 'bg-success';  // Green for completed
-      default:
-        return '';
+    }
+    // Lấy nhãn cho trạng thái
+    getStatusLabel(status: string): string {
+      switch (status) {
+        case 'processing':
+          return 'Chờ xử lý';
+        case 'delivering':
+          return 'Đang giao';
+        case 'canceled':
+          return 'Đã hủy';
+        case 'completed':
+          return 'Hoàn thành';
+        default:
+          return 'Chưa xác định';
+      }
     }
   }
-  // Lấy nhãn cho trạng thái
-  getStatusLabel(status: string): string {
-    switch (status) {
-      case 'processing':
-        return 'Chờ xử lý';
-      case 'delivering':
-        return 'Đang giao';
-      case 'canceled':
-        return 'Đã hủy';
-      case 'completed':
-        return 'Hoàn thành';
-      default:
-        return 'Chưa xác định';
-    }
-  }
-}
