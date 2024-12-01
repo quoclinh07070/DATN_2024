@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Thêm CommonModule
 import Swal from 'sweetalert2';
-
+declare var gapi: any;
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
     RouterLink
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   signupForm: FormGroup;
 
@@ -63,7 +63,9 @@ export class LoginComponent {
       this.address = null;
     }
   }
-
+  ngOnInit(): void {
+    this.authService.loadGoogleSignIn();
+  }
   handleSubmit() {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;

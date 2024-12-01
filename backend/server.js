@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 const nodemailer = require('nodemailer'); // Import nodemailer
+const bodyParser = require('body-parser');
+const authRoutes = require('./src/routes/auth');
 
 const postRoutes = require('./src/routes/postRoutes');
 const voucherRoutes = require('./src/routes/voucherRoutes');
@@ -69,7 +71,11 @@ app.post('/send-email', (req, res) => {
   });
 });
 
+// Middleware để xử lý JSON body
+app.use(bodyParser.json());
 
+// Sử dụng route xác thực
+app.use('/api', authRoutes);
 
 // Routes
 app.use('/api', productRoutes);
@@ -92,3 +98,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+

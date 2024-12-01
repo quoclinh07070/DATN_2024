@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +11,7 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   private isLocalStorageAvailable(): boolean {
     return typeof localStorage !== 'undefined';
@@ -181,5 +182,50 @@ checkUserRole(): Observable<boolean> {
   );
 }
 
+  // Load Google Sign-In Button
+  loadGoogleSignIn(): void {
+    if (typeof window !== 'undefined' && window.google) {
+      window.google.accounts.id.initialize({
+        client_id: '755849462515-4ttvf0p534t3aap83l3i7f8ahcuplmoc.apps.googleusercontent.com',
+        callback: (response:any) => this.handleCredentialResponse(response)
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById('google-signin-btn'),
+        { theme: 'outline', size: 'large' }
+      );
+    }
+  }
+
+  // Xử lý ID Token khi đăng nhập thành công
+  handleCredentialResponse(response: any): void {
+    this.http.post(`${this.apiUrl}/verify-google-token`, { idToken: response.credential })
+      .subscribe(
+        (res: any) => {
+          console.log('User info:', res.metadata);
   
+          // Lưu thông tin vào localStorage
+          if (res.metadata && this.isLocalStorageAvailable()) {
+            localStorage.setItem('accessToken', res.metadata.tokens.accessToken);
+            localStorage.setItem('refreshToken', res.metadata.tokens.refreshToken);
+            localStorage.setItem('userId', res.metadata.shop.user_id.toString());
+            localStorage.setItem('userName', res.metadata.shop.name);
+            localStorage.setItem('userEmail', res.metadata.shop.email);
+            // Hiển thị thông báo thành công
+            Swal.fire('Xong!', 'Đăng nhập Google thành công!', 'success');
+
+            // Chuyển hướng sau khi thông báo thành công
+            setTimeout(() => {
+              this.router.navigate(['/']); // Chuyển hướng đến trang chủ
+        }, 2000);
+          }else {
+            Swal.fire('Lỗi!', 'Có lỗi xảy ra trong quá trình xử lý thông tin!', 'error');
+          }
+        },
+        (err) => {
+          console.error('Error:', err);
+          Swal.fire('Lỗi!', 'Đăng nhập không thành công! Vui lòng thử lại', 'error');
+        }
+      );
+  }
 }
