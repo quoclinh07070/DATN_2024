@@ -46,6 +46,7 @@ export class CheckoutComponent implements OnInit {
     email: '',
     phoneNumber: '',
     address: '',
+    note: '',  // Thêm thuộc tính ghi chú
   }; // Thông tin người dùng
 
   feeResponse: any;
@@ -71,6 +72,7 @@ export class CheckoutComponent implements OnInit {
           email: data.user.email,
           phoneNumber: data.user.phoneNumber || '',
           address: data.user.address || '',
+          note: data.user.note,
         };
         console.log('Địa chỉ từ backend:', this.user.address);
 
@@ -103,6 +105,7 @@ export class CheckoutComponent implements OnInit {
 
     // Tính tổng tiền sau khi áp dụng voucher
     this.totalAmount = Math.round(this.getTotal());
+
   }
 
   getTotal() {
@@ -232,10 +235,6 @@ export class CheckoutComponent implements OnInit {
     if (!this.validateAddress()) {
       return; // Ngăn không cho tiếp tục nếu địa chỉ không hợp lệ
     }
-    //   if (this.totalAmount < 1000) {
-    //     alert('Bạn chưa có sản phẩm nào dể thanh toán!');
-    //     return;
-    // }
     const orderId = this.generateOrderId();
     const orderInfo = `Thanh toán cho đơn hàng ${orderId}`;
 
@@ -255,7 +254,26 @@ export class CheckoutComponent implements OnInit {
       userId: this.user.id,
       address: fullAddress,
       phoneNumber: this.user.phoneNumber,
+      note: this.user.note || null,  // Thêm ghi chú vào dữ liệu gửi đi
     };
+     // Dữ liệu giỏ hàng với chi tiết sản phẩm
+  const cartItems = this.cartItems.map((item) => {
+    const price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
+    const unitPrice = item.discount > 0 ? (price - (price * (item.discount / 100))) : price ;
+    const totalPrice = unitPrice * item.quantity;
+
+    return {
+      productId: item.id,
+      productName: item.name,
+      quantity: item.quantity,
+      unitPrice: unitPrice,
+      totalPrice: totalPrice,
+      voucherId: this.appliedVoucher ? this.appliedVoucher.id : null,
+      voucherCode: this.appliedVoucher ? this.appliedVoucher.voucher_code : null,
+      voucherDiscount: this.appliedVoucher ? parseFloat(this.appliedVoucher.discount_percent) : 0,
+    };
+  });
+  
     Swal.fire({
       title: 'Bạn có chắc chắn muốn thanh toán không?',
       text: 'Hãy chắc chắn thông tin của bạn là đúng!',
@@ -269,7 +287,7 @@ export class CheckoutComponent implements OnInit {
       if (result.isConfirmed) {
         if (this.paymentMethod === 'momo') {
 
-          this.paymentService.createPayment(this.totalAmount, orderId, orderInfo, extraData).subscribe(
+          this.paymentService.createPayment(this.totalAmount, orderId, orderInfo, extraData, cartItems).subscribe(
             (response: PaymentResponse) => {
               if (response && response.payUrl) {
                 this.cartService.clearCart(); // Xóa giỏ hàng trước khi chuyển hướng
@@ -283,12 +301,13 @@ export class CheckoutComponent implements OnInit {
             }
           );
         } else if (this.paymentMethod === 'cod') {
+          
           // Xử lý thanh toán khi nhận hàng
           const orderData = {
             user: this.user,
-            cartItems: this.cartItems,
             totalAmount: this.totalAmount,
             orderId: orderId,
+            cartItems:cartItems,
             shippingAddress: {
               address: fullAddress,
               province: selectedTinhName,

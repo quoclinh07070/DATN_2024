@@ -41,9 +41,9 @@ export class UserService {
   }
 
   // Gửi email thông báo
-  sendEmail(email: string, fullName: string): Observable<any> {
+  sendEmail(email: string, fullName: string, reason: String): Observable<any> {
     const emailApiUrl = `${environment.apiUrl}/send-email`; // Sử dụng biến môi trường
-    return this.http.post(emailApiUrl, { email, fullName });
+    return this.http.post(emailApiUrl, { email, fullName, reason });
   }
 
   sendWelcomeEmail(email: string, name: string): Observable<any> {
@@ -54,5 +54,9 @@ export class UserService {
   // Phương thức để lấy URL hình ảnh (nếu cần dùng cho avatar hoặc hình đại diện của user)
   getImageUrl(imageName: string): string {
     return `${this.imageUrl}/${imageName}`;
+  }
+  sendContactEmail(contactData: { name: string; email: string; phone: string; company?: string; message: string }): Observable<any> {
+    const emailApiUrl = `${environment.apiUrl}/send-contact-email`;
+    return this.http.post(emailApiUrl, contactData);
   }
 }

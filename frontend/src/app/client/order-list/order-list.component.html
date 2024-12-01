@@ -1,58 +1,54 @@
-
-
-   <div class="user-info-container formUser">
+<div class="user-info-container formUser">
+  <h2><i class="bi bi-receipt"></i> Danh Sách Đơn Hàng</h2>
+  <div *ngIf="orders.length === 0" class="not-logged-in">
+    <p class="login-message">Hiện tại bạn chưa có đơn hàng nào!</p>
+    <button class="login-btn" routerLink="/product">Mua Sắm Ngay</button>
+  </div>
   
-    <h2><i class="bi bi-receipt"></i> Danh Sách Đơn Hàng</h2>
-  
-    <div *ngIf="orders.length === 0" class="not-logged-in">
-      <p class="login-message">Hiện tại bạn chưa có đơn hàng nào!</p>
-      <button class="login-btn" routerLink="/product">Mua Sắm Ngay</button>
-    </div>
-  
-    <div *ngIf="orders.length > 0">
-      <div class="container-xl px-4 mt-4">
-        <!-- Account page navigation-->
-        <nav class="nav nav-borders">
-          <a class="nav-link ms-0" routerLink="/user">Hồ sơ</a>
-          <a class="nav-link active" routerLink="/order-list">Đơn hàng</a>
-        </nav>
-        <hr class="mt-0 mb-4" />
-        <div class="row">
-          <div class="col-12">
-            <!-- Orders list -->
-            <div class="card mb-4">
-              <div class="card-header">Danh sách đơn hàng</div>
-              <div class="card-body text-center">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th>STT</th>
-                        <th>Tổng Tiền</th>
-                        <th>Phương Thức Thanh Toán</th>
-                        <th>Trạng Thái</th>
-                        <th>Địa Chỉ</th>
-                        <th>Số Điện Thoại</th>
-                        <th>Ngày Tạo</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let order of orders; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ order.total_amount |  number:'1.0-0' }} ₫</td>
-                        <td>{{ order.payment_method }}</td>
-                        <td class="badge" [ngClass]="getStatusClass(order.status)">{{ order.status === 'cancelled' ? 'Hủy' : order.status === 'shipped' ? 'Đã giao' : order.status
-                          === 'delivered' ? 'Đang giao' : order.status }}</td>
-                        <td>{{ order.address }}</td>
-                        <td>{{ order.phone_number }}</td>
-                        <td>{{ order.created_at | date: 'short' }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
+  <div *ngIf="orders.length > 0">
+    <div class="px-4 mt-4">
+      <nav class="nav nav-borders">
+        <a class="nav-link ms-0" routerLink="/user">Hồ sơ</a>
+        <a class="nav-link active" routerLink="/order-list">Đơn hàng</a>
+      </nav>
+      <hr class="mt-0 mb-4"/>
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header">Danh sách đơn hàng</div>
+            <div class="card-body text-center">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tổng Tiền</th>
+                    <th>Phương Thức Thanh Toán</th>
+                    <th>Trạng Thái</th>
+                    <th>Địa Chỉ</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Ngày Tạo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of orders">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.total_amount | number:'1.0-0' }} ₫</td>
+                    <td>{{ order.payment_method }}</td>
+                    <td class="badge"
+                    (click)="cancelOrder(order)"
+                    [ngClass]="getStatusClass(order.status)">
+                      {{ getStatusLabel(order.status) }}
+                    </td>
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.phone_number }}</td>
+                    <td>{{ order.created_at | date: 'short' }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -10,7 +10,7 @@ export class NotyfService {
   constructor() {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       this.notyf = new Notyf({
-        duration: 3000,
+        duration: 1000,
         position: { x: 'right', y: 'top' },
         types: [
           {

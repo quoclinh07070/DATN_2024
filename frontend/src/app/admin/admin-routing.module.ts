@@ -37,7 +37,7 @@ import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/ad
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 //Comments
 import { CommentpostComponent } from './commentpost/commentpost.component';
-
+import { AdminAddUserComponent } from './admin-user/admin-add-user/admin-add-user.component';
 
 //wishlistitems
 // import { AdminWishlistitemsComponent } from './admin-wishlistitems/admin-wishlistitems.component';
@@ -62,6 +62,7 @@ const adminRoutes: Routes = [
     { path: 'product/edit/:id', component: AdminEditProductComponent },
 
     { path: 'user', component: AdminUserComponent },
+    { path: 'user/add', component: AdminAddUserComponent },
     { path: 'user/edit/:id', component: AdminEditUserComponent },
 
     { path: 'login', component: AdminLoginComponent },

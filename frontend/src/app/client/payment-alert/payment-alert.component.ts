@@ -1,13 +1,13 @@
 // payment-alert.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,RouterLink } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-payment-alert',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './payment-alert.component.html',
   styleUrl: './payment-alert.component.css',
 })
@@ -30,25 +30,35 @@ export class PaymentAlertComponent implements OnInit {
       this.resultCode = params['resultCode'];
       this.message = params['message'];
       this.amount = params['amount'];
-      this.transId = params['transId'];
+      this.transId = params['transId']; // Lấy transId từ URL
       this.orderInfo = params['orderInfo'];
 
       // Xử lý kết quả thanh toán
       if (this.resultCode === '0') {
-        this.paymentStatus = 'Thanh toán thành công!';
-      } else if (this.resultCode === '1') {
-        this.paymentStatus = 'Thanh toán thất bại!';
-      } else {
-        this.paymentStatus = 'Đang xử lý';
-      }
-
-      // Gọi API để lưu trạng thái nếu cần
-      this.paymentService.handlePaymentCallback({
-        resultCode: this.resultCode,
-        message: this.message,
-        orderId: this.orderId,
-        transId: this.transId
-      });
+        this.paymentStatus = '0';
+        this.updateOrderWithTransId();
+      } else{
+        this.paymentStatus = '1';
+      } 
+      // Gọi API để lưu trạng thái thanh toán vào cơ sở dữ liệu
     });
+  }
+
+  updateOrderWithTransId() {
+    // Kiểm tra nếu giao dịch thành công và có transId
+    if (this.resultCode === '0' && this.transId) {
+      const transId = this.transId;
+      const orderId = this.orderId;
+
+      // Gọi API để lưu transId vào bảng orders
+      this.paymentService.updateOrderTransId(orderId,transId).subscribe(
+        (response) => {
+          console.log('Cập nhật transId vào đơn hàng thành công:', response);
+        },
+        (error) => {
+          console.error('Lỗi khi cập nhật transId vào đơn hàng:', error);
+        }
+      );
+    }
   }
 }
