@@ -268,6 +268,7 @@ export class CheckoutComponent implements OnInit {
       quantity: item.quantity,
       unitPrice: unitPrice,
       totalPrice: totalPrice,
+      voucherId: this.appliedVoucher ? this.appliedVoucher.id : null,
       voucherCode: this.appliedVoucher ? this.appliedVoucher.voucher_code : null,
       voucherDiscount: this.appliedVoucher ? parseFloat(this.appliedVoucher.discount_percent) : 0,
     };

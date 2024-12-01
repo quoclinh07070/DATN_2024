@@ -58,6 +58,10 @@ export class PaymentService {
 
   // Kiểm tra trạng thái thanh toán (Nếu cần)
   checkPaymentStatus(orderId: string) {
-    return this.http.post<any>(`${environment.apiUrl}/api/payment/check-status`, { orderId });
+    return this.http.post<any>(`${this.baseUrl}/check-status`, { orderId });
+  }
+  // Phương thức cập nhật transId vào bảng orders
+  updateOrderTransId(orderId: string, transId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/update-order-transid`, { orderId, transId });
   }
 }

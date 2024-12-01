@@ -41,7 +41,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let order of filteredOrders">
-                      <th scope="row">{{ order.id }}</th>
+                      <th scope="row">{{ order.orderId }}</th>
                       <td>{{ order.payment_method }}</td>
                       <td>
                         <!-- Display status with respective color -->
@@ -50,8 +50,8 @@
                          class="badge text-uppercase">{{ getStatusLabel(order.status) }}
                         </span>
                       </td>
-                      <td>{{ order.payment_amount | number:'1.0-0' }} ₫</td>
-                      <td class="text-truncate" style="max-width: 120px">{{ order.address }}</td>
+                      <td>{{ order.total_amount | number:'1.0-0' }} ₫</td>
+                      <td>{{ order.address }}</td>
                       <td>{{ order.phone_number }}</td>
                       <td>{{ order.note ? order.note : 'Không có ghi chú' }}</td>
                     </tr>

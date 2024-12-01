@@ -47,70 +47,70 @@ export class OrderListComponent implements OnInit {
   }
 
   // Xử lý hủy đơn hàng
-  cancelOrder(order: any): void {
-    // Chỉ cho phép hủy đơn nếu trạng thái là "processing"
-    if (order.status !== 'processing') {
-      return; // Không làm gì nếu trạng thái không phải là "processing"
-    }
-
-    // Hiển thị cửa sổ xác nhận hủy đơn
-    Swal.fire({
-      title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
-      text: 'Hành động này không thể hoàn tác.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Hủy Đơn',
-      cancelButtonText: 'Quay lại',
-      customClass: {
-        confirmButton: 'btn btn-danger',
-        cancelButton: 'btn btn-secondary',
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Cập nhật trạng thái đơn hàng thành 'cancelled'
-        this.orderService.UpDateStatus(order.id, { status: 'cancelled' }).subscribe(
-          (response) => {
-            // Nếu thành công, cập nhật lại danh sách đơn hàng
-            this.orders = this.orders.filter(o => o.id !== order.id); // Xóa đơn hàng đã hủy khỏi danh sách
-            Swal.fire('Đã hủy đơn!', 'Đơn hàng của bạn đã được hủy.', 'success');
-          },
-          (error) => {
-            console.error('Lỗi khi hủy đơn:', error);
-            Swal.fire('Lỗi!', 'Không thể hủy đơn hàng lúc này. Vui lòng thử lại.', 'error');
-          }
-        );
-      }
-    });
+cancelOrder(order: any): void {
+  // Chỉ cho phép hủy đơn nếu trạng thái là "processing"
+  if (order.status !== 'processing') {
+    return; // Không làm gì nếu trạng thái không phải là "processing"
   }
 
-  // Lấy class theo trạng thái đơn hàng
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'processing':
-        return 'bg-warning';  // Yellow for processing
-      case 'delivering':
-        return 'bg-primary';  // Blue for delivering
-      case 'canceled':
-        return 'bg-danger';   // Red for canceled
-      case 'completed':
-        return 'bg-success';  // Green for completed
-      default:
-        return '';
+  // Hiển thị cửa sổ xác nhận hủy đơn
+  Swal.fire({
+    title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+    text: 'Hành động này không thể hoàn tác.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Hủy Đơn',
+    cancelButtonText: 'Quay lại',
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-secondary',
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Cập nhật trạng thái đơn hàng thành 'canceled'
+      this.orderService.UpDateStatus(order.id, { status: 'canceled' }).subscribe(
+        (response) => {
+          order.status = 'canceled';  // Update trạng thái trong local
+          Swal.fire('Đã hủy đơn!', 'Đơn hàng của bạn đã được hủy.', 'success');
+        },
+        (error) => {
+          console.error('Lỗi khi hủy đơn:', error);
+          Swal.fire('Lỗi!', 'Không thể hủy đơn hàng lúc này. Vui lòng thử lại.', 'error');
+        }
+      );
     }
-  }
-  // Lấy nhãn cho trạng thái
-  getStatusLabel(status: string): string {
-    switch (status) {
-      case 'processing':
-        return 'Chờ xử lý';
-      case 'delivering':
-        return 'Đang giao';
-      case 'canceled':
-        return 'Đã hủy';
-      case 'completed':
-        return 'Hoàn thành';
-      default:
-        return 'Chưa xác định';
-    }
-  }
+  });
 }
+
+  
+    // Lấy class theo trạng thái đơn hàng
+    getStatusClass(status: string): string {
+      switch (status) {
+        case 'processing':
+          return 'bg-warning';  // Yellow for processing
+        case 'delivering':
+          return 'bg-primary';  // Blue for delivering
+        case 'canceled':
+          return 'bg-danger';   // Red for canceled
+        case 'completed':
+          return 'bg-success';  // Green for completed
+        default:
+          return '';
+      }
+    }
+    // Lấy nhãn cho trạng thái
+    getStatusLabel(status: string): string {
+      switch (status) {
+        case 'processing':
+          return 'Chờ xử lý';
+        case 'delivering':
+          return 'Đang giao';
+        case 'canceled':
+          return 'Đã hủy';
+        case 'completed':
+          return 'Hoàn thành';
+        default:
+          return 'Chưa xác định';
+      }
+    }
+  }
