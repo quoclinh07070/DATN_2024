@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';  // Import service
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  // Import FormsModule
 import Swal from 'sweetalert2';
@@ -84,8 +83,7 @@ export class AdminOrderComponent implements OnInit {
         return 'Đã hủy';
       case 'completed':
         return 'Hoàn thành';
-      default:
-        return 'Chưa xác định';
+      default:return 'Chưa xác định';
     }
   }
 
@@ -93,7 +91,10 @@ export class AdminOrderComponent implements OnInit {
     if (order.status !== 'processing') {
       return;  // Không làm gì nếu trạng thái không phải là "Chờ xử lý"
     }
-      Swal.fire({
+  
+    let cancelActionClicked = false; // Biến theo dõi nút "Hủy thao tác"
+  
+    Swal.fire({
       title: 'Chọn hành động',
       text: 'Bạn muốn duyệt đơn, hủy đơn hay hủy thao tác?',
       showCancelButton: true,
@@ -106,17 +107,40 @@ export class AdminOrderComponent implements OnInit {
       },
       footer: '<button id="cancelAction" class="btn btn-secondary">Hủy thao tác</button>',
     }).then((result) => {
-      // Chỉ xử lý nếu người dùng chọn "Duyệt đơn" hoặc "Hủy đơn"
-      if (result.isConfirmed) {
-      } else if (result.isDismissed) {
+      // Nếu người dùng nhấn nút "Duyệt đơn"
+      if (result.isConfirmed && !cancelActionClicked) {
+        const updatedOrder = { ...order, status: 'delivering' };
+        this.orderService.UpDateStatus(order.id, updatedOrder).subscribe(
+          (response) => {
+            order.status = 'delivering';  // Update trạng thái trong local
+            Swal.fire('Duyệt đơn thành công!', '', 'success');
+            this.filterOrdersByStatus();  // Lọc lại đơn hàng
+          },
+          (error) => {
+            Swal.fire('Lỗi!', 'Có lỗi khi duyệt đơn.', 'error');
+          }
+        );
+      }
+      // Nếu người dùng nhấn nút "Hủy đơn"
+      else if (result.isDismissed && !cancelActionClicked) {
+        const updatedOrder = { ...order, status: 'canceled' };
+        this.orderService.UpDateStatus(order.id, updatedOrder).subscribe(
+          (response) => {
+            order.status = 'canceled';  // Update trạng thái trong local
+            Swal.fire('Đơn hàng đã bị hủy!', '', 'error');
+            this.filterOrdersByStatus();  // Lọc lại đơn hàng
+          },
+          (error) => {
+            Swal.fire('Lỗi!', 'Có lỗi khi hủy đơn.', 'error');
+          }
+        );
       }
     });
-
-    // Lắng nghe sự kiện click vào nút "Hủy thao tác"
-    document.getElementById('cancelAction')?.addEventListener('click', () => {
-      Swal.close();
-    });
-}
-
   
+    // Lắng nghe sự kiện click vào nút "Hủy thao tác" và chỉ đóng modal
+    document.getElementById('cancelAction')?.addEventListener('click', () => {
+      cancelActionClicked = true; // Đánh dấu là "Hủy thao tác" đã được nhấn
+      Swal.close();  // Đóng modal mà không làm gì
+    });
+  }
 }

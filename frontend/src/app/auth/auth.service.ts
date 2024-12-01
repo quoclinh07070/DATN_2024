@@ -182,6 +182,25 @@ checkUserRole(): Observable<boolean> {
   );
 }
 
+Usignup(name: string, email: string, password: string, status: string, role: string): Observable<any> {
+  const payload = { name, email, password, status, role }; // Thêm status và role vào payload
+  return this.http.post(`${this.apiUrl}/signup`, payload).pipe(
+    tap((response: any) => {
+      if (response.status === 201 && this.isLocalStorageAvailable()) {
+        // Lưu access token và refresh token vào localStorage
+        localStorage.setItem('accessToken', response.metadata.tokens.accessToken);
+        localStorage.setItem('refreshToken', response.metadata.tokens.refreshToken);
+        localStorage.setItem('userId', response.metadata.user.user_id);
+        localStorage.setItem('userName', response.metadata.user.name);
+        localStorage.setItem('userEmail', response.metadata.user.email);
+      }
+    }),
+    catchError((error: any) => {
+      const errorMessage = error.error?.message || 'Đã xảy ra lỗi';
+      return throwError(() => new Error(errorMessage));
+    })
+  );
+}
   // Load Google Sign-In Button
   loadGoogleSignIn(): void {
     if (typeof window !== 'undefined' && window.google) {
