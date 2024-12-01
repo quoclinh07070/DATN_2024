@@ -4,30 +4,35 @@ import { CommonModule } from '@angular/common'; // Thêm CommonModule để sử
 import { VoucherService } from '../../services/voucher.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-admin-voucher',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule], // Thêm CommonModule vào imports
+  imports: [RouterModule, CommonModule, FormsModule, NgxPaginationModule], // Thêm CommonModule vào imports
   templateUrl: './admin-voucher.component.html',
   styleUrls: ['./admin-voucher.component.css']
 })
 export class AdminVoucherComponent implements OnInit {
-  vouchers: any[] = [];  // Khai báo mảng để lưu trữ voucher
+  vouchers: any[] = [];  // Mảng lưu trữ tất cả các voucher
   filteredVouchers: any[] = [];  // Mảng lưu trữ các voucher sau khi lọc
-  selectedStatus: string = '';  // Biến lưu trữ trạng thái đã chọn cho lọc
+  selectedStatus: string = '';  // Trạng thái đã chọn
+  searchTerm: string = '';  // Biến tìm kiếm theo mã voucher
+
+  currentPage: number = 1;  // Trang hiện tại
+  itemsPerPage: number = 10;  // Số voucher hiển thị mỗi trang (mặc định 10)
 
   constructor(private voucherService: VoucherService) {}
 
   ngOnInit(): void {
-    this.getAllVouchers();  // Gọi hàm khi component được khởi tạo
+    this.getAllVouchers();  // Lấy dữ liệu voucher khi component khởi tạo
   }
 
-  // Lấy tất cả voucher
+  // Lấy tất cả voucher từ dịch vụ
   getAllVouchers(): void {
     this.voucherService.getAllVouchers().subscribe(
       (response: any) => {
-        this.vouchers = response.vouchers;  // Gán dữ liệu vào mảng vouchers
-        this.filteredVouchers = this.vouchers;  // Khởi tạo mảng filteredVouchers với tất cả dữ liệu
+        this.vouchers = response.vouchers;
+        this.filteredVouchers = this.vouchers;
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu voucher:', error);
@@ -35,13 +40,13 @@ export class AdminVoucherComponent implements OnInit {
     );
   }
 
-  // Lọc voucher theo trạng thái
-  filterByStatus(): void {
-    if (this.selectedStatus) {
-      this.filteredVouchers = this.vouchers.filter(voucher => voucher.status === this.selectedStatus);
-    } else {
-      this.filteredVouchers = this.vouchers;  // Hiển thị tất cả nếu không có trạng thái chọn
-    }
+  // Lọc voucher theo trạng thái và mã voucher
+  filterVouchers(): void {
+    this.filteredVouchers = this.vouchers.filter(voucher => {
+      const matchesSearchTerm = voucher.voucher_code.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesStatus = this.selectedStatus ? voucher.status === this.selectedStatus : true;
+      return matchesSearchTerm && matchesStatus;
+    });
   }
 
   // Xóa voucher
@@ -59,14 +64,13 @@ export class AdminVoucherComponent implements OnInit {
       if (result.isConfirmed) {
         this.voucherService.deleteVoucher(id).subscribe(
           () => {
-            // Cập nhật danh sách voucher sau khi xóa
             this.vouchers = this.vouchers.filter(voucher => voucher.id !== id);
-            this.filterByStatus();  // Lọc lại danh sách voucher sau khi xóa
+            this.filterVouchers();
             Swal.fire({
               title: 'Thành công!',
               text: 'Voucher đã được xóa thành công!',
               icon: 'success',
-              timer: 2000,  // Đóng tự động sau 2 giây
+              timer: 2000,
               showConfirmButton: false
             });
             console.log('Voucher đã được xóa thành công!');
@@ -85,5 +89,4 @@ export class AdminVoucherComponent implements OnInit {
       }
     });
   }
-  
 }
