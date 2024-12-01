@@ -272,4 +272,86 @@ router.post('/submit-cod-order', async (req, res) => {
   }
 });
 
+// API hoàn tiền cho giao dịch qua MoMo
+router.post('/refund', async (req, res) => {
+  const { orderId, amount, transId, description } = req.body;
+
+  // Kiểm tra tham số đầu vào
+  if (!orderId || !amount || !transId) {
+    return res.status(400).json({ message: 'Thiếu thông tin đơn hàng, số tiền hoặc mã giao dịch' });
+  }
+
+  // Kiểm tra số tiền hợp lệ
+  if (amount <= 0 || amount > 50000000) {
+    return res.status(400).json({ message: 'Số tiền hoàn tiền không hợp lệ (1.000 VND - 50.000.000 VND)' });
+  }
+
+  try {
+    // Lấy thông tin cấu hình MoMo từ config
+    const { accessKey, secretKey, partnerCode, lang, ipnUrl } = momoConfig;
+
+    // Tạo requestId duy nhất cho yêu cầu hoàn tiền
+    const requestId = partnerCode + new Date().getTime(); // Mã yêu cầu hoàn tiền
+
+    // Tạo chuỗi dữ liệu để ký (dùng HMAC SHA256)
+    const rawSignature = `accessKey=${accessKey}&amount=${amount}&description=${description || ''}&orderId=${orderId}&partnerCode=${partnerCode}&requestId=${requestId}&transId=${transId}`;
+
+    // Tạo chữ ký HMAC SHA256
+    const signature = crypto
+      .createHmac('sha256', secretKey)
+      .update(rawSignature)
+      .digest('hex');
+
+    // Dữ liệu gửi yêu cầu hoàn tiền đến MoMo
+    const requestBody = JSON.stringify({
+      partnerCode: partnerCode,
+      orderId: orderId,
+      requestId: requestId,
+      amount: amount,
+      transId: transId,
+      lang: lang || 'vi',
+      description: description || '',
+      signature: signature,
+    });
+
+    // Cấu hình HTTP request
+    const options = {
+      method: 'POST',
+      url: 'https://test-payment.momo.vn/v2/gateway/api/refund',  // URL của MoMo API hoàn tiền
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: requestBody,
+    };
+
+    // Gửi yêu cầu hoàn tiền
+    const response = await axios(options);
+
+    // Kiểm tra kết quả trả về từ MoMo
+    if (response.data.resultCode === 0) {
+      // Nếu hoàn tiền thành công, cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
+      const updateOrderQuery = `UPDATE orders SET status = 'refunded', refunded_amount = ? WHERE order_id = ?`;
+      await db.query(updateOrderQuery, [amount, orderId]);
+
+      // Ghi lại lịch sử thanh toán hoàn tiền nếu cần
+      // const paymentLogQuery = `INSERT INTO payment_logs (order_id, amount, type, created_at) VALUES (?, ?, 'refund', NOW())`;
+      // await db.query(paymentLogQuery, [orderId, amount]);
+
+      res.status(200).json({
+        message: 'Hoàn tiền thành công',
+        result: response.data,
+      });
+    } else {
+      // Nếu trả về lỗi, thông báo lỗi từ MoMo
+      res.status(500).json({
+        message: `Lỗi khi hoàn tiền: ${response.data.message}`,
+      });
+    }
+  } catch (error) {
+    console.error('Lỗi khi xử lý hoàn tiền:', error.message);
+    res.status(500).json({ message: 'Lỗi khi xử lý hoàn tiền', error: error.message });
+  }
+});
+
+
 module.exports = router;
