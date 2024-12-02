@@ -22,6 +22,27 @@ exports.getAllPosts = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi lấy bài viết', error: err });
     }
 };
+// Lấy tất cả bài viết
+exports.getAllPostsByStatus = async (req, res) => {
+    try {
+        const [results] = await db.query('SELECT * FROM posts  WHERE status = "published"');
+        res.json({
+            message: 'Lấy bài viết thành công',
+            posts: results.map(post => new Post(
+                post.id,
+                post.title,
+                post.content,
+                post.post_category_id,
+                post.status,
+                post.created_at,
+                post.updated_at,
+                post.image_url
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy bài viết', error: err });
+    }
+};
 
 // Lấy bài viết theo ID
 exports.getPostById = async (req, res) => {
