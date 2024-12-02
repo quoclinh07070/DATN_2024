@@ -23,6 +23,28 @@ exports.getAllVouchers = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi lấy voucher', error: err });
     }
 };
+// Lấy tất cả vouchers
+exports.getAllVouchersByStatus = async (req, res) => {
+    try {
+        const [results] = await db.query('SELECT * FROM vouchers WHERE status = "active"');
+        res.json({
+            message: 'Lấy voucher thành công',
+            vouchers: results.map(voucher => new Voucher(
+                voucher.id,
+                voucher.voucher_code,  // Thêm voucher_code
+                voucher.price,
+                voucher.discount_percent,
+                voucher.valid_from,    // Thêm valid_from
+                voucher.valid_to,      // Thêm valid_to
+                voucher.status,
+                voucher.created_at,
+                voucher.updated_at
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy voucher', error: err });
+    }
+};
 
 // Lấy voucher theo ID
 exports.getVoucherById = async (req, res) => {
