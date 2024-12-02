@@ -32,7 +32,7 @@
             <div class="form-group mt-4 mb-4">
               <label for="password">Mật Khẩu:</label>
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 id="password"
                 formControlName="password"
                 required
@@ -49,7 +49,17 @@
                 Mật khẩu là bắt buộc.
               </small>
             </div>
-
+            <div class="text-center mt-1">
+              <label class="d-flex justify-content-start align-items-center">
+                <input
+                  type="checkbox"
+                  (change)="togglePasswordVisibility()"
+                  [checked]="showPassword"
+                  class="me-2"
+                />
+                Hiển thị mật khẩu
+              </label>
+            </div>            
             <div class="text-center mt-3 link-group">
               <span>Bạn chưa có tài khoản? </span>
               <a routerLink="/register">Đăng ký</a>

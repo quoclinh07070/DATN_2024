@@ -40,7 +40,14 @@ export class AdminAddUserComponent {
       {
         name: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            this.passwordValidator, // Custom password validator
+          ],
+        ],
         confirmPassword: ['', [Validators.required]],
         status: ['active', Validators.required], // Giá trị mặc định
         role: ['user', Validators.required], // Giá trị mặc định
@@ -48,6 +55,31 @@ export class AdminAddUserComponent {
       { validators: this.passwordMatchValidator } // Custom validator
     );
   }
+   // Custom password validator: kiểm tra chữ hoa, chữ thường, số và ký tự đặc biệt
+   passwordValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const password = control.value;
+    if (password) {
+      const hasUpperCase = /[A-Z]/.test(password);
+      const hasLowerCase = /[a-z]/.test(password);
+      const hasNumber = /\d/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (!hasUpperCase) {
+        return { uppercase: true };
+      }
+      if (!hasLowerCase) {
+        return { lowercase: true };
+      }
+      if (!hasNumber) {
+        return { number: true };
+      }
+      if (!hasSpecialChar) {
+        return { specialChar: true };
+      }
+    }
+    return null;
+  }
+
 
 
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {

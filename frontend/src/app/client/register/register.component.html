@@ -27,16 +27,35 @@
             <div class="form-group mt-4">
               <label for="signup-password">Mật khẩu:</label>
               <input type="password" id="signup-password" formControlName="password" required class="form-control" placeholder="Nhập mật khẩu của bạn">
-              <small *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="error-message">
-                Mật khẩu là bắt buộc.
-              </small>
+              <small
+              *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched"
+              class="error-message"
+              >Mật khẩu là bắt buộc.</small
+            >
+            <small
+              *ngIf="signupForm.get('password')?.errors?.['minlength'] && signupForm.get('password')?.touched"
+              class="error-message"
+              >Mật khẩu phải có ít nhất 6 ký tự.</small
+            >
+            <small
+              *ngIf="signupForm.get('password')?.errors?.['uppercase'] && signupForm.get('password')?.touched"
+              class="error-message"
+              >Mật khẩu phải có ít nhất một chữ hoa.</small
+            >
+            <small
+              *ngIf="signupForm.get('password')?.errors?.['number'] && signupForm.get('password')?.touched"
+              class="error-message"
+              >Mật khẩu phải có ít nhất một số.</small
+            >
+            <small
+              *ngIf="signupForm.get('password')?.errors?.['specialChar'] && signupForm.get('password')?.touched"
+              class="error-message"
+              >Mật khẩu phải có ít nhất một ký tự đặc biệt.</small
+            >
             </div>
             <div class="form-group mb-4 mt-4">
               <label for="signup-confirm-password">Xác nhận mật khẩu:</label>
               <input type="password" id="signup-confirm-password" formControlName="confirmPassword" required class="form-control" placeholder="Nhập lại mật khẩu của bạn">
-              <small *ngIf="signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.get('confirmPassword')?.touched" class="error-message">
-                Xác nhận mật khẩu là bắt buộc.
-              </small>
               <small *ngIf="signupForm.errors?.['passwordMismatch'] && signupForm.get('confirmPassword')?.touched" class="error-message">
                 Mật khẩu và xác nhận mật khẩu không khớp.
               </small>

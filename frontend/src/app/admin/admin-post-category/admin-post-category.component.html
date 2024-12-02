@@ -15,7 +15,8 @@
               type="text" 
               id="searchTerm" 
               class="form-control simple-search-input mr-3" 
-              placeholder="Tìm kiếm danh mục" 
+              style="width: 220px;"
+              placeholder="Tìm kiếm danh mục... 🔍" 
               [(ngModel)]="searchTerm"
               (input)="filterCategories()" 
             />
@@ -23,8 +24,8 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap" style="text-align: center;">
-                  <thead class="table-primary">
+                <table class="table table-hover table-bordered text-nowrap" style="text-align: center;">
+                  <thead class="table-dark text-white text-center align-middle">
                     <tr>
                       <th>ID</th>
                       <th>Tên danh mục</th>
@@ -36,12 +37,12 @@
                   <tbody>
                     <tr *ngFor="let postcategory of filteredCategories">
                       <th scope="row">{{postcategory.id}}</th>
-                      <td class="text-truncate" style="max-width: 100px;">{{postcategory.name}}</td>
+                      <td class="text-truncate text-center align-middle" style="max-width: 100px;">{{postcategory.name}}</td>
                       <!-- <td>{{postcategory.parentCategoryID || 'N/A'}}</td> -->
-                      <td>
+                      <td class="text-center align-middle">
                         <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{postcategory.name}}" class="img-fluid" style="max-width: 60px;">
                       </td>
-                      <td>
+                      <td class="text-center align-middle">
                         <a class="btn btn-info btn-sm" routerLink="edit/{{postcategory.id}}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteCategory(postcategory.id)">Xóa</button>
                       </td>

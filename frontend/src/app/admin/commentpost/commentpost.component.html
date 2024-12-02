@@ -11,8 +11,8 @@
             <div class="card-body">
               <div class="table-responsive">
 
-                <table class="table table-hover text-nowrap" style="text-align: center;">
-                  <thead class="table-primary">
+                <table class="table table-hover table-bordered text-nowrap" style="text-align: center;">
+                  <thead class="table-dark text-white text-center align-middle">
                     <tr>
                       <th>ID</th>
                       <th>ID Bài viết</th>
@@ -27,11 +27,11 @@
                   <tbody>
                     <tr *ngFor="let commentpost of commentposts"
                       [ngClass]="{'table-light': commentpost.status === 'visible', 'table-danger': commentpost.status === 'hidden'}">
-                      <th scope="row">{{ commentpost.id }}</th>
-                      <td>{{ commentpost.posts_id }}</td>
-                      <td>{{ commentpost.users_id }}</td>
-                      <td class="text-truncate" style="max-width: 120px;">{{ commentpost.comment }}</td>
-                      <td>
+                      <th class="text-truncate text-center align-middle" scope="row">{{ commentpost.id }}</th>
+                      <td class="text-truncate text-center align-middle">{{ commentpost.posts_id }}</td>
+                      <td class="text-truncate text-center align-middle">{{ commentpost.users_id }}</td>
+                      <td class="text-truncate text-center align-middle" style="max-width: 120px;">{{ commentpost.comment }}</td>
+                      <td class="text-truncate text-center align-middle">
                         <span class="badge"
                           [ngClass]="{'bg-success': commentpost.status === 'visible', 'bg-danger': commentpost.status === 'hidden'}">
                           {{ commentpost.status === 'visible' ? 'Hiển thị' : 'Ẩn' }}
@@ -39,7 +39,7 @@
                       </td>
                       <!-- <td>{{ commentpost.created_at | date: 'short' }}</td> -->
                       <!-- <td>{{ commentpost.updated_at | date: 'short' }}</td> -->
-                      <td>
+                      <td class="text-truncate text-center align-middle">
                         <!-- <a class="btn btn-info btn-sm" routerLink="edit/{{ commentpost.id }}">Sửa</a> -->
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteCommentPost(commentpost.id)">
                           Xóa

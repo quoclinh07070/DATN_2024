@@ -40,6 +40,26 @@
                       <small *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-danger">
                         Mật khẩu là bắt buộc.
                       </small>
+                      <small
+                      *ngIf="signupForm.get('password')?.errors?.['minlength'] && signupForm.get('password')?.touched"
+                      class="error-message"
+                      >Mật khẩu phải có ít nhất 6 ký tự.</small
+                    >
+                    <small
+                      *ngIf="signupForm.get('password')?.errors?.['uppercase'] && signupForm.get('password')?.touched"
+                      class="error-message"
+                      >Mật khẩu phải có ít nhất một chữ hoa.</small
+                    >
+                    <small
+                      *ngIf="signupForm.get('password')?.errors?.['number'] && signupForm.get('password')?.touched"
+                      class="error-message"
+                      >Mật khẩu phải có ít nhất một số.</small
+                    >
+                    <small
+                      *ngIf="signupForm.get('password')?.errors?.['specialChar'] && signupForm.get('password')?.touched"
+                      class="error-message"
+                      >Mật khẩu phải có ít nhất một ký tự đặc biệt.</small
+                    >
                     </div>
                     <!-- Xác Nhận Mật Khẩu -->
                     <div class="mb-3">

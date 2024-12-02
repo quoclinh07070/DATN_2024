@@ -27,8 +27,8 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap" style="text-align: center;">
-                  <thead class="table-primary">
+                <table class="table table-hover table-bordered text-nowrap" style="text-align: center;">
+                  <thead class="table-dark text-white text-center align-middle">
                     <tr class="border-bottom">
                       <th scope="col">ID</th>
                       <th scope="col">Phương thức thanh toán</th>
@@ -41,26 +41,25 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let order of filteredOrders">
-                      <th scope="row">{{ order.id }}</th>
-                      <td>{{ order.payment_method }}</td>
-                      <td>
+                      <th class="text-truncate text-center align-middle" scope="row">{{ order.id }}</th>
+                      <td class="text-truncate text-center align-middle">{{ order.payment_method }}</td>
+                      <td class="text-truncate text-center align-middle">
                         <!-- Display status with respective color -->
                         <span [ngClass]="getStatusClass(order.status)"
                          (click)="updateOrderStatus(order)"
                          class="badge text-uppercase">{{ getStatusLabel(order.status) }}
                         </span>
                       </td>
-                      <td>{{ order.payment_amount | number:'1.0-0' }} ₫</td>
-                      <td class="text-truncate" style="max-width: 120px">{{ order.address }}</td>
-                      <td>{{ order.phone_number }}</td>
-                      <td>{{ order.note ? order.note : 'Không có ghi chú' }}</td>
+                      <td class="text-truncate text-center align-middle">{{ order.payment_amount | number:'1.0-0' }} ₫</td>
+                      <td class="text-truncate text-center align-middle" style="max-width: 120px">{{ order.address }}</td>
+                      <td class="text-truncate text-center align-middle">{{ order.phone_number }}</td>
+                      <td class="text-truncate text-center align-middle">{{ order.note ? order.note : 'Không có ghi chú' }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

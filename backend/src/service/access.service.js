@@ -26,6 +26,12 @@ class AccessService {
             throw new AuthFailureError('Authentication error')
         }
 
+         // 2. Kiểm tra trạng thái tài khoản
+            const userStatus = foundShop.status;
+            if (userStatus !== 'active') {
+                throw new BadRequestError('Your account is not active. Please contact the administrator.');
+            }
+
         const userRole = foundShop.role;
         //3.
         // create privateKey, publicKey

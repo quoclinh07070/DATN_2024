@@ -19,6 +19,7 @@ declare var gapi: any;
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   signupForm: FormGroup;
+  showPassword: boolean = false;
 
   errorMessage: string = '';
 
@@ -63,6 +64,9 @@ export class LoginComponent implements OnInit {
       this.address = null;
     }
   }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   ngOnInit(): void {
     this.authService.loadGoogleSignIn();
   }
@@ -84,7 +88,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        Swal.fire('Lỗi!', 'Đăng nhập không thành công ! Vui lòng thử lại', 'error');
+        Swal.fire('Lỗi!', 'Có lỗi trong quá trình đăng nhập hoặc tài khoản của bạn bị khóa ! Vui lòng thử lại', 'error');
       }
     );
   }
