@@ -35,19 +35,20 @@
                     <div class="price mt-2">
                       <ng-container *ngIf="product.discount > 0; else noDiscount">
                         <span class="text-danger fw-bold">
-                          {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                          {{ formatPriceWithDot(product.price - product.price * (product.discount / 100)) }} ₫
                         </span>
                         <span class="text-muted text-decoration-line-through ms-2">
-                          {{ product.price | number:'1.0-0' }} ₫
+                          {{ formatPriceWithDot(product.price) }} ₫
                         </span>
                       </ng-container>
                       <ng-template #noDiscount>
                         <span class="current-price text-danger fw-bold">
-                          {{ product.price | number:'1.0-0' }} ₫
+                          {{ formatPriceWithDot(product.price) }} ₫
                         </span>
                       </ng-template>
                     </div>
                   </div>
+                  
                   <!-- Nút -->
                   <div class="card-footer bg-transparent d-flex justify-content-center gap-2 p-2">
                     <button class="bi bi-cart-plus btn btn-primary btn-sm px-3 d-flex align-items-center justify-content-center gap-2" (click)="addToCart(product, quantity)">
