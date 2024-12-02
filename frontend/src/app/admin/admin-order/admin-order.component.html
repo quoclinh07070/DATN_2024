@@ -24,43 +24,61 @@
             </li>
           </ul>
 
+          
+          <!-- Second Card for Orders -->
           <div class="card mt-3">
             <div class="card-body">
+              <div class="d-flex justify-content-between mb-3">
+                <input type="text" class="form-control w-25" placeholder="Tìm kiếm theo ID đơn hàng..." [(ngModel)]="searchTerm" (input)="filterOrdersByStatus()" />
+              </div>
+          
               <div class="table-responsive">
                 <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead class="table-primary">
                     <tr class="border-bottom">
-                      <th scope="col">ID</th>
-                      <th scope="col">Phương thức thanh toán</th>
-                      <th scope="col">Trạng thái</th>
-                      <th scope="col">Tổng tiền đơn hàng</th>
-                      <th scope="col">Địa chỉ</th>
+                      <th scope="col">Stt</th>
+                      <th scope="col">Phương thức</th>                     
+                      <th scope="col">Tổng tiền</th>
+                      <th scope="col">Họ và tên</th> <!-- Thêm cột Họ và tên khách hàng -->
                       <th scope="col">Số điện thoại</th>
                       <th scope="col">Ghi Chú</th>
+                      <th scope="col">Trạng thái</th>
+                      <th scope="col">Chi tiết</th> <!-- Thêm cột nút Xem chi tiết -->
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let order of filteredOrders">
-                      <th scope="row">{{ order.orderId }}</th>
+                      <th scope="row">{{ order.id }}</th>
                       <td>{{ order.payment_method }}</td>
+                      <td>{{ order.total_amount | number:'1.0-0' }} ₫</td>
+                      <td>{{ order.user_id}}</td> <!-- Hiển thị họ và tên khách hàng -->
+                      <td>{{ order.phone_number}}</td>
+                      <td>{{ order.note ? order.note : 'Không có ghi chú' }}</td>
                       <td>
-                        <!-- Display status with respective color -->
-                        <span [ngClass]="getStatusClass(order.status)"
-                         (click)="updateOrderStatus(order)"
-                         class="badge text-uppercase">{{ getStatusLabel(order.status) }}
+                        <span [ngClass]="getStatusClass(order.status)" (click)="updateOrderStatus(order)" class="badge text-uppercase">
+                          {{ getStatusLabel(order.status) }}
                         </span>
                       </td>
-                      <td>{{ order.total_amount | number:'1.0-0' }} ₫</td>
-                      <td>{{ order.address }}</td>
-                      <td>{{ order.phone_number }}</td>
-                      <td>{{ order.note ? order.note : 'Không có ghi chú' }}</td>
+                      <td>
+                        <a class="btn btn-info btn-sm" routerLink="detail/{{order.id}}">Chi Tiết</a>
+                      </td>
+                      
                     </tr>
                   </tbody>
                 </table>
+                
+              </div>
+          
+              <!-- Pagination Controls -->
+              <div class="d-flex justify-content-between mt-3">
+                <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn btn-secondary">Trước</button>
+                <div>
+                  <span>{{ currentPage }} / {{ totalPages }}</span>
+                </div>
+                <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalOrders" class="btn btn-secondary">Tiếp</button>
               </div>
             </div>
-          </div>
-
+          </div>  
         </div>
       </div>
     </div>

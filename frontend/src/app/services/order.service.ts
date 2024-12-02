@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class OrderService {
   private baseUrl = environment.apiUrl + "/orders";
+  apiUrl: any;
 
   constructor(private http: HttpClient) {}
 
@@ -31,4 +32,8 @@ export class OrderService {
   }
   
   
+  updateOrder(id: number, orderData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, orderData);
+  }
+
 }
