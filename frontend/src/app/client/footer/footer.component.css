@@ -190,46 +190,59 @@ footer iframe {
     border-color:#ffb56b;
     opacity: .5;
 }
-/* Nút toggle ở góc dưới phải */
+/* Nút toggle Chatbot */
 .chatbot-toggle {
   position: fixed;
-  bottom: 10px;
+  bottom: 80px; /* Đẩy lên một chút để không bị đè bởi nút gọi */
   right: 20px;
-  background-color: #007bff;
+  background-color: #24af75; /* Màu sắc đồng bộ với nút gọi */
   color: #fff;
   border: none;
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Đảm bảo hiển thị trên các phần tử khác */
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-/* Khung chat */
+.chatbot-toggle:hover {
+  transform: scale(1.1);
+  background-color: #1d9b68;
+}
+
+/* Khung Chatbot */
 .chatbot-box {
   position: fixed;
-  bottom: 90px;
+  bottom: 220px; /* Đẩy lên để tránh các nút */
   right: 20px;
-  width: 300px;
-  height: 400px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 350px; /* Tăng kích thước để thoải mái hơn */
+  height: 450px;
+  background: #ffffff;
+  border: 2px solid #24af75; /* Đồng bộ với nút toggle */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
+  z-index: 1500;
 }
 
-/* Header của khung chat */
+/* Header Chatbot */
 .chatbot-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007bff;
+  background-color: #24af75;
   color: #fff;
-  padding: 10px;
-  border-radius: 8px 8px 0 0;
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* Nút đóng khung chat */
@@ -237,16 +250,18 @@ footer iframe {
   background: none;
   border: none;
   color: #fff;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
 }
 
-/* Phần tin nhắn */
+/* Tin nhắn */
 .chatbot-messages {
   flex: 1;
-  padding: 10px;
+  padding: 15px;
   overflow-y: auto;
   background-color: #f9f9f9;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* Khu vực nhập tin nhắn */
@@ -262,13 +277,19 @@ footer iframe {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-right: 5px;
+  font-size: 14px;
 }
 
 .chatbot-input button {
-  background-color: #007bff;
+  background-color: #24af75;
   color: #fff;
   border: none;
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
+}
+
+.chatbot-input button:hover {
+  background-color: #1d9b68;
 }

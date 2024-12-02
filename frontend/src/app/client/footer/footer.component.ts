@@ -44,7 +44,7 @@ export class FooterComponent implements AfterViewInit {
 
   sendMessage() {
     if (this.userMessage.trim()) {
-      this.messages.push({ user: 'Bạn', text: this.userMessage });
+      this.messages.push({ user: 'Tôi', text: this.userMessage });
       this.chatbotService.sendMessage(this.userMessage).subscribe((response) => {
         this.messages.push({ user: 'Bot', text: response.reply });
       });
