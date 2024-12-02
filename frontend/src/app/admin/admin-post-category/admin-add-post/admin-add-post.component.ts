@@ -14,7 +14,6 @@ import Swal from 'sweetalert2';
 export class AdminAddPostComponent {
   postcategory: any = {
     name: '',
-    parentCategoryID: null,
     image_url: null
   };
 
@@ -47,12 +46,11 @@ export class AdminAddPostComponent {
       });
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('name', this.postcategory.name);
-    formData.append('parentCategoryID', this.postcategory.parentCategoryID?.toString() || '');
     formData.append('image_url', this.postcategory.image_url);
-  
+
     this.postCategoryService.createPostCategory(formData).subscribe(
       (response) => {
         Swal.fire({
@@ -75,5 +73,4 @@ export class AdminAddPostComponent {
       }
     );
   }
-  
 }

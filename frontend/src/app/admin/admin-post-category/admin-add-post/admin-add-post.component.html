@@ -20,13 +20,6 @@
                                       </div>
                                     </div>
                                     
-                                    <div class="mb-3">
-                                      <label for="parentCategoryID" class="form-label">ID danh mục cha</label>
-                                      <input type="number" class="form-control" id="parentCategoryID" [(ngModel)]="postcategory.parentCategoryID" name="parentCategoryID" #parentCategoryID="ngModel">
-                                      <div *ngIf="parentCategoryID.invalid && parentCategoryID.touched" class="text-danger">
-                                        ID danh mục cha không hợp lệ.
-                                      </div>
-                                    </div>
                                     
                                     <div class="mb-3">
                                       <label for="image_url" class="form-label">Hình ảnh</label>
