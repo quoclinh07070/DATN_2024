@@ -10,11 +10,12 @@ export class GhtkService {
 
   constructor(private http: HttpClient) {}
 
-  calculateFee(data: any): Observable<any> {
+  calculateShippingFee(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/calculate-fee`, data);
   }
 
-  createOrder(order: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create-order`, order);
-  }
+
+  // createOrder(order: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/create-order`, order);
+  // }
 }

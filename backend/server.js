@@ -5,7 +5,7 @@ const path = require('path');
 const nodemailer = require('nodemailer'); // Import nodemailer
 const bodyParser = require('body-parser');
 const authRoutes = require('./src/routes/auth');
-
+const { OpenAI } = require("openai");
 const postRoutes = require('./src/routes/postRoutes');
 const voucherRoutes = require('./src/routes/voucherRoutes');
 const orderRoutes = require('./src/routes/orderRoutes');
@@ -73,7 +73,30 @@ app.post('/send-email', (req, res) => {
 
 // Middleware để xử lý JSON body
 app.use(bodyParser.json());
+// OpenAI Configuration
 
+// Tạo đối tượng OpenAI API
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // API Key từ file .env
+});
+
+// Chatbot API endpoint
+app.post('/api/chatbot', async (req, res) => {
+  const { message } = req.body;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // Hoặc "gpt-4" nếu được quyền truy cập
+      messages: [{ role: "user", content: message }],
+    });
+
+    // Trả về phản hồi từ Chatbot
+    res.json({ reply: response.choices[0].message.content });
+  } catch (error) {
+    console.error("Error during OpenAI API request:", error.message);
+    res.status(500).json({ error: "Something went wrong with OpenAI API" });
+  }
+});
 // Sử dụng route xác thực
 app.use('/api', authRoutes);
 
