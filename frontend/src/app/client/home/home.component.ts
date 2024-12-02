@@ -4,12 +4,11 @@ import { PostService } from '../../services/post.service'; // Import PostService
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
-import { ChatbotService } from '../../services/chatbot.service';
-import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -21,8 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private postService: PostService, // Inject PostService
-    private cartService: CartService,
-    private chatbotService: ChatbotService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -77,16 +75,4 @@ export class HomeComponent implements OnInit {
       alert('Sản phẩm đã hết hàng!');
     }
   }
-
-  // messages: { user: string; text: string }[] = [];
-  // userMessage: string = '';
-  // sendMessage() {
-  //   if (this.userMessage.trim()) {
-  //     this.messages.push({ user: 'Bạn', text: this.userMessage });
-  //     this.chatbotService.sendMessage(this.userMessage).subscribe((response) => {
-  //       this.messages.push({ user: 'Bot', text: response.reply });
-  //     });
-  //     this.userMessage = '';
-  //   }
-  // }
 }

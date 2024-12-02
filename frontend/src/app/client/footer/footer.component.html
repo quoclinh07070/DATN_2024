@@ -205,7 +205,30 @@
       </div>
     </div>
   </div> -->
-
+  <div class="chatbot-container">
+    <!-- Nút bật/tắt chatbot -->
+    <button class="chatbot-toggle" (click)="toggleChat()">
+      💬
+    </button>
+  
+    <!-- Khung chat -->
+    <div class="chatbot-box" *ngIf="isChatOpen">
+      <div class="chatbot-header">
+        <h3>Chat với chúng tôi!</h3>
+        <button class="close-chat" (click)="toggleChat()">✖</button>
+      </div>
+      <div class="chatbot-messages">
+        <div *ngFor="let message of messages" class="message">
+          <p><strong>{{ message.user }}:</strong> {{ message.text }}</p>
+        </div>
+      </div>
+      <div class="chatbot-input">
+        <input [(ngModel)]="userMessage" placeholder="Nhập tin nhắn..." />
+        <button (click)="sendMessage()">Gửi</button>
+      </div>
+    </div>
+  </div>
+  
 <!-- Call now btn -->
   <a href="tel:0913634651" mypage="" class="call-now" rel="nofollow"><div
     class="mypage-alo-phone"><div

@@ -88,6 +88,7 @@ app.post('/api/chatbot', async (req, res) => {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo", // Hoặc "gpt-4" nếu được quyền truy cập
       messages: [{ role: "user", content: message }],
+      max_tokens: 50,
     });
 
     // Trả về phản hồi từ Chatbot
