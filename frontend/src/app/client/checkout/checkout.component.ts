@@ -365,31 +365,38 @@ export class CheckoutComponent implements OnInit {
   
   
 
-  createOrder(): void {
-    const order = {
-      pick_name: this.user.name, // Tên người gửi
-      pick_address: this.user.address, // Địa chỉ gửi
-      pick_province: this.selectedTinh, // Tỉnh/Thành phố gửi
-      pick_district: this.selectedQuan, // Quận/Huyện gửi
-      deliver_name: this.user.name, // Tên người nhận
-      deliver_address: this.user.address, // Địa chỉ nhận
-      deliver_province: this.selectedTinh, // Tỉnh/Thành phố nhận
-      deliver_district: this.selectedQuan, // Quận/Huyện nhận
-      weight: 1000, // Tổng trọng lượng this.getTotalWeight()
-    };
+//   createOrder(): void {
+//     const order = {
+//       pick_name: this.user.name, // Tên người gửi
+//       pick_address: this.user.address, // Địa chỉ gửi
+//       pick_province: this.selectedTinh, // Tỉnh/Thành phố gửi
+//       pick_district: this.selectedQuan, // Quận/Huyện gửi
+//       deliver_name: this.user.name, // Tên người nhận
+//       deliver_address: this.user.address, // Địa chỉ nhận
+//       deliver_province: this.selectedTinh, // Tỉnh/Thành phố nhận
+//       deliver_district: this.selectedQuan, // Quận/Huyện nhận
+//       weight: 1000, // Tổng trọng lượng this.getTotalWeight()
+//     };
   
-    this.ghtkService.createOrder(order).subscribe(
-      (response) => {
-        this.orderResponse = response;
-        console.log('Order response:', response);
-      },
-      (error) => {
-        console.error('Error creating order:', error);
-      }
-    );
+//     this.ghtkService.createOrder(order).subscribe(
+//       (response) => {
+//         this.orderResponse = response;
+//         console.log('Order response:', response);
+//       },
+//       (error) => {
+//         console.error('Error creating order:', error);
+//       }
+//     );
+//   }
+  
+//   getTotalWeight(): number {
+//   return this.cartItems.reduce((total, item) => total + item.weight * item.quantity, 0);
+// }
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
   }
-  
-  getTotalWeight(): number {
-  return this.cartItems.reduce((total, item) => total + item.weight * item.quantity, 0);
-}
+
 }

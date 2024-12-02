@@ -216,5 +216,11 @@ export class CartComponent implements OnInit {
     localStorage.removeItem('appliedVoucher');
     this.appliedVoucher = null;  // Xóa voucher đã áp dụng
   }
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
+  }
   
 }
