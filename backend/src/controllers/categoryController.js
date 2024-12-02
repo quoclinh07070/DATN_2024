@@ -21,6 +21,26 @@ exports.getAllCategories = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi lấy danh mục', error: err });
     }
 };
+// Lấy tất cả danh mục
+exports.getAllCategoriesByStatus = async (req, res) => {
+    try {
+        const [results] = await db.query('SELECT * FROM category WHERE status = "active"');
+        res.json({
+            message: 'Lấy danh mục thành công',
+            categories: results.map(category => new Category(
+                category.id,
+                category.category_name,
+                category.images,
+                category.status,
+                category.description,
+                category.created_at,
+                category.updated_at
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy danh mục', error: err });
+    }
+};
 
 // Lấy danh mục theo ID
 exports.getCategoryById = async (req, res) => {

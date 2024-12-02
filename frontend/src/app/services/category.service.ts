@@ -20,6 +20,10 @@ export class CategoryService {
   getAllCategories(){
     return this.http.get(this.baseUrl);
   }
+  // Lấy danh sách danh mục
+  getAllCategoriesByStatus(){
+    return this.http.get(`${this.baseUrl}/bystatus`);
+  }
 
   // Lấy danh mục theo ID
   getCategoryById(id: number){
