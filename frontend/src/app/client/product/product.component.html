@@ -93,26 +93,19 @@
 
         <div class="our-shop">
           <div class="row">
-            <div *ngFor="let product of filteredProducts" class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3">
-              <!-- Card Boostrap -->
+            <div *ngFor="let product of paginatedProducts" class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3">
+              <!-- Card Bootstrap -->
               <div class="card shadow-sm border-0 h-100">
-                <!-- Hình ảnh sản phẩm -->
                 <div class="card-header bg-transparent position-relative p-0">
-                  <!-- Giảm giá -->
                   <div *ngIf="product.discount > 0">
-                    <span class="badge bg-danger position-absolute top-0 start-0 m-2">
-                      -{{ product.discount }}%
-                    </span>
+                    <span class="badge bg-danger position-absolute top-0 start-0 m-2">-{{ product.discount }}%</span>
                   </div>
                   <img [src]="getImageUrl(product.image)" alt="{{ product.name }}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;" />
                 </div>
-                <!-- Nội dung -->
                 <div class="card-body text-center">
                   <h6 class="card-title text-truncate product-name">
-                    <a [routerLink]="['/product-detail', product.id]" class="text-dark text-decoration-none">
-                      {{ product.name }}
-                    </a>
-                  </h6>                  
+                    <a [routerLink]="['/product-detail', product.id]" class="text-dark text-decoration-none">{{ product.name }}</a>
+                  </h6>
                   <div class="price mt-2">
                     <ng-container *ngIf="product.discount > 0; else noDiscount">
                       <span class="text-danger fw-bold">
@@ -123,38 +116,51 @@
                       </span>
                     </ng-container>
                     <ng-template #noDiscount>
-                      <span class="current-price text-danger fw-bold">
-                        {{ product.price | number:'1.0-0' }} ₫
-                      </span>
+                      <span class="current-price text-danger fw-bold">{{ product.price | number:'1.0-0' }} ₫</span>
                     </ng-template>
                   </div>
                 </div>
-                <!-- Nút -->
                 <div class="card-footer bg-transparent d-flex justify-content-center gap-2">
                   <button class="btn btn-primary d-flex align-items-center" (click)="addToCart(product, quantity)">
-                    <i class="bi bi-cart-plus"></i>
-                    Thêm Giỏ hàng
+                    <i class="bi bi-cart-plus"></i> Thêm Giỏ hàng
                   </button>
                   <a [routerLink]="['/product-detail', product.id]" class="btn btn-outline-secondary d-flex align-items-center">
-                    <i class="bi bi-eye"></i>
-                    Xem Chi Tiết
+                    <i class="bi bi-eye"></i> Xem Chi Tiết
                   </a>
-                </div>                
+                </div>
               </div>
             </div>
           </div>
         </div>
         
+        <div class="styled-pagination text-center" *ngIf="totalPages > 1">
+          <ul class="pagination justify-content-center">
+            <!-- Nút Trước -->
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link px-3" (click)="goToPage(currentPage - 1)">
+                &laquo; Trước
+              </button>
+            </li>
         
-        <div class="styled-pagination" *ngIf="filteredProducts.length !== 0">
-          <ul class="clearfix">
-              <li class="prev-post"><a href="#"><span class="fa fa-long-arrow-left"></span> Prev</a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="next-post"><a href="#"> Next <span class="fa fa-long-arrow-right"></span> </a></li>
+            <!-- Các số trang -->
+            <li 
+              class="page-item" 
+              *ngFor="let page of [].constructor(totalPages); let i = index" 
+              [class.active]="i + 1 === currentPage">
+              <button class="page-link px-3" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+            </li>
+        
+            <!-- Nút Sau -->
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <button class="page-link px-3" (click)="goToPage(currentPage + 1)">
+                Sau &raquo;
+              </button>
+            </li>
           </ul>
-      </div>
+        </div>
+        
+        
+        
 
       </div>
     </div>

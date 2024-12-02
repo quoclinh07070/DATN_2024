@@ -47,3 +47,24 @@
   font-size: 0.8rem; /* Icon nhỏ hơn */
   margin-right: 2px; /* Giảm khoảng cách icon và chữ */
 }
+.styled-pagination .pagination .page-item .page-link {
+  padding: 5px 12px; /* Giảm kích thước padding */
+  font-size: 20px;  /* Giảm kích thước font */
+  background-color: transparent; /* Xóa nền */
+  border: none; /* Xóa viền */
+  color: #6c757d;  /* Màu chữ */
+  transition: all 0.3s ease; /* Hiệu ứng chuyển động */
+}
+
+.styled-pagination .pagination .page-item .page-link:hover {
+  color: #007bff;  /* Màu chữ khi hover */
+}
+
+.styled-pagination .pagination .page-item.disabled .page-link {
+  color: #d6d6d6;  /* Màu chữ khi nút disabled */
+  pointer-events: none; /* Không thể nhấn khi disabled */
+}
+
+.styled-pagination .pagination .page-item.active .page-link {
+  color: #007bff;  /* Màu chữ cho nút active */
+}
