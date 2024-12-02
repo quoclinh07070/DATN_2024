@@ -37,13 +37,13 @@ export class ProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllProducts();
-    this.getAllCategories();
+    this.getAllProductsByStatus();
+    this.getAllCategoriesByStatus();
   }
 
   // Lấy tất cả sản phẩm từ API
-  getAllProducts(): void {
-    this.productService.getAllProducts().subscribe(
+  getAllProductsByStatus(): void {
+    this.productService.getAllProductsByStatus().subscribe(
       (response: any) => {
         this.products = response.products;
         this.filteredProducts = this.products;
@@ -55,8 +55,8 @@ export class ProductComponent implements OnInit {
   }
 
   // Lấy tất cả danh mục sản phẩm từ API
-  getAllCategories(): void {
-    this.categoryService.getAllCategories().subscribe(
+  getAllCategoriesByStatus(): void {
+    this.categoryService.getAllCategoriesByStatus().subscribe(
       (response: any) => {
         this.categories = response.categories;
       },
