@@ -11,7 +11,6 @@ exports.getAllCategories = async (req, res) => {
                 category.id,
                 category.category_name,
                 category.images,
-                category.parent_categoryID,
                 category.status,
                 category.description,
                 category.created_at,
@@ -38,7 +37,6 @@ exports.getCategoryById = async (req, res) => {
                 category.id,
                 category.category_name,
                 category.images,
-                category.parent_categoryID,
                 category.status,
                 category.description,
                 category.created_at,
@@ -52,12 +50,12 @@ exports.getCategoryById = async (req, res) => {
 
 // Tạo danh mục mới
 exports.createCategory = async (req, res) => {
-    const { category_name, parent_categoryID, status, description } = req.body;
+    const { category_name, status, description } = req.body;
     const images = req.file.filename; // Tên file hình ảnh từ upload
     try {
         const [results] = await db.query(
-            'INSERT INTO category (category_name, images, parent_categoryID, status, description) VALUES (?, ?, ?, ?, ?)',
-            [category_name, images, parent_categoryID, status, description]
+            'INSERT INTO category (category_name, images, status, description) VALUES (?, ?, ?, ?)',
+            [category_name, images, status, description]
         );
         res.status(201).json({
             message: 'Tạo danh mục thành công',
@@ -65,7 +63,6 @@ exports.createCategory = async (req, res) => {
                 results.insertId,
                 category_name,
                 images,
-                parent_categoryID,
                 status,
                 description,
                 new Date(),
@@ -80,7 +77,7 @@ exports.createCategory = async (req, res) => {
 // Cập nhật danh mục
 exports.updateCategory = async (req, res) => {
     const { id } = req.params;
-    const { category_name, parent_categoryID, status, description } = req.body;
+    const { category_name, status, description } = req.body;
     const images = req.file ? req.file.filename : null;
 
     try {
@@ -93,8 +90,8 @@ exports.updateCategory = async (req, res) => {
         const updatedImage = images ? images : currentImage;
 
         await db.query(
-            'UPDATE category SET category_name = ?, images = ?, parent_categoryID = ?, status = ?, description = ? WHERE id = ?',
-            [category_name, updatedImage, parent_categoryID, status, description, id]
+            'UPDATE category SET category_name = ?, images = ?, status = ?, description = ? WHERE id = ?',
+            [category_name, updatedImage, status, description, id]
         );
         
         res.json({
@@ -103,7 +100,6 @@ exports.updateCategory = async (req, res) => {
                 id,
                 category_name,
                 updatedImage,
-                parent_categoryID,
                 status,
                 description,
                 null, // Ngày tạo giữ nguyên

@@ -19,7 +19,6 @@ export class AdminProductAddComponent {
     category_name: '',
     description: '',
     images: null,
-    parent_categoryID: '',
     status: 'inactive',
     created_at: '',
     updated_at: ''
@@ -63,7 +62,6 @@ export class AdminProductAddComponent {
     if (this.category.images) {
       formData.append('images', this.category.images);
     }
-    formData.append('parent_categoryID', this.category.parent_categoryID);
     formData.append('status', this.category.status);
     formData.append('created_at', new Date().toISOString());
     formData.append('updated_at', new Date().toISOString());
