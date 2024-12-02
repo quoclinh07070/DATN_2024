@@ -240,7 +240,10 @@ export class ProductDetailsComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-
+  formatPriceWithDot(value: number): string {
+    return value.toLocaleString('vi-VN').replace(/,/g, '.');
+  }
+  
 
 
 }
