@@ -159,4 +159,16 @@ export class ProductComponent implements OnInit {
   getImageUrl(imageName: string): string {
     return this.productService.getImageUrl(imageName);
   }
+  // đổi giá qua dấu chấm,
+// vất hàm này vào ts:
+convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
+  }
+  formatPriceWithDot(value: number): string {
+    return value.toLocaleString('vi-VN').replace(/,/g, '.');
+  }
+  
 }

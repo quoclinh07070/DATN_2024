@@ -109,14 +109,16 @@
                   <div class="price mt-2">
                     <ng-container *ngIf="product.discount > 0; else noDiscount">
                       <span class="text-danger fw-bold">
-                        {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+                        {{ formatPriceWithDot(product.price - (product.price * (product.discount / 100))) }} ₫
                       </span>
                       <span class="text-muted text-decoration-line-through ms-2">
-                        {{ product.price | number:'1.0-0' }} ₫
+                        {{ formatPriceWithDot(product.price) }} ₫
                       </span>
                     </ng-container>
                     <ng-template #noDiscount>
-                      <span class="current-price text-danger fw-bold">{{ product.price | number:'1.0-0' }} ₫</span>
+                      <span class="current-price text-danger fw-bold">
+                        {{ formatPriceWithDot(product.price) }} ₫
+                      </span>
                     </ng-template>
                   </div>
                 </div>
@@ -132,6 +134,7 @@
             </div>
           </div>
         </div>
+        
         
         <div class="styled-pagination text-center" *ngIf="totalPages > 1">
           <ul class="pagination justify-content-center">
