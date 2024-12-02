@@ -67,12 +67,6 @@ export class RegisterComponent {
       this.authService.signup(name, email, password).subscribe(
         (response) => {
           if (response.metadata?.tokens?.accessToken) {
-            // Lưu thông tin token và user vào localStorage
-            localStorage.setItem('accessToken', response.metadata.tokens.accessToken);
-            localStorage.setItem('refreshToken', response.metadata.tokens.refreshToken);
-            localStorage.setItem('userId', response.metadata.user.user_id);
-            localStorage.setItem('userName', response.metadata.user.name);
-            localStorage.setItem('userEmail', response.metadata.user.email);
 
             // Gửi email chúc mừng
             this.userService.sendWelcomeEmail(email, name).subscribe(

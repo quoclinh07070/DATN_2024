@@ -7,7 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   // Route cho admin
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], data: { role: 'admin' }, },
   
   // Route cho client
   { path: '', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },

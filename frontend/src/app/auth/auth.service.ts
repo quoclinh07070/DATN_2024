@@ -27,6 +27,7 @@ export class AuthService {
           localStorage.setItem('userId', response.metadata.shop.user_id.toString());
           localStorage.setItem('userName', response.metadata.shop.name);
           localStorage.setItem('userEmail', response.metadata.shop.email);
+          localStorage.setItem('userRole', response.metadata.shop.role);
         }
       }),
       catchError((error: any) => {
@@ -79,6 +80,7 @@ export class AuthService {
         localStorage.removeItem('userId');
         localStorage.removeItem('userName');
         localStorage.removeItem('userEmail');
+        localStorage.removeItem('userRole');
       }),
       catchError((error: any) => {
         const errorMessage = error.error?.message || 'Đã xảy ra lỗi khi đăng xuất';
@@ -193,6 +195,7 @@ Usignup(name: string, email: string, password: string, status: string, role: str
         localStorage.setItem('userId', response.metadata.user.user_id);
         localStorage.setItem('userName', response.metadata.user.name);
         localStorage.setItem('userEmail', response.metadata.user.email);
+        localStorage.setItem('userRole',  response.metadata.shop.role);
       }
     }),
     catchError((error: any) => {
@@ -230,6 +233,8 @@ Usignup(name: string, email: string, password: string, status: string, role: str
             localStorage.setItem('userId', res.metadata.shop.user_id.toString());
             localStorage.setItem('userName', res.metadata.shop.name);
             localStorage.setItem('userEmail', res.metadata.shop.email);
+            localStorage.setItem('userRole', res.metadata.shop.role);
+
             // Hiển thị thông báo thành công
             Swal.fire('Xong!', 'Đăng nhập Google thành công!', 'success');
 

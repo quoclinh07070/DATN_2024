@@ -46,7 +46,8 @@ async function verifyToken(req, res) {
         shop: {
           user_id: user.id,
           name: user.fullname,
-          email: user.email
+          email: user.email,
+          role: user.role
         }
       }
     });

@@ -77,7 +77,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe(
       (response) => {
         if (response.metadata.tokens && response.metadata.tokens.accessToken) {
-          localStorage.setItem('token', response.metadata.tokens.accessToken);
           Swal.fire('Xong!', 'Đăng nhập thành công!', 'success');
           setTimeout(() => {this.router.navigate(['/']);}, 2000);
         } else {
