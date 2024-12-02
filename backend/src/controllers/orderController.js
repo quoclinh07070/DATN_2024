@@ -4,7 +4,7 @@ const Order = require('../models/order');
 // Lấy danh sách đơn hàng
 exports.getAllOrders = async (req, res) => {
     try {
-        const [results] = await db.query('SELECT * FROM orders ORDER BY id DESC');
+        const [results] = await db.query('SELECT * FROM orders');
         res.json({
             message: 'Lấy đơn hàng thành công',
             orders: results.map(order => new Order(
@@ -13,12 +13,16 @@ exports.getAllOrders = async (req, res) => {
                 order.total_amount,
                 order.payment_method,
                 order.status,
-                order.payment_amount,
                 order.address,
                 order.phone_number,
                 order.note,
+                order.voucher_code,
+                order.voucher_discount,
+                order.voucher_id,
+                order.transIdMomo,
+                order.orderId,
                 order.created_at,
-                order.updated_at
+                order.updated_at,
             ))
         });
     } catch (err) {
@@ -43,12 +47,16 @@ exports.getOrderById = async (req, res) => {
                 order.total_amount,
                 order.payment_method,
                 order.status,
-                order.payment_amount,
                 order.address,
                 order.phone_number,
                 order.note,
+                order.voucher_code,
+                order.voucher_discount,
+                order.voucher_id,
+                order.transIdMomo,
+                order.orderId,
                 order.created_at,
-                order.updated_at
+                order.updated_at,
             )
         });
     } catch (err) {
@@ -102,12 +110,16 @@ exports.getOrdersByUserId = async (req, res) => {
                 order.total_amount,
                 order.payment_method,
                 order.status,
-                order.payment_amount,
                 order.address,
                 order.phone_number,
                 order.note,
+                order.voucher_code,
+                order.voucher_discount,
+                order.voucher_id,
+                order.transIdMomo,
+                order.orderId,
                 order.created_at,
-                order.updated_at
+                order.updated_at,
             ))
         });
     } catch (err) {

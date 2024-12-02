@@ -83,7 +83,8 @@ export class AdminOrderComponent implements OnInit {
         return 'Đã hủy';
       case 'completed':
         return 'Hoàn thành';
-      default:return 'Chưa xác định';
+      default:
+        return 'Chưa xác định';
     }
   }
 
@@ -123,8 +124,7 @@ export class AdminOrderComponent implements OnInit {
       }
       // Nếu người dùng nhấn nút "Hủy đơn"
       else if (result.isDismissed && !cancelActionClicked) {
-        const updatedOrder = { ...order, status: 'canceled' };
-        this.orderService.UpDateStatus(order.id, updatedOrder).subscribe(
+        this.orderService.UpDateStatus(order.id, { status: 'canceled' }).subscribe(
           (response) => {
             order.status = 'canceled';  // Update trạng thái trong local
             Swal.fire('Đơn hàng đã bị hủy!', '', 'error');
@@ -143,4 +143,5 @@ export class AdminOrderComponent implements OnInit {
       Swal.close();  // Đóng modal mà không làm gì
     });
   }
+  
 }

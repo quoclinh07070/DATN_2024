@@ -6,13 +6,12 @@
   </div>
   
   <div *ngIf="orders.length > 0">
-    <div class="container-xl px-4 mt-4">
+    <div class="px-4 mt-4">
       <nav class="nav nav-borders">
         <a class="nav-link ms-0" routerLink="/user">Hồ sơ</a>
         <a class="nav-link active" routerLink="/order-list">Đơn hàng</a>
       </nav>
-      <hr class="mt-0 mb-4" />
-      
+      <hr class="mt-0 mb-4"/>
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
@@ -43,8 +42,6 @@
                     <td>{{ order.address }}</td>
                     <td>{{ order.phone_number }}</td>
                     <td>{{ order.created_at | date: 'short' }}</td>
-                    <td>
-                    </td>
                   </tr>
                 </tbody>
               </table>

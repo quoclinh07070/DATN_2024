@@ -15,14 +15,14 @@ router.put('/orders/:id', orderController.updateOrderStatus);
 // Lấy danh sách đơn hàng theo user_id
 router.get('/user-orders', orderController.getOrdersByUserId);
 
-router.get('/orders/total-quantity', async (req, res) => {
-  try {
-    const [result] = await db.query('SELECT SUM(quantity) AS totalQuantity FROM orders');
-    res.json({ totalQuantity: result[0].totalQuantity || 0 });
-  } catch (error) {
-    console.error('Lỗi khi tính tổng số lượng sản phẩm:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+// router.get('/orders/total-quantity', async (req, res) => {
+//   try {
+//     const [result] = await db.query('SELECT SUM(quantity) AS totalQuantity FROM orders');
+//     res.json({ totalQuantity: result[0].totalQuantity || 0 });
+//   } catch (error) {
+//     console.error('Lỗi khi tính tổng số lượng sản phẩm:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 
 module.exports = router;
