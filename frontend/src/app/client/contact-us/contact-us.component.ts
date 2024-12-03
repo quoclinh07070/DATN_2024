@@ -4,11 +4,11 @@ import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule,FormsModule } from '@angular/forms'; // Import ReactiveFormsModule
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-contact-us',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.css'
 })

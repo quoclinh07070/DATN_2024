@@ -176,7 +176,12 @@ export class CartComponent implements OnInit {
           alert('Mã voucher không hợp lệ!');
           return;
         }
-  
+        
+        const quantityVoucher = voucher.quantity >= 1;
+        if(!quantityVoucher){
+          alert('Voucher đã hết số lượng sử dụng!');
+          return;
+        }
         // Kiểm tra ngày và trạng thái voucher
         const currentDate = new Date();
         const validFrom = new Date(voucher.valid_from);
