@@ -30,7 +30,7 @@ export class AuthService {
           localStorage.setItem('userRole', response.metadata.shop.role);
         }
       }),
-      catchError((error: any) => {
+      catchError((error: any) => { 
         const errorMessage = error.error?.message || 'Đã xảy ra lỗi';
         return throwError(() => new Error(errorMessage));
       })

@@ -5,4 +5,8 @@
     z-index: 1050; /* Đảm bảo hiển thị phía trên các thành phần khác */
     max-width: 300px;
   }
+  .error-message {
+    color: red;
+    font-size: 0.85rem;
+  }
   

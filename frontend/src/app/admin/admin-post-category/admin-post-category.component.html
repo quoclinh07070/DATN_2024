@@ -15,7 +15,8 @@
               type="text" 
               id="searchTerm" 
               class="form-control simple-search-input mr-3" 
-              placeholder="Tìm kiếm danh mục" 
+              style="width: 220px;"
+              placeholder="Tìm kiếm danh mục... 🔍" 
               [(ngModel)]="searchTerm"
               (input)="filterCategories()" 
             />
@@ -31,8 +32,8 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap" style="text-align: center;">
-                  <thead class="table-primary">
+                <table class="table table-hover table-bordered text-nowrap" style="text-align: center;">
+                  <thead class="table-dark text-white text-center align-middle">
                     <tr>
                       <th>ID</th>
                       <th>Tên danh mục</th>

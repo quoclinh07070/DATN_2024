@@ -21,15 +21,16 @@
             <input
               type="text"
               id="searchTerm"
-              class="form-control w-25 mr-3"
-              placeholder="Tìm kiếm sản phẩm"
+              class="form-control w-auto mr-3"
+              style="width: 200px;"
+              placeholder="Tìm kiếm sản phẩm... 🔍"
               [(ngModel)]="searchTerm"
               (input)="filterProducts()"
             />
             <select class="form-control w-25 mr-3" [(ngModel)]="selectedPriceRange" (change)="filterProducts()">
               <option value="">Tất cả mức giá</option>
               <option value="low">Dưới 1 triệu</option>
-              <option value="medium">Từ 1 triệu đến 5 triệu</option>
+              <option value="medium">Từ 1 triệu-5 triệu</option>
               <option value="high">Trên 5 triệu</option>
             </select>
             <select class="form-control w-25 mr-3" [(ngModel)]="selectedStatus" (change)="filterProducts()">

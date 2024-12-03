@@ -13,7 +13,8 @@
             <input 
               type="text" 
               class="form-control simple-search-input mr-3" 
-              placeholder="Tìm kiếm theo tên bài viết" 
+              style="width: 200px;"
+              placeholder="Tìm kiếm bài viết... 🔍" 
               [(ngModel)]="searchTerm"
               (input)="filterPosts()"
             />
@@ -34,8 +35,8 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap" style="text-align: center;">
-                  <thead class="table-primary">
+                <table class="table table-hover table-bordered text-nowrap" style="text-align: center;">
+                  <thead class="table-dark text-white text-center align-middle">
                     <tr>
                       <th>ID</th>
                       <th>Tiêu đề</th>
@@ -56,9 +57,9 @@
                       </td>
                       <td class="text-truncate" style="max-width: 120px;">{{post.content}}</td>
                       <td>
-                        <span class="badge" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}"> {{ post.status === 'published' ? 'Xuất bản' : 'Nháp' }}</span>
+                        <span class="text-truncate text-center align-middle" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}"> {{ post.status === 'published' ? 'Xuất bản' : 'Nháp' }}</span>
                       </td>
-                      <td>
+                      <td class="text-truncate text-center align-middle">
                         <a class="btn btn-info btn-sm" routerLink="edit/{{post.id}}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deletePost(post.id)">Xóa</button>
                       </td>
