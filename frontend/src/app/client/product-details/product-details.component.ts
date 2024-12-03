@@ -8,7 +8,7 @@ import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';  // Import UserService
 import { CartService } from '../../services/cart.service'; // Import CartService
-import { NotyfService } from '../../services/notyf.service';
+// import { NotyfService } from '../../services/notyf.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-product-details',
@@ -118,17 +118,17 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any, quantity: number) {
-    if (product.quantity > 0) {
-      const success = this.cartService.addToCart(product, quantity);  // Gọi service để thêm sản phẩm vào giỏ
-  
+  addToCart(product: any, quantity: number): void {
+    if (product.quantity > 0 && quantity <= product.quantity) {
+      const success = this.cartService.addToCart(product, quantity);  // Cập nhật số lượng khi thêm vào giỏ hàng
+
       if (success) {
-        this.notyfService.success('Sản phẩm đã được thêm vào giỏ hàng!');
+        alert('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
-        this.notyfService.warning('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     } else {
-      this.notyfService.error('Sản phẩm đã hết hàng!');
+      alert('Số lượng vượt quá tồn kho!');
     }
   }
 
@@ -180,7 +180,7 @@ export class ProductDetailsComponent implements OnInit {
   get displayedReviews() {
     return this.filteredReviews.filter(review => review.status === 1);
   }
-
+  
   loadMore() {
     this.visibleReviews += 3; // Tăng số lượng bình luận hiển thị mỗi lần nhấn
   }
@@ -206,41 +206,68 @@ export class ProductDetailsComponent implements OnInit {
 
   // Gửi đánh giá của người dùng
   submitReview(): void {
-    if (this.isLoggedIn) {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        this.newReview.user_id = userId;
-        this.newReview.product_id = this.productId;
-
-        // Đảm bảo rằng comment được gửi đúng
-        this.newReview.reviews_text = this.newReview.comment;
-
-        this.reviewService.addReview(this.newReview).subscribe(
-          (response) => {
-            console.log('Đánh giá thành công:', response);
-            Swal.fire('Thành công', 'Gửi đánh giá thành công!', 'success');
-            this.loadReviews();  // Tải lại các đánh giá sau khi gửi thành công
-          },
-          (error) => {
-            console.error('Lỗi khi gửi đánh giá:', error);
-            // Kiểm tra mã lỗi trả về từ API
-            if (error.status === 403) {
-              alert(error.error.message);  // Hiển thị thông báo lỗi từ backend
-            } else {
-              Swal.fire('Thất bại', 'Gửi đánh giá không thành công!', 'error');
-            }
-          }
-        );
-      } else {
-        Swal.fire('Thất bại', 'Không tìm thấy thông tin người dùng!', 'error');
-      }
-    } else {
-      // Nếu người dùng chưa đăng nhập, điều hướng họ đến trang đăng nhập
+    // Kiểm tra người dùng đã đăng nhập chưa
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
       Swal.fire('Thất bại', 'Bạn cần đăng nhập để gửi đánh giá!', 'error');
       this.router.navigate(['/login']);
+      return;
     }
+
+    // Cập nhật thông tin review với user_id và product_id
+    this.newReview.user_id = userId;
+    this.newReview.product_id = this.productId;
+    this.newReview.reviews_text = this.newReview.comment; // Gán comment vào reviews_text
+
+    // Kiểm tra dữ liệu trước khi gửi
+    console.log('Dữ liệu gửi đi:', this.newReview); // Log the full review object
+
+    // Gọi API để thêm đánh giá
+    this.reviewService.addReview(this.newReview).subscribe(
+      (response) => {
+        Swal.fire('Thành công', 'Gửi đánh giá thành công!', 'success');
+        this.loadReviews(); // Tải lại danh sách đánh giá
+        // Reset form sau khi gửi thành công
+        this.newReview.comment = ''; // Xóa nội dung bình luận
+        this.newReview.rating = 0; // Reset rating nếu cần
+      },
+      (error) => {
+        switch (error.status) {
+          case 403:
+            Swal.fire({
+              title: 'Nhắc nhở',
+              text: 'Bạn cần hoàn tất đơn hàng và mua sản phẩm này trước khi có thể gửi đánh giá.',
+              icon: 'info',
+              confirmButtonText: 'OK',
+            });
+            break;
+          case 400:
+            Swal.fire({
+              title: 'Lỗi dữ liệu',
+              text: error.error?.message || 'Yêu cầu không hợp lệ. Vui lòng kiểm tra lại thông tin!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            break;
+          case 500:
+            Swal.fire({
+              title: 'Lỗi hệ thống',
+              text: 'Đã xảy ra lỗi khi gửi đánh giá, vui lòng thử lại sau!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            break;
+          default:
+            Swal.fire({
+              title: 'Lỗi không xác định',
+              text: 'Đã xảy ra lỗi, vui lòng thử lại sau!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            break;
+        }
+      }
+    );
   }
-
-
 
 }

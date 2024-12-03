@@ -37,7 +37,8 @@ import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/ad
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 //Comments
 import { CommentpostComponent } from './commentpost/commentpost.component';
-import { AdminAddUserComponent } from './admin-user/admin-add-user/admin-add-user.component';
+import { AdminAddUserComponent } from './admin-user/admin-add-user/admin-add-user.component';//Review
+import { AdminReviewComponent } from './admin-review/admin-review.component';
 
 //wishlistitems
 // import { AdminWishlistitemsComponent } from './admin-wishlistitems/admin-wishlistitems.component';
@@ -77,6 +78,8 @@ const adminRoutes: Routes = [
 
     { path: 'commentspost', component: CommentpostComponent },////////
 
+    
+    { path: 'review', component: AdminReviewComponent },
 
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 
