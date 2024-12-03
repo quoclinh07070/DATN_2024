@@ -77,4 +77,11 @@ export class HomeComponent implements OnInit {
       alert('Sản phẩm đã hết hàng!');
     }
   }
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
+  }
+
 }

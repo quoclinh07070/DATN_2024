@@ -52,15 +52,15 @@
         <div class="price mt-2">
           <ng-container *ngIf="product.discount > 0; else noDiscount">
             <span class="text-danger fw-bold">
-              {{ (product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
+              {{ convertCommaToDot(product.price - (product.price * (product.discount / 100))) | number:'1.0-0' }} ₫
             </span>
             <span class="text-muted text-decoration-line-through ms-2">
-              {{ product.price | number:'1.0-0' }} ₫
+              {{  convertCommaToDot(product.price | number:'1.0-0') }} ₫
             </span>
           </ng-container>
           <ng-template #noDiscount>
             <span class="current-price text-danger fw-bold">
-              {{ product.price | number:'1.0-0' }} ₫
+              {{  convertCommaToDot(product.price | number:'1.0-0') }} ₫
             </span>
           </ng-template>
         </div>
@@ -115,6 +115,7 @@
       </section>
 
       <!-- Feature Section -->
+       <div class="container">
       <section class="fun-fact-and-features alternate">
         <div class="outer-box">
           <div class="auto-container">
@@ -157,5 +158,5 @@
           </div>
         </div>
       </section>
-    
+    </div>
   
