@@ -240,7 +240,12 @@ export class ProductDetailsComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
+  }
 
 
 }

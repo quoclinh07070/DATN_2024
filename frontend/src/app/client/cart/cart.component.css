@@ -37,3 +37,6 @@
   outline: none;
  }
 
+ .cart-options .btn {
+  margin-right: 10px;
+}
