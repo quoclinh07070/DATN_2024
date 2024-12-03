@@ -13,12 +13,16 @@ exports.getAllOrders = async (req, res) => {
                 order.total_amount,
                 order.payment_method,
                 order.status,
-                order.payment_amount,
                 order.address,
                 order.phone_number,
+                order.note,
+                order.voucher_code,
+                order.voucher_discount,
                 order.voucher_id,
+                order.transIdMomo,
+                order.orderId,
                 order.created_at,
-                order.updated_at
+                order.updated_at,
             ))
         });
     } catch (err) {
@@ -43,12 +47,16 @@ exports.getOrderById = async (req, res) => {
                 order.total_amount,
                 order.payment_method,
                 order.status,
-                order.payment_amount,
                 order.address,
                 order.phone_number,
+                order.note,
+                order.voucher_code,
+                order.voucher_discount,
                 order.voucher_id,
+                order.transIdMomo,
+                order.orderId,
                 order.created_at,
-                order.updated_at
+                order.updated_at,
             )
         });
     } catch (err) {
@@ -56,58 +64,20 @@ exports.getOrderById = async (req, res) => {
     }
 };
 
-// Tạo đơn hàng mới
-exports.createOrder = async (req, res) => {
-    const { user_id, total_amount, payment_method, status, payment_amount, address, phone_number, voucher_id } = req.body;
-    try {
-        const [results] = await db.query(
-            'INSERT INTO orders (user_id, total_amount, payment_method, status, payment_amount, address, phone_number, voucher_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())',
-            [user_id, total_amount, payment_method, status, payment_amount, address, phone_number, voucher_id]
-        );
-        res.status(201).json({
-            message: 'Tạo đơn hàng thành công',
-            order: new Order(
-                results.insertId,
-                user_id,
-                total_amount,
-                payment_method,
-                status,
-                payment_amount,
-                address,
-                phone_number,
-                voucher_id,
-                new Date(),
-                new Date()
-            )
-        });
-    } catch (err) {
-        res.status(500).json({ message: 'Lỗi khi tạo đơn hàng', error: err });
-    }
-};
-
 // Cập nhật đơn hàng
-exports.updateOrder = async (req, res) => {
+exports.updateOrderStatus = async (req, res) => {
     const { id } = req.params;
-    const { user_id, total_amount, payment_method, status, payment_amount, address, phone_number, voucher_id } = req.body;
+    const { status } = req.body;
     try {
         await db.query(
-            'UPDATE orders SET user_id = ?, total_amount = ?, payment_method = ?, status = ?, payment_amount = ?, address = ?, phone_number = ?, voucher_id = ?, updated_at = NOW() WHERE id = ?',
-            [user_id, total_amount, payment_method, status, payment_amount, address, phone_number, voucher_id, id]
+            'UPDATE orders SET status = ? WHERE id = ?',
+            [ status, id]
         );
         res.json({
             message: 'Cập nhật đơn hàng thành công',
             order: new Order(
                 id,
-                user_id,
-                total_amount,
-                payment_method,
                 status,
-                payment_amount,
-                address,
-                phone_number,
-                voucher_id,
-                null, // Giữ nguyên ngày tạo khi cập nhật
-                new Date()
             )
         });
     } catch (err) {
@@ -115,13 +85,45 @@ exports.updateOrder = async (req, res) => {
     }
 };
 
-// Xóa đơn hàng
-exports.deleteOrder = async (req, res) => {
-    const { id } = req.params;
+exports.getOrdersByUserId = async (req, res) => {
+    const { user_id } = req.query;
+
+    if (!user_id) {
+        return res.status(400).json({ message: 'Thiếu user_id' });
+    }
+
     try {
-        await db.query('DELETE FROM orders WHERE id = ?', [id]);
-        res.status(200).json({ message: 'Xóa đơn hàng thành công' });
+        const [results] = await db.query(
+            `SELECT * FROM orders WHERE user_id = ? ORDER BY updated_at ASC`,
+            [user_id]
+        );
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy đơn hàng cho người dùng này' });
+        }
+
+        res.json({
+            message: 'Lấy danh sách đơn hàng thành công',
+            orders: results.map(order => new Order(
+                order.id,
+                order.user_id,
+                order.total_amount,
+                order.payment_method,
+                order.status,
+                order.address,
+                order.phone_number,
+                order.note,
+                order.voucher_code,
+                order.voucher_discount,
+                order.voucher_id,
+                order.transIdMomo,
+                order.orderId,
+                order.created_at,
+                order.updated_at,
+            ))
+        });
     } catch (err) {
-        res.status(500).json({ message: 'Lỗi khi xóa đơn hàng', error: err });
+        res.status(500).json({ message: 'Lỗi khi lấy danh sách đơn hàng', error: err });
     }
 };
+

@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { VoucherService } from '../../../services/voucher.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-add-voucher',
   standalone: true,
@@ -14,8 +14,11 @@ import { VoucherService } from '../../../services/voucher.service';
 })
 export class AdminAddVoucherComponent implements OnInit {
   voucher = {
+    voucher_code: '',
     price: 0,
     discount_percent: 0,
+    valid_from: '',
+    valid_to: '',
     status: 'active'
   };
 
@@ -28,14 +31,27 @@ export class AdminAddVoucherComponent implements OnInit {
   addVoucher(): void {
     this.voucherService.createVoucher(this.voucher).subscribe(
       (response) => {
-        alert('Voucher đã được thêm!');
+        Swal.fire({
+          title: 'Thành công!',
+          text: 'Voucher đã được thêm!',
+          icon: 'success',
+          timer: 2000,  // Đóng tự động sau 2 giây
+          showConfirmButton: false
+        });
         console.log('Voucher đã được thêm:', response);
         this.router.navigate(['/admin/voucher']); // Chuyển hướng về danh sách voucher
       },
       (error) => {
-        alert('Lỗi khi thêm voucher!');
+        Swal.fire({
+          title: 'Lỗi!',
+          text: 'Lỗi khi thêm voucher!',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#d33'
+        });
         console.error('Lỗi khi thêm voucher:', error);
       }
     );
   }
+  
 }

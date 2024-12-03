@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostCategoryService } from '../../../services/postcategory.service';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-post',
   standalone: true,
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './admin-edit-post.component.html',
   styleUrl: './admin-edit-post.component.css'
 })
+
 export class AdminEditPostComponent {
   postcategory: any = {
     name: '',
@@ -21,6 +22,7 @@ export class AdminEditPostComponent {
     updated_at: ''
   };
   postCategoryId: number | null = null;
+  isFileImage: boolean = false;
 
   constructor(
     private postCategoryService: PostCategoryService,
@@ -39,11 +41,8 @@ export class AdminEditPostComponent {
     this.postCategoryService.getPostCategoryById(id).subscribe(
       (response: any) => {
         this.postcategory = response.postcategory;
-        // console.log(this.postcategory);
-        // Đảm bảo hiển thị URL hình ảnh (nếu có) từ server trong trường hợp edit
-        // if (this.postcategory.image_url) {
-        //   this.postcategory.image_url = response.postCategory.image_url;
-        // }
+        // Kiểm tra xem image_url có phải là một file hay không
+        this.isFileImage = this.postcategory.image_url instanceof File;
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu danh mục bài viết:', error);
@@ -54,31 +53,67 @@ export class AdminEditPostComponent {
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.postcategory.image_url = file; // Gán tệp hình ảnh để upload
+      this.postcategory.image_url = file;
+      this.isFileImage = true;  // Đánh dấu là file khi người dùng chọn
     }
   }
 
+  validateForm(): boolean {
+    if (!this.postcategory.name) {
+      alert('Vui lòng nhập tên danh mục!');
+      return false;
+    }
+    if (this.postcategory.parentCategoryID !== null && this.postcategory.parentCategoryID < 0) {
+      alert('ID danh mục cha phải lớn hơn hoặc bằng 0!');
+      return false;
+    }
+    if (!this.postcategory.image_url && !this.isFileImage) {
+      alert('Vui lòng chọn hình ảnh!');
+      return false;
+    }
+    return true;
+  }
+
   updatePostCategory(): void {
+    if (!this.validateForm()) {
+      return;
+    }
+  
     const formData = new FormData();
     formData.append('name', this.postcategory.name);
     formData.append('parentCategoryID', this.postcategory.parentCategoryID || '');
-    if (this.postcategory.image_url instanceof File) {
+    if (this.isFileImage) {
       formData.append('image_url', this.postcategory.image_url);
     }
     formData.append('status', this.postcategory.status);
     formData.append('created_at', this.postcategory.created_at);
     formData.append('updated_at', this.postcategory.updated_at);
-
+  
     if (this.postCategoryId) {
       this.postCategoryService.updatePostCategory(this.postCategoryId, formData).subscribe(
         (response) => {
-          alert('Danh mục bài viết đã được cập nhật!');
-          this.router.navigate(['/admin/postCategory']);
+          // Hiển thị thông báo thành công
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Danh mục bài viết đã được cập nhật!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            // Chuyển hướng về trang danh mục sau khi cập nhật
+            this.router.navigate(['/admin/postCategory']);
+          });
         },
         (error) => {
-          alert('Lỗi khi cập nhật danh mục bài viết!');
+          // Hiển thị thông báo lỗi
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Lỗi khi cập nhật danh mục bài viết!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       );
     }
   }
+  
 }

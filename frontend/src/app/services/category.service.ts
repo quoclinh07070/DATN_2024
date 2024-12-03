@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CategoryService {
   }
   private baseUrl = environment.apiUrl + "/category";  // Changed from /posts to /category
   private imageUrl = environment.imageUrl; 
-
+  private apiUrl = 'http://localhost:3000/api/category'; // Địa chỉ API của bạn
   constructor(private http: HttpClient) {}
 
   // Lấy danh sách danh mục
@@ -43,5 +44,9 @@ export class CategoryService {
   // Thêm phương thức để lấy URL hình ảnh
   getImageUrl(imageName: string): string {
     return `${this.imageUrl}/${imageName}`;
-  }  
+  }
+    
+  getCategories(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
+  }
 }

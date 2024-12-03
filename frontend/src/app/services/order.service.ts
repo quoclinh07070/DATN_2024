@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +22,13 @@ export class OrderService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  // Thêm đơn hàng mới
-//   createOrder(order: any) {
-//     return this.http.post(this.baseUrl, order);
-//   }
-
-  // Cập nhật đơn hàng
-  updateOrder(id: number, order: any) {
+  UpDateStatus(id:number, order: any){
     return this.http.put(`${this.baseUrl}/${id}`, order);
   }
 
-  // Xóa đơn hàng
-  deleteOrder(id: number) {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  getOrdersByUserId(userID: number) {
+    return this.http.get<{ message: string; orders: any[] }>(`http://localhost:3000/api/user-orders?user_id=${userID}`);
   }
+  
+  
 }

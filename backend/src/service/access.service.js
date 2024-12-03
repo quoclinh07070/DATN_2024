@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const KeyTokenService = require("../service/keyToken.service")
 const {createTokenPair} = require("../auth/auth.Utils");
-
 class AccessService {
 
     static logout = async (keyStore) => {
@@ -94,7 +93,7 @@ class AccessService {
             FullName: name,
             Email: email,
             Password: passwordHash,
-            PhoneNumber: "0346135365",
+            PhoneNumber: "",
             Role: "user", // Có thể để mặc định là 'user'
             Status: "active" // Có thể để mặc định là 'active'
         });
@@ -121,14 +120,12 @@ class AccessService {
             console.log(`Created Tokens Success::`, tokens)
             return {
                 code: 201,
-                metadata: {
-                    shop: {
-                        "user_id": newShop,
-                        "name": name,
-                        "email": email
-                    },
-                    tokens
-                }
+                user: {
+                    "user_id": newShop,
+                    "name": name,
+                    "email": email
+                },
+                tokens
             }
         }
 
@@ -146,6 +143,58 @@ class AccessService {
         //     }
         // }
     }
+
+    static forgotPassword = async (email) => {
+        // Tìm người dùng theo email
+        const user = await User.findUserByEmail(email);
+        if (!user) {
+            throw new BadRequestError('Email không tồn tại!');
+        }
+    
+        // Tạo token ngẫu nhiên và thời gian hết hạn
+        const token = crypto.randomBytes(32).toString('hex');
+        const expireTime = new Date();
+        expireTime.setHours(expireTime.getHours() + 1); // Token hết hạn sau 1 giờ
+    
+        // Lưu token vào database
+        await User.updateResetToken(user.id, token, expireTime); // Giả sử User có phương thức updateResetToken để cập nhật token
+    
+        // Gửi email với token quên mật khẩu (sử dụng nodemailer hoặc thư viện khác)
+        const resetLink = `http://your-frontend-url/reset-password?token=${token}&email=${email}`;
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'your-email@gmail.com',
+                pass: 'your-email-password'
+            }
+        });
+    
+        await transporter.sendMail({
+            to: email,
+            subject: 'Yêu cầu đặt lại mật khẩu',
+            html: `<p>Bạn đã yêu cầu đặt lại mật khẩu. Nhấn vào liên kết bên dưới để đặt lại mật khẩu:</p><p><a href="${resetLink}">${resetLink}</a></p>`
+        });
+    
+        return { message: 'Đã gửi email quên mật khẩu' };
+    };
+    
+    
+    // static resetPassword = async (email, token, newPassword) => {
+    //     // Kiểm tra token và email
+    //     const user = await User.findUserByEmail(email);
+    //     if (!user || user.reset_token !== token || new Date() > user.reset_token_expiry) {
+    //         throw new BadRequestError('Token không hợp lệ hoặc đã hết hạn');
+    //     }
+    
+    //     // Mã hóa mật khẩu mới
+    //     const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    //     // Cập nhật mật khẩu và xoá token
+    //     await User.updatePasswordAndClearToken(user.id, hashedPassword); // Giả sử User có phương thức updatePasswordAndClearToken để cập nhật mật khẩu
+    
+    //     return { message: 'Đặt lại mật khẩu thành công' };
+    // };
+    
 
 }
 

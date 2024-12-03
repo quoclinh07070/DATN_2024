@@ -1,16 +1,129 @@
-.slide-item {
-    background-size: cover; /* Đảm bảo hình nền bao phủ toàn bộ phần tử */
-    background-position: center; /* Đặt hình nền ở giữa */
-    height: 400px; /* Đặt chiều cao cho slide item */
-}
-.image-1 {
-    background-image: url('/assets/client/images/main-slider/image-4.jpg');
-}
-
-.image-2 {
-    background-image: url('/assets/client/images/main-slider/image-2.jpg');
-}
-
-.image-3 {
-    background-image: url('/assets/client/images/main-slider/image-3.jpg');
-}
+/* Product Card Styling */
+.card-img-top {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card-img-top:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .card-price {
+    color: #1a1818;
+    font-weight: bold;
+  }
+  
+  .card-body button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #141414;
+    border: none;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-body button:hover {
+    background-color: #131313;
+  }
+  
+  /* News Section Styling */
+  .news-section .card-body {
+    padding: 1rem;
+  }
+  
+  .blog-card img {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Hover effect for News Posts */
+  .blog-card:hover .overlay {
+    opacity: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .overlay a {
+    color: white;
+    font-size: 1.2rem;
+  }
+  /* Product Card Hover Effect */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Sorting Container */
+  .sort-container select {
+    width: auto;
+    padding: 0.4rem;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Sidebar Styling */
+  .sidebar {
+    padding: 15px;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-widget {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-title h6 {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Pagination Styling */
+  .styled-pagination ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .styled-pagination li a {
+    padding: 10px 15px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    color: #333;
+    margin: 0 5px;
+  }
+  
+  .styled-pagination .active a {
+    background-color: #141415;
+    color: white;
+  }
+  
+  .styled-pagination .prev-post a,
+  .styled-pagination .next-post a {
+    font-weight: bold;
+  }
+  .card-img-top {
+    height: 180px !important; /* Đảm bảo chiều cao hình ảnh cố định */
+    object-fit: cover;
+  }

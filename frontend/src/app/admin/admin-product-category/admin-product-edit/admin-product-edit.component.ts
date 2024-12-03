@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 // import { CategoriesService } from '../../../services/categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CategoryService } from '../../../services/category.service';
+import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-product-edit',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './admin-product-edit.component.html',
   styleUrl: './admin-product-edit.component.css'
 })
-export class AdminProductEditComponent {
+
+export class AdminProductEditComponent implements OnInit {
   category: any = {
     category_name: '',
     description: '',
@@ -22,20 +25,20 @@ export class AdminProductEditComponent {
     updated_at: ''
   };
   categoryId: number | null = null;
-  
+
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
-  
+
   ngOnInit(): void {
     this.categoryId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.categoryId) {
       this.getCategory(this.categoryId);
     }
   }
-  
+
   getCategory(id: number): void {
     this.categoryService.getCategoryById(id).subscribe(
       (response: any) => {
@@ -46,15 +49,26 @@ export class AdminProductEditComponent {
       }
     );
   }
-  
+
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.category.images = file;
     }
   }
+
+
+  updateCategory(categoryForm: NgForm): void {
+    if (categoryForm.invalid) {
+      // Hiển thị thông báo lỗi khi form không hợp lệ
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Vui lòng điền đầy đủ thông tin và kiểm tra các lỗi!',
+        icon: 'warning'
+      });
+      return;
+    }
   
-  updateCategory(): void {
     const formData = new FormData();
     formData.append('category_name', this.category.category_name);
     formData.append('description', this.category.description);
@@ -69,11 +83,21 @@ export class AdminProductEditComponent {
     if (this.categoryId) {
       this.categoryService.updateCategory(this.categoryId, formData).subscribe(
         (response) => {
-          alert('Danh mục đã được cập nhật!');
-          this.router.navigate(['/admin/productCategory']);
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Danh mục đã được cập nhật!',
+            icon: 'success'
+          }).then(() => {
+            this.router.navigate(['/admin/productCategory']);
+          });
         },
         (error) => {
-          alert('Lỗi khi cập nhật danh mục!');
+          console.error('Lỗi khi cập nhật danh mục:', error);
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Lỗi khi cập nhật danh mục!',
+            icon: 'error'
+          });
         }
       );
     }

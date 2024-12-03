@@ -10,85 +10,43 @@ class KeytokenModel {
         this.refreshToken = refreshToken;
     }
 
-    static createOrUpdateKeyToken({userId, publicKey, privateKey, refreshToken}) {
+    static async createOrUpdateKeyToken({ userId, publicKey, privateKey, refreshToken }) {
         console.log("userId:: %s, publicKey:: %s, privateKey:: %s, refreshToken:: %s", userId, publicKey, privateKey, refreshToken);
 
         const querySelect = 'SELECT * FROM key_token WHERE user_id = ?';
-        return new Promise((resolve, reject) => {
-            db.execute(querySelect, [userId], (err, rows) => {
-                if (err) {
-                    reject(new Error('Error fetching key token: ' + err.message));
-                    return;
-                }
+        const [rows] = await db.execute(querySelect, [userId]);
 
-                if (rows.length > 0) {
-                    const queryUpdate = `
-                        UPDATE key_token
-                        SET public_key          = ?,
-                            private_key         = ?,
-                            refresh_tokens_used = ?,
-                            refresh_token       = ?
-                        WHERE user_id = ?`;
+        if (rows.length > 0) {
+            const queryUpdate = `
+                UPDATE key_token
+                SET public_key = ?,
+                    private_key = ?,
+                    refresh_tokens_used = ?,
+                    refresh_token = ?
+                WHERE user_id = ?`;
 
-                    db.execute(
-                        queryUpdate,
-                        [publicKey, privateKey, JSON.stringify([]), refreshToken || '', userId],
-                        (updateErr) => {
-                            if (updateErr) {
-                                reject(new Error('Error updating key token: ' + updateErr.message));
-                                return;
-                            }
-                            resolve(publicKey); // Trả về publicKey
-                        }
-                    );
-                } else {
-                    const queryInsert = `
-                        INSERT INTO key_token (user_id, public_key, private_key, refresh_tokens_used, refresh_token)
-                        VALUES (?, ?, ?, ?, ?)`;
+            await db.execute(queryUpdate, [publicKey, privateKey, JSON.stringify([]), refreshToken || '', userId]);
+        } else {
+            const queryInsert = `
+                INSERT INTO key_token (user_id, public_key, private_key, refresh_tokens_used, refresh_token)
+                VALUES (?, ?, ?, ?, ?)`;
 
-                    db.execute(
-                        queryInsert,
-                        [userId, publicKey, privateKey, JSON.stringify([]), refreshToken || ''], // Thay thế refreshToken bằng chuỗi rỗng nếu undefined
-                        (insertErr) => {
-                            if (insertErr) {
-                                reject(new Error('Error inserting key token: ' + insertErr.message));
-                                return;
-                            }
-                            resolve(publicKey); // Trả về publicKey
-                        }
-                    );
-                }
-            });
-        });
+            await db.execute(queryInsert, [userId, publicKey, privateKey, JSON.stringify([]), refreshToken || '']);
+        }
+
+        return publicKey; // Trả về publicKey
     }
 
     // Tìm kiếm token theo userId
     static async findByUserId(userId) {
         const query = 'SELECT * FROM key_token WHERE user_id = ?';
-        return new Promise((resolve, reject) => {
-            db.execute(query, [userId], (err, rows) => {
-                if (err) {
-                    reject(new Error('Error finding user: ' + err.message));
-                    return;
-                }
-                // Trả về toàn bộ rows, không chỉ rows[0]
-                resolve(rows.length > 0 ? rows[0] : null);
-            });
-        });
+        const [rows] = await db.execute(query, [userId]);
+        return rows.length > 0 ? rows[0] : null;
     }
 
     // Xóa token theo id
     static async removeKeyById(id) {
         const query = 'DELETE FROM key_token WHERE id = ?';
-        return new Promise((resolve, reject) => {
-            db.execute(query, [id], (err, rows) => {
-                if (err) {
-                    reject(new Error("Error del ", err.message));
-                    return;
-                }
-                resolve(rows);
-            })
-        })
         const [result] = await db.execute(query, [id]);
         return result.affectedRows > 0; // Trả về true nếu xóa thành công
     }
@@ -103,17 +61,9 @@ class KeytokenModel {
     // Xóa token theo userId
     static async deleteKeyById(userId) {
         const query = 'DELETE FROM key_token WHERE user_id = ?';
-        return new Promise((resolve, reject) => {
-            db.execute(query, [userId], (err, result) => {
-                if (err) {
-                    reject(new Error('Error deleting key by userId: ' + err.message));
-                    return;
-                }
-                resolve(result.affectedRows > 0);
-            });
-        });
+        const [result] = await db.execute(query, [userId]);
+        return result.affectedRows > 0;
     }
-
 
     // Tìm kiếm token theo refreshToken
     static async findByRefreshToken(refreshToken) {
@@ -124,24 +74,16 @@ class KeytokenModel {
 
     // Phương thức cập nhật refreshToken và refreshTokensUsed
     static async updateKeyToken(userId, newRefreshToken, refreshTokenUsed) {
-        console.log("userId::%s, newRefreshToken::%s, refreshTokenUsed::%s ", userId, newRefreshToken, refreshTokenUsed)
+        console.log("userId::%s, newRefreshToken::%s, refreshTokenUsed::%s ", userId, newRefreshToken, refreshTokenUsed);
         const query = `
             UPDATE key_token
-            SET refresh_token       = ?,
+            SET refresh_token = ?,
                 refresh_tokens_used = JSON_ARRAY_APPEND(refresh_tokens_used, '$', ?)
             WHERE user_id = ?
         `;
-        return new Promise((resolve, reject) => {
-            db.execute(query, [newRefreshToken, refreshTokenUsed, userId], (err, result) => {
-                if (err) {
-                    reject(new Error('Error updating key token: ' + err.message));
-                    return;
-                }
-                resolve(result);
-            });
-        });
+        const [result] = await db.execute(query, [newRefreshToken, refreshTokenUsed, userId]);
+        return result;
     }
 }
-
 
 module.exports = KeytokenModel;

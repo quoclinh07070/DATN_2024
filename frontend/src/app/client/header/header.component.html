@@ -11,49 +11,46 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
 <!-- jQuery UI -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <!-- jQuery UI CSS -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Main Header-->
 <header class="main-header header-style-two">
+
   <!--Header Top-->
-  <div class="header-top">
+  <!-- <div class="header-top">
     <div class="auto-container">
       <div class="inner-container clearfix">
         <div class="top-left">
           <ul class="contact-list clearfix">
             <li>
-              <i class="fa fa-volume-control-phone"></i> 256 Interior the good,
-              New York
+              <i class="bi bi-truck"></i> Giao hàng toàn quốc
             </li>
-            <li><i class="fa fa-envelope"></i><a href="#">Supportyou</a></li>
+            <li>
+              <i class="bi bi-telephone"></i>Hotline: 097 114 1140 (9-21h)
+            </li>
+            <li>
+              <i class="bi bi-telephone"></i>Giao hàng: 0902 415 359 (9-21h)
+            </li>
           </ul>
         </div>
         <div class="top-right">
-          <ul class="social-icon-four clearfix">
+          <ul class="contact-list clearfix">
             <li>
-              <a routerLink="#"><i class="fa fa-whatsapp"></i></a>
+              <i class="bi bi-envelope"></i>cskh&#64;in7.com.vn
             </li>
-            <li>
-              <a routerLink="#"><i class="fa fa-facebook-f"></i></a>
-            </li>
-            <li>
-              <a routerLink="#"><i class="fa fa-instagram"></i></a>
-            </li>
-            <li>
-              <a routerLink="#"><i class="fa fa-twitter"></i></a>
-            </li>
-            <li>
-              <a routerLink="#"><i class="fa fa-google-plus"></i></a>
-            </li>
+            <li></li>
           </ul>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+
   <!-- End Header Top -->
   <!-- Header Black (chính) -->
   <div class="header-lower">
@@ -76,40 +73,23 @@
             </div>
             <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
               <ul class="navigation clearfix">
-                <li class="current dropdown">
+                <li>
                   <a routerLink="/">Trang chủ</a>
                 </li>
-                <li class="dropdown">
+                <li>
                   <a routerLink="/product">Sản Phẩm</a>
-                  <ul>
-                    <li class="dropdown"><a routerLink="/product-details">Phòng Ngủ</a>
-                      <ul>
-                        <li><a routerLink="index-2.html">Bàn</a></li>
-                        <li><a routerLink="index-3.html">Giường</a></li>
-
-                      </ul>
-                    </li>
-                    <li><a routerLink="/product-details">Phòng Khách</a></li>
-                    <li><a routerLink="/product-details">Phòng Làm việc</a></li>
-
-                  </ul>
                 </li>
-                <li class="dropdown">
+                <li>
                   <a routerLink="/about">Giới Thiệu</a>
                   <ul>
                   </ul>
                 </li>
-                <li class="dropdown">
+                <li>
                   <a routerLink="/services">Dịch Vụ</a>
                   <ul>
                   </ul>
                 </li>
-                <!-- <li class="dropdown">
-                  <a routerLink="/projects">Dự ÁN</a>
-                  <ul>
-                  </ul>
-                </li> -->
-                <li class="dropdown">
+                <li>
                   <a routerLink="/blog">Tin Tức</a>
                   <ul>
                   </ul>
@@ -124,25 +104,25 @@
             <!-- Cart Btn -->
             <div class="cart-btn">
               <a routerLink="/cart" title="">
-                <i class="fa fa-shopping-basket"></i>
-                <span class="count">2</span>
+                <i class="bi bi-bag"></i>
+                <div *ngIf="cartItems.length !== 0">
+                  <span class="count bg-danger">{{cartItems.length}}</span>
+                </div>
               </a>
             </div>
 
             <div class="user-btn custom-margin">
               <a routerLink="/user" title="">
-                <i class="bi bi-person-circle"></i>
-                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
+                <i class="bi bi-person"></i>
+                <span class="username"></span>
               </a>
             </div>
 
-            <div class="user-btn custom-margin">
+            <!-- <div class="user-btn custom-margin">
               <a routerLink="/wishlist" title="">
                 <i class="fa fa-heart"></i>
-                <span class="count">3</span>
-                <span class="username"></span> <!-- Thêm tên người dùng hoặc thông tin tương tự -->
               </a>
-            </div>
+            </div> -->
             
             <!--Search Box-->
             <div class="search-box-outer">
@@ -154,19 +134,25 @@
                 <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
                   <li class="panel-outer">
                     <div class="form-container">
-                      <form method="post" action="#">
-                        <div class="form-group">
-                          <input type="search" name="field-name" value="" placeholder="Search Here" required />
-                          <button type="submit" class="search-btn">
+                      <form (submit)="onSearchSubmit($event)">
+                        <div class="form-group d-flex align-items-center">
+                          <input type="search" name="field-name" [(ngModel)]="searchValue" class="form-control" placeholder="Tìm kiếm sản phẩm..." required />
+                          <button type="submit" class="btn btn-primary ml-2">
                             <span class="fa fa-search"></span>
+                          </button>
+                          <button type="button" (click)="startVoiceSearch()" class="btn btn-outline-primary ml-2">
+                            <span class="fa fa-microphone"></span>
                           </button>
                         </div>
                       </form>
                     </div>
                   </li>
                 </ul>
+                
+                
               </div>
             </div>
+            
 
 
 
@@ -175,67 +161,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Sticky Header  -->
-  <div class="sticky-header">
-    <div class="auto-container clearfix">
-      <!--Logo-->
-      <div class="logo pull-left">
-        <a routerLink="index-2.html" title=""><img src="/assets/client/images/logo-small.png" alt="" title="" /></a>
-      </div>
-      <!--Right Col-->
-      <div class="pull-right">
-        <!-- Main Menu -->
-        <nav class="main-menu">
-          <div class="navbar-collapse show collapse clearfix">
-            <ul class="navigation clearfix">
-              <li class="current dropdown">
-                <a routerLink="/">Trang Chủ</a>
-                <ul>
-                  <li class="dropdown"><a routerLink="/product-details">Phòng Ngủ</a>
-                    <ul>
-                      <li><a routerLink="index-2.html">Bàn</a></li>
-                      <li><a routerLink="index-3.html">Giường</a></li>
-                    </ul>
-                  </li>
-                  <li><a routerLink="/product-details">Phòng Khách</a></li>
-                  <li><a routerLink="/product-details">Phòng Làm việc</a></li>
-
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a routerLink="/product">Sản Phẩm</a>
-                <ul>
-                  <li class="dropdown"><a routerLink="/product">Phòng Ngủ</a>
-                    <ul>
-                      <li><a routerLink="/product">Bàn</a></li>
-                      <li><a routerLink="/product">Giường</a></li>
-                    </ul>
-                  </li>
-                  <li><a routerLink="/product">Phòng Khách</a></li>
-                  <li><a routerLink="/product">Phòng Làm việc</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a routerLink="/about">Giới Thiệu</a>
-              </li>
-
-              <li class="dropdown">
-              <a routerLink="/services">Dịch Vụ</a>
-              </li>             
-              <li class="dropdown">
-                <a routerLink="/blog">Tin Tức</a>
-              </li>
-              <li>
-                <a routerLink="/contact">Liên Hệ</a>
-              </li>             
-            </ul>
-          </div>
-        </nav>
-        <!-- Main Menu End-->
-      </div>
-    </div>
-  </div>
-  <!-- End Sticky Menu -->
 </header>
 <!--End Main Header -->

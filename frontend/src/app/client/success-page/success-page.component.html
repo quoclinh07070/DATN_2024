@@ -1,0 +1,30 @@
+<section class="login-section mt-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="message-box _success">
+          <i class="fa fa-check-circle" aria-hidden="true"></i>
+          <h2>🎉 Thanh toán thành công! 🎉</h2>
+          <p>Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi!</p>
+          <!-- Hiển thị thông tin orderId nếu có -->
+          <div *ngIf="orderId">
+            <p><strong>Mã đơn hàng:</strong> {{ orderId }}</p>
+          </div>
+          <!-- Nút quay lại trang chủ -->
+          <a routerLink="/" class="btn btn-success mt-4">Quay lại trang chủ</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="message-box _success _failed">
+                 <i class="fa fa-times-circle" aria-hidden="true"></i>
+                <h2> Your payment failed </h2>
+         <p>  Try again later </p> 
+     
+        </div> 
+    </div> 
+  </div>  -->
+  </div>
+</section>

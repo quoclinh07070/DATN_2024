@@ -1,6 +1,192 @@
-.img-custom {
-    width: 130px;
-    height: 130px;
-    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+/* Footer Styles */
+footer.main-footer {
+  background-color: #333;
+  color: #fff;
+  /* padding: 10px 10px; */
+}
+
+footer .auto-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+footer .footer-widget {
+  flex: 1 1 250px;
+  padding: 10px;
+  min-width: 200px;
+}
+
+footer .footer-logo img {
+  max-width: 150px;
+  margin-bottom: 15px;
+}
+
+footer .widget-content li {
+  list-style: none;
+  margin-bottom: 8px;
+}
+
+footer .widget-content a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+footer .widget-content a:hover {
+  color: #f39c12;
+  text-decoration: underline;
+}
+
+footer .social-links ul {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+footer .social-links ul li a {
+  color: #fff;
+  font-size: 20px;
+}
+
+footer .social-links ul li a:hover {
+  color: #f39c12;
+}
+
+footer .footer-bottom {
+  background-color: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 15px 0;
+}
+
+footer .copyright-text {
+  font-size: 12px;
+}
+
+footer .copyright-text a {
+  color: #f39c12;
+  text-decoration: none;
+}
+
+footer .copyright-text a:hover {
+  text-decoration: underline;
+}
+
+footer iframe {
+  width: 100%;
+  height: 200px;
+  border: none;
+  margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  footer .auto-container {
+    flex-direction: column;
+    align-items: center;
   }
+
+  footer .footer-widget {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  footer .social-links ul {
+    justify-content: center;
+  }
+
+  footer iframe {
+    height: 180px;
+  }
+}
+
+
+@-webkit-keyframes pulse{
+  0%{
+    -webkit-transform: scale(0.9);
+  }
+  50%{
+    -webkit-transform: scale(1.1);
+  }
+  100%{ 
+    -webkit-transform: scale(0.9);
+  }
+}
+.mypage-alo-phone {
+    position: fixed;
+    right: -5px;
+    bottom:130px;
+    visibility: visible;
+    background-color: transparent;
+    width: 110px;
+    height: 110px;
+    cursor: pointer;
+    z-index: 200000 !important;
+}
+.mypage-alo-ph-img-circle {
+        width: 30px;
+        height: 30px;
+        top: 43px;
+        left: 43px;
+        position: absolute;
+        background:  url(https://i.imgur.com/J9AXAq7.png) no-repeat center center;
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+        border-radius: 100%;
+        border: 2px solid transparent;
+        opacity: .7;
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -ms-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        -webkit-transform-origin: 50% 50%;
+        -moz-transform-origin: 50% 50%;
+        -ms-transform-origin: 50% 50%;
+        -o-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        background-color: #24af75;
+        background-size: 70%;
+      -webkit-animation: pulse 01s infinite;
+}
+.mypage-alo-ph-circle-fill {
   
+    width: 60px;
+    height: 60px;
+    top: 28px;
+    left: 28px;
+    position: absolute;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+    background-color: rgba(5, 241, 131, 0.5);
+    opacity: .75 !important;
+    -webkit-animation: pulse 1s infinite;
+}
+.mypage-alo-ph-circle{
+    width: 90px;
+    height: 90px;
+    top: 12px;
+    left: 12px;
+    position: absolute;
+    background-color: transparent;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid rgba(30, 30, 30, 0.4);
+    opacity: .1;
+    border-color:#ffb56b;
+    opacity: .5;
+}
