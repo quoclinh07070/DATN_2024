@@ -1,0 +1,5 @@
+1. Run "npm install" for frontend & backend folder
+2. Run "npm run dev" to start backend
+3. Run "ng s" to start frontend
+
+Note: import sql "datn" before run backend
