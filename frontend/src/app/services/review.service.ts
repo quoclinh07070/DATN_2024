@@ -27,20 +27,21 @@ export class ReviewService {
 
     return this.http.post(this.baseUrl, reviewData);
   }
-
   // Phương thức để lấy tất cả các đánh giá
   getAllReviews(): Observable<{ reviews: any[] }> {
     return this.http.get<{ reviews: any[] }>(`${this.allUrl}`);
   }
+
   // Lấy thông tin người dùng theo ID
   getUserById(userId: string): Observable<any> {
     return this.http.get(`${this.userUrl}/${userId}`);
   }
 
   // Phương thức để lấy các đánh giá của sản phẩm
-  getProductReviews(productId: number): Observable<{ reviews: any[] }> {
-    return this.http.get<{ reviews: any[] }>(`${this.baseUrl}/${productId}`);
+  getProductReviews(productId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${productId}`);
   }
+  
   updateReviewStatus(reviewId: number, payload: { status: number }): Observable<any> {
     return this.http.put(`${this.baseUrl}/${reviewId}`, payload);  // Sửa lại endpoint
   }

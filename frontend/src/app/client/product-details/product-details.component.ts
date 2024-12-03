@@ -3,17 +3,18 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
-import { CartService } from '../../services/cart.service';
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';  // Import UserService
-
+import { CartService } from '../../services/cart.service'; // Import CartService
+// import { NotyfService } from '../../services/notyf.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-product-details',
   standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  styleUrls: ['./product-details.component.css'],
 })
 export class ProductDetailsComponent implements OnInit {
   product: any = {
@@ -28,39 +29,39 @@ export class ProductDetailsComponent implements OnInit {
   };
   productId: number | null = null;
   reviews: any[] = [];
-  newReview: { 
-    rating: number; 
-    comment: string; 
-    user_id: string | null; 
-    product_id: number | null; 
-    reviews_text: string; 
-  } = { 
-    rating: 0, 
-    comment: '', 
-    user_id: null, 
-    product_id: null, 
-    reviews_text: '' 
-  };
+  newReview: {
+    rating: number;
+    comment: string;
+    user_id: string | null;
+    product_id: number | null;
+    reviews_text: string;
+  } = {
+      rating: 0,
+      comment: '',
+      user_id: null,
+      product_id: null,
+      reviews_text: ''
+    };
   visibleReviews: number = 3;
   displayOption: string = 'latest'; // Biến để theo dõi tùy chọn hiển thị
   filteredReviews: any[] = []; // Mảng chứa các bình luận đã lọc
   selectedRating: number | null = null;
 
-
   userId: string | null = null;
   userName: string | null = null;
   userEmail: string | null = null;
   isLoggedIn: boolean = false;
+  quantity: number = 1;  // Số lượng sản phẩm mặc định là 1
 
   constructor(
     private productService: ProductService,
     private reviewService: ReviewService,
     private route: ActivatedRoute,
-    private cartService: CartService,
     private authService: AuthService,
     private userService: UserService,  // Inject UserService
-    private router: Router  // Inject Router
-  ) {}
+    private router: Router,  // Inject Router
+    private cartService: CartService // Inject CartService
+  ) { }
 
   ngOnInit(): void {
     // Lấy thông tin sản phẩm từ URL
@@ -100,10 +101,43 @@ export class ProductDetailsComponent implements OnInit {
     return this.productService.getImageUrl(imageName);
   }
 
+  // Hàm giảm số lượng
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  // Hàm tăng số lượng
+  increaseQuantity(): void {
+    if (this.quantity < this.product.quantity) {
+      this.quantity++;
+    }
+  }
+
   // Thêm sản phẩm vào giỏ hàng
-  addToCart(product: any) {
-    this.cartService.addToCart(product);
-    alert('Sản phẩm đã được thêm vào giỏ hàng!');
+  addToCart(product: any, quantity: number): void {
+    if (product.quantity > 0 && quantity <= product.quantity) {
+      const success = this.cartService.addToCart(product, quantity);  // Cập nhật số lượng khi thêm vào giỏ hàng
+
+      if (success) {
+        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+      } else {
+        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+      }
+    } else {
+      alert('Số lượng vượt quá tồn kho!');
+    }
+  }
+
+  // Validate số lượng sản phẩm
+  validateQuantity(): void {
+    if (this.quantity < 1) {
+      this.quantity = 1;  // Đảm bảo số lượng không nhỏ hơn 1
+    } else if (this.quantity > this.product.quantity) {
+      this.quantity = this.product.quantity;  // Điều chỉnh lại số lượng nếu vượt quá kho
+      alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+    }
   }
 
   // Tải các đánh giá của sản phẩm và lấy thông tin người dùng
@@ -111,14 +145,13 @@ export class ProductDetailsComponent implements OnInit {
     if (this.productId) {
       this.reviewService.getProductReviews(this.productId).subscribe(
         (data) => {
-          console.log('Product reviews:', data);  // Kiểm tra dữ liệu đánh giá
+          console.log(data); // In ra cấu trúc dữ liệu
           this.reviews = data.reviews;
-      
           this.reviews.forEach((review) => {
+            console.log(review); // Kiểm tra từng đánh giá
             this.reviewService.getUserById(review.user_id).subscribe(
               (userData: any) => {
-                console.log('User data for review:', userData);  
-                review.fullname = userData.user.FullName;  
+                review.fullname = userData.user.FullName;
               },
               (error) => {
                 console.error('Error fetching user data:', error);
@@ -130,9 +163,9 @@ export class ProductDetailsComponent implements OnInit {
           console.error('Error loading reviews:', error);
         }
       );
-      
     }
   }
+
   setRatingFilter(rating: number): void {
     this.selectedRating = rating;
     if (rating) {
@@ -141,11 +174,11 @@ export class ProductDetailsComponent implements OnInit {
       this.filteredReviews = this.reviews; // Nếu không chọn sao, hiển thị tất cả đánh giá
     }
   }
-    
+
   get displayedReviews() {
     return this.filteredReviews.filter(review => review.status === 1);
   }
-
+  
   loadMore() {
     this.visibleReviews += 3; // Tăng số lượng bình luận hiển thị mỗi lần nhấn
   }
@@ -154,7 +187,7 @@ export class ProductDetailsComponent implements OnInit {
     this.displayOption = option;
     this.filterReviews();
   }
-  
+
   filterReviews() {
     const currentDate = new Date();
     const threeDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 3));
@@ -171,39 +204,68 @@ export class ProductDetailsComponent implements OnInit {
 
   // Gửi đánh giá của người dùng
   submitReview(): void {
-    if (this.isLoggedIn) {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        this.newReview.user_id = userId;
-        this.newReview.product_id = this.productId;
-
-        // Đảm bảo rằng comment được gửi đúng
-        this.newReview.reviews_text = this.newReview.comment;
-
-        this.reviewService.addReview(this.newReview).subscribe(
-          (response) => {
-            console.log('Đánh giá thành công:', response);
-            alert('Gửi đánh giá thành công');
-            this.loadReviews();  // Tải lại các đánh giá sau khi gửi thành công
-          },
-          (error) => {
-            console.error('Lỗi khi gửi đánh giá:', error);
-            // Kiểm tra mã lỗi trả về từ API
-            if (error.status === 403) {
-              alert(error.error.message);  // Hiển thị thông báo lỗi từ backend
-            } else {
-              alert('Lỗi khi gửi đánh giá');
-            }
-          }
-        );
-      } else {
-        alert('Không tìm thấy thông tin người dùng');
-      }
-    } else {
-      // Nếu người dùng chưa đăng nhập, điều hướng họ đến trang đăng nhập
-      alert('Bạn cần đăng nhập để gửi đánh giá');
+    // Kiểm tra người dùng đã đăng nhập chưa
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      Swal.fire('Thất bại', 'Bạn cần đăng nhập để gửi đánh giá!', 'error');
       this.router.navigate(['/login']);
+      return;
     }
+
+    // Cập nhật thông tin review với user_id và product_id
+    this.newReview.user_id = userId;
+    this.newReview.product_id = this.productId;
+    this.newReview.reviews_text = this.newReview.comment; // Gán comment vào reviews_text
+
+    // Kiểm tra dữ liệu trước khi gửi
+    console.log('Dữ liệu gửi đi:', this.newReview); // Log the full review object
+
+    // Gọi API để thêm đánh giá
+    this.reviewService.addReview(this.newReview).subscribe(
+      (response) => {
+        Swal.fire('Thành công', 'Gửi đánh giá thành công!', 'success');
+        this.loadReviews(); // Tải lại danh sách đánh giá
+        // Reset form sau khi gửi thành công
+        this.newReview.comment = ''; // Xóa nội dung bình luận
+        this.newReview.rating = 0; // Reset rating nếu cần
+      },
+      (error) => {
+        switch (error.status) {
+          case 403:
+            Swal.fire({
+              title: 'Nhắc nhở',
+              text: 'Bạn cần hoàn tất đơn hàng và mua sản phẩm này trước khi có thể gửi đánh giá.',
+              icon: 'info',
+              confirmButtonText: 'OK',
+            });
+            break;
+          case 400:
+            Swal.fire({
+              title: 'Lỗi dữ liệu',
+              text: error.error?.message || 'Yêu cầu không hợp lệ. Vui lòng kiểm tra lại thông tin!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            break;
+          case 500:
+            Swal.fire({
+              title: 'Lỗi hệ thống',
+              text: 'Đã xảy ra lỗi khi gửi đánh giá, vui lòng thử lại sau!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            break;
+          default:
+            Swal.fire({
+              title: 'Lỗi không xác định',
+              text: 'Đã xảy ra lỗi, vui lòng thử lại sau!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            break;
+        }
+      }
+    );
   }
-    
+
 }

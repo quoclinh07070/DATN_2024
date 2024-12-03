@@ -1,47 +1,46 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-    <div class="body-wrapper">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="d-flex justify-content-between align-items-center mt-2">
-              <h3 class="mb-0">QUẢN LÝ ĐÁNH GIÁ</h3>
-              <!-- Nút thêm đánh giá không còn hiện tại -->
-            </div>
-            <div class="card mt-3">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table" style="text-align: center;">
-                    <thead class="table-dark">
-                      <tr>
-                        <th>ID</th>
-                        <th>Người dùng</th>
-                        <th>Sản phẩm</th>
-                        <th>Đánh giá</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let review of reviews" [ngClass]="{'table-light': review.status === 1, 'table-danger': review.status === 0}">
-                        <th scope="row">{{review.id}}</th>
-                        <td class="text-truncate" style="max-width: 100px;">{{review.fullname}}</td>
-                        <td class="text-truncate" style="max-width: 100px;">{{review.product_id}}</td>
-                        <td class="text-truncate" style="max-width: 120px;">{{review.reviews_text}}</td>
-                        <td>
-                          <span class="badge" [ngClass]="{'bg-success': review.status === 1, 'bg-danger': review.status === 0}">
-                            {{ review.status === 1 ? 'Hiện' : 'Ẩn' }}
-                          </span>
-                        </td>
-                        <td>
-                          <!-- Chỉ hiển thị nút Ẩn/Hiện -->
-                          <button type="button" class="btn btn-info btn-sm" (click)="toggleReviewStatus(review.id)">
-                            {{ review.status === 1 ? 'Ẩn Đánh Giá' : 'Hiển Thị' }}
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+  <div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <h3 class="mb-0">QUẢN LÝ ĐÁNH GIÁ</h3>
+            <!-- Nút thêm đánh giá không còn hiện tại -->
+          </div>
+          <div class="card mt-3">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" style="text-align: center;">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>Người dùng</th>
+                      <th>Sản phẩm</th>
+                      <th>Đánh giá</th>
+                      <th>Trạng thái</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let review of reviews" [ngClass]="{'table-light': review.status === 1, 'table-danger': review.status === 0}">
+                      <th scope="row">{{review.id}}</th>
+                      <td class="text-truncate" style="max-width: 100px;">{{review.fullname}}</td>
+                      <td class="text-truncate" style="max-width: 100px;">{{review.product_id}}</td>
+                      <td class="text-truncate" style="max-width: 120px;">{{review.reviews_text}}</td>
+                      <td>
+                        <span class="badge" [ngClass]="{'bg-success': review.status === 1, 'bg-danger': review.status === 0}">
+                          {{ review.status === 1 ? 'Hiện' : 'Ẩn' }}
+                        </span>
+                      </td>
+                      <td>
+                        <!-- Chỉ hiển thị nút Ẩn/Hiện -->
+                        <button type="button" class="btn btn-info btn-sm" (click)="toggleReviewStatus(review.id)">
+                          {{ review.status === 1 ? 'Ẩn Đánh Giá' : 'Hiển Thị' }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -49,4 +48,4 @@
       </div>
     </div>
   </div>
-  
+</div>

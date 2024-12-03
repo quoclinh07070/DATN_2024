@@ -44,7 +44,7 @@ exports.createReview = async (req, res) => {
 
     // Kiểm tra xem người dùng đã mua sản phẩm này chưa (trạng thái đơn hàng là đã hoàn thành)
     const [order] = await db.query(
-      "SELECT id FROM orders WHERE user_id = ? AND status = 1 AND id IN (SELECT order_id FROM orderdetails WHERE product_id = ?)",
+      "SELECT id FROM orders WHERE user_id = ? AND status = 1 AND id IN (SELECT order_id FROM order_details WHERE product_id = ?)",
       [user_id, product_id]
     );
 
