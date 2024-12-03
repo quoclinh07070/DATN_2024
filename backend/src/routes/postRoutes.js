@@ -19,6 +19,9 @@ const upload = multer({ storage: storage });
 // Lấy danh sách bài viết
 router.get('/posts', postController.getAllPosts);
 
+// Lấy danh sách bài viết
+router.get('/posts/bystatus', postController.getAllPostsByStatus);
+
 // Lấy bài viết theo ID
 router.get('/posts/:id', postController.getPostById);
 

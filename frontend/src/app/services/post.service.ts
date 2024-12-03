@@ -17,6 +17,10 @@ export class PostService {
   getAllPosts(){
     return this.http.get(this.baseUrl);
   }
+  // Lấy danh sách bài viết
+  getAllPostsByStatus(){
+    return this.http.get(`${this.baseUrl}/bystatus`);
+  }
 
   // Lấy bài viết theo ID
   getPostById(id: number){

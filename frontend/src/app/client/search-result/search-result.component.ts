@@ -73,5 +73,8 @@ export class SearchResultComponent implements OnInit {
       this.notyfService.warning('Sản phẩm đã hết hàng!');
     }
   }
+  formatPriceWithDot(value: number): string {
+    return value.toLocaleString('vi-VN').replace(/,/g, '.');
+  }
   
 }

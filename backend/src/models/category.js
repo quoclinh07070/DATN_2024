@@ -3,7 +3,6 @@ class Category {
         this.id = id;
         this.category_name = category_name;
         this.images = images;
-        this.parent_categoryID = parent_categoryID;
         this.status = status;
         this.description = description;
         this.created_at = created_at;

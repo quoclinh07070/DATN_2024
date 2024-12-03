@@ -26,14 +26,14 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPosts();
+    this.getAllPostsByStatus();
   }
 
   getImageUrl(imageName: string): string {
     return this.postService.getImageUrl(imageName);
   }
   
-  getAllPosts(): void {
+  getAllPostsByStatus(): void {
     this.postService.getAllPosts().subscribe(
       (response: any) => {
         this.posts = response.posts;

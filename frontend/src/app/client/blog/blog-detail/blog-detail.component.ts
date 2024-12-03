@@ -34,7 +34,7 @@ export class BlogDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllPosts();
+    this.getAllPostsByStatus();
     this.getAllCategories();  // Fetch categories when the component is initialized
     this.getAllPostCategories();  // Gọi hàm lấy danh mục bài viết
     this.postId = Number(this.route.snapshot.paramMap.get('id'));
@@ -61,8 +61,8 @@ export class BlogDetailComponent implements OnInit {
 
   posts: any[] = [];
 
-  getAllPosts(): void {
-    this.postService.getAllPosts().subscribe(
+  getAllPostsByStatus(): void {
+    this.postService.getAllPostsByStatus().subscribe(
       (response: any) => {
         this.posts = response.posts;
       },

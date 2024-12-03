@@ -18,6 +18,9 @@ const upload = multer({ storage: storage });
 // Lấy danh sách danh mục
 router.get('/category', categoryController.getAllCategories);
 
+// Lấy danh sách danh mục
+router.get('/category/bystatus', categoryController.getAllCategoriesByStatus);
+
 // Lấy danh mục theo ID
 router.get('/category/:id', categoryController.getCategoryById);
 

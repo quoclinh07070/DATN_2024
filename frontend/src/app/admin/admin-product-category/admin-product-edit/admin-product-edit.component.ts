@@ -19,7 +19,6 @@ export class AdminProductEditComponent implements OnInit {
     category_name: '',
     description: '',
     images: null,
-    parent_categoryID: '',
     status: 'inactive',
     created_at: '',
     updated_at: ''
@@ -57,7 +56,6 @@ export class AdminProductEditComponent implements OnInit {
     }
   }
 
-
   updateCategory(categoryForm: NgForm): void {
     if (categoryForm.invalid) {
       // Hiển thị thông báo lỗi khi form không hợp lệ
@@ -68,18 +66,17 @@ export class AdminProductEditComponent implements OnInit {
       });
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('category_name', this.category.category_name);
     formData.append('description', this.category.description);
     if (this.category.images) {
       formData.append('images', this.category.images);
     }
-    formData.append('parent_categoryID', this.category.parent_categoryID);
     formData.append('status', this.category.status);
     formData.append('created_at', this.category.created_at);
     formData.append('updated_at', this.category.updated_at);
-  
+
     if (this.categoryId) {
       this.categoryService.updateCategory(this.categoryId, formData).subscribe(
         (response) => {
@@ -102,5 +99,5 @@ export class AdminProductEditComponent implements OnInit {
       );
     }
   }
-  
 }
+

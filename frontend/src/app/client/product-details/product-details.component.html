@@ -27,84 +27,56 @@
                 <div class="col-md-6 col-sm-12">
                   <ol class="breadcrumb bg-white">
                     <li class="breadcrumb-item">
-                      <a class="link-dark" routerLink="/"
-                        ><span>Trang chủ</span></a
-                      >
+                      <a class="link-dark" routerLink="/"><span>Trang chủ</span></a>
                     </li>
                     <li class="breadcrumb-item">
-                      <a class="link-dark" routerLink="/product"
-                        ><span>Sản phẩm</span></a
-                      >
+                      <a class="link-dark" routerLink="/product"><span>Sản phẩm</span></a>
                     </li>
                     <li class="breadcrumb-item">
-                      <span class="text-dark">{{
-                        product.name.length > 30
-                          ? (product.name | slice : 0 : 30) + "..."
-                          : product.name
-                      }}</span>
+                      <span class="text-dark">
+                        {{
+                          product.name.length > 30
+                            ? (product.name | slice: 0: 30) + "..."
+                            : product.name
+                        }}
+                      </span>
                     </li>
                   </ol>
                   <div class="product-info">
                     <!-- Hiển thị thông báo hết hàng nếu sản phẩm hết hàng -->
-                    <div
-                      *ngIf="product.quantity <= 0"
-                      class="out-of-stock-notice text-danger mt-2"
-                    >
-                      <span class="m-2 bg-danger text-white p-1 rounded-pill"
-                        >Hết hàng</span
-                      >
+                    <div *ngIf="product.quantity <= 0" class="out-of-stock-notice text-danger mt-2">
+                      <span class="m-2 bg-danger text-white p-1 rounded-pill">Hết hàng</span>
                     </div>
-                    <h3 class="product-name text-dark fw-bold">
-                      {{ product.name }}
-                    </h3>
+                    <h3 class="product-name text-dark fw-bold">{{ product.name }}</h3>
                     <h4 class="item-price text-danger">
-                      <ng-container
-                        *ngIf="product.discount > 0; else noDiscount"
-                      >
+                      <ng-container *ngIf="product.discount > 0; else noDiscount">
                         <!-- Hiển thị giá giảm và tỷ lệ giảm -->
-                        <span
-                          class="discount-percentage m-2 bg-danger text-white p-1"
-                          >-{{ product.discount }}%</span
-                        >
-                        <span class="discount-price" class="text-danger me-2">
-                          {{
-                            product.price -
-                              product.price * (product.discount / 100)
-                              | number : "1.0-0"
-                          }}
-                          ₫
+                        <span class="discount-percentage m-2 bg-danger text-white p-1">-{{ product.discount }}%</span>
+                        <span class="discount-price text-danger me-2">
+                          {{ formatPriceWithDot(product.price - product.price * (product.discount / 100)) }} ₫
                         </span>
-                        <span
-                          class="old-price text-dark text-decoration-line-through"
-                        >
-                          {{ product.price | number : "1.0-0" }} ₫
+                        <span class="old-price text-dark text-decoration-line-through">
+                          {{ formatPriceWithDot(product.price) }} ₫
                         </span>
                       </ng-container>
                       <ng-template #noDiscount>
                         <!-- Hiển thị giá hiện tại nếu không có giảm giá -->
                         <span class="current-price text-danger">
-                          {{ product.price | number : "1.0-0" }} ₫
+                          {{ formatPriceWithDot(product.price) }} ₫
                         </span>
                       </ng-template>
                     </h4>
-
+                
                     <p class="text-muted pt-3">{{ product.description }}</p>
                     <!-- Điều khiển số lượng -->
-                    <div
-                      *ngIf="product.quantity > 0"
-                      class="col-md-5 mt-3 p-0 d-flex align-items-center"
-                    >
+                    <div *ngIf="product.quantity > 0" class="col-md-5 mt-3 p-0 d-flex align-items-center">
                       <h6 class="col-md-6">Số lượng:</h6>
                       <div class="input-group input-group-sm">
                         <!-- Nút giảm -->
-                        <button
-                          (click)="decreaseQuantity()"
-                          class="btn btn-outline-secondary btn-sm"
-                          [disabled]="quantity <= 1"
-                        >
+                        <button (click)="decreaseQuantity()" class="btn btn-outline-secondary btn-sm" [disabled]="quantity <= 1">
                           <i class="fa fa-minus"></i>
                         </button>
-
+                
                         <!-- Input số lượng -->
                         <input
                           type="number"
@@ -114,38 +86,26 @@
                           [max]="product.quantity"
                           (input)="validateQuantity()"
                         />
-
+                
                         <!-- Nút tăng -->
-                        <button
-                          (click)="increaseQuantity()"
-                          class="btn btn-outline-secondary btn-sm"
-                          [disabled]="quantity >= product.quantity"
-                        >
+                        <button (click)="increaseQuantity()" class="btn btn-outline-secondary btn-sm" [disabled]="quantity >= product.quantity">
                           <i class="fa fa-plus"></i>
                         </button>
                       </div>
                     </div>
-
+                
                     <div class="other-options mt-3">
-                      <button
-                        *ngIf="product.quantity > 0"
-                        (click)="addToCart(product, quantity)"
-                        type="button"
-                        class="btn btn-danger btn-lg w-50"
-                      >
+                      <button *ngIf="product.quantity > 0" (click)="addToCart(product, quantity)" type="button" class="btn btn-danger btn-lg w-50">
                         Thêm vào giỏ
                       </button>
-                      <button
-                        *ngIf="product.quantity <= 0"
-                        type="button"
-                        class="btn btn-secondary btn-lg w-50"
-                        disabled
-                      >
+                      <button *ngIf="product.quantity <= 0" type="button" class="btn btn-secondary btn-lg w-50" disabled>
                         Hết hàng
                       </button>
                     </div>
                   </div>
                 </div>
+                
+                
               </div>
             </div>
             <!-- Basic Details -->
