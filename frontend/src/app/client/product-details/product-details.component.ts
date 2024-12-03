@@ -138,7 +138,7 @@ export class ProductDetailsComponent implements OnInit {
       this.quantity = 1;  // Đảm bảo số lượng không nhỏ hơn 1
     } else if (this.quantity > this.product.quantity) {
       this.quantity = this.product.quantity;  // Điều chỉnh lại số lượng nếu vượt quá kho
-      alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+      this.notyfService.error('Sản phẩm trong giỏ đã vượt quá tồn kho!');
     }
   }
 
@@ -178,8 +178,8 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   get displayedReviews() {
-    return this.filteredReviews.filter(review => review.status === 1);
-  }
+    return this.reviews.filter(review => review.status === 1);  // Chỉ hiển thị các đánh giá đã duyệt
+  }  
 
   loadMore() {
     this.visibleReviews += 3; // Tăng số lượng bình luận hiển thị mỗi lần nhấn
@@ -225,7 +225,7 @@ export class ProductDetailsComponent implements OnInit {
             console.error('Lỗi khi gửi đánh giá:', error);
             // Kiểm tra mã lỗi trả về từ API
             if (error.status === 403) {
-              alert(error.error.message);  // Hiển thị thông báo lỗi từ backend
+              Swal.fire('Thất bại',error.error.message,'error');  // Hiển thị thông báo lỗi từ backend
             } else {
               Swal.fire('Thất bại', 'Gửi đánh giá không thành công!', 'error');
             }

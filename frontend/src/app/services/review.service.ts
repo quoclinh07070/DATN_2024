@@ -38,10 +38,12 @@ export class ReviewService {
   }
 
   // Phương thức để lấy các đánh giá của sản phẩm
-  getProductReviews(productId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${productId}`);
-  }
-  
+  // getProductReviews(productId: number): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}/${productId}`);
+  // }
+  getProductReviews(productId: number): Observable<{ reviews: any[] }> {
+    return this.http.get<{ reviews: any[] }>(`${this.baseUrl}/${productId}`);
+}
   updateReviewStatus(reviewId: number, payload: { status: number }): Observable<any> {
     return this.http.put(`${this.baseUrl}/${reviewId}`, payload);  // Sửa lại endpoint
   }
