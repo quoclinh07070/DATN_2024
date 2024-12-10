@@ -43,12 +43,12 @@ export class AdminEditProductComponent implements OnInit {
     if (this.productId) {
       this.getProduct(this.productId);
     }
-    this.getCategories();  // Lấy danh sách danh mục khi khởi tạo
+    this.getAllCategoriesByStatus();  // Lấy danh sách danh mục khi khởi tạo
   }
 
   // Lấy danh sách danh mục từ API
-  getCategories(): void {
-    this.categoryService.getAllCategories().subscribe(
+  getAllCategoriesByStatus(): void {
+    this.categoryService.getAllCategoriesByStatus().subscribe(
       (response: any) => {
         this.categories = response.categories;  // Giả sử response có thuộc tính categories
       },
@@ -58,6 +58,7 @@ export class AdminEditProductComponent implements OnInit {
       }
     );
   }
+
 
   // Lấy thông tin sản phẩm theo ID
   getProduct(id: number): void {

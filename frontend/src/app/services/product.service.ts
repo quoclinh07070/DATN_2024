@@ -54,5 +54,9 @@ export class ProductService {
     getAllProductsByStatus() {
       return this.http.get(`${this.baseUrl}/bystatus`);
     }
+    // Lấy danh sách danh mục
+    getAllCategoriesByStatus(){
+      return this.http.get(`${this.baseUrl}/bystatus`);
+    }
   
 }

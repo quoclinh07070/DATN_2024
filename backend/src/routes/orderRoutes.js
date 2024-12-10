@@ -6,6 +6,9 @@ const orderController = require('../controllers/orderController');
 // Lấy danh sách đơn hàng
 router.get('/orders', orderController.getAllOrders);
 
+// Lấy danh sách đơn hàng
+router.get('/orders/orderdetails/:id', orderController.getOrderdetailsByOrderid);
+
 // Lấy đơn hàng theo ID
 router.get('/orders/:id', orderController.getOrderById);
 
@@ -14,6 +17,7 @@ router.put('/orders/:id', orderController.updateOrderStatus);
 
 // Lấy danh sách đơn hàng theo user_id
 router.get('/user-orders', orderController.getOrdersByUserId);
+
 
 // router.get('/orders/total-quantity', async (req, res) => {
 //   try {

@@ -3,15 +3,17 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OrderService } from '../../../services/order.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-admin-order-detail',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './admin-order-detail.component.html',
-  styleUrl: './admin-order-detail.component.css'
+  styleUrls: ['./admin-order-detail.component.css']
 })
 export class AdminOrderDetailComponent {
   order: any = null;  // Dữ liệu chi tiết đơn hàng
+  orderItems: any[] = []; // Lưu danh sách chi tiết đơn hàng
 
   constructor(
     private route: ActivatedRoute,  // Lấy tham số từ URL
@@ -20,17 +22,17 @@ export class AdminOrderDetailComponent {
 
   ngOnInit(): void {
     this.getOrderDetail();  // Lấy thông tin đơn hàng khi component khởi tạo
+    this.getOrderItems();  // Lấy thông tin chi tiết đơn hàng
   }
 
   getOrderDetail(): void {
-    const orderId = this.route.snapshot.paramMap.get('id');  // Lấy id từ URL
+    const orderId = this.route.snapshot.paramMap.get('id');  
     if (!orderId) {
       Swal.fire('Lỗi!', 'Không tìm thấy ID đơn hàng.', 'error');
       return;
     }
 
-    // Chuyển đổi orderId từ string sang number
-    const numericOrderId = Number(orderId);
+    const numericOrderId = Number(orderId); 
     if (isNaN(numericOrderId)) {
       Swal.fire('Lỗi!', 'ID đơn hàng không hợp lệ.', 'error');
       return;
@@ -42,6 +44,33 @@ export class AdminOrderDetailComponent {
       },
       (error) => {
         Swal.fire('Lỗi!', 'Không thể tải thông tin đơn hàng.', 'error');
+      }
+    );
+  }
+
+  getOrderItems(): void {
+    const orderId = this.route.snapshot.paramMap.get('id'); 
+    if (!orderId) {
+      Swal.fire('Lỗi!', 'Không tìm thấy ID đơn hàng.', 'error');
+      return;
+    }
+
+    const numericOrderId = Number(orderId);
+    if (isNaN(numericOrderId)) {
+      Swal.fire('Lỗi!', 'ID đơn hàng không hợp lệ.', 'error');
+      return;
+    }
+
+    this.orderService.getOrderdetailsByOrderid(numericOrderId).subscribe(
+      (response: any) => {
+        if (response.orders && response.orders.length > 0) {
+          this.orderItems = response.orders; // Lưu dữ liệu chi tiết đơn hàng
+        } else {
+          Swal.fire('Thông báo!', 'Không có chi tiết nào cho đơn hàng này.', 'info');
+        }
+      },
+      (error) => {
+        Swal.fire('Lỗi!', 'Không thể tải thông tin chi tiết đơn hàng.', 'error');
       }
     );
   }
@@ -64,5 +93,10 @@ export class AdminOrderDetailComponent {
       case 'completed': return 'Hoàn thành';
       default: return 'Không xác định';
     }
+  }
+
+  // Hàm format giá trị tiền tệ (tùy chọn)
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
   }
 }

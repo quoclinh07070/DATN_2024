@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CategoryService } from '../../services/category.service';
 @Component({
   selector: 'app-admin-product',
   standalone: true,
@@ -16,7 +17,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 })
 export class AdminProductComponent implements OnInit {
   products: any[] = [];
+  categories: any[] = [];
   filteredProducts: any[] = [];
+  // filteredProducts: any[] = [];
   priceForm: FormGroup;
   loading: boolean = true;
 
@@ -29,7 +32,10 @@ export class AdminProductComponent implements OnInit {
   selectedPriceRange: string = '';
   selectedStatus: string = '';
 
-  constructor(private productService: ProductService, private fb: FormBuilder) {
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private fb: FormBuilder) {
     this.priceForm = this.fb.group({
       minPrice: [null],
       maxPrice: [null],
@@ -55,6 +61,18 @@ export class AdminProductComponent implements OnInit {
     );
   }
 
+  getAllCategoriesByStatus(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.categories;
+        // this.filteredCategories = this.categories;
+        // this.parentCategories = this.categories.filter(category => !category.parent_categoryID);
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
   filterProducts(): void {
     this.filteredProducts = this.products.filter(product => {
       return (

@@ -1,5 +1,5 @@
 class PostCategory {
-    constructor(id, parentCategoryID, name, image_url, created_at, updated_at) {
+    constructor(id, name, image_url, created_at, updated_at) {
         this.id = id;
         this.name = name;
         this.image_url = image_url;

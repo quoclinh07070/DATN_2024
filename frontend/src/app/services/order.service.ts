@@ -14,9 +14,14 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   // Lấy danh sách đơn hàng
+  getOrderdetailsByOrderid(id: number) {
+    return this.http.get(`${this.baseUrl}/orderdetails/${id}`);
+  }
+
   getAllOrders() {
     return this.http.get(this.baseUrl);
   }
+
 
   // Lấy đơn hàng theo ID
   getOrderById(id: number) {
