@@ -210,7 +210,7 @@ router.post('/check-status', async (req, res) => {
 // API xử lý thanh toán khi nhận hàng (COD)
 router.post('/submit-cod-order', async (req, res) => {
   try {
-    const { user, totalAmount, shippingAddress, cartItems } = req.body;
+    const { user, totalAmount, shippingAddress, cartItems, orderId } = req.body;
 
     if (!user || !user.id) {
       return res.status(400).json({ message: 'Thiếu thông tin người dùng hoặc ID người dùng.' });
@@ -224,12 +224,13 @@ router.post('/submit-cod-order', async (req, res) => {
 
     // Lưu thông tin vào bảng orders
     const orderQuery = `
-        INSERT INTO orders (user_id, total_amount, payment_method, status, 
+        INSERT INTO orders (user_id, orderId, total_amount, payment_method, status, 
         address, phone_number, voucher_id, voucher_code, voucher_discount, note, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     `;
     const orderResult = await db.query(orderQuery, [
       user.id,
+      orderId,
       totalAmount,
       'cod',
       'processing',

@@ -25,6 +25,8 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { PaymentAlertComponent } from './payment-alert/payment-alert.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { OrderDetailComponent } from './order-list/order-detail/order-detail.component';
+
 // import { WishlistComponent } from './wishlist/wishlist.component';
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -60,6 +62,7 @@ const clientRoutes: Routes = [
       { path: 'payment-alert', component: PaymentAlertComponent },
       { path: 'success-page', component: SuccessPageComponent },
       { path: 'order-list', component: OrderListComponent },
+      { path: 'order-list/detail/:id', component: OrderDetailComponent },
       { path: '**', component: PagenotfoundComponent },
 
     ]},
