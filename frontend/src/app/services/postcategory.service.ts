@@ -16,6 +16,10 @@ export class PostCategoryService {
   getAllPostCategories() {
     return this.http.get(this.baseUrl);
   }
+  // Lấy danh sách danh mục
+  getAllPostCategoriesByStatus() {
+    return this.http.get(`${this.baseUrl}/bystatus`);
+  }
 
   // Lấy danh mục theo ID
   getPostCategoryById(id: number) {

@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const Order = require('../models/order');
+const Orderdetails = require('../models/orderdetails');
 
 // Lấy danh sách đơn hàng
 exports.getAllOrders = async (req, res) => {
@@ -29,7 +30,32 @@ exports.getAllOrders = async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi lấy đơn hàng', error: err });
     }
 };
+// Lấy danh sách đơn hàng
+exports.getOrderdetailsByOrderid = async (req, res) => {
+    const { id } = req.params;
 
+    try {
+        const [results] = await db.query('SELECT * FROM order_details where order_id=?', [id]);
+        res.json({
+            message: 'Lấy chi tiết đơn hàng thành công',
+            orders: results.map(order_details => new Orderdetails(
+                order_details.id,
+                order_details.order_id,
+                order_details.product_id,
+                order_details.product_name,
+                order_details.quantity,
+                order_details.unit_price,
+                order_details.total_price,
+                order_details.voucher_code,
+                order_details.voucher_discount,
+                order_details.created_at,
+                order_details.updated_at,
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy đơn hàng', error: err });
+    }
+};
 // Lấy đơn hàng theo ID
 exports.getOrderById = async (req, res) => {
     const { id } = req.params;

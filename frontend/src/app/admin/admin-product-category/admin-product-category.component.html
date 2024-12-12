@@ -5,7 +5,7 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between align-items-center mt-2">
             <h3 class="mb-0">DANH MỤC SẢN PHẨM</h3>
-            <a class="btn btn-success ms-2" routerLink="add">Thêm Danh Mục Sản</a>
+            <a class="btn btn-success ms-2" routerLink="add">Thêm Danh Mục Sản Phẩm</a>
           </div>
           <div class="d-flex align-items-center mt-3">
             <label for="searchTerm" class="mr-2">Lọc:</label>
@@ -14,8 +14,7 @@
               type="text" 
               id="searchTerm" 
               class="form-control simple-search-input mr-3" 
-              style="width: 220px;"
-              placeholder="Tìm kiếm danh mục... 🔍" 
+              placeholder="Tìm kiếm danh mục" 
               [(ngModel)]="searchTerm"
               (input)="filterCategories()" 
             />
@@ -36,8 +35,8 @@
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered text-nowrap">
-                  <thead class="table-dark text-white text-center align-middle">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead class="table-primary">
                     <tr>
                       <th>ID</th>
                       <th>Tên danh mục</th>
@@ -52,8 +51,8 @@
                       *ngFor="let category of filteredCategories | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }" 
                       [ngClass]="{'table-light': category.status === 'active', 'table-danger': category.status !== 'active'}">
                       <th scope="row">{{category.id}}</th>
-                      <td class="text-center align-middle">{{category.category_name}}</td>
-                      <td class="text-center align-middle">
+                      <td>{{category.category_name}}</td>
+                      <td>
                         <img [src]="getImageUrl(category.images)" alt="{{category.category_name}}" class="img-fluid" style="max-width: 60px;">
                       </td>
                       <td class="text-truncate" style="max-width: 120px;">{{category.description}}</td>

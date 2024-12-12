@@ -6,6 +6,9 @@ const orderController = require('../controllers/orderController');
 // Lấy danh sách đơn hàng
 router.get('/orders', orderController.getAllOrders);
 
+// Lấy danh sách đơn hàng
+router.get('/orders/orderdetails/:id', orderController.getOrderdetailsByOrderid);
+
 // Lấy đơn hàng theo ID
 router.get('/orders/:id', orderController.getOrderById);
 

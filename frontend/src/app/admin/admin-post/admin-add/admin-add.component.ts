@@ -39,7 +39,7 @@ export class AdminAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllCategories();
+    this.getPostCategoryById();
     this.postId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.postId) {
       this.getPost(this.postId);
@@ -129,7 +129,7 @@ export class AdminAddComponent implements OnInit {
     );
   }
 
-  getAllCategories(): void {
+  getPostCategoryById(): void {
     this.postCategoryService.getAllPostCategories().subscribe(
       (response: any) => {
         this.postcategories = response.postcategories;
