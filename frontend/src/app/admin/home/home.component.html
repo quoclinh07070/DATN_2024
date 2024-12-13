@@ -7,146 +7,50 @@
   data-sidebar-position="fixed"
   data-header-position="fixed"
 >
-  <!--  Main wrapper -->
   <div class="body-wrapper">
     <div class="container-fluid">
-      <div class="row">
+      <div class="row mb-4">
 
-
-        <div class="row g-4">
-          <!-- Tổng quan sản phẩm -->
-          <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="position-relative">
-                <a href="javascript:void(0)">
-                  <!-- <img
-                    src="/assets/client/images/main-slider/image-1.jpg"
-                    class="card-img-top rounded-top"
-                    alt="product-overview"
-                    style="height: 200px; object-fit: cover;"
-                  /> -->
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="icon-circle bg-primary text-white mb-3">
-                  <i class="bi bi-box-seam fs-3"></i>
-                </div>
-                <h4 class="fs-5 text-dark fw-semibold">TỔNG QUAN SẢN PHẨM</h4>
-                <p class="mb-1">Sản phẩm hiện tại: <span class="text-primary fw-bold">{{ totalProductCount }}</span></p>
-                <p>Tổng số lượng trong kho: <span class="text-primary fw-bold">{{ totalQuantity }}</span></p>
-                <p><a href="/admin/product" class="text-decoration-none text-primary">Xem chi tiết</a></p>
-              </div>
-            </div>
-          </div>
-        
-          <!-- Tổng quan bài viết -->
-          <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="position-relative">
-                <a href="javascript:void(0)">
-                  <!-- <img
-                    src="/assets/client/images/main-slider/image-4.jpg"
-                    class="card-img-top rounded-top"
-                    alt="post-overview"
-                    style="height: 200px; object-fit: cover;"
-                  /> -->
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="icon-circle bg-success text-white mb-3">
-                  <i class="bi bi-file-earmark-text fs-3"></i>
-                </div>
-                <h4 class="fs-5 text-dark fw-semibold">TỔNG QUAN BÀI VIẾT</h4>
-                <p class="mb-1">Tổng số bài viết: <span class="text-success fw-bold">{{ totalPostCount }}</span></p>
-                <!-- <p class="mb-1">Bài viết nháp: <span class="text-success fw-bold">{{ totalDrafts }}</span></p> -->
-                <p>Bài viết đã xuất bản: <span class="text-success fw-bold">{{ totalPublished }}</span></p>
-                <p><a href="/admin/post" class="text-decoration-none text-primary">Xem chi tiết</a></p>
-              </div>
-            </div>
-          </div>
-        
-          <!-- Tổng quan voucher -->
-          <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="position-relative">
-                <a href="javascript:void(0)">
-                  <!-- <img
-                    src="/assets/client/images/banner/Banner1.png"
-                    class="card-img-top rounded-top"
-                    alt="voucher-overview"
-                    style="height: 200px; object-fit: cover;"
-                  /> -->
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="icon-circle bg-warning text-white mb-3">
-                  <i class="bi bi-tags fs-3"></i>
-                </div>
-                <h4 class="fs-5 text-dark fw-semibold">TỔNG QUAN VOUCHER</h4>
-                <p class="mb-1">Tổng số voucher: <span class="text-warning fw-bold">{{ totalVoucherCount }}</span></p>
-                <p class="">Voucher kích hoạt: <span class="text-warning fw-bold">{{ totalActiveVouchers }}</span></p>
-                <p><a href="/admin/voucher" class="text-decoration-none text-primary">Xem chi tiết</a></p>
-              </div>
+        <div class="col-lg-8 col-md-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center">Biểu đồ Đơn hàng</h5>
+              <canvas id="orderChart"></canvas>
             </div>
           </div>
         </div>
-
-
-
-        <div class="row g-4">
-          <!-- Tổng quan sản phẩm -->
-          <!-- <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="position-relative">
-                <a href="javascript:void(0)">
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="icon-circle bg-primary text-white mb-3">
-                  <i class="bi bi-box-seam fs-3"></i>
-                </div>
-                <h3>Tổng Đơn Hàng</h3>
-                <p>Tổng số đơn hàng: {{ totalOrderCount }}</p>
-                <p>Tổng số đơn hàng đã giao: {{ totalDeliveredOrders }}</p>
-                <p>Tổng số đơn hàng đã hủy: {{ totalCancelledOrders }}</p>
-                <p><a href="/admin/user" class="text-decoration-none text-primary">Xem chi tiết</a></p>
-
-              </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center">Biểu đồ Sản phẩm</h5>
+              <canvas id="productChart"></canvas>
             </div>
           </div>
-         -->
-          <!-- Tổng quan bài viết -->
-          <!-- <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="position-relative">
-                <a href="javascript:void(0)">
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="icon-circle bg-success text-white mb-3">
-                  <i class="bi bi-file-earmark-text fs-3"></i>
-                </div>
-              <p><a href="/admin/user" class="text-decoration-none text-primary">Xem chi tiết</a></p>
-              </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-lg-4 col-md-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center">Biểu đồ Voucher</h5>
+              <canvas id="voucherChart"></canvas>
             </div>
-          </div> -->
-        
-          <!-- Tổng quan voucher -->
-          <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="position-relative">
-                <a href="javascript:void(0)">
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="icon-circle bg-warning text-white mb-3">
-                  <i class="bi bi-tags fs-3"></i>
-                </div>
-                <h3>Tổng Người Dùng</h3>
-                <p>Tổng số người dùng: <span class="text-primary fw-bold">{{ totalUserCount }}</span></p>
-                <!-- <p>Tổng số người dùng là quản trị viên: <span class="text-primary fw-bold">{{ totalAdminUsers }}</span></p> -->
-                <p><a href="/admin/user" class="text-decoration-none text-primary">Xem chi tiết</a></p>
-              </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center">Biểu đồ Người dùng</h5>
+              <canvas id="userChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center">Biểu đồ Bài viết</h5>
+              <canvas id="postChart"></canvas>
             </div>
           </div>
         </div>
