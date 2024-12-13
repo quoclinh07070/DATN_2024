@@ -18,6 +18,7 @@ const userRoutes = require('./src/routes/userRoutes');
 const paymentRoutes = require('./src/routes/paymentRoutes');  // Import routes thanh toán MoMo
 const emailRoutes = require('./src/routes/emailRoutes');
 const ghtkRoutes = require("./src/routes/ghtkRoutes");
+const notificationRoutes = require('./src/routes/notificationRoutes');
 
 const db = require('./src/config/db'); // Nhập db từ config
 const dbmomo = require('./src/config/momo'); // Nhập db từ config
@@ -114,6 +115,7 @@ app.use('/api', userRoutes);
 app.use('/api', emailRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/orders', ghtkRoutes);
+app.use('/api/notifications', notificationRoutes);
 app.use('/api', require("./src/routes/index"));
 
 
