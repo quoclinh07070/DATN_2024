@@ -286,6 +286,11 @@ router.post('/submit-cod-order', async (req, res) => {
     `;
     await db.query(updateUserQuery, [fullAddress, user.phoneNumber, user.id]);
 
+    // Tạo thông báo cho admin
+    const notificationSql = `INSERT INTO notifications (user_id, type, message) VALUES (?, ?, ?)`;
+    const message = `Người dùng ID ${user.id} đã đặt đơn hàng mới với ID ${orderId}`;
+    await db.query(notificationSql, [24, 'order', message]);
+    
     res.status(200).json({ message: 'Đơn hàng COD đã được tạo thành công' });
   } catch (err) {
     console.error('Lỗi khi xử lý thanh toán COD:', err.message);

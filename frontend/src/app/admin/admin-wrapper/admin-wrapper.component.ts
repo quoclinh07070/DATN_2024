@@ -134,7 +134,7 @@ export class AdminWrapperComponent implements OnInit {
         );
         if (newNotifications.length > 0) {
           this.hasNewNotification = true; // Kích hoạt hiệu ứng
-          setTimeout(() => (this.hasNewNotification = false), 3000); // Tắt hiệu ứng sau 3 giây
+          setTimeout(() => (this.hasNewNotification = false), 5000); // Tắt hiệu ứng sau 3 giây
         }
         this.notifications = response.notifications || [];
         this.unreadCount = this.notifications.filter((n) => !n.is_read).length;
