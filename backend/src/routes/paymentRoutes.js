@@ -132,7 +132,10 @@ router.post('/create-payment', async (req, res) => {
           voucherDiscount || 0,
         ]);
       });
-
+    // Tạo thông báo cho admin
+    const notificationSql = `INSERT INTO notifications (user_id, type, message) VALUES (?, ?, ?)`;
+    const message = `Người dùng ID ${userId} đã đặt đơn hàng mới với ID ${orderId}`;
+    await db.query(notificationSql, [24, 'order', message]);
       // Chờ tất cả các Promise hoàn thành
       await Promise.all(insertOrderDetailsPromises);
 
