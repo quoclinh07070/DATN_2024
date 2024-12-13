@@ -20,7 +20,15 @@
               [(ngModel)]="searchTerm"
               (input)="filterCategories()" 
             />
+          
+            <!-- Chọn số mục hiển thị -->
+            <select class="form-control w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="currentPage = 1">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+            </select>
           </div>
+          
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
@@ -29,29 +37,37 @@
                     <tr>
                       <th>ID</th>
                       <th>Tên danh mục</th>
-                      <!-- <th>ID danh mục cha</th> -->
                       <th>Hình ảnh</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let postcategory of filteredCategories">
-                      <th scope="row">{{postcategory.id}}</th>
-                      <td class="text-truncate text-center align-middle" style="max-width: 100px;">{{postcategory.name}}</td>
-                      <!-- <td>{{postcategory.parentCategoryID || 'N/A'}}</td> -->
-                      <td class="text-center align-middle">
-                        <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{postcategory.name}}" class="img-fluid" style="max-width: 60px;">
+                    <tr 
+                      *ngFor="let postcategory of filteredCategories | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                      <th scope="row">{{ postcategory.id }}</th>
+                      <td class="text-truncate" style="max-width: 100px;">{{ postcategory.name }}</td>
+                      <td>
+                        <img *ngIf="postcategory.image_url" [src]="getImageUrl(postcategory.image_url)" alt="{{ postcategory.name }}" class="img-fluid" style="max-width: 60px;">
                       </td>
-                      <td class="text-center align-middle">
-                        <a class="btn btn-info btn-sm" routerLink="edit/{{postcategory.id}}">Sửa</a>
+                      <td>
+                        <a class="btn btn-info btn-sm" routerLink="edit/{{ postcategory.id }}">Sửa</a>
                         <button type="button" class="btn btn-danger btn-sm" (click)="deleteCategory(postcategory.id)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+                
+                <!-- Phân trang -->
+                <pagination-controls 
+                  (pageChange)="currentPage = $event"
+                  previousLabel="Trước"
+                  nextLabel="Tiếp"
+                  class="mt-3 d-flex justify-content-center">
+                </pagination-controls>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>

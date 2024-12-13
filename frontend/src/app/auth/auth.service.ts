@@ -21,13 +21,14 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
       tap((response: any) => {
         if (response.status === 200 && this.isLocalStorageAvailable()) {
-          // Lưu access token và refresh token vào localStorage
+          const loginTime = new Date().getTime(); // Lưu thời gian hiện tại
           localStorage.setItem('accessToken', response.metadata.tokens.accessToken);
           localStorage.setItem('refreshToken', response.metadata.tokens.refreshToken);
           localStorage.setItem('userId', response.metadata.shop.user_id.toString());
           localStorage.setItem('userName', response.metadata.shop.name);
           localStorage.setItem('userEmail', response.metadata.shop.email);
           localStorage.setItem('userRole', response.metadata.shop.role);
+          localStorage.setItem('loginTime', loginTime.toString()); // Lưu thời gian đăng nhập
         }
       }),
       catchError((error: any) => { 
@@ -36,17 +37,44 @@ export class AuthService {
       })
     );
   }
+  
+  checkSessionValidity(): boolean {
+    if (!this.isLocalStorageAvailable()) {
+      return false;
+    }
+  
+    const loginTime = localStorage.getItem('loginTime');
+    const accessToken = localStorage.getItem('accessToken');
+    const currentTime = new Date().getTime();
+  
+    if (loginTime && accessToken) {
+      const sessionDuration = 24 * 60 * 60 * 1000; // 1 ngày (ms)
+      const loginTimestamp = parseInt(loginTime, 10);
+  
+      if (currentTime - loginTimestamp > sessionDuration) {
+        this.logout().subscribe(() => {
+          Swal.fire('Phiên làm việc đã hết hạn', 'Vui lòng đăng nhập lại', 'warning');
+          this.router.navigate(['/login']);
+        });
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }   
 
   signup(name: string, email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/signup`, { name, email, password }).pipe(
       tap((response: any) => {
         if (response.status === 201 && this.isLocalStorageAvailable()) {
           // Lưu access token và refresh token vào localStorage
+          const loginTime = new Date().getTime(); // Lưu thời gian hiện tại
           localStorage.setItem('accessToken', response.metadata.tokens.accessToken);
           localStorage.setItem('refreshToken', response.metadata.tokens.refreshToken);
           localStorage.setItem('userId', response.metadata.user.user_id);
           localStorage.setItem('userName', response.metadata.user.name);
           localStorage.setItem('userEmail', response.metadata.user.email);
+          localStorage.setItem('loginTime', loginTime.toString()); // Lưu thời gian đăng nhập
         }
       }),
       catchError((error: any) => {
@@ -75,12 +103,7 @@ export class AuthService {
 
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers }).pipe(
       tap(() => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userRole');
+        localStorage.clear();
       }),
       catchError((error: any) => {
         const errorMessage = error.error?.message || 'Đã xảy ra lỗi khi đăng xuất';
@@ -228,12 +251,14 @@ Usignup(name: string, email: string, password: string, status: string, role: str
   
           // Lưu thông tin vào localStorage
           if (res.metadata && this.isLocalStorageAvailable()) {
+            const loginTime = new Date().getTime(); // Lưu thời gian hiện tại
             localStorage.setItem('accessToken', res.metadata.tokens.accessToken);
             localStorage.setItem('refreshToken', res.metadata.tokens.refreshToken);
             localStorage.setItem('userId', res.metadata.shop.user_id.toString());
             localStorage.setItem('userName', res.metadata.shop.name);
             localStorage.setItem('userEmail', res.metadata.shop.email);
             localStorage.setItem('userRole', res.metadata.shop.role);
+            localStorage.setItem('loginTime', loginTime.toString()); // Lưu thời gian đăng nhập
 
             // Hiển thị thông báo thành công
             Swal.fire('Xong!', 'Đăng nhập Google thành công!', 'success');

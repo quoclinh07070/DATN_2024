@@ -39,7 +39,7 @@ export class CheckoutComponent implements OnInit {
     phuong: '',
     phone: '',
   };
-
+  shippingFee: any;
   user: any = {
     id: '', // ID người dùng
     name: '',
@@ -74,7 +74,7 @@ export class CheckoutComponent implements OnInit {
           address: data.user.address || '',
           note: data.user.note,
         };
-        console.log('Địa chỉ từ backend:', this.user.address);
+        // console.log('Địa chỉ từ backend:', this.user.address);
 
         // Phân tách địa chỉ thành các phần
         const addressParts = this.user.address
@@ -268,6 +268,7 @@ export class CheckoutComponent implements OnInit {
       quantity: item.quantity,
       unitPrice: unitPrice,
       totalPrice: totalPrice,
+      voucherId: this.appliedVoucher ? this.appliedVoucher.id : null,
       voucherCode: this.appliedVoucher ? this.appliedVoucher.voucher_code : null,
       voucherDiscount: this.appliedVoucher ? parseFloat(this.appliedVoucher.discount_percent) : 0,
     };
@@ -337,58 +338,89 @@ export class CheckoutComponent implements OnInit {
   generateOrderId(): string {
     return 'ORD-' + new Date().getTime(); // Tạo mã đơn hàng đơn giản bằng timestamp
   }
-
-  calculateShippingFee(): void {
-    const data = {
-      pick_address: "Số 1, Đường Láng", // Địa chỉ lấy hàng
-      pick_province: "Hà Nội", // Tỉnh/thành phố lấy hàng
-      pick_district: "Đống Đa", // Quận/huyện lấy hàng
-      province: "Cần Thơ", // Tỉnh/thành phố nhận hàng
-      district: "Ninh Kiều", // Quận/huyện nhận hàng
-      weight: 1000, // Trọng lượng gói hàng (đơn vị gram)
-      deliver_option: "none"
+  getShippingFee() {
+    const requestData = {
+      pick_province: 'Hà Nội',
+      pick_district: 'Quận Hoàn Kiếm',
+      deliver_province: 'TP. Hồ Chí Minh',
+      deliver_district: 'Quận 1',
+      weight: 1000,
+      value: 2000000
     };
-  
-    console.log("Dữ liệu gửi đến GHTK:", data);
-  
-    this.ghtkService.calculateFee(data).subscribe(
+
+    this.ghtkService.calculateShippingFee(requestData).subscribe(
       (response) => {
-        console.log("Phản hồi tính phí:", response);
-        this.feeResponse = response;
+        if (response.success) {
+          this.shippingFee = response.fee.fee;
+        } else {
+          console.error('GHTK Error:', response.message);
+          alert(`Lỗi từ GHTK: ${response.message}`);
+        }
       },
       (error) => {
-        console.error("Lỗi khi tính phí vận chuyển:", error.response || error.message);
+        console.error('Network or API Error:', error);
       }
     );
+    
   }
+  // calculateShippingFee(): void {
+  //   const data = {
+  //     pick_address: "Số 1, Đường Láng", // Địa chỉ lấy hàng
+  //     pick_province: "Hà Nội", // Tỉnh/thành phố lấy hàng
+  //     pick_district: "Đống Đa", // Quận/huyện lấy hàng
+  //     province: "Cần Thơ", // Tỉnh/thành phố nhận hàng
+  //     district: "Ninh Kiều", // Quận/huyện nhận hàng
+  //     weight: 1000, // Trọng lượng gói hàng (đơn vị gram)
+  //     deliver_option: "none"
+  //   };
+  
+  //   console.log("Dữ liệu gửi đến GHTK:", data);
+  
+  //   this.ghtkService.calculateFee(data).subscribe(
+  //     (response) => {
+  //       console.log("Phản hồi tính phí:", response);
+  //       this.feeResponse = response;
+  //     },
+  //     (error) => {
+  //       console.error("Lỗi khi tính phí vận chuyển:", error.response || error.message);
+  //     }
+  //   );
+  // }
   
   
 
-  createOrder(): void {
-    const order = {
-      pick_name: this.user.name, // Tên người gửi
-      pick_address: this.user.address, // Địa chỉ gửi
-      pick_province: this.selectedTinh, // Tỉnh/Thành phố gửi
-      pick_district: this.selectedQuan, // Quận/Huyện gửi
-      deliver_name: this.user.name, // Tên người nhận
-      deliver_address: this.user.address, // Địa chỉ nhận
-      deliver_province: this.selectedTinh, // Tỉnh/Thành phố nhận
-      deliver_district: this.selectedQuan, // Quận/Huyện nhận
-      weight: 1000, // Tổng trọng lượng this.getTotalWeight()
-    };
+//   createOrder(): void {
+//     const order = {
+//       pick_name: this.user.name, // Tên người gửi
+//       pick_address: this.user.address, // Địa chỉ gửi
+//       pick_province: this.selectedTinh, // Tỉnh/Thành phố gửi
+//       pick_district: this.selectedQuan, // Quận/Huyện gửi
+//       deliver_name: this.user.name, // Tên người nhận
+//       deliver_address: this.user.address, // Địa chỉ nhận
+//       deliver_province: this.selectedTinh, // Tỉnh/Thành phố nhận
+//       deliver_district: this.selectedQuan, // Quận/Huyện nhận
+//       weight: 1000, // Tổng trọng lượng this.getTotalWeight()
+//     };
   
-    this.ghtkService.createOrder(order).subscribe(
-      (response) => {
-        this.orderResponse = response;
-        console.log('Order response:', response);
-      },
-      (error) => {
-        console.error('Error creating order:', error);
-      }
-    );
+//     this.ghtkService.createOrder(order).subscribe(
+//       (response) => {
+//         this.orderResponse = response;
+//         console.log('Order response:', response);
+//       },
+//       (error) => {
+//         console.error('Error creating order:', error);
+//       }
+//     );
+//   }
+  
+//   getTotalWeight(): number {
+//   return this.cartItems.reduce((total, item) => total + item.weight * item.quantity, 0);
+// }
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
   }
-  
-  getTotalWeight(): number {
-  return this.cartItems.reduce((total, item) => total + item.weight * item.quantity, 0);
-}
+
 }

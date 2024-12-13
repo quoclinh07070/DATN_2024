@@ -4,11 +4,11 @@ import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule,FormsModule } from '@angular/forms'; // Import ReactiveFormsModule
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-contact-us',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.css'
 })
@@ -31,23 +31,33 @@ export class ContactUsComponent {
 
   onSubmit() {
     if (this.contactForm.invalid) {
-      this.errorMessage = 'Vui lòng kiểm tra thông tin nhập vào.';
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: 'Vui lòng kiểm tra thông tin nhập vào.',
+      });
       return;
     }
   
     this.isSubmitting = true;
-    this.errorMessage = '';
-    this.successMessage = '';
   
     this.userService.sendContactEmail(this.contactForm.value).subscribe(
       (response) => {
         this.isSubmitting = false;
-        this.successMessage = response.message || 'Gửi thành công!';
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công',
+          text: response.message || 'Gửi thành công!',
+        });
         this.contactForm.reset();
       },
       (error) => {
         this.isSubmitting = false;
-        this.errorMessage = 'Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại.',
+        });
         console.error(error);
       }
     );

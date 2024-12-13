@@ -4,6 +4,7 @@ import { PostService } from '../../services/post.service'; // Import PostService
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
+import { NotyfService } from '../../services/notyf.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private postService: PostService, // Inject PostService
-    private cartService: CartService
+    private cartService: CartService,
+    private notyfService: NotyfService
   ) {}
 
   ngOnInit(): void {
@@ -67,12 +69,21 @@ export class HomeComponent implements OnInit {
     if (product.quantity > 0) {
       const success = this.cartService.addToCart(product, quantity);
       if (success) {
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        this.notyfService.success('Sản phẩm đã được thêm vào giỏ hàng!');
       } else {
-        alert('Sản phẩm trong giỏ đã vượt quá tồn kho!');
+        this.notyfService.warning('Sản phẩm trong giỏ đã vượt quá tồn kho!');
       }
     } else {
       alert('Sản phẩm đã hết hàng!');
     }
+  }
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
+  }
+  formatPriceWithDot(value: number): string {
+    return value.toLocaleString('vi-VN').replace(/,/g, '.');
   }
 }

@@ -19,12 +19,19 @@
               (input)="filterPosts()"
             />
             <!-- Lọc theo trạng thái -->
-            <select class="form-control" [(ngModel)]="selectedStatus" (change)="filterPosts()" style="width: 170px;">
-              <option value="">Tất cả trạng thái ⌵</option>
+            <select class="form-control me-3" [(ngModel)]="selectedStatus" (change)="filterPosts()">
+              <option value="">Tất cả trạng thái</option>
               <option value="published">Đã xuất bản</option>
               <option value="draft">Nháp</option>
             </select>
+            <!-- Chọn số bài viết hiển thị mỗi trang -->
+            <select class="form-control w-auto" [(ngModel)]="itemsPerPage" (change)="currentPage = 1">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+            </select>
           </div>
+          
           <div class="card mt-3">
             <div class="card-body">
               <div class="table-responsive">
@@ -35,33 +42,42 @@
                       <th>Tiêu đề</th>
                       <th>Hình ảnh</th>
                       <th>Nội dung</th>
-                      <!-- <th>ID Loại bài viết</th> -->
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let post of filteredPosts" [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
-                      <th class="text-truncate text-center align-middle" scope="row">{{post.id}}</th>
-                      <td class="text-truncate text-center align-middle" style="max-width: 120px;">{{post.title}}</td>
-                      <td class="text-truncate text-center align-middle">
+                    <tr 
+                      *ngFor="let post of filteredPosts | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }" 
+                      [ngClass]="{'table-light': post.status === 'published', 'table-danger': post.status !== 'published'}">
+                      <th scope="row">{{post.id}}</th>
+                      <td class="text-truncate" style="max-width: 120px;">{{post.title}}</td>
+                      <td>
                         <img [src]="getImageUrl(post.image_url)" alt="{{post.title}}" class="img-fluid" style="max-width: 60px;">
                       </td>
-                      <td class="text-truncate text-center align-middle" style="max-width: 120px;">{{post.content}}</td>
-                      <!-- <td>{{post.post_category_id}}</td> -->
+                      <td class="text-truncate" style="max-width: 120px;">{{post.content}}</td>
                       <td>
                         <span class="text-truncate text-center align-middle" [ngClass]="{'bg-success': post.status === 'published', 'bg-secondary': post.status !== 'published'}"> {{ post.status === 'published' ? 'Xuất bản' : 'Nháp' }}</span>
                       </td>
                       <td class="text-truncate text-center align-middle">
                         <a class="btn btn-info btn-sm" routerLink="edit/{{post.id}}">Sửa</a>
-<button type="button" class="btn btn-danger btn-sm" (click)="deletePost(post.id)">Xóa</button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deletePost(post.id)">Xóa</button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+          
+                <!-- Phân trang -->
+                <pagination-controls 
+                  (pageChange)="currentPage = $event" 
+                  previousLabel="Trước"
+                  nextLabel="Tiếp" 
+                  class="mt-3 d-flex justify-content-center">
+                </pagination-controls>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>

@@ -55,13 +55,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Danh mục cha -->
-                                    <div class="mb-3">
-                                        <label for="parent_categoryID" class="form-label">Danh mục cha</label>
-                                        <input type="text" class="form-control" id="parent_categoryID"
-                                            [(ngModel)]="category.parent_categoryID" name="parent_categoryID">
-                                    </div>
-
                                     <!-- Trạng thái -->
                                     <div class="mb-3">
                                         <label for="status" class="form-label">Trạng thái</label>
@@ -75,8 +68,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid">Cập
-                                        Nhật Danh Mục</button>
+                                    <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid">Thêm Danh Mục</button>
                                 </form>
                             </div>
                         </div>

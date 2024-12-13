@@ -13,12 +13,12 @@ import Swal from 'sweetalert2';
 export class AdminProductAddComponent {
   @ViewChild('form') form!: NgForm;
   fileError = false;
+  fileErrorMessage = '';
 
   category: any = {
     category_name: '',
     description: '',
     images: null,
-    parent_categoryID: '',
     status: 'inactive',
     created_at: '',
     updated_at: ''
@@ -29,35 +29,46 @@ export class AdminProductAddComponent {
   onFileChange(event: any) {
     const file = event.target.files[0];
     const validImageTypes = ['image/jpeg', 'image/png'];
-    
-    if (file && validImageTypes.includes(file.type)) {
-      this.category.images = file;
-      this.fileError = false;
-    } else {
-      this.fileError = true;
-      this.category.images = null;
+
+    if (file) {
+      if (validImageTypes.includes(file.type)) {
+        this.category.images = file;
+        this.fileError = false;
+        this.fileErrorMessage = '';
+      } else {
+        this.fileError = true;
+        this.fileErrorMessage = 'Chỉ chấp nhận file ảnh JPEG hoặc PNG!';
+        this.category.images = null;
+      }
     }
   }
-
-
 
   addCategory(): void {
     if (this.form.invalid) {
       this.form.form.markAllAsTouched();
       return;
     }
-  
+
+    // Tạo FormData và thêm các dữ liệu cần thiết
+    const formData = this.prepareFormData();
+
+    this.createCategory(formData);
+  }
+
+  prepareFormData() {
     const formData = new FormData();
     formData.append('category_name', this.category.category_name);
     formData.append('description', this.category.description);
     if (this.category.images) {
       formData.append('images', this.category.images);
     }
-    formData.append('parent_categoryID', this.category.parent_categoryID);
     formData.append('status', this.category.status);
     formData.append('created_at', new Date().toISOString());
     formData.append('updated_at', new Date().toISOString());
-  
+    return formData;
+  }
+
+  createCategory(formData: FormData) {
     this.categoryService.createCategory(formData).subscribe(
       (response) => {
         this.successNotification(); // Gọi thông báo thành công
@@ -68,13 +79,12 @@ export class AdminProductAddComponent {
       }
     );
   }
-  
+
   successNotification() {
     Swal.fire('Thành công!', 'Danh mục đã được thêm!', 'success');
   }
-  
+
   errorNotification() {
     Swal.fire('Thất bại!', 'Lỗi khi thêm danh mục!', 'error');
   }
-  
 }

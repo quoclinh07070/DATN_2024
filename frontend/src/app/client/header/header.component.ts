@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
       };
     } else {
       // Thông báo nếu trình duyệt không hỗ trợ Web Speech API
-      console.log('Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.');
+      // console.log('Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.');
     }
   }
 

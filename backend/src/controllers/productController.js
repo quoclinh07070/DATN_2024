@@ -26,6 +26,30 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+exports.getAllProductsByStatus = async (req, res) => {
+    try {
+        const sql = 'SELECT * FROM products WHERE status = "active"';
+        const [results] = await db.query(sql);
+        res.json({
+            message: 'Lấy sản phẩm thành công',
+            products: results.map(product => new Product(
+                product.id,
+                product.name,
+                product.price,
+                product.image,
+                product.description,
+                product.discount,
+                product.quantity,
+                product.status,
+                product.categories_id,
+                product.created_at,
+                product.updated_at
+            ))
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi lấy sản phẩm', error: err });
+    }
+};
 
 exports.getProductById = async (req, res) => {
     try {

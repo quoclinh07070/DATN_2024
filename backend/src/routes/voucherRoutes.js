@@ -6,6 +6,9 @@ const voucherController = require('../controllers/voucherController');
 // Lấy danh sách voucher
 router.get('/vouchers', voucherController.getAllVouchers);
 
+// Lấy danh sách voucher
+router.get('/vouchers/bystatus', voucherController.getAllVouchersByStatus);
+
 // Lấy voucher theo ID
 router.get('/vouchers/:id', voucherController.getVoucherById);
 

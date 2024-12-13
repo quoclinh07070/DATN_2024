@@ -61,6 +61,11 @@ exports.createReview = async (req, res) => {
       [product_id, user_id, rating, reviews_text]
     );
 
+    // Tạo thông báo cho admin hoặc tác giả bài viết
+    const notificationSql = `INSERT INTO notifications (user_id, type, message) VALUES (?, ?, ?)`;
+    const message = `Người dùng ID ${user_id} đã bình luận trên sản phẩm ID ${product_id}: "${reviews_text}"`;
+    await db.query(notificationSql, [24, 'comment', message]); // User ID = 24 là admin
+
     res.status(201).json({
       message: "Tạo đánh giá thành công",
       review: {

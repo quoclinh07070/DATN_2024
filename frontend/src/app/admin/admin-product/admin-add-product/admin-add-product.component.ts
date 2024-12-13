@@ -35,11 +35,11 @@ export class AdminAddProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getAllCategoriesByStatus();
   }
 
-  getCategories(): void {
-    this.categoryService.getAllCategories().subscribe(
+  getAllCategoriesByStatus(): void {
+    this.categoryService.getAllCategoriesByStatus().subscribe(
       (response: any) => {
         this.categories = response.categories;
       },

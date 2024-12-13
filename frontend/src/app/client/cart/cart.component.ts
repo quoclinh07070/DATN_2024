@@ -176,7 +176,12 @@ export class CartComponent implements OnInit {
           alert('Mã voucher không hợp lệ!');
           return;
         }
-  
+        
+        const quantityVoucher = voucher.quantity >= 1;
+        if(!quantityVoucher){
+          alert('Voucher đã hết số lượng sử dụng!');
+          return;
+        }
         // Kiểm tra ngày và trạng thái voucher
         const currentDate = new Date();
         const validFrom = new Date(voucher.valid_from);
@@ -215,6 +220,12 @@ export class CartComponent implements OnInit {
     }
     localStorage.removeItem('appliedVoucher');
     this.appliedVoucher = null;  // Xóa voucher đã áp dụng
+  }
+  convertCommaToDot(value: any): string {
+    if (value) {
+      return value.toString().replace(/,/g, '.');  // Thay tất cả dấu phẩy bằng dấu chấm
+    }
+    return value;
   }
   
 }

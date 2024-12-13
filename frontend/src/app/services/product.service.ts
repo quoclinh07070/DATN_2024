@@ -50,4 +50,13 @@ export class ProductService {
     // Cập nhật đường dẫn API để sử dụng path params thay vì query string
     return this.http.get(`${this.baseUrl}/search/${value}`);
   }
+    // Lấy danh sách sản phẩm
+    getAllProductsByStatus() {
+      return this.http.get(`${this.baseUrl}/bystatus`);
+    }
+    // Lấy danh sách danh mục
+    getAllCategoriesByStatus(){
+      return this.http.get(`${this.baseUrl}/bystatus`);
+    }
+  
 }

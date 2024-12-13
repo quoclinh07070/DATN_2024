@@ -65,7 +65,10 @@ export class UserComponent {
     this.isLoggedIn = this.authService.isAuthenticated();
   }
   ngOnInit(): void {
-  
+    this.authService.checkSessionValidity();
+    setInterval(() => {
+      this.authService.checkSessionValidity();
+    }, 5 * 60 * 1000); // Kiểm tra sau mỗi 5 phút
     this.authService.getUserInfo().subscribe({
       next: (data) => {
         this.user = {

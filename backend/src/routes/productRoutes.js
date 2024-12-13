@@ -19,6 +19,9 @@ const upload = multer({ storage: storage });
 // Lấy danh sách sản phẩm
 router.get('/products', productController.getAllProducts);
 
+// Lấy danh sách sản phẩm
+router.get('/products/bystatus', productController.getAllProductsByStatus);
+
 // Lấy sản phẩm theo ID
 router.get('/products/:id', productController.getProductById);
 

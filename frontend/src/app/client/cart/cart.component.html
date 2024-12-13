@@ -53,15 +53,15 @@
                                 <h4 class="prod-title">
                                   <ng-container *ngIf="item.discount > 0; else noDiscount">
                                     <span class="discount-price text-danger me-2">
-                                      {{ (item.price - (item.price * (item.discount / 100))) | number:'1.0-0' }} ₫
+                                      {{ convertCommaToDot((item.price - (item.price * (item.discount / 100))) | number:'1.0-0') }} ₫
                                     </span>
                                     <span class="old-price text-dark" style="text-decoration: line-through;">
-                                      {{ item.price | number:'1.0-0' }} ₫
+                                      {{ convertCommaToDot(item.price | number:'1.0-0') }} ₫
                                     </span>
                                   </ng-container>
                                   <ng-template #noDiscount>
                                     <span class="current-price text-danger">
-                                      {{ item.price | number:'1.0-0' }} ₫
+                                      {{  convertCommaToDot(item.price | number:'1.0-0') }} ₫
                                     </span>
                                   </ng-template>
                                 </h4>
@@ -79,11 +79,11 @@
                                 <h4 class="prod-title">
                                   <ng-container *ngIf="item.discount > 0; else noDiscountTotal">
                                     <!-- Hiển thị tổng tiền sau khi giảm giá -->
-                                    {{ (item.price - (item.price * (item.discount / 100))) * item.quantity | number:'1.0-0' }} ₫
+                                    {{ convertCommaToDot((item.price - (item.price * (item.discount / 100))) * item.quantity | number:'1.0-0') }} ₫
                                   </ng-container>
                                   <ng-template #noDiscountTotal>
                                     <!-- Hiển thị tổng tiền nếu không có giảm giá -->
-                                    {{ item.price * item.quantity | number:'1.0-0' }} ₫
+                                    {{ convertCommaToDot(item.price * item.quantity | number:'1.0-0') }} ₫
                                   </ng-template>
                                 </h4>
                               </td>
@@ -97,11 +97,6 @@
                     </div>
         
                     <div class="cart-options clearfix">
-                      <div class="pull-left d-flex">
-                        <input type="text" placeholder="Nhập mã voucher" [(ngModel)]="voucherCode" class="form-control">
-                        <button type="button" class="btn btn-success" (click)="applyVoucher()">Áp dụng</button>
-                        <button type="button" class="btn btn-danger" (click)="removeVoucher()">Xóa</button>
-                      </div>
                       
                     <div class="pull-right">
                         <button type="button" class="btn btn-danger" (click)="clearCart()"><i class="bi bi-cart-x-fill"></i> Xóa sạch giỏ</button>
@@ -115,7 +110,7 @@
                             <h3 class="text-center">Thông tin đơn hàng</h3>
                         </li>
                         <!-- Nếu ko có voucher -->
-                        <li *ngIf="!appliedVoucher" class="clearfix total"><span class="col">Tổng tiền:</span><span class="price">{{ getTotal() | number:'1.0-0' }} ₫</span></li>
+                        <li *ngIf="!appliedVoucher" class="clearfix total"><span class="col">Tổng tiền:</span><span class="price">{{ convertCommaToDot(getTotal() | number:'1.0-0') }} ₫</span></li>
                         <!-- Nếu có, Hiển thị voucher đã áp dụng -->
                         <li *ngIf="appliedVoucher" class="clearfix total">
                           <span class="col">Voucher:</span>
@@ -124,8 +119,13 @@
 
                         <li *ngIf="appliedVoucher" class="clearfix total">
                           <span class="col">Tổng tiền</span>
-                          <span class="price">{{ getTotal() | number:'1.0-0' }} ₫</span> <!-- getTotal() sẽ tự tính tổng sau giảm giá -->
+                          <span class="price">{{ convertCommaToDot(getTotal() | number:'1.0-0') }} ₫</span> <!-- getTotal() sẽ tự tính tổng sau giảm giá -->
                         </li>
+                        <div class="pull-left d-flex ml-2 mr-2 mt-4 mb-4">
+                          <input type="text" placeholder="Nhập mã voucher" [(ngModel)]="voucherCode" class="form-control mr-3">
+                          <button type="button" class="btn btn-success mr-2" (click)="applyVoucher()">Áp dụng</button>
+                          <button type="button" class="btn btn-danger" (click)="removeVoucher()">Xóa</button>
+                        </div>
                         <li class="text-right">
                             <a routerLink="/checkout" class="btn btn-info w-100">Thanh toán</a>
                         </li>

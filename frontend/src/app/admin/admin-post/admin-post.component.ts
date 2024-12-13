@@ -4,31 +4,35 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-admin-post',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, NgxPaginationModule],
   providers: [PostService],  // Đổi thành PostService
   templateUrl: './admin-post.component.html',  // Đổi thành đường dẫn đến file template của post
   styleUrls: ['./admin-post.component.css']  // Đổi thành đường dẫn đến file CSS của post
 })
 export class AdminPostComponent implements OnInit {
-  posts: any[] = [];  // Khai báo mảng để lưu trữ bài viết
-  filteredPosts: any[] = [];  // Mảng lưu trữ bài viết sau khi lọc
-  searchTerm: string = '';  // Biến để lưu giá trị tìm kiếm
-  selectedStatus: string = '';  // Biến để lưu giá trị lọc trạng thái
+  posts: any[] = [];
+  filteredPosts: any[] = [];
+  searchTerm: string = '';
+  selectedStatus: string = '';
+
+  currentPage: number = 1;  // Trang hiện tại
+  itemsPerPage: number = 10;  // Số bài viết hiển thị mỗi trang (mặc định 10)
 
   constructor(private postService: PostService) {}
-  
+
   ngOnInit(): void {
-    this.getAllPosts();  // Gọi hàm khi component được khởi tạo
+    this.getAllPosts();
   }
-  
+
   getAllPosts(): void {
     this.postService.getAllPosts().subscribe(
       (response: any) => {
-        this.posts = response.posts;  // Gán dữ liệu vào mảng posts
-        this.filteredPosts = this.posts;  // Mặc định không lọc, hiển thị tất cả
+        this.posts = response.posts;
+        this.filteredPosts = this.posts;
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu bài viết:', error);
@@ -36,22 +40,18 @@ export class AdminPostComponent implements OnInit {
     );
   }
 
-  // Lọc bài viết theo tên và trạng thái
   filterPosts(): void {
     this.filteredPosts = this.posts.filter(post => {
-      // Lọc theo tên bài viết
       const matchesSearchTerm = post.title.toLowerCase().includes(this.searchTerm.toLowerCase());
-      
-      // Lọc theo trạng thái
       const matchesStatus = this.selectedStatus ? post.status === this.selectedStatus : true;
-      
       return matchesSearchTerm && matchesStatus;
     });
   }
 
   getImageUrl(imageName: string): string {
-    return this.postService.getImageUrl(imageName); // Gọi phương thức từ service
+    return this.postService.getImageUrl(imageName);
   }
+
   
   deletePost(id: number): void {
     Swal.fire({

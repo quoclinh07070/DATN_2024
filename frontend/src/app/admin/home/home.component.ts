@@ -1,86 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
 import { ProductService } from '../../services/product.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { PostService } from '../../services/post.service';
 import { VoucherService } from '../../services/voucher.service';
-import { UserService } from '../../services/user.service'; // Đảm bảo bạn đã import UserService
+import { UserService } from '../../services/user.service';
+import { OrderService } from '../../services/order.service';  // Import service
+import { HttpClient } from '@angular/common/http';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
-  providers: [ProductService],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  totalQuantity: number = 0;
+  // Dữ liệu
   totalProductCount: number = 0;
-  totalStock: number = 0;
-  products: any[] = [];
-  filteredProducts: any[] = [];
-  chart: any;
-  posts: any[] = [];
+  totalQuantity: number = 0;
 
   totalPostCount: number = 0;
   totalDrafts: number = 0;
   totalPublished: number = 0;
 
-  totalVoucherCount: number = 0;  // Tổng số voucher
-  totalActiveVouchers: number = 0;  // Tổng số voucher kích hoạt
-  totalInactiveVouchers: number = 0;  // Tổng số voucher vô hiệu hóa
-  vouchers: any[] = [];  // Mảng lưu trữ voucher
+  totalVoucherCount: number = 0;
+  totalActiveVouchers: number = 0;
+  totalInactiveVouchers: number = 0;
+
+  totalUserCount: number = 0;
+  totalActiveUsers: number = 0;
+  totalInactiveUsers: number = 0;
 
   totalOrderCount: number = 0;
-  totalDeliveredOrders: number = 0;
-  totalCancelledOrders: number = 0;
-
-  totalUserCount: number = 0;  // Tổng số người dùng
-  totalAdminUsers: number = 0;  // Tổng số người dùng có quyền admin
-
-  priceForm: FormGroup;
-  loading: boolean = true;
-  errorMessage: string = '';
-  searchTerm: string = '';
-  selectedPriceRange: string = '';
-  selectedStatus: string = '';
-
+  totalDeliveringOrders: number = 0;
+  totalCanceledOrders: number = 0;
+  totalProcessingOrders: number = 0;
+  totalCompletedOrders: number = 0;
   constructor(
     private productService: ProductService,
     private postService: PostService,
-    private voucherService: VoucherService,  // Thêm VoucherService vào constructor
-    private userService: UserService,  // Thêm UserService vào constructor
-    private fb: FormBuilder,
-    private http: HttpClient,
-  ) {
-    this.priceForm = this.fb.group({
-      minPrice: [null],
-      maxPrice: [null],
-      categoryId: [null],
-    });
-  }
+    private voucherService: VoucherService,
+    private userService: UserService,
+    private orderService: OrderService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
-    this.getAllVouchers();  // Gọi API lấy danh sách voucher
+    // Lấy dữ liệu từ API
     this.getAllProducts();
     this.getAllPosts();
-    this.getAllUsers();  // Gọi API lấy người dùng
+    this.getAllVouchers();
+    this.getAllUsers();
+    this.getAllOrders();
   }
 
   getAllProducts(): void {
-    this.loading = true;
-    const { minPrice, maxPrice, categoryId } = this.priceForm.value;
-
     this.productService.getAllProducts().subscribe(
       (response: any) => {
-        this.products = response.products;
-        this.totalProductCount = this.products.length;
-        this.calculateTotalQuantity();
-        this.calculateTotalStock();
-        this.filterProducts();
+        this.totalProductCount = response.products.length;
+        this.totalQuantity = response.products.reduce((sum: number, product: any) => sum + product.quantity, 0);
+
+        // Vẽ biểu đồ sản phẩm
+        this.createProductChart();
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
@@ -88,42 +69,15 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  calculateTotalQuantity(): void {
-    this.totalQuantity = this.products.reduce(
-      (sum, product) => sum + product.quantity,
-      0
-    );
-  }
-
-  calculateTotalStock(): void {
-    this.totalStock = this.products.reduce(
-      (sum, product) => sum + product.stock,
-      0
-    );
-  }
-
-  filterProducts(): void {
-    this.filteredProducts = this.products.filter(product => {
-      return (
-        (this.searchTerm ? product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) : true) &&
-        (this.selectedPriceRange ? this.filterByPriceRange(product.price) : true) &&
-        (this.selectedStatus ? product.status === this.selectedStatus : true)
-      );
-    });
-  }
-
-  filterByPriceRange(price: number): boolean {
-    if (this.selectedPriceRange === 'low') return price < 1000000;
-    if (this.selectedPriceRange === 'medium') return price >= 1000000 && price <= 5000000;
-    if (this.selectedPriceRange === 'high') return price > 5000000;
-    return true;
-  }
-
   getAllPosts(): void {
     this.postService.getAllPosts().subscribe(
       (response: any) => {
-        this.posts = response.posts;
-        this.calculatePostStats();
+        this.totalPostCount = response.posts.length;
+        this.totalPublished = response.posts.filter((post: any) => post.status === 'published').length;
+        this.totalDrafts = response.posts.filter((post: any) => post.status === 'draft').length;
+
+        // Vẽ biểu đồ bài viết
+        this.createPostChart();
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu bài viết:', error);
@@ -134,11 +88,15 @@ export class HomeComponent implements OnInit {
   getAllVouchers(): void {
     this.voucherService.getAllVouchers().subscribe(
       (response: any) => {
-        this.vouchers = response.vouchers;
-        this.calculateVoucherStats();
+        this.totalVoucherCount = response.vouchers.length;
+        this.totalActiveVouchers = response.vouchers.filter((voucher: any) => voucher.status === 'active').length;
+        this.totalInactiveVouchers = response.vouchers.filter((voucher: any) => voucher.status === 'inactive').length;
+
+        // Vẽ biểu đồ voucher
+        this.createVoucherChart();
       },
       (error) => {
-        console.error('Lỗi khi lấy dữ liệu bài viết:', error);
+        console.error('Lỗi khi lấy dữ liệu voucher:', error);
       }
     );
   }
@@ -146,9 +104,11 @@ export class HomeComponent implements OnInit {
   getAllUsers(): void {
     this.userService.getAllUsers().subscribe(
       (response: any) => {
-        const users = response.users;
-        this.totalUserCount = users.length;  // Tính tổng số người dùng
-        this.totalAdminUsers = users.filter((user: any) => user.role === 'admin').length;  // Tính số người dùng là admin
+        this.totalUserCount = response.users.length;
+        this.totalActiveUsers = response.users.filter((user: any) => user.Status === 'active').length;
+        this.totalInactiveUsers = response.users.filter((user: any) => user.Status === 'inactive').length;
+        // Vẽ biểu đồ người dùng
+        this.createUserChart();
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu người dùng:', error);
@@ -156,34 +116,166 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  calculatePostStats(): void {
-    this.totalPostCount = this.posts.length;
-    this.totalDrafts = this.posts.filter(post => post.status === 'draft').length;
-    this.totalPublished = this.posts.filter(post => post.status === 'published').length;
-  }
-
-  // Tính toán tổng số voucher, voucher kích hoạt và vô hiệu hóa
-  calculateVoucherStats(): void {
-    this.totalVoucherCount = this.vouchers.length;
-    this.totalActiveVouchers = this.vouchers.filter(voucher => voucher.status === 'active').length;
-    this.totalInactiveVouchers = this.vouchers.filter(voucher => voucher.status === 'inactive').length;
-  }
-
-  getImageUrl(imageName: string): string {
-    return this.productService.getImageUrl(imageName);
-  }
-
-  // Thêm tính toán cho đơn hàng
   getAllOrders(): void {
-    this.http.get<any[]>('/api/orders').subscribe(
-      (orders) => {
-        this.totalOrderCount = orders.length;
-        this.totalDeliveredOrders = orders.filter((order: any) => order.status === 'delivered').length;
-        this.totalCancelledOrders = orders.filter((order: any) => order.status === 'cancelled').length;
+    this.orderService.getAllOrders().subscribe(
+      (response: any) => {
+        this.totalOrderCount = response.orders.length;
+        this.totalDeliveringOrders = response.orders.filter((order: any) => order.status === 'delivering').length;
+        this.totalCanceledOrders = response.orders.filter((order: any) => order.status === 'canceled').length;
+        this.totalProcessingOrders = response.orders.filter((order: any) => order.status === 'processing').length;
+        this.totalCompletedOrders = response.orders.filter((order: any) => order.status === 'completed').length;
+
+        // Vẽ biểu đồ đơn hàng
+        this.createOrderChart();
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu đơn hàng:', error);
       }
     );
   }
+
+  // Tạo biểu đồ
+  createProductChart(): void {
+    new Chart('productChart', {
+      type: 'pie',
+      data: {
+        labels: ['Sản phẩm', 'Tồn kho'],
+        datasets: [
+          {
+            label: 'Số lượng',
+            data: [this.totalProductCount, this.totalQuantity],
+            backgroundColor: ['#42A5F5', '#66BB6A'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+          },
+        },
+      },
+    });
+  }
+
+  createPostChart(): void {
+    new Chart('postChart', {
+      type: 'pie',
+      data: {
+        labels: ['Xuất bản', 'Nháp'],
+        datasets: [
+          {
+            label: 'Bài viết',
+            data: [this.totalPublished, this.totalDrafts],
+            backgroundColor: ['#00FF99', '#00FFFF'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+          },
+        },
+      },
+    });
+  }
+
+  createVoucherChart(): void {
+    new Chart('voucherChart', {
+      type: 'doughnut',
+      data: {
+        labels: ['Kích hoạt', 'Không kích hoạt'],
+        datasets: [
+          {
+            label: 'Voucher',
+            data: [this.totalActiveVouchers, this.totalInactiveVouchers],
+            backgroundColor: ['#26A69A', '#EF5350'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+          },
+        },
+      },
+    });
+  }
+
+  createUserChart(): void {
+    new Chart('userChart', {
+      type: 'doughnut',
+      data: {
+        labels: ['Kích hoạt', 'Không kích hoạt'],
+        datasets: [
+          {
+            label: 'Tổng số người dùng',
+            data: [this.totalActiveUsers, this.totalInactiveUsers],
+            backgroundColor: ['#008000', '#EF5350'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true, // Hiển thị chú giải
+          },
+        },
+      },
+    });
+  }
+  
+
+  createOrderChart(): void {
+    new Chart('orderChart', {
+      type: 'bar', // Đổi từ 'line' sang 'bar'
+      data: {
+        labels: ['Tổng đơn', 'Đang giao', 'Đã hủy', 'Hoàn thành', 'Đang xử lý'], // Nhãn cho các cột
+        datasets: [
+          {
+            label: 'Đơn hàng',
+            data: [
+              this.totalOrderCount,
+              this.totalDeliveringOrders,
+              this.totalCanceledOrders,
+              this.totalCompletedOrders,
+              this.totalProcessingOrders,
+            ],
+            backgroundColor: [
+              '#5C6BC0', // Tổng đơn
+              '#42A5F5', // Đã giao
+              '#EF5350', // Đã hủy
+              '#66BB6A', // Hoàn thành
+              '#FFFF66', // Đang xử lý
+            ],
+            borderColor: '#000', // Viền của cột (nếu cần)
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true, // Hiển thị chú thích
+          },
+        },
+        scales: {
+          x: {
+            beginAtZero: true, // Đảm bảo cột bắt đầu từ 0
+          },
+          y: {
+            beginAtZero: true, // Đảm bảo giá trị trục Y bắt đầu từ 0
+          },
+        },
+      },
+    });
+  }
+  
 }

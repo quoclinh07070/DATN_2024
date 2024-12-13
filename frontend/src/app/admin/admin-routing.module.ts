@@ -24,7 +24,6 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminEditUserComponent } from './admin-user/admin-edit-user/admin-edit-user.component';
 //order
 import { AdminOrderComponent } from './admin-order/admin-order.component';
-import { AdminOrderEditComponent } from './admin-order/admin-order-edit/admin-order-edit.component';
 
 //post
 import { AdminPostComponent } from './admin-post/admin-post.component';
@@ -37,7 +36,9 @@ import { AdminEditVoucherComponent } from './admin-voucher/admin-edit-voucher/ad
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 //Comments
 import { CommentpostComponent } from './commentpost/commentpost.component';
-import { AdminAddUserComponent } from './admin-user/admin-add-user/admin-add-user.component';
+import { AdminAddUserComponent } from './admin-user/admin-add-user/admin-add-user.component';//Review
+import { AdminReviewComponent } from './admin-review/admin-review.component';
+import { AdminOrderDetailComponent } from './admin-order/admin-order-detail/admin-order-detail.component';
 
 //wishlistitems
 // import { AdminWishlistitemsComponent } from './admin-wishlistitems/admin-wishlistitems.component';
@@ -73,10 +74,13 @@ const adminRoutes: Routes = [
     { path: 'voucher/edit/:id', component: AdminEditVoucherComponent },
 
     { path: 'order', component: AdminOrderComponent },//////
-    { path: 'order/edit/:id', component: AdminOrderEditComponent },////////
+    { path: 'order/detail/:id', component: AdminOrderDetailComponent },
+    // { path: 'order/detail/:id', component: AdminOrderEditComponent },////////
 
     { path: 'commentspost', component: CommentpostComponent },////////
 
+    
+    { path: 'review', component: AdminReviewComponent },
 
     // { path: 'wishlistitems', component: AdminWishlistitemsComponent },////////
 

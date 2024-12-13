@@ -6,13 +6,12 @@
   </div>
   
   <div *ngIf="orders.length > 0">
-    <div class="container-xl px-4 mt-4">
+    <div class="px-4 mt-4">
       <nav class="nav nav-borders">
         <a class="nav-link ms-0" routerLink="/user">Hồ sơ</a>
         <a class="nav-link active" routerLink="/order-list">Đơn hàng</a>
       </nav>
-      <hr class="mt-0 mb-4" />
-      
+      <hr class="mt-0 mb-4"/>
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
@@ -21,29 +20,30 @@
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>STT</th>
                     <th>Tổng Tiền</th>
-                    <th>Phương Thức Thanh Toán</th>
-                    <th>Trạng Thái</th>
                     <th>Địa Chỉ</th>
                     <th>Số Điện Thoại</th>
                     <th>Ngày Tạo</th>
+                    <th>Phương Thức Thanh Toán</th>
+                    <th>Trạng Thái</th>
+                    <th>Chi Tiết</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let order of orders">
-                    <td>{{ order.id }}</td>
+                  <tr *ngFor="let order of orders; let i = index">
+                    <td>{{ i + 1 }}</td>
                     <td>{{ order.total_amount | number:'1.0-0' }} ₫</td>
-                    <td>{{ order.payment_method }}</td>
-                    <td class="badge"
-                    (click)="cancelOrder(order)"
-                    [ngClass]="getStatusClass(order.status)">
-                      {{ getStatusLabel(order.status) }}
-                    </td>
                     <td>{{ order.address }}</td>
                     <td>{{ order.phone_number }}</td>
                     <td>{{ order.created_at | date: 'short' }}</td>
+                    <td>{{ order.payment_method }}</td>
+                    <td ><span class="badge"
+                      (click)="cancelOrder(order)"
+                      [ngClass]="getStatusClass(order.status)">{{ getStatusLabel(order.status) }}</span>
+                    </td>
                     <td>
+                      <a class="btn bg-info btn-sm" style="font-weight: bold; color: white;" routerLink="detail/{{order.id}}">Chi tiết</a>
                     </td>
                   </tr>
                 </tbody>

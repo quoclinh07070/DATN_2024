@@ -9,13 +9,19 @@ import { Observable } from 'rxjs';
 })
 export class OrderService {
   private baseUrl = environment.apiUrl + "/orders";
+  apiUrl: any;
 
   constructor(private http: HttpClient) {}
 
   // Lấy danh sách đơn hàng
+  getOrderdetailsByOrderid(id: number) {
+    return this.http.get(`${this.baseUrl}/orderdetails/${id}`);
+  }
+
   getAllOrders() {
     return this.http.get(this.baseUrl);
   }
+
 
   // Lấy đơn hàng theo ID
   getOrderById(id: number) {
@@ -31,4 +37,8 @@ export class OrderService {
   }
   
   
+  updateOrder(id: number, orderData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, orderData);
+  }
+
 }

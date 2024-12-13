@@ -114,41 +114,25 @@
     margin-right: 1rem;
 }
 
-  
-  .table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-.shipped {
-    background-color: #ffc107; /* Vàng */
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 0.7em;
-    border-radius: 5px;
-  }
-  
-.delivered {
-    background-color: #28a745; /* Xanh lá */
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 0.7em;
-  border-radius: 5px;
-  }
-  
-.canceled {
-    background-color: #dc3545; /* Đỏ */
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 0.7em;
-  border-radius: 5px;
-  }
-  
 /* Căn giữa toàn bộ nội dung trong bảng */
 .table-bordered th, 
 .table-bordered td {
   text-align: center; /* Căn giữa ngang */
   vertical-align: middle; /* Căn giữa dọc */
+}
+
+
+/* Nút trong badge (hover hiệu ứng) */
+.badge:hover {
+  cursor: pointer;
+  opacity: 0.9; /* Hiệu ứng hover */
+}
+/* Căn giữa badge trong cột */
+.badge {
+  display: flex; /* Sử dụng flexbox */
+  justify-content: center !important; /* Căn giữa theo chiều ngang */
+  align-items: center !important; /* Căn giữa theo chiều dọc */
+  padding: 10px; /* Khoảng cách bên trong */
+  border-radius: 5px; /* Bo góc badge */
+  font-size: small;
 }

@@ -96,7 +96,7 @@
               <div class="footer-widget about-widget">
                 <div class="footer-logo">
                   <figure>
-                    <a routerLink="/"><img src="/assets/client/images/footer-logo.png" alt=""
+                    <a routerLink="/"><img src="/assets/client/images/footer-logo.png" style="height: 80px;" alt=""
                     /></a>
                   </figure>
                 </div>
@@ -115,11 +115,11 @@
                 <h2 class="widget-title">DỊCH VỤ</h2>
                 <!--Footer Column-->
                 <div class="widget-content">
-                  <li><a routerLink="">Chính Sách Bán Hàng</a></li>
-                  <li><a routerLink="">Chính Sách Giao Hàng & Lắp Đặt</a></li>
-                  <li><a routerLink="">Chính Sách Đổi Trả</a></li>
-                  <li><a routerLink="">Chính Sách Bảo Hành & Bảo Trì</a></li>
-                  <li><a routerLink="">Chính Sách Đối Tác Bán Hàng</a></li>
+                  <li><a routerLink="/services">Chính Sách Bán Hàng</a></li>
+                  <li><a routerLink="/services">Chính Sách Giao Hàng & Lắp Đặt</a></li>
+                  <li><a routerLink="/services">Chính Sách Đổi Trả</a></li>
+                  <li><a routerLink="/services">Chính Sách Bảo Hành & Bảo Trì</a></li>
+                  <li><a routerLink="/services">Chính Sách Đối Tác Bán Hàng</a></li>
                 </div>
               </div>
             </div>
@@ -139,7 +139,7 @@
                         <i class="bi bi-geo-alt-fill"></i>
                       </div>
                       <div class="col-11">
-                        Showroom: 162 HT17, P. Hiệp Thành, Q. 12, TP. HCM | Hotline: 0971 141 140
+                        88 Nguyễn Văn Cừ, Quận Ninh Kiều, Cần Thơ
                       </div>
                     </li>  
                     <li class="contact-2 d-flex">
@@ -205,7 +205,30 @@
       </div>
     </div>
   </div> -->
-
+  <div class="chatbot-container">
+    <!-- Nút bật/tắt chatbot -->
+    <button class="chatbot-toggle" (click)="toggleChat()">
+      💬
+    </button>
+  
+    <!-- Khung chat -->
+    <div class="chatbot-box" *ngIf="isChatOpen">
+      <div class="chatbot-header">
+        <h3>Chat với chúng tôi!</h3>
+        <button class="close-chat" (click)="toggleChat()">✖</button>
+      </div>
+      <div class="chatbot-messages">
+        <div *ngFor="let message of messages" class="message">
+          <p><strong>{{ message.user }}:</strong> {{ message.text }}</p>
+        </div>
+      </div>
+      <div class="chatbot-input">
+        <input [(ngModel)]="userMessage" placeholder="Nhập tin nhắn..." />
+        <button (click)="sendMessage()">Gửi</button>
+      </div>
+    </div>
+  </div>
+  
 <!-- Call now btn -->
   <a href="tel:0913634651" mypage="" class="call-now" rel="nofollow"><div
     class="mypage-alo-phone"><div

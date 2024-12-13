@@ -5,27 +5,37 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CategoryService } from '../../services/category.service';
 @Component({
   selector: 'app-admin-product',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   providers: [ProductService],
   templateUrl: './admin-product.component.html',
   styleUrls: ['./admin-product.component.css']
 })
 export class AdminProductComponent implements OnInit {
-  products: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm
-  filteredProducts: any[] = [];  // Khai báo mảng để lưu trữ sản phẩm đã lọc
+  products: any[] = [];
+  categories: any[] = [];
+  filteredProducts: any[] = [];
+  // filteredProducts: any[] = [];
   priceForm: FormGroup;
   loading: boolean = true;
-  errorMessage: string = '';
 
-  // Khai báo các biến lọc
+  // Pagination variables
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+
+  // Filtering variables
   searchTerm: string = '';
   selectedPriceRange: string = '';
   selectedStatus: string = '';
 
-  constructor(private productService: ProductService, private fb: FormBuilder) {
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private fb: FormBuilder) {
     this.priceForm = this.fb.group({
       minPrice: [null],
       maxPrice: [null],
@@ -34,17 +44,16 @@ export class AdminProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllProducts();  // Gọi hàm khi component được khởi tạo
+    this.getAllProducts();
   }
 
   getAllProducts(): void {
     this.loading = true;
-    const { minPrice, maxPrice, categoryId} = this.priceForm.value;
 
     this.productService.getAllProducts().subscribe(
       (response: any) => {
-        this.products = response.products;  // Gán dữ liệu vào mảng products
-        this.filterProducts();  // Lọc sản phẩm sau khi nhận được dữ liệu
+        this.products = response.products;
+        this.filterProducts();
       },
       (error) => {
         console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
@@ -52,21 +61,28 @@ export class AdminProductComponent implements OnInit {
     );
   }
 
-  // Hàm lọc sản phẩm
+  getAllCategoriesByStatus(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.categories;
+        // this.filteredCategories = this.categories;
+        // this.parentCategories = this.categories.filter(category => !category.parent_categoryID);
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
   filterProducts(): void {
     this.filteredProducts = this.products.filter(product => {
       return (
-        // Kiểm tra từ khóa tìm kiếm
         (this.searchTerm ? product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) : true) &&
-        // Kiểm tra khoảng giá
         (this.selectedPriceRange ? this.filterByPriceRange(product.price) : true) &&
-        // Kiểm tra trạng thái
         (this.selectedStatus ? product.status === this.selectedStatus : true)
       );
     });
   }
 
-  // Hàm lọc theo mức giá
   filterByPriceRange(price: number): boolean {
     if (this.selectedPriceRange === 'low') return price < 1000000;
     if (this.selectedPriceRange === 'medium') return price >= 1000000 && price <= 5000000;
@@ -74,12 +90,10 @@ export class AdminProductComponent implements OnInit {
     return true;
   }
 
-  // Hàm lấy đường dẫn hình ảnh
   getImageUrl(imageName: string): string {
-    return this.productService.getImageUrl(imageName); // Gọi phương thức từ service
+    return this.productService.getImageUrl(imageName);
   }
 
-  // Hàm xóa sản phẩm
   deleteProduct(id: number): void {
     Swal.fire({
       title: 'Xác nhận',
@@ -94,29 +108,16 @@ export class AdminProductComponent implements OnInit {
       if (result.isConfirmed) {
         this.productService.deleteProduct(id).subscribe(
           () => {
-            // Cập nhật danh sách sản phẩm sau khi xóa
             this.products = this.products.filter(product => product.id !== id);
-            Swal.fire({
-              title: 'Thành công!',
-              text: 'Sản phẩm đã được xóa thành công!',
-              icon: 'success',
-              timer: 2000, // Đóng tự động sau 2 giây
-              showConfirmButton: false
-            });
+            this.filterProducts();
+            Swal.fire('Thành công!', 'Sản phẩm đã được xóa!', 'success');
           },
           (error) => {
-            Swal.fire({
-              title: 'Lỗi!',
-              text: 'Lỗi khi xóa sản phẩm!',
-              icon: 'error',
-              confirmButtonText: 'OK',
-              confirmButtonColor: '#d33'
-            });
             console.error('Lỗi khi xóa sản phẩm:', error);
+            Swal.fire('Lỗi!', 'Không thể xóa sản phẩm!', 'error');
           }
         );
       }
     });
   }
-  
 }
