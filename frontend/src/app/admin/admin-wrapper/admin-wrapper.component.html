@@ -116,12 +116,13 @@
                     >
                       <i class="ti ti-info-circle"></i>
                     </div>
-                    <div>
-                      <p class="mb-1 fw-bold">{{ notification.message }}</p>
-                      <small class="text-muted">{{
-                        notification.created_at | date : "short"
-                      }}</small>
+                    <div class="notification-wrapper">
+                      <div class="notification-content text-truncate">
+                        <p class="mb-1 fw-bold">{{ notification.message }}</p>
+                        <small class="text-muted">{{ notification.created_at | date : "short" }}</small>
+                      </div>
                     </div>
+                    
                     <div class="form-check">
                       <input
   class="form-check-input"
